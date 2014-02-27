@@ -23,4 +23,5 @@
 *.out
 *.synctex.gz
 *.run.xml
+.idea
 build
