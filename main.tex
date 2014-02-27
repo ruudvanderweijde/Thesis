@@ -1,0 +1,33 @@
+\documentclass[12pt]{article}
+
+\usepackage{nameref}                   % refer to sections by name
+\usepackage[english]{babel}           % used for lorem ipsum dummy text
+\usepackage{blindtext}
+\usepackage{subfiles}                   % able to include files in subfolder
+\usepackage[backend=biber,style=alphabetic]{biblatex} % biblatex stuff
+\addbibresource{bib/Thesis.bib}     % set the bib library file 
+
+% Document settings
+\title{TITLE}
+\author{Ruud van der Weijde, \\Student Software Engineering, \\Master Thesis}
+\date{\today}
+\pagebreak
+
+% Start of the real document
+\begin{document}
+	\maketitle
+
+	\begin{abstract}
+		\subfile{tex/abstract}
+	\end{abstract}
+	\clearpage
+	
+	\subfile{tex/introduction}
+	\subfile{tex/methods}
+	\subfile{tex/results}
+	\subfile{tex/discussion}
+	\subfile{tex/conclusion}
+
+	\printbibliography
+
+\end{document}

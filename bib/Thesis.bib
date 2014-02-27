@@ -1,0 +1,435 @@
+%% This BibTeX bibliography file was created using BibDesk.
+%% http://bibdesk.sourceforge.net/
+
+
+%% Created for Ruud van der Weijde at 2014-02-27 15:11:46 +0100 
+
+
+%% Saved with string encoding Unicode (UTF-8) 
+
+
+
+@inproceedings{Anh:05,
+	Author = {Anh Nguyen-tuong and Salvatore Guarnieri and Doug Greene and David Evans},
+	Booktitle = {In 20th IFIP International Information Security Conference},
+	Pages = {372--382},
+	Title = {Automatically hardening web applications using precise tainting},
+	Year = {2005}}
+
+@article{Art:12,
+	Abstract = {In recent years, there has been significant interest in fault-localization
+	techniques that are based on statistical analysis of program constructs
+	executed by passing and failing executions. This paper shows how
+	the Tarantula, Ochiai, and Jaccard fault-localization algorithms
+	can be enhanced to localize faults effectively in web applications
+	written in PHP by using an extended domain for conditional and function-call
+	statements and by using a source mapping. We also propose several
+	novel test-generation strategies that are geared toward producing
+	test suites that have maximal fault-localization effectiveness. We
+	implemented various fault-localization techniques and test-generation
+	strategies in Apollo, and evaluated them on several open-source PHP
+	applications. Our results indicate that a variant of the Ochiai algorithm
+	that includes all our enhancements localizes 87.8 percent of all
+	faults to within 1 percent of all executed statements, compared to
+	only 37.4 percent for the unenhanced Ochiai algorithm. We also found
+	that all the test-generation strategies that we considered are capable
+	of generating test suites with maximal fault-localization effectiveness
+	when given an infinite time budget for test generation. However,
+	on average, a directed strategy based on path-constraint similarity
+	achieves this maximal effectiveness after generating only 6.5 tests,
+	compared to 46.8 tests for an undirected test-generation strategy.},
+	Author = {Artzi, S. and Dolby, J. and Tip, F. and Pistoia, M.},
+	Doi = {10.1109/TSE.2011.76},
+	Issn = {0098-5589},
+	Journal = {Software Engineering, IEEE Transactions on},
+	Keywords = {program testing;software fault tolerance;statistical analysis;Apollo;Jaccard;Ochiai;Tarantula;dynamic Web applications;fault localization;fault localization effectiveness;open-source PHP applications;path constraint;source mapping;statistical analysis;test generation strategies;Algorithm design and analysis;Browsers;Concrete;Databases;HTML;Open source software;Servers;Fault localization;PHP.;program analysis;statistical debugging;web applications},
+	Number = {2},
+	Owner = {Ruud van der Weijde},
+	Pages = {314-335},
+	Timestamp = {2014.01.20},
+	Title = {Fault Localization for Dynamic Web Applications},
+	Volume = {38},
+	Year = {2012},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/TSE.2011.76}}
+
+@article{Aus:13,
+	Abstract = {Context Security vulnerabilities discovered later in the development
+	cycle are more expensive to fix than those discovered early. Therefore,
+	software developers should strive to discover vulnerabilities as
+	early as possible. Unfortunately, the large size of code bases and
+	lack of developer expertise can make discovering software vulnerabilities
+	difficult. A number of vulnerability discovery techniques are available,
+	each with their own strengths. Objective The objective of this research
+	is to aid in the selection of vulnerability discovery techniques
+	by comparing the vulnerabilities detected by each and comparing their
+	efficiencies. Method We conducted three case studies using three
+	electronic health record systems to compare four vulnerability discovery
+	techniques: exploratory manual penetration testing, systematic manual
+	penetration testing, automated penetration testing, and automated
+	static analysis. Results In our case study, we found empirical evidence
+	that no single technique discovered every type of vulnerability.
+	We discovered that the specific set of vulnerabilities identified
+	by one tool was largely orthogonal to that of other tools. Systematic
+	manual penetration testing found the most design flaws, while automated
+	static analysis found the most implementation bugs. The most efficient
+	discovery technique in terms of vulnerabilities discovered per hour
+	was automated penetration testing. Conclusion The results show that
+	employing a single technique for vulnerability discovery is insufficient
+	for finding all types of vulnerabilities. Each technique identified
+	only a subset of the vulnerabilities, which, for the most part were
+	independent of each other. Our results suggest that in order to discover
+	the greatest variety of vulnerability types, at least systematic
+	manual penetration testing and automated static analysis should be
+	performed. },
+	Author = {Andrew Austin and Casper Holmgreen and Laurie Williams},
+	Doi = {http://dx.doi.org/10.1016/j.infsof.2012.11.007},
+	Issn = {0950-5849},
+	Journal = {Information and Software Technology},
+	Keywords = {Security},
+	Number = {7},
+	Owner = {Ruud van der Weijde},
+	Pages = {1279 - 1288},
+	Timestamp = {2014.01.19},
+	Title = {A comparison of the efficiency and effectiveness of vulnerability discovery techniques},
+	Url = {http://www.sciencedirect.com/science/article/pii/S0950584912002339},
+	Volume = {55},
+	Year = {2013},
+	Bdsk-Url-1 = {http://www.sciencedirect.com/science/article/pii/S0950584912002339},
+	Bdsk-Url-2 = {http://dx.doi.org/10.1016/j.infsof.2012.11.007}}
+
+@inproceedings{Bal:08,
+	__Markedentry = {[Ruud van der Weijde:]},
+	Abstract = {Web applications are ubiquitous, perform mission- critical tasks,
+	and handle sensitive user data. Unfortunately, web applications are
+	often implemented by developers with limited security skills, and,
+	as a result, they contain vulnerabilities. Most of these vulnerabilities
+	stem from the lack of input validation. That is, web applications
+	use malicious input as part of a sensitive operation, without having
+	properly checked or sanitized the input values prior to their use.
+	Past research on vulnerability analysis has mostly focused on identifying
+	cases in which a web application directly uses external input in
+	critical operations. However, little research has been performed
+	to analyze the correctness of the sanitization process. Thus, whenever
+	a web application applies some sanitization routine to potentially
+	malicious input, the vulnerability analysis assumes that the result
+	is innocuous. Unfortunately, this might not be the case, as the sanitization
+	process itself could be incorrect or incomplete. In this paper, we
+	present a novel approach to the analysis of the sanitization process.
+	More precisely, we combine static and dynamic analysis techniques
+	to identify faulty sanitization procedures that can be bypassed by
+	an attacker. We implemented our approach in a tool, called Saner,
+	and we applied it to a number of real-world applications. Our results
+	demonstrate that we were able to identify several novel vulnerabilities
+	that stem from erroneous sanitization procedures.},
+	Author = {Balzarotti, D. and Cova, M. and Felmetsger, V. and Jovanovic, N. and Kirda, E. and Kruegel, C. and Vigna, Giovanni},
+	Booktitle = {Security and Privacy, 2008. SP 2008. IEEE Symposium on},
+	Doi = {10.1109/SP.2008.22},
+	Issn = {1081-6011},
+	Keywords = {Internet;program diagnostics;program verification;security of data;software reliability;Saner tool;Web applications;dynamic analysis technique;faulty sanitization procedures;sanitization validation;static analysis technique;vulnerability analysis;Data privacy;Data security;Databases;Electronic mail;Fault diagnosis;Performance analysis;Portals;Programming profession;Protection;Time to market},
+	Owner = {Ruud van der Weijde},
+	Pages = {387-401},
+	Timestamp = {2014.01.27},
+	Title = {Saner: Composing Static and Dynamic Analysis to Validate Sanitization in Web Applications},
+	Year = {2008},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/SP.2008.22}}
+
+@inproceedings{Gau:12,
+	Abstract = {Access control vulnerabilities in web applications are on the rise.
+	In its 2010 "Top 10 Most Critical Web Applications Security Risks",
+	the OWASP reported that the prevalence of access control vulnerabilities
+	in web applications increased compared to 2007. However, in contrast
+	to SQL injection and cross-site scripting flaws, access control vulnerabilities
+	comparatively received much less attention from the research community.
+	This paper presents ACMA (Access Control Model Analyzer), a model
+	checking-based tool for the detection of access control vulnerabilities
+	in PHP applications. The core of ACMA uses a lightweight model checker
+	to detect the privileges that are enforced at each statement of an
+	application. Based on this information, ACMA can detect several types
+	of access control vulnerabilities: from forced browsing vulnerabilities
+	to faulty access controls. We show how, when compared to the state
+	of the art, ACMA achieves advantageously comparable results with
+	accelerations up to 890 times faster. Moreover, contrary to the state
+	of the art, ACMA scales up to medium-large applications with large
+	access control models, as shown by the analysis of Moodle, a 400,000+
+	LOC application counting more than 200 distinct privileges. Results
+	show that ACMA is fast, precise and scalable making it a practical
+	tool for the detection of access control vulnerabilities in real-world
+	applications. A discussion about further extensions to ACMA is also
+	presented.},
+	Author = {Gauthier, F. and Merlo, E.},
+	Booktitle = {Reverse Engineering (WCRE), 2012 19th Working Conference on},
+	Doi = {10.1109/WCRE.2012.34},
+	Issn = {1095-1350},
+	Keywords = {SQL;Web services;Web sites;authoring languages;authorisation;formal verification;ACMA;PHP;SQL;Web application;access control model analyzer;access control vulnerability detection;cross site scripting flaw;model checking-based tool;Access control;Analytical models;Automata;Context;Mathematical model;Access control;PHP;Scalability;Security;Static analysis},
+	Owner = {Ruud van der Weijde},
+	Pages = {247-256},
+	Timestamp = {2014.01.20},
+	Title = {Fast Detection of Access Control Vulnerabilities in PHP Applications},
+	Year = {2012},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/WCRE.2012.34}}
+
+@inproceedings{Hil:13,
+	Author = {Hills, Mark and Klint, Paul and Vinju, Jurgen J.},
+	Booktitle = {ISSTA},
+	Editor = {Pezz\`e, Mauro and Harman, Mark},
+	Owner = {Ruud van der Weijde},
+	Pages = {325-335},
+	Publisher = {ACM},
+	Timestamp = {2014.01.18},
+	Title = {An Empirical Study of PHP feature usage: a static analysis perspective},
+	Year = {2013}}
+
+@inproceedings{Hil:12,
+	Acmid = {2413821},
+	Address = {Berlin, Heidelberg},
+	Author = {Hills, Mark and Klint, Paul and Vinju, Jurgen J.},
+	Booktitle = {Proceedings of the 9th International Conference on Rewriting Logic and Its Applications},
+	Doi = {10.1007/978-3-642-34005-5_2},
+	Isbn = {978-3-642-34004-8},
+	Location = {Tallinn, Estonia},
+	Numpages = {21},
+	Owner = {Ruud van der Weijde},
+	Pages = {10--30},
+	Publisher = {Springer-Verlag},
+	Series = {WRLA'12},
+	Timestamp = {2014.01.20},
+	Title = {Program Analysis Scenarios in Rascal},
+	Url = {http://dx.doi.org/10.1007/978-3-642-34005-5_2},
+	Year = {2012},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1007/978-3-642-34005-5_2}}
+
+@inproceedings{Jov:06,
+	Acmid = {1130378},
+	Address = {Washington, DC, USA},
+	Author = {Jovanovic, Nenad and Kruegel, Christopher and Kirda, Engin},
+	Booktitle = {Proceedings of the 2006 IEEE Symposium on Security and Privacy},
+	Doi = {10.1109/SP.2006.29},
+	Isbn = {0-7695-2574-1},
+	Numpages = {6},
+	Owner = {Ruud van der Weijde},
+	Pages = {258--263},
+	Publisher = {IEEE Computer Society},
+	Series = {SP '06},
+	Timestamp = {2014.01.20},
+	Title = {Pixy: A Static Analysis Tool for Detecting Web Application Vulnerabilities (Short Paper)},
+	Url = {http://dx.doi.org/10.1109/SP.2006.29},
+	Year = {2006},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/SP.2006.29}}
+
+@inproceedings{Mer:07,
+	Abstract = {Web sites are often a mixture of static sites and programs that integrate
+	relational databases as a back-end. Software that implements Web
+	sites continuously evolve to meet ever-changing user needs. As a
+	Web sites evolve, new versions of programs, interactions and functionalities
+	are added and existing ones are removed or modified. Web sites require
+	configuration and programming attention to assure security, confidentiality,
+	and trustiness of the published information. During evolution of
+	Web software, from one version to the next one, security flaws may
+	be introduced, corrected, or ignored. This paper presents an investigation
+	of the evolution of security vulnerabilities as detected by propagating
+	and combining granted authorization levels along an inter-procedural
+	control flow graph (CFG) together with required security levels for
+	DB accesses with respect to SQL-injection attacks. The paper reports
+	results about experiments performed on 31 versions of phpBB, that
+	is a publicly available bulletin board written in PHP, version 1.0.0
+	(9547 LOC) to version 2.0.22 (40663 LOC) have been considered as
+	a case study. Results show that the vulnerability analysis can be
+	used to observe and monitor the evolution of security vulnerabilities
+	in subsequent versions of the same software package. Suggestions
+	for further research are also presented.},
+	Author = {Merlo, E. and Letarte, D. and Antoniol, G.},
+	Booktitle = {Web Site Evolution, 2007. WSE 2007. 9th IEEE International Workshop on},
+	Doi = {10.1109/WSE.2007.4380243},
+	Keywords = {Internet;SQL;Web sites;authorisation;configuration management;flowcharting;relational databases;software prototyping;PHP;SQL-injection attack;SQL-injection security vulnerability evolution analysis;Web sites;Web software evolution;authorization level;inter-procedural control flow graph;publicly-available bulletin board;relational database access;software package;Application software;Authorization;Computer security;Data security;Flow graphs;Information security;Lab-on-a-chip;Pattern analysis;Relational databases;Runtime},
+	Owner = {Ruud van der Weijde},
+	Pages = {45-49},
+	Timestamp = {2014.01.19},
+	Title = {SQL-Injection Security Evolution Analysis in PHP},
+	Year = {2007},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/WSE.2007.4380243}}
+
+@inproceedings{Mer:07a,
+	Abstract = {Web sites may be static sites, programs, or databases, and very often
+	a combination of the three integrating relational databases as a
+	back-end. Web sites require care in configuration and programming
+	to assure security, confidentiality, and trustworthiness of the published
+	information. SQL-injection attacks exploit weak validation of textual
+	input used to build database queries. Maliciously crafted input may
+	threaten the confidentiality and the security policies of Web sites
+	relying on a database to store and retrieve information. This paper
+	presents an original approach that combines static analysis, dynamic
+	analysis, and code re-engineering to automatically protect applications
+	written in PHP from SQL-injection attacks. The paper also reports
+	preliminary results of experiments performed on an old SQL-injection
+	prone version of phpBB (version 2.0.0, 37193 LOC of PHP version 4.2.2
+	code). Results show that our approach successfully improved phpBB-2.0.0
+	resistance to SQL-injection attacks},
+	Author = {Merlo, E. and Letarte, D. and Antoniol, G.},
+	Booktitle = {Software Maintenance and Reengineering, 2007. CSMR '07. 11th European Conference on},
+	Doi = {10.1109/CSMR.2007.16},
+	Issn = {1534-5351},
+	Keywords = {SQL;Web sites;relational databases;security of data;systems re-engineering;PHP applications;SQL-injection attacks;Web sites;information confidentiality;information security;information trustworthiness;relational databases;software re-engineering;software security analysis;Application software;Computer science;Data security;Dynamic programming;Engines;Information security;Performance analysis;Protection;Relational databases;Software performance},
+	Owner = {Ruud van der Weijde},
+	Pages = {191-202},
+	Timestamp = {2014.01.19},
+	Title = {Automated Protection of PHP Applications Against SQL-injection Attacks},
+	Year = {2007},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/CSMR.2007.16}}
+
+@inproceedings{Mer:06,
+	Abstract = {In general, SQL-injection attacks rely on some weak validation of
+	textual input used to build database queries. Maliciously crafted
+	input may threaten the confidentiality and the security policies
+	of Web sites relying on a database to store and retrieve information.
+	Furthermore, insiders may introduce malicious code in a Web application,
+	code that, when triggered by some specific input, for example, would
+	violate security policies. This paper presents an original approach
+	based on static analysis to automatically detect statements in PHP
+	applications that may be vulnerable to SQL-injections triggered by
+	either malicious input (outsider threats) or malicious code (insider
+	threats). Original flow analysis equations, that propagate and combine
+	security levels along an inter-procedural control flow graph (CFG),
+	are presented. The computation of security levels presents linear
+	execution time and memory complexity},
+	Author = {Merlo, E. and Letarte, D. and Antoniol, G.},
+	Booktitle = {Reverse Engineering, 2006. WCRE '06. 13th Working Conference on},
+	Doi = {10.1109/WCRE.2006.33},
+	Issn = {1095-1350},
+	Keywords = {SQL;Web sites;flow graphs;program diagnostics;security of data;PHP application;Web sites;database queries;interprocedural control flow graph;security policies;threat-sensitive SQL injection;vulnerability analysis;Algorithm design and analysis;Authorization;Automatic control;Data security;Databases;Differential equations;Flow graphs;Information analysis;Information security;Software maintenance},
+	Pages = {147-156},
+	Personalnotes = {-- personal notes},
+	Title = {Insider and Ousider Threat-Sensitive SQL Injection Vulnerability Analysis in PHP},
+	Year = {2006},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/WCRE.2006.33}}
+
+@article{Rim:14,
+	Abstract = {Abstract Tainted flow attacks originate from program inputs maliciously
+	crafted to exploit software vulnerabilities. These attacks are common
+	in server-side scripting languages, such as PHP. In 1997, {\O}rb{\ae}k
+	and Palsberg formalized the problem of detecting these exploits as
+	an instance of type-checking, and gave an O ( V 3 ) algorithm to
+	solve it, where V is the number of program variables. A similar algorithm
+	was, ten years later, implemented on the Pixy tool. In this paper
+	we give an O ( V 2 ) solution to the same problem. Our solution uses
+	Bodik et al.'s extended Static Single Assignment (e-SSA) program
+	representation. The e-SSA form can be efficiently computed and it
+	enables us to solve the problem via a sparse dataflow analysis. Using
+	the same infrastructure, we compared a state-of-the-art dataflow
+	solution with our technique. Both approaches have detected 36 vulnerabilities
+	in well known PHP programs. Our results show that our approach tends
+	to outperform the dataflow algorithm for larger inputs. We have reported
+	the new bugs that we found, and an implementation of our algorithm
+	is publicly available at https://github.com/rimsa/tainted-phc.git.},
+	Author = {Rimsa, Andrei and d'Amorim, Marcelo and Pereira, Fernando Magno Quint�o and Bigonha, Roberto S.},
+	Booktitle = {Special section on foundations of coordination languages and software architectures (selected papers from FOCLASA'10), Special section - Brazilian Symposium on Programming Languages (SBLP 2010) and Special section on formal methods for industrial critical systems (Selected papers from FMICS'11)},
+	Issn = {0167-6423},
+	Journal = {Science of Computer Programming},
+	Keywords = {Tainted flow analysis, Security vulnerability, Static analysis},
+	Month = feb,
+	Number = {0},
+	Owner = {Ruud van der Weijde},
+	Pages = {91--105},
+	Timestamp = {2014.01.26},
+	Title = {Efficient static checker for tainted variable attacks},
+	Url = {http://www.sciencedirect.com/science/article/pii/S0167642313000737},
+	Volume = {80, Part A},
+	Year = {2014},
+	Bdsk-Url-1 = {http://www.sciencedirect.com/science/article/pii/S0167642313000737}}
+
+@inproceedings{Son:11,
+	Acmid = {2166964},
+	Address = {New York, NY, USA},
+	Articleno = {8},
+	Author = {Son, Sooel and Shmatikov, Vitaly},
+	Booktitle = {Proceedings of the ACM SIGPLAN 6th Workshop on Programming Languages and Analysis for Security},
+	Doi = {10.1145/2166956.2166964},
+	Isbn = {978-1-4503-0830-4},
+	Keywords = {PHP, access control, data flow analysis, denial of service, security checks, static analysis},
+	Location = {San Jose, California},
+	Numpages = {13},
+	Owner = {Ruud van der Weijde},
+	Pages = {8:1--8:13},
+	Publisher = {ACM},
+	Series = {PLAS '11},
+	Timestamp = {2014.01.18},
+	Title = {SAFERPHP: Finding Semantic Vulnerabilities in PHP Applications},
+	Url = {http://doi.acm.org/10.1145/2166956.2166964},
+	Year = {2011},
+	Bdsk-Url-1 = {http://doi.acm.org/10.1145/2166956.2166964},
+	Bdsk-Url-2 = {http://dx.doi.org/10.1145/2166956.2166964}}
+
+@inproceedings{Taj:10,
+	Abstract = {Database driven web application are threaten by SQL Injection Attacks
+	(SQLIAs) because this type of attack can compromise confidentiality
+	and integrity of information in databases. Actually, an attacker
+	intrudes to the web application database and consequently, access
+	to data. For stopping this type of attack different approaches have
+	been proposed by researchers but they are not enough because usually
+	they have limitations. Indeed, some of these approaches have not
+	implemented yet and also most of implemented approaches cannot stop
+	all type of attacks. In this paper all type of SQL injection attack
+	and also different approaches which can detect or prevent them are
+	presented. Finally we evaluate these approaches against all types
+	of SQL injection attacks and deployment requirements.},
+	Author = {Tajpour, A. and JorJor Zade Shooshtari, M.},
+	Booktitle = {Computational Intelligence, Communication Systems and Networks (CICSyN), 2010 Second International Conference on},
+	Doi = {10.1109/CICSyN.2010.55},
+	Keywords = {Internet;SQL;data integrity;data privacy;query processing;security of data;SQL injection attacks;SQL injection detection;SQL injection prevention;data access;database driven Web application;information confidentiality;information integrity;SQL Injection Attacks;detection;evaluation;prevention;technique.},
+	Owner = {Ruud van der Weijde},
+	Pages = {216-221},
+	Timestamp = {2014.01.19},
+	Title = {Evaluation of SQL Injection Detection and Prevention Techniques},
+	Year = {2010},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1109/CICSyN.2010.55}}
+
+@inproceedings{Xie:06,
+	Acmid = {1267349},
+	Address = {Berkeley, CA, USA},
+	Articleno = {13},
+	Author = {Xie, Yichen and Aiken, Alex},
+	Booktitle = {Proceedings of the 15th Conference on USENIX Security Symposium - Volume 15},
+	Location = {Vancouver, B.C., Canada},
+	Owner = {Ruud van der Weijde},
+	Publisher = {USENIX Association},
+	Series = {USENIX-SS'06},
+	Timestamp = {2014.01.25},
+	Title = {Static Detection of Security Vulnerabilities in Scripting Languages},
+	Url = {http://dl.acm.org/citation.cfm?id=1267336.1267349},
+	Year = {2006},
+	Bdsk-Url-1 = {http://dl.acm.org/citation.cfm?id=1267336.1267349}}
+
+@article{Zha:12,
+	Acmid = {2384658},
+	Address = {New York, NY, USA},
+	Author = {Zhao, Haiping and Proctor, Iain and Yang, Minghui and Qi, Xin and Williams, Mark and Gao, Qi and Ottoni, Guilherme and Paroski, Andrew and MacVicar, Scott and Evans, Jason and Tu, Stephen},
+	Doi = {10.1145/2398857.2384658},
+	Issn = {0362-1340},
+	Issue_Date = {October 2012},
+	Journal = {SIGPLAN Not.},
+	Keywords = {C++, PHP, compilation, dynamic languages},
+	Month = oct,
+	Number = {10},
+	Numpages = {12},
+	Owner = {Ruud van der Weijde},
+	Pages = {575--586},
+	Publisher = {ACM},
+	Timestamp = {2014.01.21},
+	Title = {The HipHop Compiler for PHP},
+	Url = {http://doi.acm.org/10.1145/2398857.2384658},
+	Volume = {47},
+	Year = {2012},
+	Bdsk-Url-1 = {http://doi.acm.org/10.1145/2398857.2384658},
+	Bdsk-Url-2 = {http://dx.doi.org/10.1145/2398857.2384658}}
+
+@book{Ton:05,
+	Author = {Tonella, Paolo and Potrich, Alessandra},
+	Booktitle = {Reverse Engineering of Object Oriented Code},
+	Doi = {10.1007/0-387-23803-4_2},
+	Isbn = {978-0-387-40295-6},
+	Language = {English},
+	Pages = {21-41},
+	Series = {Monographs in Computer Science},
+	Title = {The Object Flow Graph},
+	Url = {http://dx.doi.org/10.1007/0-387-23803-4_2},
+	Year = {2005},
+	Bdsk-Url-1 = {http://dx.doi.org/10.1007/0-387-23803-4_2}}
