@@ -1,11 +1,12 @@
 \documentclass[12pt]{article}
 
-\usepackage{nameref}                   % refer to sections by name
-\usepackage[english]{babel}           % used for lorem ipsum dummy text
+\usepackage{nameref}% refer to sections by name
+\usepackage[english]{babel}% used for lorem ipsum dummy text
 \usepackage{blindtext}
-\usepackage{subfiles}                   % able to include files in subfolder
-\usepackage[backend=biber,style=alphabetic]{biblatex} % biblatex stuff
-\addbibresource{bib/Thesis.bib}     % set the bib library file 
+\usepackage{subfiles}% able to include files in subfolder
+\usepackage[backend=biber,style=alphabetic]{biblatex}% biblatex stuff
+\addbibresource{bib/Thesis.bib}% set the bib library file 
+\usepackage[final]{pdfpages}% needed to include pdf files
 
 % Document settings
 \title{TITLE}
@@ -17,17 +18,18 @@
 \begin{document}
 	\maketitle
 
-	\begin{abstract}
-		\subfile{tex/abstract}
-	\end{abstract}
+	\subfile{tex/abstract.tex}
 	\clearpage
-	
-	\subfile{tex/introduction}
-	\subfile{tex/methods}
-	\subfile{tex/results}
-	\subfile{tex/discussion}
-	\subfile{tex/conclusion}
+    \subfile{tex/toc.tex}
+	\subfile{tex/introduction.tex}
+	\subfile{tex/methods.tex}
+	\subfile{tex/results.tex}
+	\subfile{tex/discussion.tex}
+	\subfile{tex/conclusion.tex}
 
+    \clearpage
 	\printbibliography
+	\clearpage
 
+    \subfile{tex/appendix.tex}
 \end{document}

@@ -25,3 +25,10 @@
 *.run.xml
 .idea
 build
+
+*.fls
+
+*.aux.make
+*.auxbbl.make
+*.auxtarget.make
+*.d
