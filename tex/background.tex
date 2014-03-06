@@ -1,9 +1,42 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \section{Background and context}\label{sec:background}
-    This section will contain:
-    \begin{itemize}
-        \item TODO: Literature study part %TODO add literature study here.        
-    \end{itemize}
+    \subsection{From literatur study}
+    %todo read this stuff
+    \label{phpdynamics}
+The goals of the PHP analysis is to be able to parse PHP code and extract useful information out of it, which then can be analyzed to find vulnerabilities.
+The main difficulties in analyzing PHP are the dynamic includes, type inference and alias analysis. 
+More details about them can be found below.
+\paragraph{Dynamic includes}
+\label{includes}
+The PHP functions \texttt{include[\_once]} and \texttt{require[\_once]} include other script pages in the current script.
+The location of these files are given as parameter and can be either static or dynamic and are resolved at run time.
+When a full file path is given, this file will be included.
+If the location contains a relative path, PHP will try to resolve the file by checking the include path and if needed the working directory.
+The location may also contain variables which will be parsed at run time to determine a path to be resolved.
+\\
+The analysis by \Citeauthor{Hil:12} \autocite{Hil:12}, tries to resolve dynamic includes using \texttt{\_\_FILE\_\_}, \texttt{\_\_DIR\_\_}, and similar variables, constants (defines in PHP), and tries to find files using path matching.
+Path matching is done by creating a regex for unresolved includes and includes the file if there is a unique match.
+The results of the analysis show that on average about 80\% of the includes can be resolved.
+The ZendFramework is doing great, about 81\%. However, the other frameworks I will probably have to deal with at WerkSpot will be Symfony and Doctrine, which have only 43\% and 66\% of dynamic includes resolved. 
+I want to see if I can add a layer in the analysis to be able to resolve more includes. 
+This should be possible if I can find a pattern that is used to include dynamic files.
+\Citeauthor{Son:11} \autocite{Son:11} asked a human to resolve includes if there is more than once match.
+This might be something to implement, because it can be useful when focusing on one application.
+
+\paragraph{Alias analysis}
+\label{alias}
+Another part that might be difficult to analyze are referenced objects.
+In PHP you can refer to an object using \texttt{\&}, like \texttt{\$a = \&\$b}.
+Now when you modify \texttt{\$a}, \texttt{\$b} will also be modified, and the other way around, because they point to the same memory location.
+During the analysis, I need to focus on how to keep track of aliases. 
+Pixy \autocite{Jov:06} performs aliases analysis by keeping track of referenced object.
+
+\paragraph{Reflection}
+\label{reflection}
+PHP has many dynamic functions like object constructs containing variables, methods calls can contain variables, and even variables can contain variables.
+There are also very dynamic functions like \texttt{eval} and \texttt{call\_user\_func}.
+Many people doing static analysis faced the problems of these had to analyze constructs.
+Facebooks HipHop compiler \autocite{Zha:12} tries to resolve dynamic names by keeping track of a global system table.
 
 \end{document}

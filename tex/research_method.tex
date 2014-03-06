@@ -4,7 +4,31 @@
     This section will contain:
     \begin{itemize}
         \item TODO: Explain the used method. %TODO research method
-        \item TODO: Hypothese/research questions %TODO research question        
+        \item TODO: Hypothese/research questions %TODO research question
+    \end{itemize}
+    
+    Steps taken from project plan:
+    \begin{itemize}
+        \item Implement in PHP-Parser/Rascal in the following steps:
+        \item Find out how the compiler works; check control flow graphs, check limitations (part of literature study).
+        \item Convert AST to M3 model for PHP.
+        \item Convert M3 to OFL.
+        \item First OFL step is context-insensitive.
+        \item - Optional: make OFL context-sensitive.
+        \item Apply flow propagation algorithm, as described in the book “Reverse Engineering of Object Oriented Code”
+        \item Define and add taint restrictions (what can be labeled as tainted?)
+        \item Define and add untain restrictions (how will tainted values be untainted)
+        \item Add application based settings to optimize results
+        \item `Include` optimization (try to resolve more includes using the study of mark hills)
+        \item Object construction optimization using annotations.
+        \item YAML optimizations to improve analysis results.
+        \item YAML can be used to scope the number of input flows.
+        \item Validation of the analysis results:
+        \item Use pre-defined files analyzed in different tools.
+        \item Use analyzed tools in similar research that is still available for download.
+        \item Compare results similar existing tools: Pixy, RIPS, SAFERPHP. (All these tools focus on SQLi and XSS).
+        \item - Optional: Try to run the code in the sinks using a PHP interpreter.
+        \item Produce final results (this step will be iterated)
     \end{itemize}
 
 \end{document}
