@@ -1,40 +1,32 @@
-\documentclass[12pt]{article}
+\documentclass{uvamscse}
 
 \usepackage{mystyle}
 
 % Document settings
 \title{Object Flow Analysis in PHP}
-\author{Ruud van der Weijde, \\Student Software Engineering, \\Master Thesis}
-\date{\today}
-\pagebreak
+\subtitle{Extended with include algorithm and using annotations}
+\author{Ruud van der Weijde}
+\supervisor{Jurgen Vinju}
+\host{Werkspot, \url{http://werkspot.nl}}
+\supervisorhost{Winfred Peereboom}
+%\abstract{asdf}
 
 % Start of the real document
 \begin{document}
+
+	
 	\maketitle
-
-	\subfile{tex/abstract.tex}
-	\clearpage
-    \subfile{tex/toc.tex}
-    \clearpage
+	
    	\subfile{tex/introduction.tex}
-	\clearpage
-   	\subfile{tex/research_method.tex}
-	\clearpage
+	\subfile{tex/research_method.tex}
    	\subfile{tex/background.tex}
-	\clearpage
-   	%\subfile{tex/global_analysis.tex}
-	%\clearpage
-   	%\subfile{tex/includes_analysis.tex}
-	%\clearpage
-   	%\subfile{tex/annotations_analysis.tex}
-	%\clearpage
-   	%\subfile{tex/conclusion.tex}
-	%\clearpage
-   	%\subfile{tex/test.tex}
+   	\subfile{tex/global_analysis.tex}
+   	\subfile{tex/includes_analysis.tex}
+   	\subfile{tex/annotations_analysis.tex}
+   	\subfile{tex/conclusion.tex}
+   	\subfile{tex/test.tex}
 
-    \clearpage
 	\printbibliography
-	\clearpage
-
+	
     \subfile{tex/appendix.tex}
 \end{document}

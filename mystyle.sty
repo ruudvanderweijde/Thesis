@@ -8,8 +8,8 @@
 \usepackage[backend=biber,style=alphabetic]{biblatex}% biblatex stuff
 \addbibresource{bib/Thesis.bib}% set the bib library file 
 \usepackage[final]{pdfpages}% needed to include pdf files
-\usepackage{graphicx}% used to display images
-\usepackage{float}% used for image positions
+%\usepackage{graphicx}% used to display images
+%\usepackage{float}% used for image positions
 \usepackage{enumitem}% spacing options for itemize
 \usepackage{listings}% used to display code
 \usepackage{color}
@@ -45,3 +45,64 @@
   tabsize=2,                       % sets default tabsize to 2 spaces
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
+
+
+%%%%%%%%%%%%%%%%%% additions to uvamsce %%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\hostsuper}{One does not simply do a thesis without \texttt{$\backslash$supervisorhost}!}
+\newcommand{\supervisorhost}[1]{\renewcommand{\hostsuper}{#1}}
+
+%%%% TITLE PAGE %%%%%
+
+\renewcommand{\uvacoverfoot}{%
+  \vfill
+  \begin{center}
+  \begin{tabular}{r|l}
+    \multirow{3}{*}{\includegraphics[height=48pt]{pdf/uva.pdf}}
+    &\textsc{\Large Universiteit van Amsterdam}\\
+	&\textsc{Faculteit der Natuurwetenschappen, Wiskunde en Informatica}\\
+	&\textsc{Master Software Engineering}\\
+	&\url{http://www.software-engineering-amsterdam.nl}
+		% Supervisor: Prof Dr P. Klint
+  \end{tabular}
+  \end{center}
+  }
+
+\renewcommand{\maketitle}{%
+  % The cover page
+  % --------------
+  \thispagestyle{empty}
+  \enlargethispage{30pt}
+  \renewcommand{\thefootnote}{\fnsymbol{footnote}}
+  % Will be page 0, s.t. contents start on page 1
+  \setcounter{page}{0}
+  % \eccoverhead
+  % Volume and article title, author(s)
+  \vspace{60pt}
+  \begin{center}
+    {\Huge\bfseries\uvatitle\par}
+    \uvasubtitle
+    \vspace{22pt}
+    \uvapic
+    \vspace{22pt}
+    {\Large\bfseries\uvaauthor\par}
+    \uvaemail
+    \vspace{11pt}
+    \uvadate, \pageref*{lastpage} pages
+  \end{center}
+  \vfill
+  \begin{tabular}{ll}
+  	\textbf{Supervisor:} 		& \uvasuper\\
+  	\textbf{Host organisation:} & \uvahost\\
+  	\textbf{Host supervisor:} & \hostsuper
+  \end{tabular}
+  \uvacoverfoot
+  \newpage
+  \tableofcontents
+  \newpage
+  \uvaabstract
+  \global\@topnum\z@ % To prevent floats above the title
+  \setcounter{footnote}{0}
+  \renewcommand{\thefootnote}{\arabic{footnote}}
+  \setlength{\parskip}{0pt}
+  }
