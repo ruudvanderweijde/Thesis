@@ -52,11 +52,14 @@
 \newcommand{\uvasuper}{One does not simply do a thesis without \texttt{$\backslash$supervisor}!}
 \newcommand{\supervisor}[1]{\renewcommand{\uvasuper}{#1}}
 
+\newcommand{\uvahostsuper}{}
+\newcommand{\supervisorhost}[1]{\renewcommand{\uvahostsuper}{\\ \textbf{Host supervisor:} & #1}}
+
 \newcommand{\uvapic}{}
 \newcommand{\coverpic}[2][.9\textwidth]{\renewcommand{\uvapic}{\centerline{\includegraphics[width=#1]{#2}}}}
 
 \newcommand{\uvaabstract}{}
-\renewcommand{\abstract}[2][Abstract]{\renewcommand{\uvaabstract}{\corghapter*{#1}\addcontentsline{toc}{chapter}{#1}%
+\renewcommand{\abstract}[2][Abstract]{\renewcommand{\uvaabstract}{\chapter*{#1}\addcontentsline{toc}{chapter}{#1}%
 \par#2\newpage}}
 
 %% Listing environment
@@ -84,7 +87,7 @@
   \vfill
   \begin{center}
   \begin{tabular}{r|l}
-    \multirow{3}{*}{\includegraphics[height=48pt]{uva.pdf}}
+    \multirow{3}{*}{\includegraphics[height=48pt]{img/uva.pdf}}
     &\textsc{\Large Universiteit van Amsterdam}\\
 	&\textsc{Faculteit der Natuurwetenschappen, Wiskunde en Informatica}\\
 	&\textsc{Master Software Engineering}\\
@@ -120,6 +123,7 @@
   \begin{tabular}{ll}
   	\textbf{Supervisor:} 		& \uvasuper\\
   	\textbf{Host organisation:} & \uvahost
+  	\uvahostsuper
   \end{tabular}
   \uvacoverfoot
   \newpage
