@@ -1,0 +1,116 @@
+\documentclass[preview,border=20pt,varwidth]{standalone} 
+\usepackage{syntax}
+\usepackage{changepage}
+
+\setlength{\grammarparsep}{0.1cm}   % vertical distance between production rules
+\setlength{\grammarindent}{1.1cm}      % horizontal indent distance
+
+\renewcommand{\syntleft}{}          % do not display '<' associated with variable, for example <A>
+\renewcommand{\syntright}{}         % do not display '>' associated with variable, for example <A>
+
+
+\usepackage{etoolbox} % for patching
+\makeatletter
+% define the main command on the model of the original one
+% we add stepping the counter and typesetting the number
+\def\gr@implnumbereditem<#1> #2 {%
+  \stepcounter{grammarline}%
+  \sbox\z@{\hskip\labelsep\grammarlabel{#1}{#2}}
+  \strut\@@par%
+  \vskip-\parskip%
+  \vskip-\baselineskip%
+  \hrule\@height\z@\@depth\z@\relax%
+  \item[%
+    \rlap{\hskip\dimexpr\linewidth+\grammarindent\relax %% add the number
+          \llap{(\thegrammarline)}}%
+    \unhbox\z@]%
+  \catcode`\<\active%
+}
+% copy the grammar environment under a new name
+\let\numberedgrammar\grammar
+\let\endnumberedgrammar\endgrammar
+% now patch the new environment
+\pretocmd\numberedgrammar{\setcounter{grammarline}{0}}{}{}
+\patchcmd\numberedgrammar
+  {\gr@implitem}
+  {\gr@implnumbereditem}
+  {}{}
+\patchcmd\numberedgrammar
+  {\def\alt{\\\llap{\textbar\quad}}}
+  {\let\alt\alt@num}
+  {}{}
+
+% the command for numbering the \alt lines
+\def\alt@num{\\\relax
+  \stepcounter{grammarline}%
+  \rlap{\hskip\dimexpr\linewidth-\labelwidth+\grammarindent-\labelsep\relax
+        \llap{(\thegrammarline)}}% add the number
+  \llap{\textbar\quad}}
+
+\newcounter{grammarline}
+\makeatother
+
+
+
+\begin{document}
+
+\begin{numberedgrammar}
+
+<P> ::= <D>* <S>*
+
+<D> ::= a
+\alt $m(f_1,...,f_k)$
+\alt $cs(f_1,...,f_k)$
+\alt $f(f_1,...,f_k)$
+
+<S> ::= $x = new$ $c($[$a_1, ..., a_k$]$);$
+\alt $x = y;$
+\alt [$x =$] $y.m($[$a_1, ..., a_k$]$);$
+\alt [$x =$] $f($[$a_1, ..., a_k$]$);$
+\end{numberedgrammar}
+
+\noindent
+\underline{Legend:} \\
+\noindent
+Metasymbols: * (repetition), $|$ (alternative), [ ] (optional part) \\
+Non terminals: upper case letters \\
+Fully scoped identifiers: lower case letters \\
+Terminals: all the other symbols \\
+\\
+\underline{Class scope identifiers:} \\
+\begin{small}
+\begin{tabular}{ r l l }
+    $a$: & class attribute name & $<attr>$ \\
+    $m$: & method name & $<meth>$ \\
+    $f_1, ..., f_k$: & formal parameters & $<param>$ \\
+    $x,y$: & program locations & $<progloc>$ \\
+    $a_1, ..., a_1$: & actual parameters & $<progloc>$ \\
+    $cs$: & class constructor & $<constr>$ \\
+    $c$: & class name & $<class>$ \\
+    $f$: & function name & $<function>$ \\
+\end{tabular}
+\end{small}
+\\ \\
+where: \\
+\begin{adjustwidth}{-0.4cm}{}
+\begin{small}
+\begin{tabular}{ r l l }
+    $<attr>$ & attribute & [$<nspref>$] $<cpref>$ $<vid>$ \\
+    $<meth>$ & method & [$<nspref>$] $<cpref>$ $<mid>$ \\
+    $<param>$ & parameter & [$<nspref>$] $<cpref>$ $<mid>$ $.$ $<vid>$ \\
+    $<constr>$ & class constructor & [$<nspref>$] $<cpref>$ $<cid>$ \\
+    $<class>$ & class name & [$<nspref>$] $<cid>$ \\
+    $<locvar>$ & variable & [$<nspref>$] [$<cpref>$ $<mid>$ $|$ $<fid>$] $<vid>$ \\
+    $<progloc>$ & program location & [$<nspref>$] $<cpref>$ $<vid>$ \\
+    $<nspref>$ & namespace prefix & $<pid>$ \\
+    $<pid>$ & package identifier & \\
+    $<cid>$ & class identifier & \\
+    $<mid>$ & method identifier & \\
+    $<fid>$ & function identifier & \\
+    $<vid>$ & variable identifier & \\
+\end{tabular}
+\end{small}
+\end{adjustwidth}
+
+
+\end{document}

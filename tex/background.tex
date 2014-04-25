@@ -1,11 +1,34 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Background and context}\label{chap:background}
-    This section should contain two main subjects: \underline{Difficulties in analysing PHP} and \underline{related work}.
+    This section should contain two main subjects: \underline{Difficulties in analysing PHP} and \underline{related work}. But also Rascal, M3, OFL.
+    \section{PHP Analysis}
+    Explain that there is a static and dynamic analysis. Explain them both briefly.
+        \paragraph{Dynamic analysis}
+            The advantage of dynamic analysis is that you are able to analyse all executed code. 
+            The downside is that not all lines are executed, and so they are not analysed.
+        \paragraph{Static analysis}
+            The advantage of static analysis is that you can cover all lines of code.
+            The downside is that some expressions in php depend on runtime values. More on this in the section difficulties in PHP.
+            
+    \section{Rascal}
+        The language of choice is Rascal, which is developed at CWI for analysing and transforming software.
+        \paragraph{M3}
+            M3 ~ref to M3 paper~ is a generic analysis model which can be used for different kind of analysis.
+
+    \section{OFL}
+    Object Flow Language (OFL) is explained in "Reverse Engineering Object Oriented Code". 
+    In this book the writers describe a method to construct UML diagrams from source code.
+    UML diagrams are mainly written when designing the architecture or implementation of the software.
+    When the software is written, the diagrams may not be the same as the implementation anymore.
+    This can also occur when the system evaluates, the diagrams may become outdated.
+    
+
+    
     \section{From literatur study}
     %todo this is taken from literature study and needs a rewrite
     \label{phpdynamics}
-The goals of the PHP analysis is to be able to parse PHP code and extract useful information out of it, which then can be analyzed to find vulnerabilities.
+The goal of the PHP analysis is to be able to parse PHP code and extract useful information out of it, which then can be analyzed to find vulnerabilities.
 The main difficulties in analyzing PHP are the dynamic includes, type inference and alias analysis. 
 More details about them can be found below.
 \paragraph{Dynamic includes}
