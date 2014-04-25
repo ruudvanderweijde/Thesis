@@ -92,18 +92,17 @@ Terminals: all the other symbols \\
 \end{small}
 \\ \\
 where: \\
-\begin{adjustwidth}{-0.4cm}{}
+\begin{adjustwidth}{-0.45cm}{}
 \begin{small}
 \begin{tabular}{ r l l }
-    $<attr>$ & attribute & [$<nspref>$] $<cpref>$ $<vid>$ \\
-    $<meth>$ & method & [$<nspref>$] $<cpref>$ $<mid>$ \\
-    $<param>$ & parameter & [$<nspref>$] $<cpref>$ $<mid>$ $.$ $<vid>$ \\
-    $<constr>$ & class constructor & [$<nspref>$] $<cpref>$ $<cid>$ \\
-    $<class>$ & class name & [$<nspref>$] $<cid>$ \\
-    $<locvar>$ & variable & [$<nspref>$] [$<cpref>$ $<mid>$ $|$ $<fid>$] $<vid>$ \\
-    $<progloc>$ & program location & [$<nspref>$] $<cpref>$ $<vid>$ \\
-    $<nspref>$ & namespace prefix & $<pid>$ \\
-    $<pid>$ & package identifier & \\
+    $<attr>$ & attribute & [$<nid>$] $<cid>$ $<vid>$ \\
+    $<meth>$ & method & [$<nid>$] $<cid>$ $<mid>$ \\
+    $<param>$ & parameter & [$<nid>$] $<cid>$ $<mid>$ $.$ $<vid>$ \\
+    $<constr>$ & class constructor & [$<nid>$] $<cid>$ $<cid>$ \\
+    $<class>$ & class name & [$<nid>$] $<cid>$ \\
+    $<var>$ & variable & [$<nid>$] [$<cid>$ $<mid>$ $|$ $<fid>$] $.$ $<vid>$ \\
+    $<progloc>$ & program location & $<var>$ $|$ $<attr>$ $|$ $<param>$ \\
+    $<nid>$ & namespace identifier & \\
     $<cid>$ & class identifier & \\
     $<mid>$ & method identifier & \\
     $<fid>$ & function identifier & \\
