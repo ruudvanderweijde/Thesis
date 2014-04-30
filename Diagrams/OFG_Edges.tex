@@ -1,0 +1,71 @@
+\documentclass[preview,border=20pt]{standalone} 
+\usepackage{syntax}
+\usepackage{changepage}
+\usepackage[showframe]{geometry} % used to set the page size
+\usepackage{varwidth}
+\geometry{
+paperwidth=17cm,
+margin=0.5cm
+}
+
+\setlength{\grammarparsep}{0.1cm}   % vertical distance between production rules
+\setlength{\grammarindent}{1.1cm}      % horizontal indent distance
+
+\renewcommand{\syntleft}{}          % do not display '<' associated with variable, for example <A>
+\renewcommand{\syntright}{}         % do not display '>' associated with variable, for example <A>
+
+
+\begin{document}
+
+\newcommand{\bg}[0]{%
+    \begin{minipage}{1.8in}%
+    %\vskip 10.1cm
+    \begin{grammar}%
+        
+}
+\newcommand{\eg}{\end{grammar}\end{minipage}}
+\newcommand{\altline}[3]{%
+    \hskip 0.45cm 
+        $|$ \hskip 0.18cm $#1$ & 
+        $\{#2\}$ & 
+        $(#3)$ \\%
+}
+%\begin{tabular}{p{10cm}p{3cm}p{3cm}}
+\begin{tabular}{ l l r } \\ 
+\bg <P> ::= <D>* <S>* \eg & 
+    $\{\}$ & 
+    $(1)$ \\
+    
+\bg <D> ::= a $\{\}$ \eg & 
+    $\{\}$ & 
+    $(2)$ \\
+\altline{m(f_1,...,f_k)}
+    {}
+    {3} 
+\altline{cs(f_1,...,f_k))}
+    {}
+    {4}
+\altline{f(f_1,...,f_k)}
+    {}
+    {5}
+
+\bg <S> ::= $x = new$ $c($[$a_1, ..., a_k$]$);$ \eg & 
+    $\{(a_1,f_1) \in E, ..., (a_k,f_k) \in E, (cs.this,x) \in E\}$ & 
+    $(6)$ \\
+\altline{x = y;}
+    {(x,y) \in E}
+    {7}
+\altline{$[$x =$] $y.m($[$a_1, ..., a_k$]$);}
+    {(y,m.this) \in E, (a_1,f_1) \in E, ..., (a_k,f_k) \in E, (m.return,x) \in E}
+    {8}
+\altline{$[$x =$] $f($[$a_1, ..., a_k$]$);}
+    {(a_1,f_1) \in E, ..., (a_k,f_k) \in (E, m.return,x) \in E}
+    {9}
+\end{tabular}
+
+
+
+
+
+
+\end{document}
