@@ -16,6 +16,28 @@ exit;
     \lstinputlisting[language=PHP,title=test]{src/php/injection.php}
 
     
+    \subsection{Algorithms}
+    
+\IncMargin{1em}
+\begin{algorithm}[H]
+\ForEach{node $n \in$ OFG}{
+    in[$n$] = $\emptyset$ 
+    \\
+    out[$n$] = gen[$n$] $\cup$ (in[$n$] \textbackslash $ $ kill[$n$])
+}
+\While{any in[$n$] or out[$n$] changes}{
+    \ForEach{node $n$ $\in$ OFG}{
+        in[$n$] = $\cup _{p\in pred(n)}$ out[$p$] 
+        \\
+        out[$n$] = gen[$n$] $\cup$ (in[$n$] \textbackslash $ $ kill[$n$])
+    }
+}
+\algorithmfootnote{$pred(n)$ is the set of predecessors of node $n$.}
+
+\caption{Pseudocode of the flow propagation algorithm.}\label{algo_flowpropagation}
+\end{algorithm}
+\DecMargin{1em}
+
     \subsection{Image example}
     % test image
     

@@ -13,6 +13,8 @@
 \usepackage{enumitem}% spacing options for itemize
 \usepackage{listings}% used to display code
 \usepackage{color}
+\usepackage[ruled,linesnumbered]{algorithm2e} % used to display algorithms
+
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
@@ -45,4 +47,16 @@
   tabsize=2,                       % sets default tabsize to 2 spaces
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
+
+\makeatletter
+\newcommand{\algorithmfootnote}[2][\footnotesize]{%
+  \let\old@algocf@finish\@algocf@finish% Store algorithm finish macro
+  \def\@algocf@finish{\old@algocf@finish% Update finish macro to insert "footnote"
+    \leavevmode\rlap{\begin{minipage}{\linewidth}
+    #1#2
+    \end{minipage}}%
+  }%
+}
+\makeatother
+
 
