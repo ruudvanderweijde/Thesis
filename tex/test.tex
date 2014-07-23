@@ -67,6 +67,24 @@ exit;
   \label{tab:demo_table1}
 \end{table}
 
+
+
+\npaddmissingzero
+\npfourdigitsep
+\begin{table*}
+\centering
+\begin{tabular}{@{}lrrrcrrrrr@{}} \toprule 
+System & \multicolumn{3}{c}{Includes} & \phantom{abc} & \multicolumn{5}{c}{Results} \\
+\cmidrule{2-4} \cmidrule{6-10}
+ & Total & Static & Dynamic & & Unique & Missing & Any & Other & Average \\ \midrule 
+  Werkspot oldWebsite (full) & \numprint{2989} & \numprint{1462} & \numprint{1527} & & \numprint{2400} & \numprint{138} & \numprint{199} & \numprint{252} & \nprounddigits{2} \numprint{14.23015873} \npnoround \\ 
+  Werkspot oldWebsite (web folder) & \numprint{705} & \numprint{196} & \numprint{509} & & \numprint{616} & \numprint{32} & \numprint{44} & \numprint{13} & \nprounddigits{2} \numprint{4.923076923} \npnoround \\ 
+  Werkspot api4 & \numprint{1998} & \numprint{1369} & \numprint{629} & & \numprint{1719} & \numprint{114} & \numprint{118} & \numprint{47} & \nprounddigits{2} \numprint{4.191489362} \npnoround \\ 
+
+\bottomrule
+\end{tabular}
+\caption{Results of running {\sf FLRES} on the corpus.\label{table-quick}}
+\end{table*}
 Another table to test.
 
 \begin{table}[H]
@@ -82,5 +100,398 @@ Another table to test.
     \caption{Another demo table}
     \label{tab:demo_table2}
 \end{table}
+
+
+%%% RESULTS ARE NOT CORRECT %%%
+\begin{table}
+\begin{tabularx}{\columnwidth}{lX}
+\textbf{allocations} & array, \underline{clone}, new, nextArrayElem, scalar \\
+\textbf{assignment ops} & \textit{BitAnd}, \textit{BitOr}, \textit{BitXor}, Concat, \textit{Div}, \textit{LShift}, \underline{Minus}, \textit{Mod}, \textit{Mul}, Plus, \textit{RShift}, assign, listAssign, refAssign, unset \\
+\textbf{binary ops} & \underline{BitAnd}, \underline{BitOr}, \textit{BitXor}, BoolAnd, BoolOr, Concat, Div, Equal, Geq, Gt, Identical, \textit{LShift}, Leq, LogAnd, LogOr, \textit{LogXor}, Lt, Minus, Mod, Mul, NotEqual, NotId, Plus, \textit{RShift} \\
+\textbf{casts} & toArray, toBool, \textit{toFloat}, toInt, \underline{toObject}, toString, \textbf{toUnset} \\
+\textbf{control flow} & break, continue, \textit{declare}, \underline{do}, exit, expStmt, for, foreach, \textbf{goto}, \textbf{haltCompiler}, if, \textbf{label}, return, suppress, switch, ternary, throw, tryCatch, while \\
+\textbf{definitions} & classConstDef, classDef, \textit{closure}, \textbf{const}, functionDef, global, include, interfaceDef, methodDef, namespace, propertyDef, static, \textbf{traitDef}, use \\
+\textbf{invocations} & call, \textit{eval}, methodCall, \textit{shellExec}, staticCall \\
+\textbf{lookups} & fetchClassConst, fetchConst, fetchStaticProperty, propertyFetch, \textbf{traitUse}, var \\
+\textbf{predicates} & empty, instanceOf, isSet \\
+\textbf{print} & echo, inlineHTML, \underline{print} \\
+\textbf{unary ops} & \textit{BitNot}, BoolNot, \underline{PostDec}, PostInc, \textit{PreDec}, PreInc, UnaryMinus, \textit{UnaryPlus} \\
+ & \\ \end{tabularx}
+\parbox{\columnwidth}{Features in \textbf{bold} are not used in the corpus. Features in \textit{italics} are not used in 90\% of the corpus files. Features that are \underline{underlined} are not used in 80\% of the corpus files.}
+\ \vspace{1ex}
+\caption{Logical Groups of PHP Features.\label{Table:FeatureGroups}}
+\end{table}
+
+
+
+
+
+
+\section{PHP Analysis using Rascal - Results}
+See the tables below...
+%%%% TEST %%%%%%%
+
+
+%%------[ Table 4 ]-------%%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.2}
+  \scriptsize
+  \begin{tabular}{@{}lrrrrr@{}} \toprule
+  Product & \multicolumn{3}{c}{Includes} & Files & Gini \\
+ \cmidrule{2-4} 
+   &  Total & Dynamic & Resolved & &  \\ \midrule
+    Werkspot & \numprint{2982} & \numprint{1522}  & \numprint{1274} & \numprint{9400}(\numprint{145}) & \nprounddigits{2} \numprint{0.355} \npnoround \\ 
+  \bottomrule
+  \end{tabular}
+  \normalsize
+  \caption{PHP Dynamic Includes.\label{table-includes}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+
+%%------[ Table 5 ]-------%%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table*}
+\centering
+%\ra{1.0}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrcrrcrrcrrcrrcrrrr@{}} \toprule 
+Product & Files & \multicolumn{19}{c}{PHP Variable Features} \\
+\cmidrule{3-21}
+ & & \multicolumn{2}{c}{Variables} & \phantom{a} & \multicolumn{2}{c}{Function Calls} & \phantom{a} & \multicolumn{2}{c}{Method Calls} & \phantom{a} & \multicolumn{2}{c}{Property Fetches} & \phantom{a} & \multicolumn{2}{c}{Instantiations} & \phantom{a} & \multicolumn{4}{c}{All} \\
+\cmidrule{3-4} \cmidrule{6-7} \cmidrule{9-10} \cmidrule{12-13} \cmidrule{15-16} \cmidrule{18-21}
+ &  & Files & Uses && Files & Uses && Files & Uses && Files & Uses && Files & Uses && Files & w/Inc & Uses & Gini \\ \midrule 
+  Werkspot & \numprint{9400} & \numprint{8} & \numprint{23} && \numprint{29} & \numprint{60} && \numprint{137} & \numprint{310} && \numprint{154} & \numprint{386} && \numprint{254} & \numprint{444} && \numprint{464} & \numprint{542} & \numprint{1231} & \nprounddigits{2} \numprint{0.46} \npnoround \\ 
+\bottomrule
+\end{tabular}
+}
+\caption{PHP Variable Features.\label{table-var}}
+\end{table*}
+
+
+%%------[ Table 6 ]-------%%
+
+
+%%------[ Table 7 ]-------%%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.0}
+\resizebox{\columnwidth}{!}{%
+  \begin{tabular}{@{}lrrcrrrrrrr@{}} \toprule
+  Product & \multicolumn{2}{c}{Files} & \phantom{a} & \multicolumn{6}{c}{Magic Methods} & GC \\
+  \cmidrule{2-3} \cmidrule{5-10}
+          & MM & WI && S & G & I & U & C & SC &  \\ \midrule
+    Werkspot & \numprint{109} & \numprint{223} && \numprint{23} & \numprint{42} & \numprint{27} & \numprint{15} & \numprint{87} & \numprint{2} & \nprounddigits{2} \numprint{0.356} \npnoround \\ 
+  \bottomrule
+  \end{tabular}
+}
+  \caption{PHP Overloading (Magic Methods).\label{table-magic}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+
+%%------[ Table 8 ]-------%%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.1}
+\scriptsize
+  \begin{tabular}{@{}lrrrcrr@{}} \toprule
+  Product & \multicolumn{3}{c}{Files} & \phantom{a} & Total Uses & Gini \\
+  \cmidrule{2-4} 
+          & Total & EV & WI & & & \\ \midrule
+    Werkspot & \numprint{9400} & \numprint{52} & \numprint{282} && \numprint{36}/\numprint{52}  & \nprounddigits{2} \numprint{0.331} \npnoround  \\ 
+  \bottomrule
+  \end{tabular}
+\normalsize
+  \caption{Usage of \texttt{eval} and \texttt{create\_function}.\label{table-eval}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+
+%%------[ Table 9 ]-------%%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.1}
+\resizebox{\columnwidth}{!}{%
+  \begin{tabular}{@{}lrrrcrrrrr@{}} \toprule
+  Product & \multicolumn{3}{c}{Files} & \phantom{a} & VDefs & VCalls & LCalls & Gini \\
+  \cmidrule{2-4} 
+          & Total & VA & WI & & & & & \\ \midrule
+    Werkspot & \numprint{9400} & \numprint{3324} & \numprint{3359} && \numprint{236} & \numprint{15360} & \numprint{6096} & \nprounddigits{2} \numprint{0.605} \npnoround  \\ 
+  \bottomrule
+  \end{tabular}
+}
+  \caption{Usage of Variadic Functions.\label{table-variadic}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+
+%%------[ Table 10 ]-------%%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.1}
+\resizebox{\columnwidth}{!}{%
+  \begin{tabular}{@{}lrrrcrrrrr@{}} \toprule
+  Product & \multicolumn{3}{c}{Files} & \phantom{a} & CUF & CUFA & CUM & CUMA & Gini \\
+  \cmidrule{2-4} 
+          & Total & Inv & Inc & & & & & & \\ \midrule
+    Werkspot & \numprint{9400} & \numprint{217} & \numprint{326} && \numprint{312} & \numprint{184} & \numprint{0} & \numprint{0} & \nprounddigits{2} \numprint{0.434} \npnoround  \\ 
+  \bottomrule
+  \end{tabular}
+}
+  \caption{Usage of Invocation Functions.\label{table-invokers}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+%%%% END OF TEST %%%%%%
+
+
+\section{PHP Analysis now without test files... (and without /beheer)}
+
+%% Table 1 %%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table*}
+\centering
+%\ra{1.2}
+\begin{tabularx}{\textwidth}{XlllrrX} \toprule
+System & Version & PHP & Release Date & File Count & SLOC & Description \\ \midrule 
+  Werkspot & oldWebsite & 5.0.0 & 2000-04-13 & \numprint{9400} & \numprint{1486669} & Werkspot old website \\ 
+  WerkspotNoTests & oldWebsiteNoTests & 5.0.0 & 2000-04-13 & \numprint{6229} & \numprint{1061811} & Werkspot old website without test folders \\ 
+\bottomrule
+\end{tabularx}
+\parbox{\textwidth}{\mbox{} \\ The PHP versions listed above in column PHP are the minimum required versions. 
+The File Count includes files with a .php or an .inc extension. In total there are \numprint{2}
+systems consisting of \numprint{15629} files with \numprint{2548480} total lines of source.} 
+\caption{The PHP Corpus.\label{tbl:php-corpus}}
+\end{table*}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+%% table 2.2 %%
+\begin{table}
+\begin{tabularx}{\columnwidth}{lX}
+\textbf{allocations} & array, \underline{clone}, new, nextArrayElem, scalar \\
+\textbf{assignment ops} & \textit{BitAnd}, \textit{BitOr}, \textit{BitXor}, Concat, \textit{Div}, \textit{LShift}, \textit{Minus}, \textit{Mod}, \textit{Mul}, Plus, \textit{RShift}, assign, \underline{listAssign}, \underline{refAssign}, unset \\
+\textbf{binary ops} & \underline{BitAnd}, \underline{BitOr}, \textit{BitXor}, BoolAnd, BoolOr, Concat, Div, Equal, Geq, Gt, Identical, \textit{LShift}, Leq, \underline{LogAnd}, \underline{LogOr}, \textit{LogXor}, Lt, Minus, \underline{Mod}, Mul, NotEqual, NotId, Plus, \textit{RShift} \\
+\textbf{casts} & toArray, toBool, \underline{toFloat}, toInt, \textit{toObject}, toString, \textbf{toUnset} \\
+\textbf{control flow} & break, continue, \textbf{declare}, \underline{do}, \underline{exit}, expStmt, for, foreach, \textbf{goto}, \textbf{haltCompiler}, if, \textbf{label}, return, suppress, switch, ternary, throw, tryCatch, while \\
+\textbf{definitions} & classConstDef, classDef, \textit{closure}, \textbf{const}, \underline{functionDef}, \underline{global}, include, interfaceDef, methodDef, namespace, propertyDef, \underline{static}, \textbf{traitDef}, use \\
+\textbf{invocations} & call, \textit{eval}, methodCall, \textbf{shellExec}, staticCall \\
+\textbf{lookups} & fetchClassConst, fetchConst, fetchStaticProperty, propertyFetch, \textbf{traitUse}, var \\
+\textbf{predicates} & empty, instanceOf, isSet \\
+\textbf{print} & echo, inlineHTML, \textit{print} \\
+\textbf{unary ops} & \textit{BitNot}, BoolNot, \underline{PostDec}, PostInc, \underline{PreDec}, PreInc, UnaryMinus, \textit{UnaryPlus} \\
+ & \\ \end{tabularx}
+\parbox{\columnwidth}{Features in \textbf{bold} are not used in the corpus. Features in \textit{italics} are not used in 90\% of the corpus files. Features that are \underline{underlined} are not used in 80\% of the corpus files.}
+\ \vspace{1ex}
+\caption{Logical Groups of PHP Features.\label{Table:FeatureGroups}}
+\end{table}
+
+%% Table 2 - only the one with no tests.. seems like the same %%
+
+\begin{table}
+\begin{tabularx}{\columnwidth}{lX}
+\textbf{allocations} & array, \underline{clone}, new, nextArrayElem, scalar \\
+\textbf{assignment ops} & \textit{BitAnd}, \textit{BitOr}, \textit{BitXor}, Concat, \textit{Div}, \textit{LShift}, \textit{Minus}, \textit{Mod}, \textit{Mul}, Plus, \textit{RShift}, assign, \underline{listAssign}, \underline{refAssign}, unset \\
+\textbf{binary ops} & \underline{BitAnd}, \underline{BitOr}, \textit{BitXor}, BoolAnd, BoolOr, Concat, Div, Equal, Geq, Gt, Identical, \textit{LShift}, Leq, \underline{LogAnd}, \underline{LogOr}, \textit{LogXor}, Lt, Minus, \underline{Mod}, Mul, NotEqual, NotId, Plus, \textit{RShift} \\
+\textbf{casts} & toArray, toBool, \underline{toFloat}, toInt, \textit{toObject}, toString, \textbf{toUnset} \\
+\textbf{control flow} & break, continue, \textbf{declare}, \underline{do}, \underline{exit}, expStmt, for, foreach, \textbf{goto}, \textbf{haltCompiler}, if, \textbf{label}, return, suppress, switch, ternary, throw, tryCatch, while \\
+\textbf{definitions} & classConstDef, classDef, \textit{closure}, \textbf{const}, \underline{functionDef}, \underline{global}, include, interfaceDef, methodDef, namespace, propertyDef, \underline{static}, \textbf{traitDef}, use \\
+\textbf{invocations} & call, \textit{eval}, methodCall, \textbf{shellExec}, staticCall \\
+\textbf{lookups} & fetchClassConst, fetchConst, fetchStaticProperty, propertyFetch, \textbf{traitUse}, var \\
+\textbf{predicates} & empty, instanceOf, isSet \\
+\textbf{print} & echo, inlineHTML, \textit{print} \\
+\textbf{unary ops} & \textit{BitNot}, BoolNot, \underline{PostDec}, PostInc, \underline{PreDec}, PreInc, UnaryMinus, \textit{UnaryPlus} \\
+ & \\ \end{tabularx}
+\parbox{\columnwidth}{Features in \textbf{bold} are not used in the corpus. Features in \textit{italics} are not used in 90\% of the corpus files. Features that are \underline{underlined} are not used in 80\% of the corpus files.}
+\ \vspace{1ex}
+\caption{Logical Groups of PHP Features.\label{Table:FeatureGroups}}
+\end{table}
+
+%% Table 3 %%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.2}
+  \begin{tabular}{@{}lrr@{}} \toprule
+  Product & \multicolumn{2}{c}{\%  Covered By} \\
+  \cmidrule{2-3}
+  & 80\% Features & 90\% Features \\ \midrule
+    WerkspotNoTests & \nprounddigits{1} \numprint{88.51}\% \npnoround & \nprounddigits{1} \numprint{98.57}\% \npnoround \\ 
+    Werkspot & \nprounddigits{1} \numprint{88.09}\% \npnoround & \nprounddigits{1} \numprint{97.91}\% \npnoround \\ 
+  \bottomrule
+  \end{tabular}
+  \caption{Percent of System Covered by Feature Sets.\label{table-fset-cover}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+%% Table 4 ??? %%
+
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.2}
+  \scriptsize
+  \begin{tabular}{@{}lrrrrr@{}} \toprule
+  Product & \multicolumn{3}{c}{Includes} & Files & Gini \\
+ \cmidrule{2-4} 
+   &  Total & Dynamic & Resolved & &  \\ \midrule
+    Werkspot & \numprint{2982} & \numprint{1522}  & \numprint{1274} & \numprint{9400}(\numprint{145}) & \nprounddigits{2} \numprint{0.355} \npnoround \\ 
+    WerkspotNoTests & \numprint{1732} & \numprint{500}  & \numprint{344} & \numprint{6229}(\numprint{93}) & \nprounddigits{2} \numprint{0.349} \npnoround \\ 
+  \bottomrule
+  \end{tabular}
+  \normalsize
+  \caption{PHP Dynamic Includes.\label{table-includes}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+
+%% Table 5 %%
+
+\npaddmissingzero
+\npfourdigitsep
+\begin{table*}
+\centering
+%\ra{1.0}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrcrrcrrcrrcrrcrrrr@{}} \toprule 
+Product & Files & \multicolumn{19}{c}{PHP Variable Features} \\
+\cmidrule{3-21}
+ & & \multicolumn{2}{c}{Variables} & \phantom{a} & \multicolumn{2}{c}{Function Calls} & \phantom{a} & \multicolumn{2}{c}{Method Calls} & \phantom{a} & \multicolumn{2}{c}{Property Fetches} & \phantom{a} & \multicolumn{2}{c}{Instantiations} & \phantom{a} & \multicolumn{4}{c}{All} \\
+\cmidrule{3-4} \cmidrule{6-7} \cmidrule{9-10} \cmidrule{12-13} \cmidrule{15-16} \cmidrule{18-21}
+ &  & Files & Uses && Files & Uses && Files & Uses && Files & Uses && Files & Uses && Files & w/Inc & Uses & Gini \\ \midrule 
+  Werkspot & \numprint{9400} & \numprint{8} & \numprint{23} && \numprint{29} & \numprint{60} && \numprint{137} & \numprint{310} && \numprint{154} & \numprint{386} && \numprint{254} & \numprint{444} && \numprint{464} & \numprint{542} & \numprint{1231} & \nprounddigits{2} \numprint{0.46} \npnoround \\ 
+  WerkspotNoTests & \numprint{6229} & \numprint{3} & \numprint{5} && \numprint{16} & \numprint{44} && \numprint{98} & \numprint{230} && \numprint{82} & \numprint{218} && \numprint{193} & \numprint{320} && \numprint{314} & \numprint{367} & \numprint{823} & \nprounddigits{2} \numprint{0.47} \npnoround \\ 
+\bottomrule
+\end{tabular}
+}
+\caption{PHP Variable Features.\label{table-var}}
+\end{table*}
+
+%% Table 6 failed %%
+
+%% Table 7 %%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.0}
+\resizebox{\columnwidth}{!}{%
+  \begin{tabular}{@{}lrrcrrrrrrr@{}} \toprule
+  Product & \multicolumn{2}{c}{Files} & \phantom{a} & \multicolumn{6}{c}{Magic Methods} & GC \\
+  \cmidrule{2-3} \cmidrule{5-10}
+          & MM & WI && S & G & I & U & C & SC &  \\ \midrule
+    Werkspot & \numprint{109} & \numprint{223} && \numprint{23} & \numprint{42} & \numprint{27} & \numprint{15} & \numprint{87} & \numprint{2} & \nprounddigits{2} \numprint{0.356} \npnoround \\ 
+    WerkspotNoTests & \numprint{74} & \numprint{153} && \numprint{19} & \numprint{36} & \numprint{19} & \numprint{11} & \numprint{52} & \numprint{0} & \nprounddigits{2} \numprint{0.353} \npnoround \\ 
+  \bottomrule
+  \end{tabular}
+}
+  \caption{PHP Overloading (Magic Methods).\label{table-magic}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+%% Table 8 %%
+
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.1}
+\scriptsize
+  \begin{tabular}{@{}lrrrcrr@{}} \toprule
+  Product & \multicolumn{3}{c}{Files} & \phantom{a} & Total Uses & Gini \\
+  \cmidrule{2-4} 
+          & Total & EV & WI & & & \\ \midrule
+    Werkspot & \numprint{9400} & \numprint{52} & \numprint{282} && \numprint{36}/\numprint{52}  & \nprounddigits{2} \numprint{0.331} \npnoround  \\ 
+    WerkspotNoTests & \numprint{6229} & \numprint{41} & \numprint{204} && \numprint{20}/\numprint{46}  & \nprounddigits{2} \numprint{0.316} \npnoround  \\ 
+  \bottomrule
+  \end{tabular}
+\normalsize
+  \caption{Usage of \texttt{eval} and \texttt{create\_function}.\label{table-eval}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+
+%% Table 9 %%
+
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.1}
+\resizebox{\columnwidth}{!}{%
+  \begin{tabular}{@{}lrrrcrrrrr@{}} \toprule
+  Product & \multicolumn{3}{c}{Files} & \phantom{a} & VDefs & VCalls & LCalls & Gini \\
+  \cmidrule{2-4} 
+          & Total & VA & WI & & & & & \\ \midrule
+    Werkspot & \numprint{9400} & \numprint{3324} & \numprint{3359} && \numprint{236} & \numprint{15360} & \numprint{6096} & \nprounddigits{2} \numprint{0.605} \npnoround  \\ 
+    WerkspotNoTests & \numprint{6229} & \numprint{2171} & \numprint{2191} && \numprint{141} & \numprint{9110} & \numprint{4526} & \nprounddigits{2} \numprint{0.585} \npnoround  \\ 
+  \bottomrule
+  \end{tabular}
+}
+  \caption{Usage of Variadic Functions.\label{table-variadic}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+%% Table 10 %% 
+
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.1}
+\resizebox{\columnwidth}{!}{%
+  \begin{tabular}{@{}lrrrcrrrrr@{}} \toprule
+  Product & \multicolumn{3}{c}{Files} & \phantom{a} & CUF & CUFA & CUM & CUMA & Gini \\
+  \cmidrule{2-4} 
+          & Total & Inv & Inc & & & & & & \\ \midrule
+    Werkspot & \numprint{9400} & \numprint{217} & \numprint{326} && \numprint{312} & \numprint{184} & \numprint{0} & \numprint{0} & \nprounddigits{2} \numprint{0.434} \npnoround  \\ 
+    WerkspotNoTests & \numprint{6229} & \numprint{173} & \numprint{249} && \numprint{169} & \numprint{144} & \numprint{0} & \numprint{0} & \nprounddigits{2} \numprint{0.356} \npnoround  \\ 
+  \bottomrule
+  \end{tabular}
+}
+  \caption{Usage of Invocation Functions.\label{table-invokers}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
+%% Running include analysis again, this time without test files and /beheer folder %%
+\npaddmissingzero
+\npfourdigitsep
+\begin{table*}
+\centering
+%\ra{1.2}
+\begin{tabular}{@{}lrrrcrrrrr@{}} \toprule 
+System & \multicolumn{3}{c}{Includes} & \phantom{abc} & \multicolumn{5}{c}{Results} \\
+\cmidrule{2-4} \cmidrule{6-10}
+ & Total & Static & Dynamic & & Unique & Missing & Any & Other & Average \\ \midrule 
+  WerkspotNoTests & \numprint{1736} & \numprint{1234} & \numprint{502} & & \numprint{1318} & \numprint{82} & \numprint{138} & \numprint{198} & \nprounddigits{2} \numprint{13.85858586} \npnoround \\ 
+\bottomrule
+\end{tabular}
+\caption{Results of running {\sf FLRES} on the corpus.\label{table-quick}}
+\end{table*}
 
 \end{document}
