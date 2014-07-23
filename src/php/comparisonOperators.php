@@ -1,0 +1,9 @@
+$a == $b  /* bool() */
+$a === $b /* bool() */
+$a != $b  /* bool() */
+$a <> $b  /* bool() */
+$a !== $b /* bool() */
+$a < $b   /* bool() */
+$a > $b   /* bool() */
+$a <= $b  /* bool() */
+$a >= $b  /* bool() */
