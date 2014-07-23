@@ -1,22 +1,24 @@
 \documentclass{uvamscse}
 
 %\usepackage{uvamscse_customized}
-\usepackage{mystyle}
+\usepackage{sty/bussproofs}
+\usepackage{sty/custom}
 
 % Document settings
-\title{Object Flow Analysis in PHP}
-\subtitle{Extended with include algorithm and annotation analysis}
+\title{Type inference for PHP}
+%\subtitle{Some nice subtitle needs to be added}
 \author{Ruud van der Weijde}
 \supervisor{Jurgen Vinju}
 \host{Werkspot, \url{http://werkspot.nl}}
-\supervisorhost{Winfred Peereboom}
-\abstract{testx}
+%\supervisorhost{Winfred Peereboom}
+\abstract{\Blindtext}
 
 % Start of the real document
 \begin{document}
 
 	\maketitle
 	
+   	\subfile{tex/preface.tex}
    	\subfile{tex/introduction.tex}
 	\subfile{tex/background.tex}
    	\subfile{tex/research_method.tex}
@@ -25,6 +27,7 @@
    	\subfile{tex/annotations_analysis.tex}
    	\subfile{tex/conclusion.tex}
    	\subfile{tex/test.tex}
+   	\subfile{tex/anothertest.tex}
 
 	\printbibliography
 	
