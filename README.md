@@ -1,7 +1,7 @@
 Thesis
 ======
 
-[Click here to download the most recent version (main.pdf)](main.pdf) 
+[Click here to download the most recent version (main.pdf)](main.pdf?raw=true) 
 
 ---
 
