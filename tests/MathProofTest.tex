@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{amsmath,varwidth,bussproofs}
+\usepackage{lipsum} % mock text, just for testing
+
+\newenvironment{mathprooftree}
+  {\varwidth{.9\textwidth}\centering\leavevmode}
+  {\DisplayProof\endvarwidth}
+
+\begin{document}
+\lipsum*[2]
+\begin{equation}\tag{I1}
+\begin{mathprooftree}
+\AxiomC{$A \land B$}
+\UnaryInfC{$A$}
+\end{mathprooftree}
+\end{equation}
+\lipsum[2]
+
+\begin{prooftree}
+\AxiomC{A}
+\UnaryInfC{B}
+\AxiomC{C}
+\BinaryInfC{D}
+\AxiomC{E}
+\AxiomC{F}
+\BinaryInfC{G}
+\UnaryInfC{H}
+\BinaryInfC{J}
+\end{prooftree}
+
+\end{document}
+
