@@ -2,19 +2,56 @@
 \begin{document}
     \chapter{Introduction}\label{chap:introduction}
 
-    \paragraph{} % Definition/Problem statement: what is the (not)? the topic (Tell something about the current position of PHP. It's become a modern language with features in PHP 5.[3-5].)
-        According to the Tiobe Index\cite{Tiobe:2014}, PHP is on the 6th place of the list with the most populair programming languages.
+    \section{PHP} % Definition/Problem statement: what is the (not)? the topic (Tell something about the current position of PHP. It's become a modern language with features in PHP 5.[3-5].)
+        % php has a stable position in the top 10 for 10 years.
+        PHP\footnotemark is a server-side scripting language created by Rasmus Lerdorf in 1995.
+            \footnotetext{http://php.net}
+        The original name Personal Home Page changed to PHP: Hypertext Preprocessor in 1998.
+        PHP source files are executed using the PHP Interpreter. 
+        The language is dynamically typed, which means that the behaviour of the source code will be examined during run-time.
+        Statically typed languages would apply these modification during compile type.
+        PHP supports duck-typing, which means that the type of an expression can be transformed to another type at a certain point.
         
-    \paragraph{} % Position: what makes this paper unique, position to related work. (Explain about the current position of PHP.)
-        This paper is unique because it uses Object Flow Analysis on PHP.
+        \paragraph{}%Evolution}
+        The programming language PHP evolved after its creation in 1995.
+        In the year 2000 Object-Oriented (OO) language structures were added to the langue with the release of PHP 4.0.
+        The 5th version of PHP was release in 2004 including improved the OO support.
+        To be able to resolve conflicts between library and create better readable class names, namespaces were added to the release of PHP 5.3 in 2009.
+        Namespaces are comparable to packages in JAVA.
+        The most recent stable version is 5.5 in which the OPcache extension is added. 
+        OPcache speeds up the performance of including files on run-time by storing precompiled script bytecode in shared memory.
+       
+        \paragraph{}%Popularity}
+        According to the Tiobe Index\footnotemark of july 2014, PHP is the 7th most popular programming language.
+            \footnotetext{http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html, July 2014}
+        The language has been in the top 10 since its introduction in the Tiobe index in 2001.
+        More than 80 procent of the websites have a php backend\footnotemark.
+            \footnotetext{http://w3techs.com/technologies/details/pl-php/all/all, July 2014}
+        The majority of these websites use PHP version 5, rather than version 4 or version 3.
+        It is therefor useful to focus on PHP version from 5 and disgard the older unsupported versions.
+            
+        \paragraph{}%Analysability}
+        Although the popularity for more than a decade, there is still a lack of good PHP code analysis tools.
+        These tools can help to reveal security vulnerabilities or bugs in source code.
+        The tools can also provide code completions to developers or make automatic transformations on the code possible, for example to execute refactoring patterns.
+        Other dynamic languages suffer the same difficulties
         
+    \section{Position} % Position: what makes this paper unique, position to related work. (Explain about the current position of PHP.)
+        %TODO fill position, reread after writing
+        As far as we know, there is no constraint based type inference research like this one performed for PHP.
+        That makes this research unique.
+        There have been similar analysis for other dynamic languages, like smalltalk, ruby and javascript.
        
-    \paragraph{} % Contribution: what is the return of investment for the reader. (Tell something about the object oriented approach of this research. Most of previous research ignored the fact the objects.)
-        In this paper an object oriented approach is used to find vulnerabilities.
-       
-    \paragraph{} % Plan: outline of the paper. (In section x stuff.) 
-        % todo update this info when the sections are filled
-        In the next chapter \ref{chap:research_method} the research method is explained.
-        Chapter \ref{chap:background} contains background and context information about related work.
-      
+    \section{Contribution} % Contribution: what is the return of investment for the reader. (Resolving types can: helpt to build IDE tools, identify dependencies, beter security scans, gecombineerd worden met andere analyses (voor future work).)
+        % TODO rewrite this piece
+        TODO Review this part when the result of the analysis are performed.
+        Some idea's are that this analysis can help IDE tools to perform transformations on the source code.
+        But the performance may not be sufficient.
+    
+    \section{Plan} % Plan: outline of the paper. (In section x stuff.) 
+        The rest of the thesis is as follows:
+        chapter \ref{chap:background} contains background and context information about related work.
+        Here we will explain the php language and explain similar research.
+        In the next chapter \ref{chap:research_method} the research method is explained, which will explain the steps taken in this the research.
+        
 \end{document}

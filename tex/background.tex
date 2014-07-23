@@ -1,65 +1,58 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Background and context}\label{chap:background}
-    This section should contain two main subjects: \underline{Difficulties in analysing PHP} and \underline{related work}. But also Rascal, M3, OFL.
-    \section{PHP Analysis}
-    Explain that there is a static and dynamic analysis. Explain them both briefly.
-        \paragraph{Dynamic analysis}
-            The advantage of dynamic analysis is that you are able to analyse all executed code. 
-            The downside is that not all lines are executed, and so they are not analysed.
-        \paragraph{Static analysis}
-            The advantage of static analysis is that you can cover all lines of code.
-            The downside is that some expressions in php depend on runtime values. More on this in the section difficulties in PHP.
-            
-    \section{Rascal}
-        The language of choice is Rascal, which is developed at CWI for analysing and transforming software.
-        \paragraph{M3}
-            M3 ~ref to M3 paper~ is a generic analysis model which can be used for different kind of analysis.
+    
+    \section{PHP Language Constructs}
+    In this section important language constructs are presented.
+    Explanations of these constructs should help to understand the performed analysis.
+    Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
+    
+    \subsection{Scoping}
+    PHP knows three known scopes. "Define what scope is".
+    Global, namespace, class, method, function.
+    The global scope is contained in every file which is not inside a function or class.
+    The global scope can contain namespaces.
+    Namespaces are comparable to packages in Java.
+    When namespaces are used, classes and functions will be scoped to the namespace.
+    You can access them by providing the namespace name.
+    
+    \subsection{Includes}
+    Note to myself: how will I deal with this concept in my analysis (totally ignore it??? when maybe not add it to this background information).
+    The problem of including files can be reduced using namespaces and autoloading.
+    When a class which is not loaded in memory is instantiated, the autoloading will try to include a file and load the class. 
+    For this analysis we will include all files 
+    * Refer to the analysis of mark hills, that most files can be resolved, but not all. 
+    We consider the use of including scripts for logic as bad practice. 
+    Every file should contain a class, and in this case, it is for our analysis not very interesting to resolve the includes.
+    
+    \subsection{Conditional functions and classes}
+    \lstinputlisting[language=PHP,title=Conditional class and function definitions]{src/php/conditionals.php}
 
-    \section{OFL}
-    Object Flow Language (OFL) is explained in "Reverse Engineering Object Oriented Code". 
-    In this book the writers describe a method to construct UML diagrams from source code.
-    UML diagrams are mainly written when designing the architecture or implementation of the software.
-    When the software is written, the diagrams may not be the same as the implementation anymore.
-    This can also occur when the system evaluates, the diagrams may become outdated.
+
+    
+    \subsection{Dynamic features}
+    These include dynamic variables, dynamic class instantiations, dynamic function calls.
+    
+    \subsection{Late static binding}
+    Late static binding\footnotemark is implemented in PHP since version 5.3 by adding the keyword `static' to the language.
+    \footnotetext{http://php.net/manual/en/language.oop5.late-static-bindings.php, July 2014}
+    It has the same function as `parent' and `self', because they both point to a class. 
+    The main difference is that `parent' and `self' can be resolved statically.
+    `static' can only be resolved on runtime and represents the exact class that is instantiated.
+    
+    \subsection{Magic methods}
+    In PHP it is allowed to call methods or use properties that do not exists.
+    Normally this would result in a fatal error, but not with the use of magic methods.
+    One of the magic methods is het constructor method `\_\_ construct'
     
 
-    \section{From literatur study}
-    %todo this is taken from literature study and needs a rewrite
-    \label{phpdynamics}
-The goal of the PHP analysis is to be able to parse PHP code and extract useful information out of it, which then can be analyzed to find vulnerabilities.
-The main difficulties in analyzing PHP are the dynamic includes, type inference and alias analysis. 
-More details about them can be found below.
-\paragraph{Dynamic includes}
-\label{includes}
-The PHP functions \texttt{include[\_once]} and \texttt{require[\_once]} include other script pages in the current script.
-The location of these files are given as parameter and can be either static or dynamic and are resolved at run time.
-When a full file path is given, this file will be included.
-If the location contains a relative path, PHP will try to resolve the file by checking the include path and if needed the working directory.
-The location may also contain variables which will be parsed at run time to determine a path to be resolved.
-\\
-The analysis by \Citeauthor{Hil:12} \autocite{Hil:12}, tries to resolve dynamic includes using \texttt{\_\_FILE\_\_}, \texttt{\_\_DIR\_\_}, and similar variables, constants (defines in PHP), and tries to find files using path matching.
-Path matching is done by creating a regex for unresolved includes and includes the file if there is a unique match.
-The results of the analysis show that on average about 80\% of the includes can be resolved.
-The ZendFramework is doing great, about 81\%. However, the other frameworks I will probably have to deal with at WerkSpot will be Symfony and Doctrine, which have only 43\% and 66\% of dynamic includes resolved. 
-I want to see if I can add a layer in the analysis to be able to resolve more includes. 
-This should be possible if I can find a pattern that is used to include dynamic files.
-\Citeauthor{Son:11} \autocite{Son:11} asked a human to resolve includes if there is more than once match.
-This might be something to implement, because it can be useful when focusing on one application.
-
-\paragraph{Alias analysis}
-\label{alias}
-Another part that might be difficult to analyze are referenced objects.
-In PHP you can refer to an object using \texttt{\&}, like \texttt{\$a = \&\$b}.
-Now when you modify \texttt{\$a}, \texttt{\$b} will also be modified, and the other way around, because they point to the same memory location.
-During the analysis, I need to focus on how to keep track of aliases. 
-Pixy \autocite{Jov:06} performs aliases analysis by keeping track of referenced object.
-
-\paragraph{Reflection}
-\label{reflection}
-PHP has many dynamic functions like object constructs containing variables, methods calls can contain variables, and even variables can contain variables.
-There are also very dynamic functions like \texttt{eval} and \texttt{call\_user\_func}.
-Many people doing static analysis faced the problems of these had to analyze constructs.
-Facebooks HipHop compiler \autocite{Zha:12} tries to resolve dynamic names by keeping track of a global system table.
-
+    \section{M3}
+    The M3-model is a generic model which can be used to analyse software programs.
+    Our goals is to provide the results in an M3 model.
+    Future research can use this to compare different programming languages.
+    
+    \section{Type inference}
+    
+    Describe differnt methods of type inferences and why I chose for this one.
+    
 \end{document}
