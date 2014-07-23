@@ -1,6 +1,5 @@
-class C
-{
-    public function m() {
-        $this->field = $v;
-    }
+class C {
+  public function m() {
+    $this->field = $v;
+  }
 }
