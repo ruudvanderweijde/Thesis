@@ -1,36 +1,37 @@
 \documentclass{uvamscse}
 
-%\usepackage{uvamscse_customized}
 \usepackage{sty/bussproofs}
 \usepackage{sty/custom}
+\usepackage{sty/codeformat}
 
-% Document settings
 \title{Type inference for PHP}
-%\subtitle{Some nice subtitle needs to be added}
+\subtitle{Using annotations to provide more precise results}
+
 \author{Ruud van der Weijde}
+
 \supervisor{Jurgen Vinju}
 \host{Werkspot, \url{http://werkspot.nl}}
 %\supervisorhost{Winfred Peereboom}
+
 \abstract{\Blindtext}
 
-% Start of the real document
+
 \begin{document}
 
 	\maketitle
-	
+
+	\makeglossaries
+    \subfile{tex/glossaryDef.tex} % contains glossary declarations, can be used using \gls or \Gls
+    
    	\subfile{tex/preface.tex}
    	\subfile{tex/introduction.tex}
 	\subfile{tex/background.tex}
    	\subfile{tex/research_method.tex}
-   	\subfile{tex/global_analysis.tex}
-   	\subfile{tex/includes_analysis.tex}
-   	\subfile{tex/annotations_analysis.tex}
+    \subfile{tex/results.tex}   	
    	\subfile{tex/conclusion.tex}
-   	\subfile{tex/test.tex}
-   	\subfile{tex/anothertest.tex}
-
+    %\subfile{tex/glossary.tex}
+    
+    \printglossary[style=altlist]
 	\printbibliography
-	
-    \subfile{tex/appendix.tex}
     
 \end{document}

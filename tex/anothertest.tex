@@ -1,0 +1,213 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+    \chapter{Logical Examples}\label{chap:logical_examples}
+
+    Not supported (yet):
+
+    \begin{itemize}
+        \item Assign statements:
+        \begin{itemize}
+            \item Ref assign :: $\$a \; = \; \&\$b$
+            \item List assign :: $list(\$a, \$b) = array("one", "two");$
+        \end{itemize}
+        
+        \item Variable structures:
+        \begin{itemize}
+            \item Variable variables :: $\$\$a;$
+            \item \sout{Variable class instantiation} :: $new \; \$a;$
+            \item \sout{Variable method or function calls} :: $\$a();$
+        \end{itemize}
+        
+        \item Method or function parameters
+        
+    \end{itemize}
+
+    % \def\fCenter{\mbox{\Large$\rightarrow$}}
+
+    \lstinputlisting[language=PHP,label=assignment1,caption=Assignment]{src/php/assignment1.php}
+    \begin{prooftree}
+        \AxiomC{$E_1 = E_2$}
+%        \LeftLabel{Line 1:}        \UnaryInfC{$[E_2]<:[E_1]$}
+    \end{prooftree}
+    \hrulefill
+
+    \lstinputlisting[language=PHP,label=assignment2,caption=Assignments with operators resulting in ints]{src/php/assignment2.php}
+    \begin{prooftree}
+        \AxiomC{
+        ($E_1$ $\&=$ $E_2$) $\lor$
+        ($E_1$ $\vert=$ $E_2$) $\lor$
+        $E_1$ \^{}= $E_2$) $\lor$
+        ($E_1$ $<<=$ $E_2$) $\lor$
+        ($E_1$ $>>=$ $E_2$) $\lor$
+        ($E_1$ $\%=$ $E_2$)
+        }
+        \UnaryInfC{$[E_1] = int()$}
+    \end{prooftree}
+    \hrulefill
+
+    \lstinputlisting[language=PHP,label=assignment3,caption=Assignments with string concat operator]{src/php/assignment3.php}    
+    \begin{prooftree}
+        \AxiomC{$E_1$ .= $E_2$}
+        \UnaryInfC{$[E_1] = string()$}
+    \end{prooftree}    
+    \hrulefill
+    
+    \lstinputlisting[language=PHP,label=assignment4,caption=Assignments with operators]{src/php/assignment4.php}
+    \begin{prooftree}
+        \AxiomC{
+        ($E_1$ $/= E_2$) $\lor$
+        ($E_1 -= E_2$)
+        }
+        \UnaryInfC{$[E_1] = int()$}
+    \end{prooftree}    
+    \hrulefill
+            
+    \lstinputlisting[language=PHP,label=assignment5,caption=Assignments with operators]{src/php/assignment5.php}
+    \begin{prooftree}
+        \AxiomC{
+        ($E_1$ *= $E_2$) $\lor$
+        ($E_1$ += $E_2$)
+        }
+        \UnaryInfC{$[E_1] <: int()$}
+    \end{prooftree}    
+    \hrulefill
+    
+    \lstinputlisting[language=PHP,label=comparisonOperators.php,caption=Comparison operators]{src/php/comparisonOperators.php}
+    \begin{prooftree}
+        \AxiomC{
+        ($E_1$ $==$ $E_2$) $\lor$
+        ($E_1$ $===$ $E_2$) $\lor$
+        ($E_1$ $!=$ $E_2$) $\lor$
+        ($E_1$ $<>$ $E_2$) $\lor$
+        ($E_1$ $!==$ $E_2$)
+        $\subseteq E$
+        }
+        \UnaryInfC{$[E] = bool()$}
+    \end{prooftree}    
+    \begin{prooftree}
+        \AxiomC{
+        ($E_1$ $<$ $E_2$) $\lor$
+        ($E_1$ $>$ $E_2$) $\lor$
+        ($E_1$ $<=$ $E_2$) $\lor$
+        ($E_1$ $>=$ $E_2$)
+        $\subseteq E$
+        }
+        \UnaryInfC{$[E] = bool()$}
+    \end{prooftree}    
+    \hrulefill
+
+   \lstinputlisting[language=PHP,label=instantiation1,caption=Class instantiation]{src/php/instantiation1.php}
+    \begin{prooftree}
+        \AxiomC{
+        $new \; C$
+        $\subseteq \Gamma$
+        }
+        \AxiomC{
+        $class \; C$()* ${ \dots }$
+        $\subseteq \Gamma$
+        }
+        \BinaryInfC{$[new \; C] = C, C.name == [new \; C].name$}
+    \end{prooftree}
+    *no required params in constructor \\
+    \hrule    
+     
+    \lstinputlisting[language=PHP,label=instantiation2,caption=Class instantiation with parameters]{src/php/instantiation2.php}
+    \begin{prooftree}
+        \AxiomC{
+        $new \; C$ ($E_1$, $E_2$, $\dots$, $E_k$)
+        $\subseteq \Gamma$
+        }
+        \AxiomC{
+        $class \; C$ ($th_1$ $E_1$, $th_2$ $E_2$, $\dots$, $th_k$ $E_k$)
+        $\subseteq \Gamma$
+        }
+        \BinaryInfC{$[new \; C] = C, C.name == [new \; C].name$}
+    \end{prooftree}
+    // todo: add something about the parameter constraints (note to myself: misschien moeten deze 'los' behandeld worden.) \\
+    // th = typeHint \\
+    \hrule  
+    
+        \lstinputlisting[language=PHP,label=instantiation3,caption=Class instantiation of an expression]{src/php/instantiation3.php}
+    \begin{prooftree}
+        \AxiomC{
+        $new \; E_1$
+        $\subseteq \Gamma$
+        }
+        \UnaryInfC{$[new \; E_1]$ = object()}
+    \end{prooftree}
+    \hrule  
+
+    \lstinputlisting[language=PHP,label=function1,caption=Type of variable within their scope; this applies to global- function- and method- scope]{src/php/function1.php}
+    \begin{prooftree}
+        \AxiomC{
+        $E, E', E'', E''' \dots \; etc$
+        $\subseteq f$
+        }
+        \UnaryInfC{$[E] = [E] \lor [E'] \lor [E''] \lor [E'''] \dots \; etc$}
+    \end{prooftree}    
+    \hrulefill
+    
+    \lstinputlisting[language=PHP,label=return1,caption=No return statements in function or method]{src/php/return1.php}
+    \begin{prooftree}
+        \AxiomC{
+        return
+        $\not \subseteq f$
+        }
+        \UnaryInfC{$[f] = null()$}
+    \end{prooftree}    
+    \hrulefill
+                  
+    \lstinputlisting[language=PHP,label=return2,caption=Return of a function or method; every exit path ends with a return statement]{src/php/return2.php}
+    \begin{prooftree}
+        \AxiomC{
+        (return $E_1$) $\lor$
+        (return $E_2$) $\lor$
+        $\cdots$ $\lor$
+        (return $E_k$)
+        $\subseteq f$
+        }
+        \UnaryInfC{$[f] <: [E_1] \lor [E_2] \lor \cdots \lor [E_k]$}
+    \end{prooftree}    
+    \hrulefill
+    
+    \lstinputlisting[language=PHP,label=return3,caption=Return with possible no return value]{src/php/return3.php}
+    \begin{prooftree}
+        \AxiomC{
+        (return $E_1$) $\lor$
+        (return $E_2$) $\lor$
+        $\cdots$ $\lor$
+        (return $E_k$) $\lor$
+        ($\neg$ return)
+        $\subseteq f$
+        }
+        \UnaryInfC{$[f] <: [E_1] \lor [E_2] \lor \cdots \lor [E_k] \lor null() $}
+    \end{prooftree}    
+    \hrulefill
+        
+    \lstinputlisting[language=PHP,label=functionCall1,caption=Functional call]{src/php/functionCall1.php}
+    \begin{prooftree}
+        \AxiomC{
+        $f()$
+        $\subseteq \Gamma$
+        }
+        \UnaryInfC{$[f()] <:$ return of $[f]$}
+    \end{prooftree}    
+    \hrulefill
+         
+    \lstinputlisting[language=PHP,label=functionCall2,caption=Variable function call]{src/php/functionCall2.php}
+    \begin{prooftree}
+        \AxiomC{
+        $E_1()$ $\subseteq \Gamma$
+        }
+        \UnaryInfC{$[E_1()] = mixed()$}
+    \end{prooftree}    
+    \hrulefill
+    
+    How to resolve expressions:
+    \begin{itemize}
+        \item Find all expressions which are defined above and annotate them with @type.
+        \item Annotate the rest of the expressions with @type = any();
+    \end{itemize}
+
+       
+\end{document}

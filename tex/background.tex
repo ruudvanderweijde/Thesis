@@ -8,31 +8,38 @@
     Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
     
     \subsection{Scoping}
-    PHP knows three known scopes. "Define what scope is".
+    PHP has a few scopes. "Define what scope is".
     Global, namespace, class, method, function.
     The global scope is contained in every file which is not inside a function or class.
     The global scope can contain namespaces.
     Namespaces are comparable to packages in Java.
     When namespaces are used, classes and functions will be scoped to the namespace.
     You can access them by providing the namespace name.
+    \\
+    Todo: say something about the global statement
     
     \subsection{Includes}
     Note to myself: how will I deal with this concept in my analysis (totally ignore it??? when maybe not add it to this background information).
     The problem of including files can be reduced using namespaces and autoloading.
     When a class which is not loaded in memory is instantiated, the autoloading will try to include a file and load the class. 
     For this analysis we will include all files 
+    \\
     * Refer to the analysis of mark hills, that most files can be resolved, but not all. 
     We consider the use of including scripts for logic as bad practice. 
     Every file should contain a class, and in this case, it is for our analysis not very interesting to resolve the includes.
     
     \subsection{Conditional functions and classes}
-    \lstinputlisting[language=PHP,title=Conditional class and function definitions]{src/php/conditionals.php}
+    Explain the code below.
+    \lstinputlisting[language=PHP,label=conditionals1,caption=Conditional class and function definitions]{src/php/conditionals1.php}
 
+    Explain the code below.
+    \lstinputlisting[language=PHP,label=conditionals2,caption=Conditional function declaration]{src/php/conditionals2.php}
 
     
     \subsection{Dynamic features}
     These include dynamic variables, dynamic class instantiations, dynamic function calls.
     
+
     \subsection{Late static binding}
     Late static binding\footnotemark is implemented in PHP since version 5.3 by adding the keyword `static' to the language.
     \footnotetext{http://php.net/manual/en/language.oop5.late-static-bindings.php, July 2014}
@@ -43,8 +50,23 @@
     \subsection{Magic methods}
     In PHP it is allowed to call methods or use properties that do not exists.
     Normally this would result in a fatal error, but not with the use of magic methods.
-    One of the magic methods is het constructor method `\_\_ construct'
+    One of the magic methods is het constructor method `\_\_ construct'.
+
+    \subsection{Dynamic class properties}
+    Although it is a good practice to define your class properties, it is not required.
+    On runtime it is possible to add properties to classes, even without the implementation of magic methods.
     
+    \lstinputlisting[language=PHP,label=dynamicProperty,caption=Dynamic class property,label=x]{src/php/dynamicProperty.php}
+
+    
+    \subsection{Other concepts}
+    \begin{itemize}
+        \item ... nothing yet
+    \end{itemize}
+
+    
+    \section{Rascal}
+    \Gls{Rascal} 
 
     \section{M3}
     The M3-model is a generic model which can be used to analyse software programs.
@@ -53,6 +75,6 @@
     
     \section{Type inference}
     
-    Describe differnt methods of type inferences and why I chose for this one.
+    Describe different methods of type inferences and why I chose for this one.
     
 \end{document}

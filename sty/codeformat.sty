@@ -1,0 +1,58 @@
+\usepackage{listings}% used to display code
+\usepackage{caption}
+
+\captionsetup[lstlisting]{font={small,tt}}
+
+% custom colors
+\definecolor{dkgreen}{rgb}{0,.6,0}
+\definecolor{dkblue}{rgb}{0,0,.6}
+\definecolor{dkred}{rgb}{.6,0,0}
+\definecolor{dkyellow}{cmyk}{0,0,.8,.3}
+\definecolor{dkmauve}{rgb}{0.58,0,0.82}
+
+
+\lstset{ %
+%  numberbychapter=false,           % number by chapers e.g 2.4 or just 4
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle= \small\ttfamily,     % the size and style of the font
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to top
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=false,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  language=Octave,                 % the language of the code
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=6pt,                   % how far the line-numbers are from the code
+  numberstyle=\footnotesize\color{blue}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  tabsize=2                        % sets default tabsize to 2 spaces
+}
+
+% Additional styling for PHP
+\usepackage{inconsolata}
+
+
+\lstset{
+  language        = php,
+  keywordstyle    = \color{black},
+  stringstyle     = \color{dkgreen},
+  identifierstyle = \color{dkred},
+  commentstyle    = \color{gray},
+  emph            =[1]{php},
+  emphstyle       =[1]\color{black},
+  emph            =[2]{if,and,or,else,function,return,new,class},
+  emphstyle       =[2]\color{dkblue},
+  otherkeywords={1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
+  morekeywords=[2]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
+  keywordstyle=[2]{\color{orange}},
+  keywordstyle=\color{blue}\bfseries
+}
+% end of additional style for PHP
+
+

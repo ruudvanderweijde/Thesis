@@ -1,0 +1,42 @@
+\usepackage{fullpage}% use the full page
+
+\usepackage{nameref}% refer to sections by name
+\usepackage[english]{babel}% used for lorem ipsum dummy text
+\usepackage{blindtext}
+\usepackage{subfiles}% able to include files in subfolder
+\usepackage[backend=biber,style=alphabetic]{biblatex}% biblatex stuff
+\addbibresource{bib/Thesis.bib}% set the bib library file 
+\usepackage[final]{pdfpages}% needed to include pdf files
+\usepackage{enumitem}% spacing options for itemize
+\usepackage[ruled,linesnumbered]{algorithm2e} % used to display algorithms
+
+\usepackage{booktabs} % To thicken table lines
+\usepackage{numprint} % print numbers in table
+
+\usepackage{hyperref} % Any links in resulting glossary will not be "clickable" unless you load the glossaries package after the hyperref package.
+\usepackage[nonumberlist,toc]{glossaries} % used for glossary
+%\usepackage[utf8]{inputenc}
+%\usepackage[acronym]{glossaries}
+
+\usepackage[normalem]{ulem} % use for strikethrough \sout{text}
+
+% this line prevents the error: "too many unprocessed floats"
+% link: http://www.douglasvanbossuyt.com/2008/11/18/latex-too-many-unprocessed-floats-problem-and-solution/
+\usepackage[section]{placeins}
+
+\usepackage{tabularx} % package for tables, required for generated php-analysis tables
+
+
+% algorithm helper
+\makeatletter
+\newcommand{\algorithmfootnote}[2][\footnotesize]{%
+  \let\old@algocf@finish\@algocf@finish% Store algorithm finish macro
+  \def\@algocf@finish{\old@algocf@finish% Update finish macro to insert "footnote"
+    \leavevmode\rlap{\begin{minipage}{\linewidth}
+    #1#2
+    \end{minipage}}%
+  }%
+}
+\makeatother
+
+
