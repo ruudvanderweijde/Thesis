@@ -1,61 +1,60 @@
 <svg width="134" height="260" xmlns="http://www.w3.org/2000/svg">
-       <g transform="scale(1) " class="graph" id="graph1">
-        <title>g</title>
-        <polygon id="svg_21" points="-1,261 -1,0 134,0 134,261 -1,261 " stroke="white" fill="white"/>
-        <!-- a -->
-        <!-- b -->
-        <g class="node" id="node3">
-         <title transform="translate(0,-1) translate(0,1) translate(0,1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) ">b</title>
-         <ellipse id="svg_24" ry="18" rx="27" cy="96" cx="30" stroke="black" fill="none"/>
-         <text id="svg_25" font-size="14" font-family="Times,serif" y="99.7" x="30" text-anchor="middle">B</text>
-        </g>
-        <!-- a&#45;&gt;b -->
-        <!-- c -->
-        <g class="node" id="node5">
-         <title transform="translate(0,-1) translate(0,1) translate(0,1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) ">c</title>
-         <ellipse id="svg_28" ry="18" rx="27" cy="96" cx="102" stroke="black" fill="none"/>
-         <text id="svg_29" font-size="14" font-family="Times,serif" y="99.7" x="102" text-anchor="middle">C</text>
-        </g>
-        <!-- a&#45;&gt;c -->
-        <!-- d -->
-        <g class="node" id="node7">
-         <title transform="translate(0,-1) translate(0,1) translate(0,1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) ">d</title>
-         <ellipse id="svg_32" ry="18" rx="27" cy="168" cx="66" stroke="black" fill="none"/>
-         <text id="svg_33" font-size="14" font-family="Times,serif" y="171.7" x="66" text-anchor="middle">D</text>
-        </g>
-        <!-- b&#45;&gt;d -->
-        <g class="edge" id="edge6">
-         <title transform="translate(0,-1) translate(0,1) translate(0,1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) ">b-&gt;d</title>
-         <path id="svg_34" d="m38.3496,113.235c4.3619,8.48199 9.7973,19.05101 14.6917,28.56801" stroke="black" fill="none"/>
-         <polygon id="svg_35" points="56.23460006713867,140.3590087890625 57.695701599121094,150.85299682617188 50.00960159301758,143.5609893798828 56.23460006713867,140.3590087890625 " stroke="black" fill="black"/>
-        </g>
-        <!-- c&#45;&gt;d -->
-        <g class="edge" id="edge8">
-         <title transform="translate(0,-1) translate(0,1) translate(0,1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) ">c-&gt;d</title>
-         <path id="svg_36" d="m93.6504,113.235c-4.3619,8.48199 -9.79729,19.05101 -14.6917,28.56801" stroke="black" fill="none"/>
-         <polygon id="svg_37" points="81.99040222167969,143.5609893798828 74.3042984008789,150.85299682617188 75.7654037475586,140.3590087890625 81.99040222167969,143.5609893798828 " stroke="black" fill="black"/>
-        </g>
-        <!-- e -->
-        <g class="node" id="node10">
-         <title transform="translate(0,-1) translate(0,1) translate(0,1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) ">object()</title>
-         <ellipse id="svg_38" ry="18" rx="27" cy="240" cx="66" stroke="black" fill="none"/>
-         <text id="svg_39" font-size="14" font-family="Times,serif" y="243.7" x="66" text-anchor="middle">object()</text>
-        </g>
-        <!-- d&#45;&gt;e -->
-        <g class="edge" id="edge10">
-         <title transform="translate(0,-1) translate(0,1) translate(0,1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) ">d-&gt;e</title>
-         <path id="svg_40" d="m66,186.30339c0,7.71391 0,16.9841 0,25.58421" stroke="black" fill="none"/>
-         <polygon id="svg_41" points="69.5000991821289,211.89569091796875 66,221.89569091796875 62.500099182128906,211.89559936523438 69.5000991821289,211.89569091796875 " stroke="black" fill="black"/>
-        </g>
-        <g class="node" id="node1">
-         <title transform="translate(0,1) translate(0,-1) translate(0,-1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) translate(5,0) translate(31,1) ">a</title>
-         <ellipse id="svg_22" ry="18" rx="27" cy="23" cx="102" stroke="black" fill="none"/>
-         <text id="svg_23" font-size="14" font-family="Times,serif" y="26.7" x="102" text-anchor="middle">A</text>
-        </g>
-        <g id="svg_42" class="edge">
-         <title transform="translate(0,1) translate(0,-1) translate(0,-1) translate(0,-1) translate(1,0) translate(0,-1) translate(0,-1) translate(1,0) translate(1,0) translate(1,0) translate(-1,260) translate(0,-1) translate(38,1) translate(-1,0) translate(-21,-137) translate(19.499900817871094,-6.09954833984375) " id="svg_43">a-&gt;c</title>
-         <path id="svg_44" d="m101.4999,41.20386c0,7.7139 0,16.9841 0,25.5842" stroke="black" fill="none"/>
-         <polygon id="svg_45" points="105,66.796142578125 101.4999008178711,76.796142578125 98,66.79605102539062 105,66.796142578125 " stroke="black" fill="black"/>
-        </g>
-       </g>
-      </svg>
+ <g transform="rotate(180 67.99999999999999,132) " class="graph" id="graph1">
+  <title>g</title>
+  <!-- a -->
+  <!-- b -->
+  <g class="node" id="node3" transform="rotate(180 30,96) ">
+   <title>b</title>
+   <ellipse id="svg_24" ry="18" rx="27" cy="96" cx="30" stroke="black" fill="none"/>
+   <text id="svg_25" font-size="14" font-family="Times,serif" y="99.7" x="30" text-anchor="middle">B</text>
+  </g>
+  <!-- a&#45;&gt;b -->
+  <!-- c -->
+  <g class="node" id="node5" transform="rotate(180 102,96) ">
+   <title>c</title>
+   <ellipse id="svg_28" ry="18" rx="27" cy="96" cx="102" stroke="black" fill="none"/>
+   <text id="svg_29" font-size="14" font-family="Times,serif" y="99.7" x="102" text-anchor="middle">C</text>
+  </g>
+  <!-- a&#45;&gt;c -->
+  <!-- d -->
+  <g class="node" id="node7" transform="rotate(180 65.99999999999999,169.375) ">
+   <title transform="translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) ">d</title>
+   <ellipse id="svg_32" ry="18" rx="27" cy="169.375" cx="66" stroke="black" fill="none"/>
+   <text id="svg_33" font-size="14" font-family="Times,serif" y="173.075" x="66" text-anchor="middle">D</text>
+  </g>
+  <!-- b&#45;&gt;d -->
+  <g class="edge" id="edge6">
+   <title>b-&gt;d</title>
+   <path id="svg_34" d="m38.3496,113.235c4.3619,8.48199 9.7973,19.05101 14.6917,28.56801" stroke="black" fill="none"/>
+   <polygon id="svg_35" points="56.23460006713867,140.3590087890625 57.695701599121094,150.85299682617188 50.00960159301758,143.5609893798828 56.23460006713867,140.3590087890625 " stroke="black" fill="black"/>
+  </g>
+  <!-- c&#45;&gt;d -->
+  <g class="edge" id="edge8">
+   <title>c-&gt;d</title>
+   <path id="svg_36" d="m93.6504,113.235c-4.3619,8.48199 -9.79729,19.05101 -14.6917,28.56801" stroke="black" fill="none"/>
+   <polygon id="svg_37" points="81.99040222167969,143.5609893798828 74.3042984008789,150.85299682617188 75.7654037475586,140.3590087890625 81.99040222167969,143.5609893798828 " stroke="black" fill="black"/>
+  </g>
+  <!-- e -->
+  <g class="node" id="node10" transform="rotate(180 66,242.125) ">
+   <title transform="translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,-0.125) ">object()</title>
+   <ellipse id="svg_38" ry="18" rx="27" cy="242.125" cx="66" stroke="black" fill="none"/>
+   <text id="svg_39" font-size="14" font-family="Times,serif" y="245.825" x="66" text-anchor="middle">object()</text>
+  </g>
+  <!-- d&#45;&gt;e -->
+  <g class="edge" id="edge10">
+   <title transform="translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) ">d-&gt;e</title>
+   <path id="svg_40" d="m66,187.05339c0,7.71391 0,16.9841 0,25.58421" stroke="black" fill="none"/>
+   <polygon id="svg_41" points="69.5000991821289,212.64569091796875 66,222.64569091796875 62.500099182128906,212.64559936523438 69.5000991821289,212.64569091796875 " stroke="black" fill="black"/>
+  </g>
+  <g class="node" id="node1" transform="rotate(180 102,23) ">
+   <title>a</title>
+   <ellipse id="svg_22" ry="18" rx="27" cy="23" cx="102" stroke="black" fill="none"/>
+   <text id="svg_23" font-size="14" font-family="Times,serif" y="26.7" x="102" text-anchor="middle">A</text>
+  </g>
+  <g id="svg_42" class="edge">
+   <title>a-&gt;c</title>
+   <path id="svg_44" d="m101.4999,41.20386c0,7.7139 0,16.9841 0,25.5842" stroke="black" fill="none"/>
+   <polygon id="svg_45" points="105,66.796142578125 101.4999008178711,76.796142578125 98,66.79605102539062 105,66.796142578125 " stroke="black" fill="black"/>
+  </g>
+ </g>
+</svg>
