@@ -1,0 +1,157 @@
+<svg width="174" height="260" xmlns="http://www.w3.org/2000/svg">
+ <g display="none" id="graph0" class="graph">
+  <polygon points="0,346.6658 0,0 269.33266,0 269.33266,346.6658 0,346.6658 " id="polygon2304" stroke="#ffffff" fill="#ffffff"/>
+  <!-- a -->
+  <!-- b -->
+  <!-- a&#45;&gt;b -->
+  <!-- c -->
+  <!-- a&#45;&gt;c -->
+  <!-- d -->
+  <!-- a&#45;&gt;d -->
+  <!-- e -->
+  <!-- a&#45;&gt;e -->
+  <!-- b&#45;&gt;d -->
+  <!-- c&#45;&gt;d -->
+  <!-- c&#45;&gt;e -->
+  <!-- d&#45;&gt;e -->
+  <title>g</title>
+  <g id="edge6" class="edge">
+   <title>a-&gt;d</title>
+   <path d="m145.66631,53.3332c-6.66666,33.33325 -18.66663,91.99978 -25.33327,130.66633" id="path2351" stroke="#000000" fill="none"/>
+   <polygon points="124.857421875,185.1741943359375 117.66636657714844,197.3328399658203 115.70530700683594,183.3435516357422 124.857421875,185.1741943359375 " id="polygon2353" stroke="#000000" fill="#000000"/>
+  </g>
+  <g id="edge4" class="edge">
+   <title>a-&gt;c</title>
+   <path d="m159.9996,51.99987c3.99997,11.99997 9.33331,25.33327 14.66663,37.33324" id="path2337" stroke="#000000" fill="none"/>
+   <polygon points="179.3048902783203,88.55444576828003 178.66621999999998,102.66640999999998 170.36491018692013,91.23577451416014 179.3048902783203,88.55444576828003 " id="polygon2339" stroke="#000000" fill="#000000"/>
+  </g>
+  <g id="edge12" class="edge">
+   <title>c-&gt;d</title>
+   <path d="m171.99957,146.66631c-9.33331,11.99997 -22.66661,27.99992 -33.33325,42.66655" id="path2379" stroke="#000000" fill="none"/>
+   <polygon points="142.39964806900022,192.13285096549987 130.66634,199.99949999999998 134.93299193099972,186.5328690345001 142.39964806900022,192.13285096549987 " id="polygon2381" stroke="#000000" fill="#000000"/>
+  </g>
+  <g id="svg_7" class="edge">
+   <title>a-&gt;e</title>
+   <path id="svg_9" d="m91.83344,48.33365c19.99994,11.99997 45.33321,31.99992 57.33318,55.99986c27.99991,61.33318 -3.99998,137.33299 -26.6666,181.3329" stroke="#000000" fill="none"/>
+   <polygon id="svg_10" points="126.38802337646484,288.2773132324219 115.83338165283203,297.6663513183594 118.22937774658203,283.7445373535156 126.38802337646484,288.2773132324219 " stroke="#000000" fill="#000000"/>
+  </g>
+  <g id="edge16" class="edge">
+   <title>d-&gt;e</title>
+   <path d="m130.66634,242.66606c9.33331,11.99997 22.66661,27.99992 33.33324,42.66655" id="path2393" stroke="#000000" fill="none"/>
+   <polygon points="167.73291806900022,282.53262903450013 171.99956999999998,295.99926 160.26626193099972,288.13261096549985 167.73291806900022,282.53262903450013 " id="polygon2395" stroke="#000000" fill="#000000"/>
+  </g>
+  <g id="edge14" class="edge">
+   <title>c-&gt;e</title>
+   <path d="m187.99953,149.33296c0,33.33325 0,91.99977 0,130.66634" id="path2386" stroke="#000000" fill="none"/>
+   <polygon points="192.66618499999998,279.99929999999995 187.99952999999996,293.33259999999996 183.33287499999997,279.99929999999995 192.66618499999998,279.99929999999995 " id="polygon2388" stroke="#000000" fill="#000000"/>
+  </g>
+  <g id="node9" class="node">
+   <title>e</title>
+   <path d="m152,317.33301c0,-13.26001 16.11,-24 36,-24c19.88901,0 35.99899,10.73999 35.99899,24c-59.99899,-325.38825 -72.08199,-317.33301 -86.99899,-317.33301c-14.917,0 -27,-8.05525 -27,-18l42,335.33301z" id="svg_31"/>
+   <path d="m152,317.33301c0,-13.26001 16.11,-24 36,-24c19.88901,0 35.99899,10.73999 35.99899,24c-59.99899,-325.38825 -72.08199,-317.33301 -86.99899,-317.33301c-14.917,0 -27,-8.05525 -27,-18l42,335.33301z" id="svg_43"/>
+   <ellipse cx="137" cy="-18" rx="27" ry="18" id="ellipse2358" stroke="#000000" fill="none" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) "/>
+   <text x="137" y="-13" id="text2360" font-family="Nimbus Roman No9 L" text-anchor="middle" font-size="14.17500019px" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) ">e</text>
+  </g>
+  <g id="node5" class="node">
+   <title>c</title>
+   <ellipse cx="137" cy="-162" rx="27" ry="18" id="ellipse2330" stroke="#000000" fill="none" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) "/>
+   <text x="137" y="-157" id="text2332" font-family="Nimbus Roman No9 L" text-anchor="middle" font-size="14.17500019px" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) ">c</text>
+  </g>
+  <g id="node1" class="node">
+   <title>a</title>
+   <ellipse cx="109" cy="-234" rx="27" ry="18" id="ellipse2309" stroke="#000000" fill="none" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) "/>
+   <text x="109" y="-229" id="text2311" font-family="Nimbus Roman No9 L" text-anchor="middle" font-size="14.17500019px" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) ">a</text>
+  </g>
+  <g id="edge2" class="edge">
+   <title>a-&gt;b</title>
+   <path d="m127.99968,49.33321c-15.99996,13.3333 -37.33324,31.99992 -54.66653,47.99988" id="path2323" stroke="#000000" fill="none"/>
+   <polygon points="75.77394488269806,101.39840779891966 62.666509999999995,106.66639999999998 69.62782682518005,94.37443854248048 75.77394488269806,101.39840779891966 " id="polygon2325" stroke="#000000" fill="#000000"/>
+  </g>
+  <g id="node3" class="node">
+   <title>b</title>
+   <path d="m0,-162c0,-9.94475 12.08287,-18 27,-18c14.91713,0 27,8.05525 27,18c0,9.94475 -12.08287,18 -27,18c-14.91713,0 -27,-8.05525 -27,-18z" id="svg_46"/>
+   <path d="m0,-162c0,-9.94475 12.08287,-18 27,-18c14.91713,0 27,8.05525 27,18c0,9.94475 -12.08287,18 -27,18c-14.91713,0 -27,-8.05525 -27,-18z" id="svg_47"/>
+   <ellipse cx="27" cy="-162" rx="27" ry="18" id="ellipse2316" stroke="#000000" fill="none" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) "/>
+   <text x="27" y="-157" id="text2318" font-family="Nimbus Roman No9 L" text-anchor="middle" font-size="14.17500019px" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) ">b</text>
+  </g>
+  <g id="edge10" class="edge">
+   <title>b-&gt;d</title>
+   <path d="m57.33319,146.66631c9.33331,11.99997 22.66661,27.99992 33.33325,42.66655" id="path2372" stroke="#000000" fill="none"/>
+   <polygon points="94.39976806900023,186.5328690345001 98.66641999999999,199.99949999999998 86.93311701725005,192.13285096549987 94.39976806900023,186.5328690345001 " id="polygon2374" stroke="#000000" fill="#000000"/>
+  </g>
+  <g id="node7" class="node">
+   <title>d</title>
+   <ellipse cx="82" cy="-90" rx="27" ry="18" id="ellipse2344" stroke="#000000" fill="none" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) "/>
+   <text x="82" y="-85" id="text2346" font-family="Nimbus Roman No9 L" text-anchor="middle" font-size="14.17500019px" transform="matrix(1.33333,0,0,1.33333,5.33332,341.33248) ">d</text>
+  </g>
+ </g>
+ <g transform="scale(1) " class="graph" id="graph1" display="inline">
+  <path fill="white" stroke="white" stroke-linejoin="null" stroke-linecap="null" d="m0,261l0,-261l173,0l0,261l-173,0" id="svg_21"/>
+  <!-- a -->
+  <!-- b -->
+  <g class="node" id="node3">
+   <title>b</title>
+   <ellipse id="svg_24" ry="18" rx="27" cy="96" cx="30" stroke="black" fill="none"/>
+   <text id="svg_25" font-size="14" font-family="Times,serif" y="99.7" x="30" text-anchor="middle">B</text>
+  </g>
+  <!-- a&#45;&gt;b -->
+  <!-- c -->
+  <g class="edge" id="edge8">
+   <title>c-&gt;d</title>
+   <path id="svg_36" d="m92.6504,113.235c-4.3619,8.48199 -9.79729,19.05101 -14.6917,28.56801" stroke="black" fill="none"/>
+   <polygon id="svg_37" points="80.99040222167969,143.5609893798828 73.3042984008789,150.85299682617188 74.7654037475586,140.3590087890625 80.99040222167969,143.5609893798828 " stroke="black" fill="black"/>
+  </g>
+  <g class="node" id="node5">
+   <title>c</title>
+   <ellipse id="svg_28" ry="18" rx="27" cy="96" cx="102" stroke="black" fill="none"/>
+   <text id="svg_29" font-size="14" font-family="Times,serif" y="99.7" x="102" text-anchor="middle">C</text>
+  </g>
+  <!-- a&#45;&gt;c -->
+  <!-- d -->
+  <g class="node" id="node7">
+   <title>d</title>
+   <ellipse id="svg_32" ry="18" rx="27" cy="168" cx="66" stroke="black" fill="none"/>
+   <text id="svg_33" font-size="14" font-family="Times,serif" y="171.7" x="66" text-anchor="middle">D</text>
+  </g>
+  <!-- b&#45;&gt;d -->
+  <g class="edge" id="edge6">
+   <title>b-&gt;d</title>
+   <path id="svg_34" d="m38.3496,113.235c4.3619,8.48199 9.7973,19.05101 14.6917,28.56801" stroke="black" fill="none"/>
+   <polygon id="svg_35" points="56.23460006713867,140.3590087890625 57.695701599121094,150.85299682617188 50.00960159301758,143.5609893798828 56.23460006713867,140.3590087890625 " stroke="black" fill="black"/>
+  </g>
+  <!-- c&#45;&gt;d -->
+  <!-- e -->
+  <g class="node" id="node10">
+   <title>e</title>
+   <ellipse id="svg_38" ry="18" rx="27" cy="240" cx="66" stroke="black" fill="none"/>
+   <text id="svg_39" font-size="14" font-family="Times,serif" y="243.7" x="66" text-anchor="middle">object()</text>
+  </g>
+  <!-- d&#45;&gt;e -->
+  <g class="edge" id="edge10">
+   <title>d-&gt;e</title>
+   <path id="svg_40" d="m66,186.30339c0,7.71391 0,16.9841 0,25.58421" stroke="black" fill="none"/>
+   <polygon id="svg_41" points="69.5000991821289,211.89569091796875 66,221.89569091796875 62.500099182128906,211.89559936523438 69.5000991821289,211.89569091796875 " stroke="black" fill="black"/>
+  </g>
+  <g class="node" id="node1">
+   <title>a</title>
+   <ellipse id="svg_22" ry="18" rx="27" cy="23" cx="102" stroke="black" fill="none"/>
+   <text id="svg_23" font-size="14" font-family="Times,serif" y="26.7" x="102" text-anchor="middle">A</text>
+  </g>
+  <g id="svg_42" class="edge">
+   <title>a-&gt;c</title>
+   <path id="svg_44" d="m101.4999,41.20386c0,7.7139 0,16.9841 0,25.5842" stroke="black" fill="none"/>
+   <polygon id="svg_45" points="105,66.796142578125 101.4999008178711,76.796142578125 98,66.79605102539062 105,66.796142578125 " stroke="black" fill="black"/>
+  </g>
+  <title>g</title>
+  <g id="edge8" class="edge" transform="rotate(15.900007247924805 129.88774108886727,140.49667358398435) ">
+   <title transform="translate(-1,1) translate(-0.30100536346435547,-0.04203706234693527) translate(0,-4) translate(-0.4905305802822113,0.48745647072792053) translate(168.51095581054688,238.0722198486328) scale(0.948727011680603,0.9845077395439148) translate(-168.51095581054688,-238.0722198486328) translate(99.45650482177734,42.98625183105469) scale(1,1.0114307403564453) translate(-99.45650482177734,-42.98625183105469) ">a-&gt;e</title>
+   <path d="m93.05607,43.27826c17.26484,9.35792 39.13366,24.95445 49.49259,43.67031c24.17076,47.82937 -3.45299,107.09621 -23.01981,141.40867" id="path2365" stroke="#000000" fill="none"/>
+   <polygon points="122.88514709472656,230.3932342529297 113.77387237548828,237.71507263183594 115.84221649169922,226.8584747314453 122.88514709472656,230.3932342529297 " id="polygon2367" stroke="#000000" fill="#000000"/>
+  </g>
+  <polygon id="svg_27" points="86.5130615234375,216.51698303222656 78.82693481445312,223.80899047851562 80.28805541992188,213.31500244140625 86.5130615234375,216.51698303222656 " stroke="black" fill="black"/>
+  <polygon transform="rotate(-40.36453628540039 45.499999999999936,220) " id="svg_30" points="49.34306335449219,217.95498657226562 41.65693664550781,225.2469940185547 43.11805725097656,214.7530059814453 49.34306335449219,217.95498657226562 " stroke="black" fill="black"/>
+  <line transform="rotate(-1.1771448850631714 97.4999999999971,164.00000000000014) " id="svg_48" y2="216.01049" x2="82.52044" y1="111.98952" x1="112.47956" stroke-linecap="null" stroke-linejoin="null" stroke="black" fill="none"/>
+  <line id="svg_49" y2="219" x2="43.5" y1="114" x1="24.5" stroke-linecap="null" stroke-linejoin="null" stroke="black" fill="none"/>
+ </g>
+ <metadata id="metadata2400">image/svg+xml</metadata>
+</svg>
