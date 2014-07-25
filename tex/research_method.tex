@@ -5,6 +5,8 @@
     %TODO: Explain the used method. %TODO research method
     %TODO: Hypothese/research questions %TODO research question
     $<<$ Introduction of this chapter $>>$
+    \\
+    Maybe add a section here explaining all the steps taken in this research... to be added later.
     
     \section{Types}
     Explain here what I mean with a type...
@@ -25,14 +27,14 @@
     \begin{wrapfigure}{r}{0.5\textwidth}
     \begin{subfigure}{.24\textwidth}
       \begin{center}
-      \includegraphics[scale=0.5]{img/subtype.png}
+      \includegraphics[scale=0.7]{img/subtype-big.png}
       \caption{Inheritance relation}
       \label{fig:subtype}
       \end{center}
     \end{subfigure}
     \begin{subfigure}{.24\textwidth}
       \begin{center}
-      \includegraphics[scale=0.5]{img/subtype_tc.png}
+      \includegraphics[scale=0.7]{img/subtype_tc-big.png}
       \caption{Subtype relation}
       \label{subtype_tc}
       \end{center}
@@ -43,13 +45,13 @@
     \end{wrapfigure}
 
     The subtype relation of class inheritance is a \gls{transitive closure} relation.
-    A class extension of class A on class C will define class A as a subtype of class C, as you can see in \ref{fig:subtypes}.
-    If a class does not extend another class, it will implicitly extend the object class.
-    You can see that this happens with class D in the example.
-    The predefined class $stdClass$ represents the $object()$ type defined in the rascal types.
+    A class extension of \underline{class A} on \underline{class C} will define \underline{class A} as a subtype of \underline{class C} in our analysis, as you can see in figure \ref{fig:subtypes}.
+    If a class does not extend another class, it will implicitly extend the \gls{stdClass} class.
+    You can see that this happens with \underline{class D} in the example.
+    The $stdClass$ is represented as the type $object()$ in our analysis.
     \\
-    The basic PHP types also contain subtypes.
-    Integers are subtypes of floats, and 
+    The basic PHP types also contain a subtype relation.
+    Integers are subtypes of floats.
 
     \section{Constraint extraction}
        

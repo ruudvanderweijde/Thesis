@@ -36,9 +36,9 @@
   </g>
   <!-- e -->
   <g class="node" id="node10" transform="rotate(180 66,242.125) ">
-   <title transform="translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,-0.125) ">object()</title>
+   <title transform="translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,0.125) translate(0,-0.125) ">stdClass</title>
    <ellipse id="svg_38" ry="18" rx="27" cy="242.125" cx="66" stroke="black" fill="none"/>
-   <text id="svg_39" font-size="14" font-family="Times,serif" y="245.825" x="66" text-anchor="middle">object()</text>
+   <text id="svg_39" font-size="14" font-family="Times,serif" y="245.825" x="66" text-anchor="middle">stdClass</text>
   </g>
   <!-- d&#45;&gt;e -->
   <g class="edge" id="edge10">

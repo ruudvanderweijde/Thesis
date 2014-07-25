@@ -1,22 +1,24 @@
 \usepackage{fullpage}% use the full page
 
-\usepackage{nameref}% refer to sections by name
-\usepackage[english]{babel}% used for lorem ipsum dummy text
-\usepackage{blindtext}
-\usepackage{subfiles}% able to include files in subfolder
+% inline referencing
+\usepackage{nameref} % refer to sections by name
+\usepackage{hyperref} % Any links in resulting glossary will not be "clickable" unless you load the glossaries package after the hyperref package.
+
+% referencing
 \usepackage[backend=biber,style=alphabetic]{biblatex}% biblatex stuff
 \addbibresource{bib/Thesis.bib}% set the bib library file 
-\usepackage[final]{pdfpages}% needed to include pdf files
-\usepackage{enumitem}% spacing options for itemize
-\usepackage[ruled,linesnumbered]{algorithm2e} % used to display algorithms
 
+% include sub/pdf files
+\usepackage[final]{pdfpages}% needed to include pdf files
+\usepackage{subfiles}% able to include files in subfolder
+
+% table packages
+\usepackage{tabularx} % package for tables, required for generated php-analysis tables
 \usepackage{booktabs} % To thicken table lines
 \usepackage{numprint} % print numbers in table
 
-\usepackage{hyperref} % Any links in resulting glossary will not be "clickable" unless you load the glossaries package after the hyperref package.
+% glossary
 \usepackage[nonumberlist,toc]{glossaries} % used for glossary
-%\usepackage[utf8]{inputenc}
-%\usepackage[acronym]{glossaries}
 
 % used to display images
 \usepackage{graphicx}
@@ -24,14 +26,18 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
+% display random text
+\usepackage{blindtext}
+
+% strikethrough
 \usepackage[normalem]{ulem} % use for strikethrough \sout{text}
 
 % this line prevents the error: "too many unprocessed floats"
 % link: http://www.douglasvanbossuyt.com/2008/11/18/latex-too-many-unprocessed-floats-problem-and-solution/
 \usepackage[section]{placeins}
 
-\usepackage{tabularx} % package for tables, required for generated php-analysis tables
-
+% algorithms
+\usepackage[ruled,linesnumbered]{algorithm2e} % used to display algorithms
 
 % algorithm helper
 \makeatletter
