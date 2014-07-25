@@ -1,0 +1,32 @@
+\documentclass[preview,border=10pt]{standalone}
+
+\usepackage{graphicx}
+\usepackage{forest}
+\begin{document}
+
+
+\begin{forest} for tree={
+    edge path={\noexpand\path[\forestoption{edge}] (\forestOve{\forestove{@parent}}{name}.parent anchor) -- +(0,-12pt)-| (\forestove{name}.child anchor)\forestoption{edge label};}
+}
+[any()
+    [array()]
+    [\textbackslash{}bool()]
+    [float()
+        [\textbackslash{}int()]
+    ]
+    [object()
+        [class(parent)
+            [class(child1)
+                [class(grandChild)]
+            ]
+            [class(child2)]
+        ]
+        [class(childless)]
+    ]
+    [resource()]
+    [\textbackslash{}null()]
+    [string()]
+    [unset()]
+]
+\end{forest}
+\end{document}

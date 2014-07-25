@@ -1,0 +1,24 @@
+\documentclass[preview,border=5pt,varwidth]{standalone}
+
+\usepackage{graphicx}
+\usepackage{forest}
+
+\begin{document}
+
+\forestset{
+.style={for tree={edge=<-,s sep=20pt}}, 
+}
+
+\begin{forest} 
+[stdClass
+    [D
+        [C
+            [A]
+        ]
+        [B]
+    ]
+]
+\draw[,->](0cm:1.5cm)--(0cm:2cm) node[right]{\tiny{extends}};
+\end{forest}
+
+\end{document}

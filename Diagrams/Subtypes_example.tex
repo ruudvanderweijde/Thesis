@@ -1,0 +1,29 @@
+\documentclass[preview,border=5pt,varwidth]{standalone}
+
+\usepackage{graphicx}
+\usepackage{forest}
+
+\begin{document}
+
+\forestset{
+.style={for tree={edge=<-,s sep=20pt}}, 
+}
+
+\begin{forest} 
+[object\(\),name=object
+    [D,name=D
+        [C,name=C
+            [A,name=A] 
+        ]
+        [B,name=B]
+    ]
+]
+\draw[->,dotted] (C) to[out=north west,in=south west] (object);
+\draw[->,dotted] (B) to[out=north east,in=south east] (object);
+\draw[->,dotted] (A) to[out=north east,in=south] (D);
+\draw[->,dotted] (A) to[out=north west,in=west] (object);
+\draw[,->](0cm:1.5cm)--(0cm:2cm) node[right]{\tiny{direct subtype}};
+\draw[,->,dotted](-0.40cm:1.52cm)--(-0.3cm:2.02cm) node[right]{\tiny{indirect subtype}};
+\end{forest}
+
+\end{document}
