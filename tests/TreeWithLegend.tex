@@ -1,0 +1,18 @@
+\documentclass[svgnames]{standalone}
+\usepackage{forest}
+
+\begin{document}
+
+\begin{forest}
+[
+  [YG,name=level3]
+]
+\node[anchor=north west,inner sep=0pt] at (level3|-0,0)
+  {\begin{tabular}{@{}r@{\,=\,}l@{}}
+    b & c\\
+    a & d
+    \end{tabular}%
+  };
+\end{forest}
+
+\end{document}
