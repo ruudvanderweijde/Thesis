@@ -7,39 +7,66 @@
     $<<$ Introduction of this chapter $>>$
     \\
     Maybe add a section here explaining all the steps taken in this research... to be added later.
+    It is not very likely to keep Types as first chapter.
+    \blindtext %todo remove blind text
     
     \section{Types}
     Explain here what I mean with a type...
     
+    \begin{rascal}
+\CAT{Keyword}{module} lang::php::m3::TypeSymbol
+
+\CAT{Keyword}{data} TypeSymbol
+  = any()
+  | array(\CAT{Keyword}{set}{}[TypeSymbol] itemTypes)
+  | \textbackslash{}bool()
+  | class(\CAT{Keyword}{loc} decl)
+  | float()
+  | \textbackslash{}int()
+  | object()
+  | resource()
+  | \textbackslash{}null()
+  | string()
+  | unset()
+  ; 
+    \end{rascal}
+    
     \subsection{PHP types}
     PHP has a similar class inheritance structure and interface implementation as Java.
-    The difference is that in PHP all class are $public$, and no inner classes are allowed. 
+    The main difference is that in PHP all class are \texttt{public} and that inner classes are not allowed in PHP. 
     \\
     The basis types in PHP are integers, floats (similar to doubles and reals), booleans, strings, arrays, resources and null.
     When variables are initialised without a values, they are null. The recourse type is a special one which is not important for this research.
-  
-
-  
-    \subsection{Subtypes}
  
-
+    \subsection{Subtypes}
+    
+    Explain something about subtypes here.
+    \\
+    \blindtext %todo remove blind text
+    
+    \begin{figure}[H]
+        \includegraphics{Diagrams/Subtypes.pdf}
+        \caption{Subtype hierarchy}
+        \label{fig:subtypes}
+    \end{figure}
+ 
     % show two images next to eachother
     \begin{wrapfigure}{r}{0.5\textwidth}
     \begin{subfigure}{.24\textwidth}
       \begin{center}
-      \includegraphics[scale=0.7]{img/subtype-big.png}
+      \includegraphics[scale=1.25]{Diagrams/Inheritance_example.pdf}
       \caption{Inheritance relation}
       \label{fig:subtype}
       \end{center}
     \end{subfigure}
     \begin{subfigure}{.24\textwidth}
       \begin{center}
-      \includegraphics[scale=0.7]{img/subtype_tc-big.png}
+      \includegraphics[scale=1.25]{Diagrams/Subtypes_example.pdf}
       \caption{Subtype relation}
       \label{subtype_tc}
       \end{center}
     \end{subfigure}
-    \lstinputlisting[xleftmargin=20pt,xrightmargin=20pt,aboveskip=20pt,language=PHP,label=assignment1,caption=Inheritance in PHP]{src/php/inheritance.php}
+    \lstinputlisting[xleftmargin=20pt,xrightmargin=20pt,aboveskip=20pt,language=PHP,label=inheritance,caption=Inheritance in PHP]{src/php/inheritance.php}
     \caption{Relation of subtypes among classes}
     \label{fig:subtypes}
     \end{wrapfigure}
@@ -52,7 +79,9 @@
     \\
     The basic PHP types also contain a subtype relation.
     Integers are subtypes of floats.
-
+    
+    PDF IMAGE HERE.
+    
     \section{Constraint extraction}
        
     Introduction is needed here... for now I will just list the types that I have found.
