@@ -1,0 +1,7 @@
+(array)$a  // array()
+(bool)$a   // \bool()
+(float)$a  // float()
+(int)$a    // \int()
+(object)$a // object()
+(string)$a // string(), when $a == object() the object needs to have __toString()
+(unset)$a  // \null()

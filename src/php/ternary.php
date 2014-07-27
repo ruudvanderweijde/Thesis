@@ -1,1 +1,1 @@
-$a = $expr ? $b : $c; // $a is subtypeOf($b) or subtypeOf($c)
+$expr ? $b : $c; // typeOf($a) is subtypeOf($b) or subtypeOf($c)
