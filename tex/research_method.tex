@@ -115,7 +115,7 @@
     Introduction is needed here... for now I will just list the types that I have found.
     Maybe this needs to be moved to a different chapter.
     \\
-    This is a list of items which are not supported yet:
+    \textbf{This is a list of items which are not supported (yet)}:
 
     \begin{itemize}
         \item Assign statements:
@@ -139,8 +139,16 @@
         \end{itemize}
         
         \item Method or function parameters (including type hints)
+        \item Class structures, method calls
         
-        \item Casts of expressions
+        \item The global statement
+        
+        \item \sout{Casts of expressions}
+
+        \item Eval (will not be supported)        
+        \item Closures (not used much in production code)
+        \item Traits (not used much in production code)
+
         
         
     \end{itemize}
@@ -158,12 +166,24 @@
     
     \textbf{Legend} \\
     \begin{table}[H]
-        \begin{tabular}{ r c l }
-            $=$     & = & Equal to (type) \\
-            $<:$    & = & Is subTypeOf \\
-            $E_k$   & = & Some expression\\
-            $[E_k]$ & = & Type of some expression \\
-            $f$     & = & Some function
+        \begin{tabular}{ r c l r c l }
+            $=$     & = & Equal to (type) &
+            $C$     & = & A class \\
+            $<:$    & = & Is subTypeOf &
+            $C.c$   & = & A class constant \\
+            $E_k$   & = & An expression &
+            $C.p$   & = & A class property \\
+            $[E_k]$ & = & Type of some expression &
+            $C.m$   & = & A class method \\
+            $f$     & = & A function &
+            $[C.m]$ & = & (Return) type of a method call \\
+            $[f]$   & = & (Return) type of a function &
+            $(A_n)$ & = & The n'th actual argument \\
+            $C::c$  & = & Static property fetch &
+            $(P_n)$ & = & The n'th formal parameter \\
+            $C::m$  & = & Static method call &
+            $C::p$  & = & Static property fetch
+            
         \end{tabular}
         \caption{Constraint legend}
         \label{table:constraintLegend}
@@ -319,11 +339,6 @@
     \end{prooftree}
     \lstinputlisting[language=PHP,label=clone.php,caption=Clone]{src/php/clone.php}
     \hrulefill
-    
-    \subsubsection{Scoping}
-    
-    
-    \subsubsection{Functions}
     
     \subsubsection{Class}
     Class instantiation (1):
