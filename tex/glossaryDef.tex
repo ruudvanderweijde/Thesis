@@ -11,23 +11,24 @@
     {
         name=Rascal,
         description={
-            Rascal is a meta-programming language developed by SWAT (Software analyse and transformation) team at CWI in the Netherlands}
+            Rascal is a meta-programming language developed by SWAT (Software analyse and transformation) team at CWI in the Netherlands}.
+            See http://www.rascal-mpl.org/ for more information
     }
     
-    \newglossaryentry{transitive closure}
+    \newglossaryentry{reflexive transitive closure}
     {
-        name=transitive closure,
+        name=reflexive transitive closure,
         description={
-            A relation is transitive if $\langle a,b \rangle \in R$ and $\langle b,c \rangle \in R$ then $\langle a,c \rangle \in R$. 
-            In other words: "if you can get there in 2 or more steps, you can get there in one step".
-            A transitive closure can be established by creating direct paths for all indirect paths until a fixed point is reached}
+            A relation is transitive if $\langle a,b \rangle \in R$ then $\langle b,a \rangle \in R$. \\
+            A relation is reflexive if $\langle a,b \rangle \in R$ and $\langle b,c \rangle \in R$ then $\langle a,c \rangle \in R$. \\
+            A reflexive transitive closure can be established by creating direct paths for all indirect paths and adding self references, until a fixed point is reached}
     }
     
     \newglossaryentry{stdClass}
     {
         name=stdClass,
         description={
-            A predefined class in the PHP library and sits on top of the class hierarchy tree. 
+            A predefined class in the PHP library. The class is the root of the class hierarchy. 
             It is comparable to the Object class in Java}
     }
 

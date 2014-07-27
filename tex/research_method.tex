@@ -41,7 +41,7 @@
     \subsection{Subtypes}
     
     Explain something about subtypes here.
-    \\
+
     \blindtext %todo remove blind text
     
     \begin{figure}[H]
@@ -71,18 +71,46 @@
     \label{fig:subtypes}
     \end{wrapfigure}
 
-    The subtype relation of class inheritance is a \gls{transitive closure} relation.
-    A class extension of \underline{class A} on \underline{class C} will define \underline{class A} as a subtype of \underline{class C} in our analysis, as you can see in figure \ref{fig:subtypes}.
+    The subtype relation of class inheritance is a \gls{reflexive transitive closure} relation.
+    A class extension of \underline{\texttt{class A}} on \underline{\texttt{class C}} will define \underline{\texttt{class A}} as a subtype of \underline{\texttt{class C}} in our analysis, as you can see in figure \ref{fig:subtypes}.
     If a class does not extend another class, it will implicitly extend the \gls{stdClass} class.
-    You can see that this happens with \underline{class D} in the example.
-    The $stdClass$ is represented as the type $object()$ in our analysis.
+    You can see that this happens with \underline{\texttt{class D}} in the example.
+    The \underline{\texttt{stdClass}} is represented as the type \underline{\texttt{object()}} in our analysis.
     \\
     The basic PHP types also contain a subtype relation.
     Integers are subtypes of floats.
     
-    PDF IMAGE HERE.
     
-    \section{Constraint extraction}
+    \section{Fact extraction}
+    Here I need to explain that I will extract types and subtypes and constraints from the source code an how I do that.
+    
+    \subsection{Type extraction}
+    In order to define the subtype relations in class extensions, we will need to declare all existing class types.
+    We can do this in rascal like is done in the example below:
+    \begin{rascal}
+\CAT{Keyword}{visit} (system) \{{}
+    \CAT{Keyword}{case} c:class(\_{}, \_{}, \_{}, \_{}, \_{}): types += class(c@decl);
+\}{}
+    \end{rascal}
+    Once all types are defined, we can add the subtype relation. We will need to have the subtype of \texttt{int()} and \texttt{float()} and the class extensions.
+    You can see that in the code below:
+    \begin{rascal}
+\CAT{Keyword}{public} \CAT{Keyword}{rel}{}[TypeSymbol, TypeSymbol] getSubTypes(M3 m3, System system) 
+\{{}
+    \CAT{Keyword}{rel}{}[TypeSymbol, TypeSymbol] subtypes
+        \CAT{Comment}{// add int() as subtype of float()}
+        = \{{} \textless{}\textbackslash{}int(), float()\textgreater{} \}{} 
+        \CAT{Comment}{// use the extends relation from M3}
+        + \{{} \textless{}class(c), class(e)\textgreater{} | \textless{}c,e\textgreater{} \textless{}- m3@extends \}{}
+        \CAT{Comment}{// add subtype of object for all classes which do not extends a class}
+        + \{{} \textless{}class(c@decl), object()\textgreater{} | l \textless{}- system, /c:class(n,\_{},noName(),\_{},\_{}) \textless{}- system{}[l] \}{};
+        
+    \CAT{Comment}{// compute reflexive transitive closure and return the result }
+    \CAT{Keyword}{return} subtypes*;        
+\}{}
+    \end{rascal}
+    
+    \subsection{Constraint extraction}
        
     Introduction is needed here... for now I will just list the types that I have found.
     Maybe this needs to be moved to a different chapter.
@@ -127,7 +155,22 @@
     type has magic method \\
     
     \hrulefill
-
+    
+    \textbf{Legend} \\
+    \begin{table}[H]
+        \begin{tabular}{ r c l }
+            $=$     & = & Equal to (type) \\
+            $<:$    & = & Is subTypeOf \\
+            $E_k$   & = & Some expression\\
+            $[E_k]$ & = & Type of some expression \\
+            $f$     & = & Some function
+        \end{tabular}
+        \caption{Constraint legend}
+        \label{table:constraintLegend}
+    \end{table}
+    
+    \subsubsection{Expressions}
+    Normal assignment:
     \begin{prooftree}
         \AxiomC{$E_1 = E_2$}
         \UnaryInfC{$[E_2]<:[E_1]$}
@@ -135,7 +178,15 @@
     \lstinputlisting[language=PHP,label=assignment1,caption=Assignment]{src/php/assignment1.php}
     \hrulefill
 
-    \lstinputlisting[language=PHP,label=assignment2,caption=Assignments with operators resulting in ints]{src/php/assignment2.php}
+    Ternary:
+    \begin{prooftree}
+        \AxiomC{$E_1 \; ? \; E_2 : E_3 $}
+        \UnaryInfC{$[E_1?E_2:E_3] = [E_3] \lor [E_4]$}
+    \end{prooftree}
+    \lstinputlisting[language=PHP,label=ternary.php,caption=Ternary]{src/php/ternary.php}
+    \hrulefill
+
+    Assignments with operators (1)
     \begin{prooftree}
         \AxiomC{
         ($E_1$ $\&=$ $E_2$) $\lor$
@@ -147,16 +198,18 @@
         }
         \UnaryInfC{$[E_1] = int()$}
     \end{prooftree}
+    \lstinputlisting[language=PHP,label=assignment2,caption=Assignments with operators resulting in ints]{src/php/assignment2.php}
     \hrulefill
 
-    \lstinputlisting[language=PHP,label=assignment3,caption=Assignments with string concat operator]{src/php/assignment3.php}    
+    Assignments with operators (2):
     \begin{prooftree}
         \AxiomC{$E_1$ .= $E_2$}
         \UnaryInfC{$[E_1] = string()$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=assignment3,caption=Assignments with string concat operator]{src/php/assignment3.php}    
     \hrulefill
     
-    \lstinputlisting[language=PHP,label=assignment4,caption=Assignments with operators]{src/php/assignment4.php}
+    Assignments with operators (3):
     \begin{prooftree}
         \AxiomC{
         ($E_1$ $/= E_2$) $\lor$
@@ -164,9 +217,10 @@
         }
         \UnaryInfC{$[E_1] = int()$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=assignment4,caption=Assignments with operators]{src/php/assignment4.php}
     \hrulefill
-            
-    \lstinputlisting[language=PHP,label=assignment5,caption=Assignments with operators]{src/php/assignment5.php}
+
+    Assignment with operators (4):            
     \begin{prooftree}
         \AxiomC{
         ($E_1$ *= $E_2$) $\lor$
@@ -174,9 +228,10 @@
         }
         \UnaryInfC{$[E_1] <: int()$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=assignment5,caption=Assignments with operators]{src/php/assignment5.php}
     \hrulefill
-    
-    \lstinputlisting[language=PHP,label=comparisonOperators.php,caption=Comparison operators]{src/php/comparisonOperators.php}
+
+    Comparison operators:    
     \begin{prooftree}
         \AxiomC{
         ($E_1$ $==$ $E_2$) $\lor$
@@ -198,9 +253,80 @@
         }
         \UnaryInfC{$[E] = bool()$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=comparisonOperators.php,caption=Comparison operators]{src/php/comparisonOperators.php}
+    \hrulefill
+    
+    Array declaration:
+    \begin{prooftree}
+        \AxiomC{
+        $E'$, where $E'$ is an array declaration
+        }
+        \UnaryInfC{$[E'] = array()$}
+    \end{prooftree} 
+    \lstinputlisting[language=PHP,label=array.php,caption=Array declaration]{src/php/array.php}
     \hrulefill
 
-   \lstinputlisting[language=PHP,label=instantiation1,caption=Class instantiation]{src/php/instantiation1.php}
+    Array value fetch:
+    \begin{prooftree}
+        \AxiomC{$E_1[E_2]$ $\land$ $E_1 == string()$, where $E_1$ is an array}
+        \UnaryInfC{$[E_1[E_2]] = string()$}
+    \end{prooftree} 
+    \begin{prooftree}
+        \AxiomC{$E_1[E_2]$ $\land$ $E_1 == array()$, where $E_1$ is an array}
+        \UnaryInfC{$[E_1[E_2]] = mixed()$}
+    \end{prooftree} 
+    \begin{prooftree}
+        \AxiomC{$E_1[E_2]$ $\land$ $(E_1 == string()$ $\lor$ $E_1 == array())$, where $E_1$ is an array}
+        \UnaryInfC{$[E_1[E_2]] = null()$}
+    \end{prooftree} 
+    \lstinputlisting[language=PHP,label=array.php,caption=Array value fetch]{src/php/arrayAccess.php}
+    \hrulefill
+    
+    \subsubsection{Casts}
+    Casts:
+    \begin{prooftree}
+        \AxiomC{$(array)E_1$}
+        \UnaryInfC{$[(cast)E_1] = array()$}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$(bool)E_1$ $\lor$ $(boolean)E_1$}
+        \UnaryInfC{$[(cast)E_1] = bool()$}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$(float)E_1$ $\lor$ $(double)E_1$ $\lor$ $(real)E_1$}
+        \UnaryInfC{$[(cast)E_1] = float()$}
+    \end{prooftree}    
+    \begin{prooftree}
+        \AxiomC{$(int)E_1$ $\lor$ $(integer)E_1$}
+        \UnaryInfC{$[(cast)E_1] = int()$}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$(object)E_1$}
+        \UnaryInfC{$[(cast)E_1] = object()$}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$(unset)E_1$}
+        \UnaryInfC{$[(cast)E_1] = null()$}
+    \end{prooftree}
+    \lstinputlisting[language=PHP,label=casts.php,caption=Casts]{src/php/casts.php}
+    \hrulefill
+            
+    \subsubsection{Clone}
+    Clone:
+    \begin{prooftree}
+        \AxiomC{$clone(E_1)$}
+        \UnaryInfC{$[clone(E_1)] = object()$, $[E_1] = object()$}
+    \end{prooftree}
+    \lstinputlisting[language=PHP,label=clone.php,caption=Clone]{src/php/clone.php}
+    \hrulefill
+    
+    \subsubsection{Scoping}
+    
+    
+    \subsubsection{Functions}
+    
+    \subsubsection{Class}
+    Class instantiation (1):
     \begin{prooftree}
         \AxiomC{
         $new \; C$
@@ -213,9 +339,10 @@
         \BinaryInfC{$[new \; C] = C, C.name == [new \; C].name$}
     \end{prooftree}
     *no required params in constructor \\
-    \hrule    
-     
-    \lstinputlisting[language=PHP,label=instantiation2,caption=Class instantiation with parameters]{src/php/instantiation2.php}
+    \lstinputlisting[language=PHP,label=instantiation1,caption=Class instantiation]{src/php/instantiation1.php}
+    \hrulefill
+
+    Class instantiation (2):     
     \begin{prooftree}
         \AxiomC{
         $new \; C$ ($E_1$, $E_2$, $\dots$, $E_k$)
@@ -229,9 +356,10 @@
     \end{prooftree}
     // todo: add something about the parameter constraints (note to myself: misschien moeten deze 'los' behandeld worden.) \\
     // th = typeHint \\
-    \hrule  
-    
-        \lstinputlisting[language=PHP,label=instantiation3,caption=Class instantiation of an expression]{src/php/instantiation3.php}
+    \lstinputlisting[language=PHP,label=instantiation2,caption=Class instantiation with parameters]{src/php/instantiation2.php}
+    \hrulefill
+
+    Class instantiation (3):    
     \begin{prooftree}
         \AxiomC{
         $new \; E_1$
@@ -239,9 +367,10 @@
         }
         \UnaryInfC{$[new \; E_1]$ = object()}
     \end{prooftree}
-    \hrule  
+    \lstinputlisting[language=PHP,label=instantiation3,caption=Class instantiation of an expression]{src/php/instantiation3.php}
+    \hrulefill
 
-    \lstinputlisting[language=PHP,label=function1,caption=Type of variable within their scope; this applies to global- function- and method- scope]{src/php/function1.php}
+    Type of expression within their scope:
     \begin{prooftree}
         \AxiomC{
         $E, E', E'', E''' \dots \; etc$
@@ -249,9 +378,10 @@
         }
         \UnaryInfC{$[E] = [E] \lor [E'] \lor [E''] \lor [E'''] \dots \; etc$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=function1,caption=Type of variable within their scope; this applies to global- class- function- and method- scope]{src/php/function1.php}
     \hrulefill
     
-    \lstinputlisting[language=PHP,label=return1,caption=No return statements in function or method]{src/php/return1.php}
+    Return type of function or method (1):
     \begin{prooftree}
         \AxiomC{
         return
@@ -259,9 +389,10 @@
         }
         \UnaryInfC{$[f] = null()$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=return1,caption=No return statements in function or method]{src/php/return1.php}
     \hrulefill
-                  
-    \lstinputlisting[language=PHP,label=return2,caption=Return of a function or method; every exit path ends with a return statement]{src/php/return2.php}
+    
+    Return type of function or method (2):
     \begin{prooftree}
         \AxiomC{
         (return $E_1$) $\lor$
@@ -272,9 +403,10 @@
         }
         \UnaryInfC{$[f] <: [E_1] \lor [E_2] \lor \cdots \lor [E_k]$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=return2,caption=Return of a function or method; every exit path ends with a return statement]{src/php/return2.php}
     \hrulefill
     
-    \lstinputlisting[language=PHP,label=return3,caption=Return with possible no return value]{src/php/return3.php}
+    Return type of function or method (3):    
     \begin{prooftree}
         \AxiomC{
         (return $E_1$) $\lor$
@@ -286,9 +418,10 @@
         }
         \UnaryInfC{$[f] <: [E_1] \lor [E_2] \lor \cdots \lor [E_k] \lor null() $}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=return3,caption=Return with possible no return value]{src/php/return3.php}
     \hrulefill
         
-    \lstinputlisting[language=PHP,label=functionCall1,caption=Functional call]{src/php/functionCall1.php}
+    Function call:
     \begin{prooftree}
         \AxiomC{
         $f()$
@@ -296,15 +429,18 @@
         }
         \UnaryInfC{$[f()] <:$ return of $[f]$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=functionCall1,caption=Functional call]{src/php/functionCall1.php}
     \hrulefill
-         
-    \lstinputlisting[language=PHP,label=functionCall2,caption=Variable function call]{src/php/functionCall2.php}
+    
+    \subsection{Variable constructs}
+    Variable function call:
     \begin{prooftree}
         \AxiomC{
         $E_1()$ $\subseteq \Gamma$
         }
         \UnaryInfC{$[E_1()] = mixed()$}
     \end{prooftree}    
+    \lstinputlisting[language=PHP,label=functionCall2,caption=Variable function call]{src/php/functionCall2.php}
     \hrulefill
     
     How to resolve expressions:
