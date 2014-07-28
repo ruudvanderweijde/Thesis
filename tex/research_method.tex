@@ -161,28 +161,30 @@
     type has name \\
     type has method \\
     type has magic method \\
+    Use containment relation for this? The propagated containment with overloading and interface implementations.
     
     \hrulefill
     
     \textbf{Legend} \\
     \begin{table}[H]
-        \begin{tabular}{ r c l r c l }
+        \begin{tabular}{ c c l c c l }
             $=$     & = & Equal to (type) &
             $C$     & = & A class \\
             $<:$    & = & Is subTypeOf &
-            $C.c$   & = & A class constant \\
+            $c$     & = & A class constant \\
             $E_k$   & = & An expression &
-            $C.p$   & = & A class property \\
+            $p$     & = & A class property \\
             $[E_k]$ & = & Type of some expression &
-            $C.m$   & = & A class method \\
+            $m$     & = & A class method \\
             $f$     & = & A function &
-            $[C.m]$ & = & (Return) type of a method call \\
+            $[m]$   & = & (Return) type of a method call \\
             $[f]$   & = & (Return) type of a function &
             $(A_n)$ & = & The n'th actual argument \\
-            $C::c$  & = & Static property fetch &
+            $::c$   & = & Static property fetch &
             $(P_n)$ & = & The n'th formal parameter \\
-            $C::m$  & = & Static method call &
-            $C::p$  & = & Static property fetch
+            $::m$   & = & Static method call &
+            $TH$    & = & Type hint \\
+            $::p$  & = & Static property fetch
             
         \end{tabular}
         \caption{Constraint legend}
@@ -203,7 +205,7 @@
         \AxiomC{$E_1 \; ? \; E_2 : E_3 $}
         \UnaryInfC{$[E_1?E_2:E_3] = [E_3] \lor [E_4]$}
     \end{prooftree}
-    \lstinputlisting[language=PHP,label=ternary.php,caption=Ternary]{src/php/ternary.php}
+    \lstinputlisting[language=PHP,label=ternary,caption=Ternary]{src/php/ternary.php}
     \hrulefill
 
     Assignments with operators (1)
@@ -278,12 +280,10 @@
     
     Array declaration:
     \begin{prooftree}
-        \AxiomC{
-        $E'$, where $E'$ is an array declaration
-        }
+        \AxiomC{$E'$, where $E'$ is an array declaration}
         \UnaryInfC{$[E'] = array()$}
     \end{prooftree} 
-    \lstinputlisting[language=PHP,label=array.php,caption=Array declaration]{src/php/array.php}
+    \lstinputlisting[language=PHP,label=array,caption=Array declaration]{src/php/array.php}
     \hrulefill
 
     Array value fetch:
@@ -299,7 +299,24 @@
         \AxiomC{$E_1[E_2]$ $\land$ $(E_1 == string()$ $\lor$ $E_1 == array())$, where $E_1$ is an array}
         \UnaryInfC{$[E_1[E_2]] = null()$}
     \end{prooftree} 
-    \lstinputlisting[language=PHP,label=array.php,caption=Array value fetch]{src/php/arrayAccess.php}
+    \lstinputlisting[language=PHP,label=arrayAccess,caption=Array value fetch]{src/php/arrayAccess.php}
+    \hrulefill
+    
+    \subsubsection{Scalars}
+    Scalars:
+    \begin{prooftree}
+        \AxiomC{$E, E is a string$}
+        \UnaryInfC{$[E] = string()$}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$E, E is a float$}
+        \UnaryInfC{$[E] = float()$}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$E, E is a integer$}
+        \UnaryInfC{$[E] = int()$}
+    \end{prooftree}
+    \lstinputlisting[language=PHP,label=scalar,caption=Scalars]{src/php/scalar.php}
     \hrulefill
     
     \subsubsection{Casts}
@@ -328,7 +345,7 @@
         \AxiomC{$(unset)E_1$}
         \UnaryInfC{$[(cast)E_1] = null()$}
     \end{prooftree}
-    \lstinputlisting[language=PHP,label=casts.php,caption=Casts]{src/php/casts.php}
+    \lstinputlisting[language=PHP,label=casts,caption=Casts]{src/php/casts.php}
     \hrulefill
             
     \subsubsection{Clone}
@@ -337,44 +354,20 @@
         \AxiomC{$clone(E_1)$}
         \UnaryInfC{$[clone(E_1)] = object()$, $[E_1] = object()$}
     \end{prooftree}
-    \lstinputlisting[language=PHP,label=clone.php,caption=Clone]{src/php/clone.php}
+    \lstinputlisting[language=PHP,label=clone,caption=Clone]{src/php/clone.php}
     \hrulefill
     
     \subsubsection{Class}
-    Class instantiation (1):
+    Class instantiation (1) match class name:
     \begin{prooftree}
-        \AxiomC{
-        $new \; C$
-        $\subseteq \Gamma$
-        }
-        \AxiomC{
-        $class \; C$()* ${ \dots }$
-        $\subseteq \Gamma$
-        }
-        \BinaryInfC{$[new \; C] = C, C.name == [new \; C].name$}
+        \AxiomC{$new \; C$\textquotesingle{}() $\subseteq \Gamma$}
+        \AxiomC{$class \; C$ ${ \dots }$ $\subseteq \Gamma$}
+        \BinaryInfC{$[new \; C$\textquotesingle{}$] = C, \; C.name == C$\textquotesingle{}$.name$}
     \end{prooftree}
-    *no required params in constructor \\
     \lstinputlisting[language=PHP,label=instantiation1,caption=Class instantiation]{src/php/instantiation1.php}
     \hrulefill
 
-    Class instantiation (2):     
-    \begin{prooftree}
-        \AxiomC{
-        $new \; C$ ($E_1$, $E_2$, $\dots$, $E_k$)
-        $\subseteq \Gamma$
-        }
-        \AxiomC{
-        $class \; C$ ($th_1$ $E_1$, $th_2$ $E_2$, $\dots$, $th_k$ $E_k$)
-        $\subseteq \Gamma$
-        }
-        \BinaryInfC{$[new \; C] = C, C.name == [new \; C].name$}
-    \end{prooftree}
-    // todo: add something about the parameter constraints (note to myself: misschien moeten deze 'los' behandeld worden.) \\
-    // th = typeHint \\
-    \lstinputlisting[language=PHP,label=instantiation2,caption=Class instantiation with parameters]{src/php/instantiation2.php}
-    \hrulefill
-
-    Class instantiation (3):    
+    Class instantiation (2):    
     \begin{prooftree}
         \AxiomC{
         $new \; E_1$
@@ -382,8 +375,28 @@
         }
         \UnaryInfC{$[new \; E_1]$ = object()}
     \end{prooftree}
-    \lstinputlisting[language=PHP,label=instantiation3,caption=Class instantiation of an expression]{src/php/instantiation3.php}
+    \lstinputlisting[language=PHP,label=instantiation2,caption=Class instantiation of an expression]{src/php/instantiation2.php}
     \hrulefill
+    
+    \subsubsection{Parameters}
+    Parameters in class instantiation*:
+    \begin{prooftree}
+        \AxiomC{
+        $new \; C$\textquotesingle{} ($E_1$, $E_2$, $\dots$, $E_k$)
+        $\subseteq \Gamma$
+        }
+        \AxiomC{
+        $class \; C$ ($th_1$ $E_1$, $th_2$ $E_2$, $\dots$, $th_k$ $E_k$)
+        $\subseteq \Gamma$
+        }
+        \BinaryInfC{$[new \; C] = C, C.name == C.name$}
+    \end{prooftree}
+    %todo: fix this one
+    * The constructor needs to be resolved for this one.
+    // th = typeHint \\
+    \lstinputlisting[language=PHP,label=parameter1,caption=Class instantiation with parameters]{src/php/parameter1.php}
+    \hrulefill
+
 
     Type of expression within their scope:
     \begin{prooftree}
@@ -447,7 +460,6 @@
     \lstinputlisting[language=PHP,label=functionCall1,caption=Functional call]{src/php/functionCall1.php}
     \hrulefill
     
-    \subsection{Variable constructs}
     Variable function call:
     \begin{prooftree}
         \AxiomC{

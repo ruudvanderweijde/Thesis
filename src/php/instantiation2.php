@@ -1,1 +1,2 @@
-new C($foo);
+$c = "C";
+new $c;
