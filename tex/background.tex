@@ -3,7 +3,7 @@
     \chapter{Background and context}\label{chap:background}
     
     \section{PHP Language Constructs}
-    In this section important language constructs are presented.
+    In this section important (for this research important!) language constructs are presented.
     Explanations of these constructs should help to understand the performed analysis.
     Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
     
@@ -16,10 +16,11 @@
     When namespaces are used, classes and functions will be scoped to the namespace.
     You can access them by providing the namespace name.
     \\
-    Todo: say something about the global statement
+    Todo: say something about the global statement and \$GLOBALS. Refer to this link\footnotemark.
+        \footnotetext{http://php.net/manual/en/language.variables.scope.php, July 2014}
     
     \subsection{Includes}
-    Note to myself: how will I deal with this concept in my analysis (totally ignore it??? when maybe not add it to this background information).
+    Note to myself: how will I deal with this concept in my analysis (totally ignore it??? when maybe not add it to this background information. In our research we will assume that all files are included.).
     The problem of including files can be reduced using namespaces and autoloading.
     When a class which is not loaded in memory is instantiated, the autoloading will try to include a file and load the class. 
     For this analysis we will include all files 
@@ -58,6 +59,8 @@
     
     \lstinputlisting[language=PHP,label=dynamicProperty,caption=Dynamic class property,label=x]{src/php/dynamicProperty.php}
 
+    \subsection{Annotations}
+    Explain here how annotations work in php. (in the next section I will explain something about parsing/reading annotations for the analysis)
     
     \subsection{Other concepts}
     \begin{itemize}

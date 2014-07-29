@@ -1,6 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Research Method}\label{chap:research_method}
+    Todo:
     %This section will contain:
     %TODO: Explain the used method. %TODO research method
     %TODO: Hypothese/research questions %TODO research question
@@ -18,7 +19,8 @@
 
 \CAT{Keyword}{data} TypeSymbol
   = any()
-  | array(\CAT{Keyword}{set}{}[TypeSymbol] itemTypes)
+%  | array(\CAT{Keyword}{set}{}[TypeSymbol] itemTypes)
+  | array()
   | \textbackslash{}bool()
   | class(\CAT{Keyword}{loc} decl)
   | float()
@@ -49,27 +51,6 @@
         \caption{Subtype hierarchy}
         \label{fig:subtypes}
     \end{figure}
- 
-    % show two images next to eachother
-    \begin{wrapfigure}{r}{0.5\textwidth}
-    \begin{subfigure}{.24\textwidth}
-      \begin{center}
-      \includegraphics[scale=1.25]{Diagrams/Inheritance_example.pdf}
-      \caption{Inheritance relation}
-      \label{fig:subtype}
-      \end{center}
-    \end{subfigure}
-    \begin{subfigure}{.24\textwidth}
-      \begin{center}
-      \includegraphics[scale=1.25]{Diagrams/Subtypes_example.pdf}
-      \caption{Subtype relation}
-      \label{subtype_tc}
-      \end{center}
-    \end{subfigure}
-    \lstinputlisting[xleftmargin=20pt,xrightmargin=20pt,aboveskip=20pt,language=PHP,label=inheritance,caption=Inheritance in PHP]{src/php/inheritance.php}
-    \caption{Relation of subtypes among classes}
-    \label{fig:subtypes}
-    \end{wrapfigure}
 
     The subtype relation of class inheritance is a \gls{reflexive transitive closure} relation.
     A class extension of \underline{\texttt{class A}} on \underline{\texttt{class C}} will define \underline{\texttt{class A}} as a subtype of \underline{\texttt{class C}} in our analysis, as you can see in figure \ref{fig:subtypes}.
@@ -79,10 +60,71 @@
     \\
     The basic PHP types also contain a subtype relation.
     Integers are subtypes of floats.
-    
+ 
+    % show two images next to eachother
+    \begin{figure}[H]
+    \begin{subfigure}[b]{.33\textwidth}
+      \begin{center}
+      \includegraphics[scale=1]{Diagrams/Inheritance_example.pdf}
+      \caption{Inheritance relation}
+      \label{fig:subtype}
+      \end{center}
+    \end{subfigure}
+    \begin{subfigure}[b]{.33\textwidth}
+      \begin{center}
+      \includegraphics[scale=1]{Diagrams/Subtypes_example.pdf}
+      \caption{Subtype relation}
+      \label{subtype_tc}
+      \end{center}
+    \end{subfigure}
+    \begin{subfigure}[b]{.33\textwidth}
+      \begin{center}
+      \lstinputlisting[xleftmargin=20pt,xrightmargin=20pt,language=PHP]{src/php/inheritance.php}
+      \caption{Inheritance in PHP}
+      \label{subtype_code}
+      \end{center}
+    \end{subfigure}
+    \caption{Relation of subtypes among classes}
+    \label{fig:subtypes}
+    \end{figure}
     
     \section{Fact extraction}
-    Here I need to explain that I will extract types and subtypes and constraints from the source code an how I do that.
+    We can extract fact about classes, class-constants/fields/methods, functions, parameters.
+    For these facts, we can use a relation, so we have a many-to-many relation.
+    On the left size we will have the class, function or method. On the right side we have their attribute.
+    \\
+    A list of properties: (todo: rewrite this list into a `normal' section.) %todo rewrite this piece
+    \begin{itemize}
+        \item \textless{}loc classDecl, className(str name)\textgreater{}
+        \item \textless{}loc classDecl, classMethod(str name, set[Modifier] modifiers)\textgreater{}
+        \item \textless{}loc classDecl, classProperty(str name, set[Modifier] modifiers)\textgreater{}
+        \item \textless{}loc classDecl, classConstant(str name, set[Modifier] modifiers)\textgreater{}
+        \item \textless{}loc classDecl, classConstructorParameters(list[PhpParam] params)\textgreater{}
+        
+        \item \textless{}loc methodDecl, methodName(str name)\textgreater{}
+        \item \textless{}loc methodDecl, methodParameters(list[PhpParam] params)\textgreater{}
+        %\item \textless{}loc methodDecl, methodHasReturnStatements(bool)\textgreater{}
+        
+        \item \textless{}loc functionDecl, functionName(str name)\textgreater{}
+        \item \textless{}loc functionDecl, functionParameters(list[PhpParam] params)\textgreater{}
+    \end{itemize}
+    
+    In Rascal:
+    \begin{rascal}
+\CAT{Keyword}{alias} TypeFacts = \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, Fact fact];
+
+\CAT{Keyword}{data} Fact
+    = className(\CAT{Keyword}{str} name) \CAT{Comment}{// may not be needed}
+    | classMethod(\CAT{Keyword}{str} name, \CAT{Keyword}{set}{}[Modifier] modifiers)
+    | classProperty(\CAT{Keyword}{str} name, \CAT{Keyword}{set}{}[Modifier] modifiers)
+    | classConstant(\CAT{Keyword}{str} name, \CAT{Keyword}{set}{}[Modifier] modifiers)
+    | classConstructorParameters(\CAT{Keyword}{list}{}[PhpParam] params)
+    | methodName(\CAT{Keyword}{str} name) \CAT{Comment}{// may not be needed}
+    | methodParameters(\CAT{Keyword}{list}{}[PhpParam] params)
+    | functionName(\CAT{Keyword}{str} name) \CAT{Comment}{// may not be needed}
+    | functionParameters(\CAT{Keyword}{list}{}[PhpParam] params)
+    ;
+    \end{rascal}
     
     \subsection{Type extraction}
     In order to define the subtype relations in class extensions, we will need to declare all existing class types.
@@ -109,7 +151,7 @@
     \CAT{Keyword}{return} subtypes*;        
 \}{}
     \end{rascal}
-    
+  
     \subsection{Constraint extraction}
        
     Introduction is needed here... for now I will just list the types that I have found.
@@ -144,6 +186,8 @@
         \item The global statement
         
         \item \sout{Casts of expressions}
+        
+        \item Predefined variables (\$this, representing the current class)
 
         \item Eval (will not be supported)        
         \item Closures (not used much in production code)
@@ -171,11 +215,11 @@
             $=$     & = & Equal to (type) &
             $C$     & = & A class \\
             $<:$    & = & Is subTypeOf &
-            $c$     & = & A class constant \\
+            $\rightarrow c$     & = & A class constant \\
             $E_k$   & = & An expression &
-            $p$     & = & A class property \\
+            $\rightarrow p$     & = & A class property \\
             $[E_k]$ & = & Type of some expression &
-            $m$     & = & A class method \\
+            $\rightarrow m$     & = & A class method \\
             $f$     & = & A function &
             $[m]$   & = & (Return) type of a method call \\
             $[f]$   & = & (Return) type of a function &
@@ -184,7 +228,8 @@
             $(P_n)$ & = & The n'th formal parameter \\
             $::m$   & = & Static method call &
             $TH$    & = & Type hint \\
-            $::p$  & = & Static property fetch
+            $::p$   & = & Static property fetch &
+            $\Gamma$ & = & Whole program
             
         \end{tabular}
         \caption{Constraint legend}
@@ -305,15 +350,15 @@
     \subsubsection{Scalars}
     Scalars:
     \begin{prooftree}
-        \AxiomC{$E, E is a string$}
+        \AxiomC{$E, E$ is a string}
         \UnaryInfC{$[E] = string()$}
     \end{prooftree}
     \begin{prooftree}
-        \AxiomC{$E, E is a float$}
+        \AxiomC{$E, E$ is a float}
         \UnaryInfC{$[E] = float()$}
     \end{prooftree}
     \begin{prooftree}
-        \AxiomC{$E, E is a integer$}
+        \AxiomC{$E, E$ is a integer}
         \UnaryInfC{$[E] = int()$}
     \end{prooftree}
     \lstinputlisting[language=PHP,label=scalar,caption=Scalars]{src/php/scalar.php}
@@ -378,6 +423,16 @@
     \lstinputlisting[language=PHP,label=instantiation2,caption=Class instantiation of an expression]{src/php/instantiation2.php}
     \hrulefill
     
+    Special keyword \texttt{\$this}:
+    \begin{prooftree}
+        \AxiomC{$\$ this \subseteq C$}
+        \UnaryInfC{$[\$ this]$ = C}
+    \end{prooftree}
+    \lstinputlisting[language=PHP,label=this,caption=Special keyword \texttt{\$this}]{src/php/this.php}
+    \hrulefill
+    
+    
+    
     \subsubsection{Parameters}
     Parameters in class instantiation*:
     \begin{prooftree}
@@ -392,7 +447,7 @@
         \BinaryInfC{$[new \; C] = C, C.name == C.name$}
     \end{prooftree}
     %todo: fix this one
-    * The constructor needs to be resolved for this one.
+    * The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl)).
     // th = typeHint \\
     \lstinputlisting[language=PHP,label=parameter1,caption=Class instantiation with parameters]{src/php/parameter1.php}
     \hrulefill
