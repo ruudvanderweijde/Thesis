@@ -1,16 +1,23 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Research Method}\label{chap:research_method}
-    Todo:
+
     %This section will contain:
     %TODO: Explain the used method. %TODO research method
     %TODO: Hypothese/research questions %TODO research question
-    $<<$ Introduction of this chapter $>>$
+
+    \section{Introduction}
+    $<<$ Todo: properly introduction of this chapter $>>$
     \\
-    Maybe add a section here explaining all the steps taken in this research... to be added later.
-    It is not very likely to keep Types as first chapter.
-    \blindtext %todo remove blind text
-    
+    The analysis will be performed in this order:
+    \begin{itemize}
+        \item Resolve types
+        \item Resolve sub type relations
+        \item Extract facts from the source code
+        \item Extract constraints from source code
+        \item Solve the constraints
+    \end{itemize}
+
     \section{Types}
     Explain here what I mean with a type...
     
@@ -53,15 +60,15 @@
     \end{figure}
 
     The subtype relation of class inheritance is a \gls{reflexive transitive closure} relation.
-    A class extension of \underline{\texttt{class A}} on \underline{\texttt{class C}} will define \underline{\texttt{class A}} as a subtype of \underline{\texttt{class C}} in our analysis, as you can see in figure \ref{fig:subtypes}.
+    A class extension of \textbf{\texttt{class A}} on \textbf{\texttt{class C}} will define \textbf{\texttt{class A}} as a subtype of \textbf{\texttt{class C}} in our analysis, as you can see in figure \ref{fig:subtypes}.
     If a class does not extend another class, it will implicitly extend the \gls{stdClass} class.
-    You can see that this happens with \underline{\texttt{class D}} in the example.
-    The \underline{\texttt{stdClass}} is represented as the type \underline{\texttt{object()}} in our analysis.
+    You can see that this happens with \textbf{\texttt{class D}} in the example.
+    The \textbf{\texttt{stdClass}} is represented as the type \textbf{\texttt{object()}} in our analysis.
     \\
     The basic PHP types also contain a subtype relation.
     Integers are subtypes of floats.
  
-    % show two images next to eachother
+    % show three images next to each other
     \begin{figure}[H]
     \begin{subfigure}[b]{.33\textwidth}
       \begin{center}
@@ -160,53 +167,50 @@
     \textbf{This is a list of items which are not supported (yet)}:
 
     \begin{itemize}
-        \item Assign statements:
-        \begin{itemize}
-            \item Ref assign :: $\$a \; = \; \&\$b$
-            \item List assign :: $list(\$a, \$b) = array("one", "two");$
-        \end{itemize}
         
         \item References (in PHP they are symbol table aliases)
         \begin{itemize}
             \item on expression assignments :: $\$a \; = \; \&\$b$
             \item on functions :: function $\&f()$ $\{ \dots \}$
-            \item on parameters :: function $f(\$a)$ $\{ \dots \}$             
+            \item on parameters :: function $f(\&\$a)$ $\{ \dots \}$             
         \end{itemize}
 
         \item Variable structures:
         \begin{itemize}
-            \item Variable variables :: $\$\$a;$
+            \item \sout{Variable variables} :: $\$\$a;$
             \item \sout{Variable class instantiation} :: $new \; \$a;$
             \item \sout{Variable method or function calls} :: $\$a();$
         \end{itemize}
+
+        \item List assign :: $list(\$a, \$b) = array("one", "two");$ (we can assume that the rhs is of type array, when the program is correct)
         
-        \item Method or function parameters (including type hints)
-        \item Class structures, method calls
+        \item \sout{Method or function parameters (including type hints)}
+        \item \sout{Class structures, method calls}
+        \item Class Constants
         
-        \item The global statement
+        \item \sout{The global statement} (should be resolved by the usage relation from M3)
         
         \item \sout{Casts of expressions}
         
-        \item Predefined variables (\$this, representing the current class)
+        \item \sout{Predefined variables} (\$this, self, parent, static)
 
-        \item Eval (will not be supported)        
-        \item Closures (not used much in production code)
-        \item Traits (not used much in production code)
+        \item \sout{Eval} (will not be supported)        
+        \item \sout{Closures} (not used much in production code)
+        \item \sout{Traits} (not used much in production code)
+        \item \sout{Callable} (introduced in 5.4 as typehint, not used much in production code)
+        
+        \item Foreach(\$a as ... (=> ...)) => \$a is an array or an object;
+        \item \sout{return; => return type is null} (is added to the situation when there are no return statements)
+        \item add predefined globals (and their type: \$[GLOBALS, \_SERVER, \_GET, \_POST, \_REQUEST, \_COOKIE, \_ENV, \_SESSION, php\_errormsg] (all in global scope))
+        \item add magic constants: \_\_[DIR, FILE, LINE, NAMESPACE, FUNCTION, CLASS, METHOD]\_\_
+        \item predefined constants: TRUE(b), FALSE(b), NAN(f), INF(f), NULL(n), STDIN(r), STDOUT(r), STDERR(r) 
+        \item define("name", value) mixed with constants (?out of scope?)
+        \item \sout{keywords: self, parent, static in a class} (is included in method and property calls
 
         
         
     \end{itemize}
 
-    \hrulefill
-    \\
-    Note to myself ::
-    \\
-    type has field \\
-    type has name \\
-    type has method \\
-    type has magic method \\
-    Use containment relation for this? The propagated containment with overloading and interface implementations.
-    
     \hrulefill
     
     \textbf{Legend} \\
@@ -227,9 +231,12 @@
             $::c$   & = & Static property fetch &
             $(P_n)$ & = & The n'th formal parameter \\
             $::m$   & = & Static method call &
-            $TH$    & = & Type hint \\
+            $th$    & = & Type hint \\
             $::p$   & = & Static property fetch &
-            $\Gamma$ & = & Whole program
+            $v$     & = & Default value \\
+            Mfs     & = & Modifiers &
+            $\Gamma$ & = & Whole program 
+            
             
         \end{tabular}
         \caption{Constraint legend}
@@ -350,9 +357,10 @@
     \subsubsection{Scalars}
     Scalars:
     \begin{prooftree}
-        \AxiomC{$E, E$ is a string}
+        \AxiomC{$E, E$ is a string*}
         \UnaryInfC{$[E] = string()$}
     \end{prooftree}
+    * string can be single- or double- quoted, or be heredoc or nowdoc. (see below)
     \begin{prooftree}
         \AxiomC{$E, E$ is a float}
         \UnaryInfC{$[E] = float()$}
@@ -362,6 +370,15 @@
         \UnaryInfC{$[E] = int()$}
     \end{prooftree}
     \lstinputlisting[language=PHP,label=scalar,caption=Scalars]{src/php/scalar.php}
+    \hrulefill
+    
+    Encapsulated strings:
+    \begin{prooftree}
+        \AxiomC{$E, E$ is an encapsed string*}
+        \UnaryInfC{$[E] = string()$}
+    \end{prooftree}
+    * When a string contains expression(/variables), it is processed as encapsed.
+    \lstinputlisting[language=PHP,label=encapsed,caption=Encapsulated strings]{src/php/encapsed.php}
     \hrulefill
     
     \subsubsection{Casts}
@@ -423,53 +440,138 @@
     \lstinputlisting[language=PHP,label=instantiation2,caption=Class instantiation of an expression]{src/php/instantiation2.php}
     \hrulefill
     
-    Special keyword \texttt{\$this}:
+    Special keywords:
     \begin{prooftree}
         \AxiomC{$\$ this \subseteq C$}
-        \UnaryInfC{$[\$ this]$ = C}
+        \UnaryInfC{$[\$ this]$ = class(C)}
     \end{prooftree}
-    \lstinputlisting[language=PHP,label=this,caption=Special keyword \texttt{\$this}]{src/php/this.php}
+    \begin{prooftree}
+        \AxiomC{$self \subseteq C$}
+        \UnaryInfC{$[self]$ = class(C)}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$parent \subseteq C$}
+        \UnaryInfC{$[parent]$ = class(C.parent)}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$static \subseteq C$}
+        \UnaryInfC{$[static]$ = class(C$\textbar$C.parents)}
+    \end{prooftree}
+    
+    Class method:
+    \lstinputlisting[language=PHP,label=keywords,caption=Special keywords \texttt{\$this}]{src/php/keywords.php}
     \hrulefill
     
+    Class property fetch* (1): \\
+    \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}
+    \begin{prooftree}
+        \AxiomC{$\$this\rightarrow E_1 \subseteq C_1$}
+        \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_1$.name, static $\notin$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasProperty($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$[.parent].hasMethod("\_\_get")}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$self :: E_1 \subseteq C_1$}
+        \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_1$.name, static $\in$ Mfs)}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$parent :: E_1 \subseteq m$}
+        \UnaryInfC{$[E_1]$ = C.parent.hasProperty($E_1$.name, static $\in$ Mfs )}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$E_1\rightarrow E_2 \subseteq C_1$*}
+        \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_2$.name, static $\notin$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasProperty($E_2$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C$.hasProperty($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
+    \end{prooftree}
+    \footnotesize{*The same goes for static property fetches, except for the `static $\notin$ Mfs' part: `static $\in$ Mfs'.}
+    \begin{prooftree}
+        \AxiomC{$E_1\rightarrow E_2 \not\subseteq C \subseteq \Gamma$*}
+        \UnaryInfC{$[E_1]$ = C.hasProperty($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
+    \end{prooftree}
+    \footnotesize{*Property fetch outside a class scope, also for static properties.}
+    \lstinputlisting[language=PHP,label=property1,caption=Class property]{src/php/property1.php}
+    \hrulefill
     
-    
+    Class property (2) variable:
+    \begin{prooftree}
+        \AxiomC{$E_1\rightarrow E_2$, $E_2$ is an expression}
+        \UnaryInfC{$[E_1]$ = object()}
+    \end{prooftree}
+    \lstinputlisting[language=PHP,label=property2,caption=Class property variable]{src/php/property2.php}
+    \hrulefill
+  
+    Class method call (1): 
+    \begin{prooftree}
+        \AxiomC{$\$this\rightarrow E_1 \subseteq C_1$}
+        \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\notin$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$[.parent].hasMethod("\_\_call")}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$self :: E_1 \subseteq C_1$}
+        \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\in$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$.hasMethod("\_\_callStatic")}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$parent :: E_1 \subseteq C_1$}
+        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, static $\in$ Mfs ) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod("\_\_callStatic")}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$E_1\rightarrow E_2 \subseteq C_1$*}
+        \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_2$.name, static $\notin$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_2$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C$.hasMethod($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
+    \end{prooftree}
+    \footnotesize{*The same goes for static method calls, except for the `static $\notin$ Mfs' part: `static $\in$ Mfs'.}
+    \begin{prooftree}
+        \AxiomC{$E_1\rightarrow E_2 \not\subseteq C \subseteq \Gamma$*}
+        \UnaryInfC{$[E_1]$ = C.hasMethod($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
+    \end{prooftree}
+    \footnotesize{*method call outside a class scope, also for static methods.}
+    \lstinputlisting[language=PHP,label=methodCall1,caption=Class method call]{src/php/methodCall1.php}
+    \hrulefill
+
+
+    Method calls (2) variable
+    \begin{prooftree}
+        \AxiomC{$E_1$ $\rightarrow$ $E_2$(), $E_2$ is an expression}
+        \UnaryInfC{$[E_1]$ = object() }
+    \end{prooftree}
+    \lstinputlisting[language=PHP,label=methodCall2,caption=Variable method call]{src/php/methodCall2.php}
+    \hrulefill
+
+  
     \subsubsection{Parameters}
     Parameters in class instantiation*:
     \begin{prooftree}
-        \AxiomC{
-        $new \; C$\textquotesingle{} ($E_1$, $E_2$, $\dots$, $E_k$)
-        $\subseteq \Gamma$
-        }
-        \AxiomC{
-        $class \; C$ ($th_1$ $E_1$, $th_2$ $E_2$, $\dots$, $th_k$ $E_k$)
-        $\subseteq \Gamma$
-        }
-        \BinaryInfC{$[new \; C] = C, C.name == C.name$}
+        \AxiomC{$new \; C_1$ ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$} \noLine
+        \UnaryInfC{$\$a \rightarrow m$() ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$} \noLine
+        \UnaryInfC{$function_1$ ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$}
+        \AxiomC{$class \; C$ ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$} \noLine
+        \UnaryInfC{public function $m$() ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$} \noLine
+        \UnaryInfC{function ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$}
+        \BinaryInfC{$[P_1]<:[A_1]$, $[A_1]<:[th_1]$, $[P_1]<:[th_1]$, hasRequiredParam($P_1$), hasRequiredParam($P_k$)}
     \end{prooftree}
-    %todo: fix this one
-    * The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl)).
-    // th = typeHint \\
+    \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
+    \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
     \lstinputlisting[language=PHP,label=parameter1,caption=Class instantiation with parameters]{src/php/parameter1.php}
     \hrulefill
 
 
-    Type of expression within their scope:
+    Type of a certain variable within some scope:
     \begin{prooftree}
-        \AxiomC{
-        $E, E', E'', E''' \dots \; etc$
-        $\subseteq f$
-        }
-        \UnaryInfC{$[E] = [E] \lor [E'] \lor [E''] \lor [E'''] \dots \; etc$}
+        \AxiomC{$E, E', E'', E''' \dots \; etc$ $\subseteq f$}
+        \AxiomC{$E$ is a variable}
+        \BinaryInfC{$[E] = [E] \lor [E'] \lor [E''] \lor [E'''] \dots \; etc$}
     \end{prooftree}    
     \lstinputlisting[language=PHP,label=function1,caption=Type of variable within their scope; this applies to global- class- function- and method- scope]{src/php/function1.php}
     \hrulefill
     
     Return type of function or method (1):
     \begin{prooftree}
-        \AxiomC{
-        return
-        $\not \subseteq f$
-        }
+        \AxiomC{return $\not \subseteq f$ $\lor$ return; $\subseteq f$}
         \UnaryInfC{$[f] = null()$}
     \end{prooftree}    
     \lstinputlisting[language=PHP,label=return1,caption=No return statements in function or method]{src/php/return1.php}
@@ -530,8 +632,6 @@
         \item Find all expressions which are defined above and annotate them with @type.
         \item Annotate the rest of the expressions with @type = any();
     \end{itemize}
-
-       
     
     \section{Annotations}
     Explain how the annotations are added to the constraints.
@@ -543,7 +643,7 @@
     \Blindtext
     
     \section{Case Study}
-    Explain how the case study is performed.
+    Explain how the case study is performed. (maybe move this section to a separate chapter)
     \\
     \Blindtext
 

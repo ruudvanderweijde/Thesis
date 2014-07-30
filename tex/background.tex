@@ -16,7 +16,7 @@
     When namespaces are used, classes and functions will be scoped to the namespace.
     You can access them by providing the namespace name.
     \\
-    Todo: say something about the global statement and \$GLOBALS. Refer to this link\footnotemark.
+    Todo: say something about the global statement and \$GLOBALS. (it is resolved in the M3 relation @uses). Refer to this link\footnotemark.
         \footnotetext{http://php.net/manual/en/language.variables.scope.php, July 2014}
     
     \subsection{Includes}
@@ -64,7 +64,8 @@
     
     \subsection{Other concepts}
     \begin{itemize}
-        \item ... nothing yet
+        \item We assume that register globals is off! (maybe add some other runtime environments)
+        \item Ingore warnings (because most production code has them off)
     \end{itemize}
 
     
