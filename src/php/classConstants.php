@@ -1,0 +1,3 @@
+self::CONST
+parent::CONST
+SOMECLASS::CONST

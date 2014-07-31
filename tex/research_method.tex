@@ -519,11 +519,12 @@
     \begin{prooftree}
         \AxiomC{$self :: E_1 \subseteq C_1$}
         \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\in$ Mfs) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\in$ Mfs) $\lor$} \noLine
         \UnaryInfC{$[E_1]$ = $C_1$.hasMethod("\_\_callStatic")}
     \end{prooftree}
     \begin{prooftree}
         \AxiomC{$parent :: E_1 \subseteq C_1$}
-        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, static $\in$ Mfs ) $\lor$} \noLine
+        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs) $\lor$} \noLine
         \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod("\_\_callStatic")}
     \end{prooftree}
     \begin{prooftree}
@@ -541,7 +542,6 @@
     \lstinputlisting[language=PHP,label=methodCall1,caption=Class method call]{src/php/methodCall1.php}
     \hrulefill
 
-
     Method calls (2) variable
     \begin{prooftree}
         \AxiomC{$E_1$ $\rightarrow$ $E_2$(), $E_2$ is an expression}
@@ -550,7 +550,24 @@
     \lstinputlisting[language=PHP,label=methodCall2,caption=Variable method call]{src/php/methodCall2.php}
     \hrulefill
 
-  
+    Class constants*
+    \footnotesize{*This on class constants sections needs to be reviewed...}
+    \begin{prooftree}
+        \AxiomC{self::$c_1$ $\subseteq$ $\Gamma$}
+        \UnaryInfC{$[$self::$c_1]$ = $C_1$.hasConstant($E_2$.name) $\lor$} \noLine
+        \UnaryInfC{$[$self::$c_1]$ = $C_1$.parent.hasConstant($E_2$.name, public$\textbar$protected $\in$ Mfs)}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{parent::$c_1$ $\subseteq$ $\Gamma$}
+        \UnaryInfC{$[$self::$c_1]$ = $C_1$.parent.hasConstant($E_2$.name, public$\textbar$protected $\in$ Mfs)}
+    \end{prooftree}
+    \begin{prooftree}
+        \AxiomC{$E_1$::$c_1$ $\subseteq$ $\Gamma$}
+        \UnaryInfC{$[E_1]$ = object() }
+    \end{prooftree}
+    \lstinputlisting[language=PHP,label=classConstants,caption=Class constants]{src/php/classConstants.php}
+    \hrulefill
+    
     \subsubsection{Parameters}
     Parameters in class instantiation*:
     \begin{prooftree}
