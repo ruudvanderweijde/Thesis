@@ -1,4 +1,4 @@
 $a /= $b;  /* $a = int() */
-// An error occurs when $b is of type array()
 $a -= $b;  /* $a = int() */
-// An error occurs when $b is of type array()
+// An error occurs when $b is of type array() for /= and -=
+// Fatal error: Unsupported operand types

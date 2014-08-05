@@ -1,0 +1,9 @@
+\begin{prooftree}
+    \AxiomC{$new \; C_1$ ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$} \noLine
+    \UnaryInfC{$\$a \rightarrow m$() ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$} \noLine
+    \UnaryInfC{$function_1$ ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$}
+    \AxiomC{$class \; C$ ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$} \noLine
+    \UnaryInfC{public function $m$() ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$} \noLine
+    \UnaryInfC{function ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$}
+    \BinaryInfC{$[P_1]<:[A_1]$, $[A_1]<:[th_1]$, $[P_1]<:[th_1]$, hasRequiredParam($P_1$), hasRequiredParam($P_k$)}
+\end{prooftree}

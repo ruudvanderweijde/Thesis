@@ -18,6 +18,13 @@
     \\
     Todo: say something about the global statement and \$GLOBALS. (it is resolved in the M3 relation @uses). Refer to this link\footnotemark.
         \footnotetext{http://php.net/manual/en/language.variables.scope.php, July 2014}
+        
+    \begin{itemize}
+        \item In general:
+        \item Functions are declared in 
+
+    \end{itemize}
+
     
     \subsection{Includes}
     Note to myself: how will I deal with this concept in my analysis (totally ignore it??? when maybe not add it to this background information. In our research we will assume that all files are included.).
@@ -70,15 +77,47 @@
 
     
     \section{Rascal}
-    \Gls{Rascal} 
+    Explain what \Gls{Rascal} is and what we use it for...
 
     \section{M3}
+    \footnotesize{*Maybe add this section to the next chapter, for the research methods. Many aspects will be useful for the type inference analysis}
+    \\
     The M3-model is a generic model which can be used to analyse software programs.
     Our goals is to provide the results in an M3 model.
     Future research can use this to compare different programming languages.
+    \\ 
+    The following core items are filled for M3:
+    \begin{itemize}
+        \item Containment
+        \item Declarations (need to explain in more details)
+        \item Modifiers
+        \item Extends
+        \item Uses
+    \end{itemize}
     
-    \section{Type inference}
+    The following php specific items are added:
+    \begin{itemize}
+        \item Extends (class or interface and their extended class or interface)
+        \item Implements (which class implements which interfaces)
+        \item TraitUses (which class uses which trait)
+        \item Parameters (methods and functions and their parameters)
+        \item Constructors (which class uses which constructor, explain this more)
+        \item Aliases (class aliases, for example the usage of class\_{}alias)
+        \item Annotations (contraints annotations on classes, methods, fields and variables)
+    \end{itemize}
+    Todo, explain in more details...
+
     
-    Describe different methods of type inferences and why I chose for this one.
+    \section{Related work}
+    Describe these:
+    \begin{itemize}
+        \item `The HipHop Compiler for PHP'\cite{Zhao:12} (not much information available, only source code)
+        \item `Phantm: PHP analyzer for type mismatch'\cite{Kne:10,Bar:10} (investigate this in more details)
+        \item PHPLint \footnotemark (uses a different kind of annotations, not the java like phpdocs)
+        \item `Soft typing and analyses on PHP programs'\cite{}, code implementations: https://github.com/henkerik/typing and https://github.com/marcelosousa/soft-typing-PHP5 (created for php4, code for php5, should check this out, might be able to compare results with this)
+        \item `Design and Implementation of an Ahead-of-Time Compiler for PHP'\cite{Big:10} (to check in detail)
+        \footnotetext{http://www.icosaedro.it/phplint, july 2014}
+    \end{itemize}
+    Also describe their differences with my research.
     
 \end{document}

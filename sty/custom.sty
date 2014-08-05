@@ -57,4 +57,12 @@
 }
 \makeatother
 
-
+%proof tree layout
+%\fact{name}{title}{description}
+\newcommand{\fact}[3]{
+    #2 #3
+    \input{tex/prooftree/#1}
+    \lstinputlisting[language=PHP,label=#1,caption=#2]{src/php/#1.php}
+    \hrulefill
+    \\
+}

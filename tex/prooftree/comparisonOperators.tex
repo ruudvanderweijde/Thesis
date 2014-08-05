@@ -1,0 +1,21 @@
+\begin{prooftree}
+    \AxiomC{
+    ($E_1$ $==$ $E_2$) $\lor$
+    ($E_1$ $===$ $E_2$) $\lor$
+    ($E_1$ $!=$ $E_2$) $\lor$
+    ($E_1$ $<>$ $E_2$) $\lor$
+    ($E_1$ $!==$ $E_2$)
+    $\subseteq E$
+    }
+    \UnaryInfC{$[E] = bool()$}
+\end{prooftree}    
+\begin{prooftree}
+    \AxiomC{
+    ($E_1$ $<$ $E_2$) $\lor$
+    ($E_1$ $>$ $E_2$) $\lor$
+    ($E_1$ $<=$ $E_2$) $\lor$
+    ($E_1$ $>=$ $E_2$)
+    $\subseteq E$
+    }
+    \UnaryInfC{$[E] = bool()$}
+\end{prooftree}   

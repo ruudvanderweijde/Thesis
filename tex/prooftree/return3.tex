@@ -1,0 +1,11 @@
+\begin{prooftree}
+    \AxiomC{
+    (return $E_1$) $\lor$
+    (return $E_2$) $\lor$
+    $\cdots$ $\lor$
+    (return $E_k$) $\lor$
+    ($\neg$ return)
+    $\subseteq f$
+    }
+    \UnaryInfC{$[f] <: [E_1] \lor [E_2] \lor \cdots \lor [E_k] \lor null() $}
+\end{prooftree}    

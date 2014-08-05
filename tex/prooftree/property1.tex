@@ -1,0 +1,26 @@
+\begin{prooftree}
+    \AxiomC{$\$this\rightarrow E_1 \subseteq C_1$}
+    \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_1$.name, static $\notin$ Mfs) $\lor$} \noLine
+    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasProperty($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
+    \UnaryInfC{$[E_1]$ = $C_1$[.parent].hasMethod("\_\_get")}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$self :: E_1 \subseteq C_1$}
+    \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_1$.name, static $\in$ Mfs)}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$parent :: E_1 \subseteq m$}
+    \UnaryInfC{$[E_1]$ = C.parent.hasProperty($E_1$.name, static $\in$ Mfs )}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E_1\rightarrow E_2 \subseteq C_1$*}
+    \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_2$.name, static $\notin$ Mfs) $\lor$} \noLine
+    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasProperty($E_2$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
+    \UnaryInfC{$[E_1]$ = $C$.hasProperty($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
+\end{prooftree}
+\footnotesize{*The same goes for static property fetches, except for the `static $\notin$ Mfs' part: `static $\in$ Mfs'.}
+\begin{prooftree}
+    \AxiomC{$E_1\rightarrow E_2 \not\subseteq C \subseteq \Gamma$*}
+    \UnaryInfC{$[E_1]$ = C.hasProperty($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
+\end{prooftree}
+\footnotesize{*Property fetch outside a class scope, also for static properties.}

@@ -1,0 +1,18 @@
+\begin{prooftree}
+    \AxiomC{$\$ this \in C$}
+    \UnaryInfC{$[\$ this]$ = class(C)}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$self \in C$}
+    \UnaryInfC{$[self]$ = class(C)}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$parent \in C$}
+    \UnaryInfC{$[parent]$ <: class($C.p^+$\footnotemark)}
+    \footnotetext{all direct or indirect parents}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$static \in C$}
+    \UnaryInfC{$[static]$ <: class($C^+$\footnotemark)}
+    \footnotetext{all direct or indirect parents, including the class itself}
+\end{prooftree}

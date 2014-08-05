@@ -9,7 +9,7 @@
     \section{Introduction}
     $<<$ Todo: properly introduction of this chapter $>>$
     \\
-    The analysis will be performed in this order:
+    The type inference analysis will be performed in this order:
     \begin{itemize}
         \item Resolve types
         \item Resolve sub type relations
@@ -25,6 +25,11 @@
         Will the use of phpdoc annotations produce better (to be defined) results for constraint based type inference?
     \end{quote}
 
+    \begin{quotation}
+    quotation
+    \end{quotation}
+
+
 
     \section{Types}
     Explain here what I mean with a type...
@@ -34,8 +39,8 @@
 
 \CAT{Keyword}{data} TypeSymbol
   = any()
-%  | array(\CAT{Keyword}{set}{}[TypeSymbol] itemTypes)
-  | array()
+  | array(\CAT{Keyword}{TypeSymbol} arrayType)
+%  | array()
   | \textbackslash{}bool()
   | class(\CAT{Keyword}{loc} decl)
   | float()
@@ -57,14 +62,12 @@
  
     \subsection{Subtypes}
     
-    Explain something about subtypes here.
+    Explain something about subtypes here. For now, only this figure\ref{fig:subtypeTree}
 
-    %\blindtext %todo remove blind text
-    
     \begin{figure}[H]
         \includegraphics{Diagrams/Subtypes.pdf}
         \caption{Subtype hierarchy}
-        \label{fig:subtypes}
+        \label{fig:subtypeTree}
     \end{figure}
 
     The subtype relation of class inheritance is a \gls{reflexive transitive closure} relation.
@@ -129,16 +132,30 @@
 \CAT{Keyword}{alias} TypeFacts = \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, Fact fact];
 
 \CAT{Keyword}{data} Fact
-    = className(\CAT{Keyword}{str} name) \CAT{Comment}{// may not be needed}
-    | classMethod(\CAT{Keyword}{str} name, \CAT{Keyword}{set}{}[Modifier] modifiers)
-    | classProperty(\CAT{Keyword}{str} name, \CAT{Keyword}{set}{}[Modifier] modifiers)
-    | classConstant(\CAT{Keyword}{str} name, \CAT{Keyword}{set}{}[Modifier] modifiers)
+    = className(\CAT{Keyword}{str} name) \CAT{Comment}{// = FQN = fully qualified name}
+    | classMethod(\CAT{Keyword}{str} name)
+    | classProperty(\CAT{Keyword}{str} name)
+    | classConstant(\CAT{Keyword}{str} name)
     | classConstructorParameters(\CAT{Keyword}{list}{}[PhpParam] params)
-    | methodName(\CAT{Keyword}{str} name) \CAT{Comment}{// may not be needed}
+    | methodName(\CAT{Keyword}{str} name)
     | methodParameters(\CAT{Keyword}{list}{}[PhpParam] params)
-    | functionName(\CAT{Keyword}{str} name) \CAT{Comment}{// may not be needed}
+    | functionName(\CAT{Keyword}{str} name)
     | functionParameters(\CAT{Keyword}{list}{}[PhpParam] params)
     ;
+    \end{rascal}
+
+    Other facts that will be used:
+    \begin{rascal} 
+\CAT{Keyword}{alias} PhpParams = \CAT{Keyword}{lrel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{set}{}[\CAT{Keyword}{loc}] typeHints, \CAT{Keyword}{bool} isRequired, \CAT{Keyword}{bool} byRef];
+\CAT{Keyword}{data} Annotation = returnType(\CAT{Keyword}{set}{}[TypeSymbol]) | parameterType(\CAT{Keyword}{loc} var, \CAT{Keyword}{set}{}[TypeSymbol])
+    | varType(\CAT{Keyword}{loc} var, \CAT{Keyword}{set}{}[TypeSymbol]);
+
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@extends;              \CAT{Comment}{// 'from' extends 'to' }
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements;           \CAT{Comment}{// 'from' implements 'to' }
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, PhpParams params] M3@parameters; \CAT{Comment}{// formal parameters of functions/methods}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} to] M3@constructors;         \CAT{Comment}{// 'decl' and its constructor 'to'}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, Annotation annotation] M3@annotations;  \CAT{Comment}{// result of parsed php docs}
+
     \end{rascal}
     
     \subsection{Type extraction}
@@ -213,10 +230,7 @@
         \item add magic constants: \_\_[DIR, FILE, LINE, NAMESPACE, FUNCTION, CLASS, METHOD]\_\_
         \item predefined constants: TRUE(b), FALSE(b), NAN(f), INF(f), NULL(n), STDIN(r), STDOUT(r), STDERR(r) 
         \item define("name", value) mixed with constants (?out of scope?)
-        \item \sout{keywords: self, parent, static in a class} (is included in method and property calls
-
-        
-        
+        \item \sout{keywords: self, parent, static in a class} (is included in method and property calls        
     \end{itemize}
 
     \hrulefill
@@ -252,424 +266,63 @@
     \end{table}
     
     \subsubsection{Expressions}
-    Normal assignment:
-    \begin{prooftree}
-        \AxiomC{$E_1 = E_2$}
-        \UnaryInfC{$[E_2]<:[E_1]$}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=assignment1,caption=Assignment]{src/php/assignment1.php}
-    \hrulefill
-
-    Ternary:
-    \begin{prooftree}
-        \AxiomC{$E_1 \; ? \; E_2 : E_3 $}
-        \UnaryInfC{$[E_1?E_2:E_3] = [E_3] \lor [E_4]$}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=ternary,caption=Ternary]{src/php/ternary.php}
-    \hrulefill
-
-    Assignments with operators (1)
-    \begin{prooftree}
-        \AxiomC{
-        ($E_1$ $\&=$ $E_2$) $\lor$
-        ($E_1$ $\vert=$ $E_2$) $\lor$
-        $E_1$ \^{}= $E_2$) $\lor$
-        ($E_1$ $<<=$ $E_2$) $\lor$
-        ($E_1$ $>>=$ $E_2$) $\lor$
-        ($E_1$ $\%=$ $E_2$)
-        }
-        \UnaryInfC{$[E_1] = int()$}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=assignment2,caption=Assignments with operators resulting in ints]{src/php/assignment2.php}
-    \hrulefill
-
-    Assignments with operators (2):
-    \begin{prooftree}
-        \AxiomC{$E_1$ .= $E_2$}
-        \UnaryInfC{$[E_1] = string()$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=assignment3,caption=Assignments with string concat operator]{src/php/assignment3.php}    
-    \hrulefill
+    \fact{assignment1}{Normal assignment}{}
+    \fact{ternary}{Ternary}{}
+    \fact{assignment2}{Assignments with operators (1)}{always resulting in ints}
+    \fact{assignment3}{Assignments with operators (2)}{string concat ($.=$)}
+    \fact{assignment4}{Assignments with operators (3)}{resulting in int when rhs is no array}
+    \fact{assignment5}{Assignments with operators (4)}{resulting in int or float}
+    \fact{comparisonOperators}{Comparison operators}{}
     
-    Assignments with operators (3):
-    \begin{prooftree}
-        \AxiomC{
-        ($E_1$ $/= E_2$) $\lor$
-        ($E_1 -= E_2$)
-        }
-        \UnaryInfC{$[E_1] = int()$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=assignment4,caption=Assignments with operators]{src/php/assignment4.php}
-    \hrulefill
+    \subsection{Array}
+    \fact{arrayAccess}{Array value fetch}{}
+    \fact{array}{Array declaration}{}
 
-    Assignment with operators (4):            
-    \begin{prooftree}
-        \AxiomC{
-        ($E_1$ *= $E_2$) $\lor$
-        ($E_1$ += $E_2$)
-        }
-        \UnaryInfC{$[E_1] <: int()$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=assignment5,caption=Assignments with operators]{src/php/assignment5.php}
-    \hrulefill
-
-    Comparison operators:    
-    \begin{prooftree}
-        \AxiomC{
-        ($E_1$ $==$ $E_2$) $\lor$
-        ($E_1$ $===$ $E_2$) $\lor$
-        ($E_1$ $!=$ $E_2$) $\lor$
-        ($E_1$ $<>$ $E_2$) $\lor$
-        ($E_1$ $!==$ $E_2$)
-        $\subseteq E$
-        }
-        \UnaryInfC{$[E] = bool()$}
-    \end{prooftree}    
-    \begin{prooftree}
-        \AxiomC{
-        ($E_1$ $<$ $E_2$) $\lor$
-        ($E_1$ $>$ $E_2$) $\lor$
-        ($E_1$ $<=$ $E_2$) $\lor$
-        ($E_1$ $>=$ $E_2$)
-        $\subseteq E$
-        }
-        \UnaryInfC{$[E] = bool()$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=comparisonOperators.php,caption=Comparison operators]{src/php/comparisonOperators.php}
-    \hrulefill
-    
-    Array declaration:
-    \begin{prooftree}
-        \AxiomC{$E'$, where $E'$ is an array declaration}
-        \UnaryInfC{$[E'] = array()$}
-    \end{prooftree} 
-    \lstinputlisting[language=PHP,label=array,caption=Array declaration]{src/php/array.php}
-    \hrulefill
-
-    Array value fetch:
-    \begin{prooftree}
-        \AxiomC{$E_1[E_2]$ $\land$ $E_1 == string()$, where $E_1$ is an array}
-        \UnaryInfC{$[E_1[E_2]] = string()$}
-    \end{prooftree} 
-    \begin{prooftree}
-        \AxiomC{$E_1[E_2]$ $\land$ $E_1 == array()$, where $E_1$ is an array}
-        \UnaryInfC{$[E_1[E_2]] = mixed()$}
-    \end{prooftree} 
-    \begin{prooftree}
-        \AxiomC{$E_1[E_2]$ $\land$ $(E_1 == string()$ $\lor$ $E_1 == array())$, where $E_1$ is an array}
-        \UnaryInfC{$[E_1[E_2]] = null()$}
-    \end{prooftree} 
-    \lstinputlisting[language=PHP,label=arrayAccess,caption=Array value fetch]{src/php/arrayAccess.php}
-    \hrulefill
-    
     \subsubsection{Scalars}
-    Scalars:
-    \begin{prooftree}
-        \AxiomC{$E, E$ is a string*}
-        \UnaryInfC{$[E] = string()$}
-    \end{prooftree}
-    * string can be single- or double- quoted, or be heredoc or nowdoc. (see below)
-    \begin{prooftree}
-        \AxiomC{$E, E$ is a float}
-        \UnaryInfC{$[E] = float()$}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$E, E$ is a integer}
-        \UnaryInfC{$[E] = int()$}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=scalar,caption=Scalars]{src/php/scalar.php}
-    \hrulefill
-    
-    Encapsulated strings:
-    \begin{prooftree}
-        \AxiomC{$E, E$ is an encapsed string*}
-        \UnaryInfC{$[E] = string()$}
-    \end{prooftree}
-    * When a string contains expression(/variables), it is processed as encapsed.
-    \lstinputlisting[language=PHP,label=encapsed,caption=Encapsulated strings]{src/php/encapsed.php}
-    \hrulefill
+    \fact{scalar}{Scalars}{}
+    \fact{encapsed}{Encapsulated strings}{}
     
     \subsubsection{Casts}
-    Casts:
-    \begin{prooftree}
-        \AxiomC{$(array)E_1$}
-        \UnaryInfC{$[(cast)E_1] = array()$}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$(bool)E_1$ $\lor$ $(boolean)E_1$}
-        \UnaryInfC{$[(cast)E_1] = bool()$}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$(float)E_1$ $\lor$ $(double)E_1$ $\lor$ $(real)E_1$}
-        \UnaryInfC{$[(cast)E_1] = float()$}
-    \end{prooftree}    
-    \begin{prooftree}
-        \AxiomC{$(int)E_1$ $\lor$ $(integer)E_1$}
-        \UnaryInfC{$[(cast)E_1] = int()$}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$(object)E_1$}
-        \UnaryInfC{$[(cast)E_1] = object()$}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$(unset)E_1$}
-        \UnaryInfC{$[(cast)E_1] = null()$}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=casts,caption=Casts]{src/php/casts.php}
-    \hrulefill
+    \fact{casts}{Casts}{\\ {\footnotesize{Note: PHP Warnings are ignored}}}
             
     \subsubsection{Clone}
-    Clone:
-    \begin{prooftree}
-        \AxiomC{$clone(E_1)$}
-        \UnaryInfC{$[clone(E_1)] = object()$, $[E_1] = object()$}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=clone,caption=Clone]{src/php/clone.php}
-    \hrulefill
+    \fact{clone}{Clone}{}
     
     \subsubsection{Class}
-    Class instantiation (1) match class name:
-    \begin{prooftree}
-        \AxiomC{$new \; C$\textquotesingle{}() $\subseteq \Gamma$}
-        \AxiomC{$class \; C$ ${ \dots }$ $\subseteq \Gamma$}
-        \BinaryInfC{$[new \; C$\textquotesingle{}$] = C, \; C.name == C$\textquotesingle{}$.name$}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=instantiation1,caption=Class instantiation]{src/php/instantiation1.php}
-    \hrulefill
-
-    Class instantiation (2):    
-    \begin{prooftree}
-        \AxiomC{
-        $new \; E_1$
-        $\subseteq \Gamma$
-        }
-        \UnaryInfC{$[new \; E_1]$ = object()}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=instantiation2,caption=Class instantiation of an expression]{src/php/instantiation2.php}
-    \hrulefill
-    
-    Special keywords:
-    \begin{prooftree}
-        \AxiomC{$\$ this \subseteq C$}
-        \UnaryInfC{$[\$ this]$ = class(C)}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$self \subseteq C$}
-        \UnaryInfC{$[self]$ = class(C)}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$parent \subseteq C$}
-        \UnaryInfC{$[parent]$ = class(C.parent)}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$static \subseteq C$}
-        \UnaryInfC{$[static]$ = class(C$\textbar$C.parents)}
-    \end{prooftree}
-    
-    Class method:
-    \lstinputlisting[language=PHP,label=keywords,caption=Special keywords \texttt{\$this}]{src/php/keywords.php}
-    \hrulefill
-    
-    Class property fetch* (1): \\
-    \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}
-    \begin{prooftree}
-        \AxiomC{$\$this\rightarrow E_1 \subseteq C_1$}
-        \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_1$.name, static $\notin$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasProperty($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$[.parent].hasMethod("\_\_get")}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$self :: E_1 \subseteq C_1$}
-        \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_1$.name, static $\in$ Mfs)}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$parent :: E_1 \subseteq m$}
-        \UnaryInfC{$[E_1]$ = C.parent.hasProperty($E_1$.name, static $\in$ Mfs )}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$E_1\rightarrow E_2 \subseteq C_1$*}
-        \UnaryInfC{$[E_1]$ = $C_1$.hasProperty($E_2$.name, static $\notin$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasProperty($E_2$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C$.hasProperty($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
-    \end{prooftree}
-    \footnotesize{*The same goes for static property fetches, except for the `static $\notin$ Mfs' part: `static $\in$ Mfs'.}
-    \begin{prooftree}
-        \AxiomC{$E_1\rightarrow E_2 \not\subseteq C \subseteq \Gamma$*}
-        \UnaryInfC{$[E_1]$ = C.hasProperty($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
-    \end{prooftree}
-    \footnotesize{*Property fetch outside a class scope, also for static properties.}
-    \lstinputlisting[language=PHP,label=property1,caption=Class property]{src/php/property1.php}
-    \hrulefill
-    
-    Class property (2) variable:
-    \begin{prooftree}
-        \AxiomC{$E_1\rightarrow E_2$, $E_2$ is an expression}
-        \UnaryInfC{$[E_1]$ = object()}
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=property2,caption=Class property variable]{src/php/property2.php}
-    \hrulefill
-  
-    Class method call (1): 
-    \begin{prooftree}
-        \AxiomC{$\$this\rightarrow E_1 \subseteq C_1$}
-        \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\notin$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$[.parent].hasMethod("\_\_call")}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$self :: E_1 \subseteq C_1$}
-        \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\in$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\in$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$.hasMethod("\_\_callStatic")}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$parent :: E_1 \subseteq C_1$}
-        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod("\_\_callStatic")}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$E_1\rightarrow E_2 \subseteq C_1$*}
-        \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_2$.name, static $\notin$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_2$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
-        \UnaryInfC{$[E_1]$ = $C$.hasMethod($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
-    \end{prooftree}
-    \footnotesize{*The same goes for static method calls, except for the `static $\notin$ Mfs' part: `static $\in$ Mfs'.}
-    \begin{prooftree}
-        \AxiomC{$E_1\rightarrow E_2 \not\subseteq C \subseteq \Gamma$*}
-        \UnaryInfC{$[E_1]$ = C.hasMethod($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
-    \end{prooftree}
-    \footnotesize{*method call outside a class scope, also for static methods.}
-    \lstinputlisting[language=PHP,label=methodCall1,caption=Class method call]{src/php/methodCall1.php}
-    \hrulefill
-
-    Method calls (2) variable
-    \begin{prooftree}
-        \AxiomC{$E_1$ $\rightarrow$ $E_2$(), $E_2$ is an expression}
-        \UnaryInfC{$[E_1]$ = object() }
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=methodCall2,caption=Variable method call]{src/php/methodCall2.php}
-    \hrulefill
-
-    Class constants*
-    \footnotesize{*This on class constants sections needs to be reviewed...}
-    \begin{prooftree}
-        \AxiomC{self::$c_1$ $\subseteq$ $\Gamma$}
-        \UnaryInfC{$[$self::$c_1]$ = $C_1$.hasConstant($E_2$.name) $\lor$} \noLine
-        \UnaryInfC{$[$self::$c_1]$ = $C_1$.parent.hasConstant($E_2$.name, public$\textbar$protected $\in$ Mfs)}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{parent::$c_1$ $\subseteq$ $\Gamma$}
-        \UnaryInfC{$[$self::$c_1]$ = $C_1$.parent.hasConstant($E_2$.name, public$\textbar$protected $\in$ Mfs)}
-    \end{prooftree}
-    \begin{prooftree}
-        \AxiomC{$E_1$::$c_1$ $\subseteq$ $\Gamma$}
-        \UnaryInfC{$[E_1]$ = object() }
-    \end{prooftree}
-    \lstinputlisting[language=PHP,label=classConstants,caption=Class constants]{src/php/classConstants.php}
-    \hrulefill
+    \fact{instantiation1}{Class instantiation (1)}{matching the class name}
+    \fact{instantiation2}{Class instantiation (2)}{of an expression}
+    \fact{keywords}{Special keywords}{\texttt{self}\, \texttt{parent} \texttt{parent} \texttt{static}}
+    \fact{property1}{Class property fetch}
+        {\\ \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}}
+    \fact{property2}{Class property fetch variable}{}
+    \fact{methodCall1}{Class method call}{}
+    \fact{methodCall2}{Class method call variable}{}
+    \fact{classConstants}{Class constants (needs to be reviewed)}{}
     
     \subsubsection{Parameters}
-    Parameters in class instantiation*:
-    \begin{prooftree}
-        \AxiomC{$new \; C_1$ ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$} \noLine
-        \UnaryInfC{$\$a \rightarrow m$() ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$} \noLine
-        \UnaryInfC{$function_1$ ($A_1$, $A_2$, $\dots$, $A_k$) $\subseteq \Gamma$}
-        \AxiomC{$class \; C$ ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$} \noLine
-        \UnaryInfC{public function $m$() ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$} \noLine
-        \UnaryInfC{function ($th_1$ $P_1$, $P_2$ = $v$, $\dots$, $P_k$) $\subseteq \Gamma$}
-        \BinaryInfC{$[P_1]<:[A_1]$, $[A_1]<:[th_1]$, $[P_1]<:[th_1]$, hasRequiredParam($P_1$), hasRequiredParam($P_k$)}
-    \end{prooftree}
-    \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
-    \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
-    \lstinputlisting[language=PHP,label=parameter1,caption=Class instantiation with parameters]{src/php/parameter1.php}
-    \hrulefill
-
-
-    Type of a certain variable within some scope:
-    \begin{prooftree}
-        \AxiomC{$E, E', E'', E''' \dots \; etc$ $\subseteq f$}
-        \AxiomC{$E$ is a variable}
-        \BinaryInfC{$[E] = [E] \lor [E'] \lor [E''] \lor [E'''] \dots \; etc$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=function1,caption=Type of variable within their scope; this applies to global- class- function- and method- scope]{src/php/function1.php}
-    \hrulefill
-    
-    Return type of function or method (1):
-    \begin{prooftree}
-        \AxiomC{return $\not \subseteq f$ $\lor$ return; $\subseteq f$}
-        \UnaryInfC{$[f] = null()$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=return1,caption=No return statements in function or method]{src/php/return1.php}
-    \hrulefill
-    
-    Return type of function or method (2):
-    \begin{prooftree}
-        \AxiomC{
-        (return $E_1$) $\lor$
-        (return $E_2$) $\lor$
-        $\cdots$ $\lor$
-        (return $E_k$)
-        $\subseteq f$
-        }
-        \UnaryInfC{$[f] <: [E_1] \lor [E_2] \lor \cdots \lor [E_k]$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=return2,caption=Return of a function or method; every exit path ends with a return statement]{src/php/return2.php}
-    \hrulefill
-    
-    Return type of function or method (3):    
-    \begin{prooftree}
-        \AxiomC{
-        (return $E_1$) $\lor$
-        (return $E_2$) $\lor$
-        $\cdots$ $\lor$
-        (return $E_k$) $\lor$
-        ($\neg$ return)
-        $\subseteq f$
-        }
-        \UnaryInfC{$[f] <: [E_1] \lor [E_2] \lor \cdots \lor [E_k] \lor null() $}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=return3,caption=Return with possible no return value]{src/php/return3.php}
-    \hrulefill
-        
-    Function call:
-    \begin{prooftree}
-        \AxiomC{
-        $f()$
-        $\subseteq \Gamma$
-        }
-        \UnaryInfC{$[f()] <:$ return of $[f]$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=functionCall1,caption=Functional call]{src/php/functionCall1.php}
-    \hrulefill
-    
-    Variable function call:
-    \begin{prooftree}
-        \AxiomC{
-        $E_1()$ $\subseteq \Gamma$
-        }
-        \UnaryInfC{$[E_1()] = mixed()$}
-    \end{prooftree}    
-    \lstinputlisting[language=PHP,label=functionCall2,caption=Variable function call]{src/php/functionCall2.php}
-    \hrulefill
+    \fact{parameter1}{Parameters in class instantiation}{
+        \\
+        \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
+        \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
+    }
+    \fact{function1}{Type of a certain variable within some scope}{\\ {\footnotesize{this applies to global- class- function- and method- scope}}}
+    \fact{return1}{Return type of function or method (1)}{having no return statements or \texttt{return;}}
+    \fact{return2}{Return type of function or method (2)}{every exit path ends with a return statement}
+    \fact{return3}{Return type of function or method (3)}{possible no return value}
+    \fact{functionCall1}{Function call}{}
+    \fact{functionCall2}{Function call variable}{}
     
     How to resolve expressions:
     \begin{itemize}
         \item Find all expressions which are defined above and annotate them with @type.
-        \item Annotate the rest of the expressions with @type = any();
+        \item Annotate the rest of the expressions with @type = any(); (should only be for relevant expressions)
     \end{itemize}
     
     \section{Annotations}
     Explain how the annotations are added to the constraints.
-    %\Blindtext
     
     \section{Constraint solving}
-    Explain what will be done to solve the constraints.
-    \\
-    %\Blindtext
-    
-    \section{Case Study}
-    Explain how the case study is performed. (maybe move this section to a separate chapter)
-    \\
-    %\Blindtext
+    Explain how we will solve constraints.
+
 
 \end{document}

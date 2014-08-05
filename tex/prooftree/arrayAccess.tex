@@ -1,0 +1,12 @@
+\begin{prooftree}
+    \AxiomC{$E_1[E_2]$ $\land$ $[E_1] == string()$}
+    \UnaryInfC{$[E_1[E_2]] = string()$}
+\end{prooftree} 
+\begin{prooftree}
+    \AxiomC{$E_1[E_2]$ $\land$ $[E_1] == array()$}
+    \UnaryInfC{$[E_1[E_2]] <: any()$}
+\end{prooftree} 
+\begin{prooftree}
+    \AxiomC{$E_1[E_2]$ $\land$ $(E_1 == string()$ $\lor$ [$E_1] == array())$}
+    \UnaryInfC{$[E_1[E_2]] = null()$}
+\end{prooftree} 

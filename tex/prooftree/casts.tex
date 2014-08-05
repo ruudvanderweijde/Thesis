@@ -1,0 +1,28 @@
+\begin{prooftree}
+    \AxiomC{$(array)E_1$}
+    \UnaryInfC{$[(cast)E_1] <: array(any())$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$(bool)E_1$ $\lor$ $(boolean)E_1$}
+    \UnaryInfC{$[(cast)E_1] = bool()$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$(float)E_1$ $\lor$ $(double)E_1$ $\lor$ $(real)E_1$}
+    \UnaryInfC{$[(cast)E_1] = float()$}
+\end{prooftree}    
+\begin{prooftree}
+    \AxiomC{$(int)E_1$ $\lor$ $(integer)E_1$}
+    \UnaryInfC{$[(cast)E_1] = int()$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$(object)E_1$}
+    \UnaryInfC{$[(cast)E_1] <: object()$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$(string)E_1$}
+    \UnaryInfC{$[(cast)E_1] = string()$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$(unset)E_1$}
+    \UnaryInfC{$[(cast)E_1] = null()$}
+\end{prooftree}

@@ -1,0 +1,13 @@
+\begin{prooftree}
+    \AxiomC{self::$c_1$ $\subseteq$ $\Gamma$}
+    \UnaryInfC{$[$self::$c_1]$ = $C_1$.hasConstant($E_2$.name) $\lor$} \noLine
+    \UnaryInfC{$[$self::$c_1]$ = $C_1$.parent.hasConstant($E_2$.name, public$\textbar$protected $\in$ Mfs)}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{parent::$c_1$ $\subseteq$ $\Gamma$}
+    \UnaryInfC{$[$self::$c_1]$ = $C_1$.parent.hasConstant($E_2$.name, public$\textbar$protected $\in$ Mfs)}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E_1$::$c_1$ $\subseteq$ $\Gamma$}
+    \UnaryInfC{$[E_1]$ = object() }
+\end{prooftree}
