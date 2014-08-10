@@ -150,6 +150,7 @@
 \CAT{Keyword}{data} Annotation = returnType(\CAT{Keyword}{set}{}[TypeSymbol]) | parameterType(\CAT{Keyword}{loc} var, \CAT{Keyword}{set}{}[TypeSymbol])
     | varType(\CAT{Keyword}{loc} var, \CAT{Keyword}{set}{}[TypeSymbol]);
 
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@containment;          \CAT{Comment}{// 'from' directly contains 'to'}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@extends;              \CAT{Comment}{// 'from' extends 'to' }
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements;           \CAT{Comment}{// 'from' implements 'to' }
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, PhpParams params] M3@parameters; \CAT{Comment}{// formal parameters of functions/methods}

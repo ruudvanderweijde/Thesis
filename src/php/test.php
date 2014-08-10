@@ -1,5 +1,8 @@
 <?php
-
+$a = 4;
+$a /= array();
+echo $a;
+exit;
 class A {
     protected static $p = 4;
     public function readP()
