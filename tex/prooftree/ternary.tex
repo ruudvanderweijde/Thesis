@@ -1,4 +1,8 @@
 \begin{prooftree}
-    \AxiomC{$E_1 \; ? \; E_2 : E_3 $}
-    \UnaryInfC{$[E_1 \; ? \; E_2 : E_3] <: [E_2] \lor [E_3]$}
+    \AxiomC{$E \equiv (E_1 \; ? \; E_2 : E_3)$}
+    \UnaryInfC{$[E] <: [E_2] \lor [E] <: [E_3]$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv (E_1 \; ? \; : E_3)$}
+    \UnaryInfC{$[E] <: [E_1] \lor [E] <: [E_3]$}
 \end{prooftree}
