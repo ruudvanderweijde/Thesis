@@ -1,6 +1,6 @@
-$a &= $b;  /* $a = int() */
-$a |= $b;  /* $a = int() */
-$a ^= $b;  /* $a = int() */
-$a <<= $b; /* $a = int() */
-$a >>= $b; /* $a = int() */
-$a %= $b;  /* $a = int() */
+$a &= $b;  /* $a = integer() */
+$a |= $b;  /* $a = integer() */
+$a ^= $b;  /* $a = integer() */
+$a <<= $b; /* $a = integer() */
+$a >>= $b; /* $a = integer() */
+$a %= $b;  /* $a = integer() */
