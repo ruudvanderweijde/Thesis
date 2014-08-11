@@ -1,4 +1,5 @@
 \begin{prooftree}
     \AxiomC{$E_1$ .= $E_2$}
-    \UnaryInfC{$[E_1] = string()$}
+    \UnaryInfC{$[E_1] = string(),$} \noLine
+    \UnaryInfC{$if ([E_2] <: object()) => hasMethod([E_2], "\_\_tostring")$}
 \end{prooftree}  
