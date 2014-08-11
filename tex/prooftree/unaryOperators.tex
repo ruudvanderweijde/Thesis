@@ -1,0 +1,36 @@
+\begin{prooftree}
+    \AxiomC{$E \equiv (+E_1) \lor (-E_1)$}
+    \UnaryInfC{$[E] <: float(),$} \noLine
+    \UnaryInfC{$[E_1] \neq array(\textbackslash{}any())$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv \; (!E_1)$}
+    \UnaryInfC{$[E] = boolean()$} 
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv \; (\sim E_1)$}
+    \UnaryInfC{$[E_1] = float() \lor [E_1] = integer() \lor [E_1] = string(),$} \noLine
+    \UnaryInfC{$[E] = integer() \lor [E] = string()$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv (E_1++) \lor (E_1--)$}
+    \UnaryInfC{$if ([E_1] <: array(\textbackslash{}any()) => [E] <: array(\textbackslash{}any()),$} \noLine
+    \UnaryInfC{$if ([E_1] = boolean()) => [E] = boolean(),$} \noLine
+    \UnaryInfC{$if ([E_1] = float()) => [E] = float(),$} \noLine
+    \UnaryInfC{$if ([E_1] = integer()) => [E] = integer(),$} \noLine
+    \UnaryInfC{$if ([E_1] = null()) => [E] = integer() \lor [E] = null,$} \noLine
+    \UnaryInfC{$if ([E_1] <: object()) => [E] <: object(),$} \noLine
+    \UnaryInfC{$if ([E_1] = resource()) => [E] = resource(),$} \noLine
+    \UnaryInfC{$if ([E_1] = string()) => [E] = integer() \lor [E] = float() \lor [E] = string()$}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv \; (++E_1) \lor (--E_1)$}
+    \UnaryInfC{$if ([E_1] <: array(\textbackslash{}any()) => [E] <: array(\textbackslash{}any()),$} \noLine
+    \UnaryInfC{$if ([E_1] = boolean()) => [E] = boolean(),$} \noLine
+    \UnaryInfC{$if ([E_1] = float()) => [E] = float(),$} \noLine
+    \UnaryInfC{$if ([E_1] = integer()) => [E] = integer(),$} \noLine
+    \UnaryInfC{$if ([E_1] = null()) => [E] = null,$} \noLine
+    \UnaryInfC{$if ([E_1] <: object()) => [E] <: object(),$} \noLine
+    \UnaryInfC{$if ([E_1] = resource()) => [E] = resource(),$} \noLine
+    \UnaryInfC{$if ([E_1] = string()) => [E] = integer() \lor [E] = float() \lor [E] = string()$}
+\end{prooftree}
