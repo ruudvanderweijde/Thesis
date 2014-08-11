@@ -4,7 +4,7 @@
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(bool)E_1$ $\lor$ $(boolean)E_1$}
-    \UnaryInfC{$[(cast)E_1] = bool()$}
+    \UnaryInfC{$[(cast)E_1] = boolean()$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(float)E_1$ $\lor$ $(double)E_1$ $\lor$ $(real)E_1$}
@@ -12,7 +12,7 @@
 \end{prooftree}    
 \begin{prooftree}
     \AxiomC{$(int)E_1$ $\lor$ $(integer)E_1$}
-    \UnaryInfC{$[(cast)E_1] = int()$}
+    \UnaryInfC{$[(cast)E_1] = integer()$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(object)E_1$}
@@ -20,7 +20,8 @@
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(string)E_1$}
-    \UnaryInfC{$[(cast)E_1] = string()$}
+    \UnaryInfC{$[(cast)E_1] = string(),$} \noLine
+    \UnaryInfC{$if ([E_1] <: object()) => hasMethod([E_1], "\_\_tostring")$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(unset)E_1$}
