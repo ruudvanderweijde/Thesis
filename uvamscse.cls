@@ -87,12 +87,20 @@
   \vfill
   \begin{center}
   \begin{tabular}{r|l}
-    \multirow{3}{*}{\includegraphics[height=48pt]{img/uva.pdf}}
+    \multirow{3}{*}{\includegraphics[height=48pt,width=48pt]{img/werkspot.pdf}}
+    &\textsc{\Large Werkspot} \\
+	&\textsc{Klus $\bullet$ Klik $\bullet$ Klaar} \\
+	&\href{mailto:ruud.van.der.weijde@werkspot.nl}{ruud.van.der.weijde@werkspot.nl} \\
+    &\url{http://www.werkspot.nl} \\
+	
+	\multicolumn{2}{c}{} \\
+	\multicolumn{2}{c}{} \\
+
+    \multirow{3}{*}{\includegraphics[height=48pt,width=48pt]{img/uva.pdf}}
     &\textsc{\Large Universiteit van Amsterdam}\\
 	&\textsc{Faculteit der Natuurwetenschappen, Wiskunde en Informatica}\\
 	&\textsc{Master Software Engineering}\\
 	&\url{http://www.software-engineering-amsterdam.nl}
-		% Supervisor: Prof Dr P. Klint
   \end{tabular}
   \end{center}
   }
