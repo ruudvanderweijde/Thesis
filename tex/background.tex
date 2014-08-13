@@ -70,10 +70,23 @@
     Explain here how annotations work in php. (in the next section I will explain something about parsing/reading annotations for the analysis)
     
     \subsection{Other concepts}
+    Todo: move this list to a different chapter, this is about my research. Not about php in general.
     \begin{itemize}
+        \item We assume that the program is correct. This means that warnings can happen, but fatal errors not.
+        \item We assume that all files are included.
         \item We assume that register globals is off! (maybe add some other runtime environments)
         \item Ingore warnings (because most production code has them off)
     \end{itemize}
+    These items will not be covered by the anlysis (maybe add this to threats/future work)
+    \begin{itemize}
+        \item Analysis is flow insensitive
+        \item Closure
+        \item References
+        \item Variable constructs (variable -variable, -method/function calls, -class instantiation, eval) :: todo: explain WHY not.
+        \item Yields
+        
+    \end{itemize}
+
 
     
     \section{Rascal}
@@ -92,7 +105,7 @@
         \item Declarations (need to explain in more details)
         \item Modifiers
         \item Extends
-        \item Uses
+        \item Uses (explain in details what is and what is NOT covered)
     \end{itemize}
     
     The following php specific items are added:

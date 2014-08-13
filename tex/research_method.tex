@@ -25,12 +25,6 @@
         Will the use of phpdoc annotations produce better (to be defined) results for constraint based type inference?
     \end{quote}
 
-    \begin{quotation}
-    quotation
-    \end{quotation}
-
-
-
     \section{Types}
     Explain here what I mean with a type...
     
@@ -38,19 +32,12 @@
 \CAT{Keyword}{module} lang::php::m3::TypeSymbol
 
 \CAT{Keyword}{data} TypeSymbol
-  = any()
-  | array(\CAT{Keyword}{TypeSymbol} arrayType)
-%  | array()
-  | \textbackslash{}bool()
-  | class(\CAT{Keyword}{loc} decl)
-  | float()
-  | \textbackslash{}int()
-  | object()
-  | resource()
-  | \textbackslash{}null()
-  | string()
-  | unset()
-  ; 
+  = \textbackslash{}any()        | array(TypeSymbol arrayType)
+  | boolean()     | class(\CAT{Keyword}{loc} decl)
+  | float()       | integer()
+  | null()        | object()
+  | resource()    | string()
+  ;
     \end{rascal}
     
     \subsection{PHP types}
@@ -212,11 +199,13 @@
         
         \item \sout{Method or function parameters (including type hints)}
         \item \sout{Class structures, method calls}
-        \item Class Constants
+        \item \sout{Class Constants}
         
         \item \sout{The global statement} (should be resolved by the usage relation from M3)
         
         \item \sout{Casts of expressions}
+        
+        \item Parameters
         
         \item \sout{Predefined variables} (\$this, self, parent, static)
 
@@ -229,7 +218,7 @@
         \item \sout{return; => return type is null} (is added to the situation when there are no return statements)
         \item add predefined globals (and their type: \$[GLOBALS, \_SERVER, \_GET, \_POST, \_REQUEST, \_COOKIE, \_ENV, \_SESSION, php\_errormsg] (all in global scope))
         \item add magic constants: \_\_[DIR, FILE, LINE, NAMESPACE, FUNCTION, CLASS, METHOD]\_\_
-        \item predefined constants: TRUE(b), FALSE(b), NAN(f), INF(f), NULL(n), STDIN(r), STDOUT(r), STDERR(r) 
+        \item \sout{predefined constants: TRUE(b), FALSE(b), NAN(f), INF(f), NULL(n), STDIN(r), STDOUT(r), STDERR(r)}
         \item define("name", value) mixed with constants (?out of scope?)
         \item \sout{keywords: self, parent, static in a class} (is included in method and property calls    )
         \item ADD CONSTANTS! RECORD THE TYPE OF THE DEFINED CONSTANTS AND TRY TO READ THEIR TYPE.    
@@ -319,10 +308,14 @@
         \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
         \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
     }
+    
+    \subsubsection{Scope}
     \fact{function1}{Type of a certain variable within some scope}{\\ {\footnotesize{this applies to global- class- function- and method- scope}}}
     \fact{return1}{Return type of function or method (1)}{having no return statements or \texttt{return;}}
     \fact{return2}{Return type of function or method (2)}{every exit path ends with a return statement}
     \fact{return3}{Return type of function or method (3)}{possible no return value}
+    
+    \subsubsection{Function calls}
     \fact{functionCall1}{Function call}{}
     \fact{functionCall2}{Function call variable}{}
     

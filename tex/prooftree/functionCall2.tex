@@ -1,6 +1,8 @@
 \begin{prooftree}
     \AxiomC{
-    $E_1()$ $\subseteq \Gamma$
+    $E \equiv E_1()$ $\subseteq \Gamma$
     }
-    \UnaryInfC{$[E_1()] = mixed()$}
+    \UnaryInfC{$[E] = any(),$} \noLine
+    \UnaryInfC{$[E_1] <: object() \lor [E_1] = string(),$} \noLine
+    \UnaryInfC{i$f([E_1] <: object()) => hasMethod("\_\_invoke")$}
 \end{prooftree}  
