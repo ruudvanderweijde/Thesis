@@ -1,4 +1,4 @@
-\documentclass[preview,border=10pt]{standalone}
+\documentclass[border=10pt]{standalone}
 
 \usepackage{graphicx}
 \usepackage{forest}
@@ -8,11 +8,11 @@
 \begin{forest} for tree={
     edge path={\noexpand\path[\forestoption{edge}] (\forestOve{\forestove{@parent}}{name}.parent anchor) -- +(0,-12pt)-| (\forestove{name}.child anchor)\forestoption{edge label};}
 }
-[any()
-    [array()]
-    [\textbackslash{}bool()]
+[any(),name=any
+    [array(any()),name=array]
+    [boolean()]
     [float()
-        [\textbackslash{}int()]
+        [integer()]
     ]
     [object()
         [class(parent)
@@ -24,10 +24,11 @@
         [class(childless)]
     ]
     [resource()]
-    [\textbackslash{}null()]
+    [null()]
     [string()]
     [unset()]
 ]
+\draw[->,dotted] (array) .. controls +(north west:2cm) and +(north:2cm).. (any);
 \end{forest}
 
 \end{document}

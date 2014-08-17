@@ -1,13 +1,17 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-    \chapter{Background and context}\label{chap:background}
+    \chapter{Background and related work}\label{chap:background}
+    This chapter explains a few language constructs which are important for this research.
+    Further more Rascal and M3 will be explained.
+    In the last section of this chapter the related work is described.
     
-    \section{PHP Language Constructs}
-    In this section important (for this research important!) language constructs are presented.
+    \section{PHP Language Constructs}\label{sec:PHP_Language_Constructs}
+    In this section for this research important language constructs are presented.
     Explanations of these constructs should help to understand the performed analysis.
-    Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
+    %Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
     
-    \subsection{Scoping}
+    \paragraph{Scoping}
+    For variables there are three scopes: global, function, and method.
     PHP has a few scopes. "Define what scope is".
     Global, namespace, class, method, function.
     The global scope is contained in every file which is not inside a function or class.
@@ -26,7 +30,7 @@
     \end{itemize}
 
     
-    \subsection{Includes}
+    \paragraph{Includes}
     Note to myself: how will I deal with this concept in my analysis (totally ignore it??? when maybe not add it to this background information. In our research we will assume that all files are included.).
     The problem of including files can be reduced using namespaces and autoloading.
     When a class which is not loaded in memory is instantiated, the autoloading will try to include a file and load the class. 
@@ -36,7 +40,7 @@
     We consider the use of including scripts for logic as bad practice. 
     Every file should contain a class, and in this case, it is for our analysis not very interesting to resolve the includes.
     
-    \subsection{Conditional functions and classes}
+    \paragraph{Conditional functions and classes}
     Explain the code below.
     \lstinputlisting[language=PHP,label=conditionals1,caption=Conditional class and function definitions]{src/php/conditionals1.php}
 
@@ -44,32 +48,32 @@
     \lstinputlisting[language=PHP,label=conditionals2,caption=Conditional function declaration]{src/php/conditionals2.php}
 
     
-    \subsection{Dynamic features}
+    \paragraph{Dynamic features}
     These include dynamic variables, dynamic class instantiations, dynamic function calls.
     
 
-    \subsection{Late static binding}
+    \paragraph{Late static binding}
     Late static binding\footnotemark is implemented in PHP since version 5.3 by adding the keyword `static' to the language.
     \footnotetext{http://php.net/manual/en/language.oop5.late-static-bindings.php, July 2014}
     It has the same function as `parent' and `self', because they both point to a class. 
     The main difference is that `parent' and `self' can be resolved statically.
     `static' can only be resolved on runtime and represents the exact class that is instantiated.
     
-    \subsection{Magic methods}
+    \paragraph{Magic methods}
     In PHP it is allowed to call methods or use properties that do not exists.
     Normally this would result in a fatal error, but not with the use of magic methods.
     One of the magic methods is het constructor method `\_\_ construct'.
 
-    \subsection{Dynamic class properties}
+    \paragraph{Dynamic class properties}
     Although it is a good practice to define your class properties, it is not required.
     On runtime it is possible to add properties to classes, even without the implementation of magic methods.
     
     \lstinputlisting[language=PHP,label=dynamicProperty,caption=Dynamic class property,label=x]{src/php/dynamicProperty.php}
 
-    \subsection{Annotations}
+    \paragraph{Annotations}
     Explain here how annotations work in php. (in the next section I will explain something about parsing/reading annotations for the analysis)
     
-    \subsection{Other concepts}
+    \paragraph{Other concepts}
     Todo: move this list to a different chapter, this is about my research. Not about php in general.
     \begin{itemize}
         \item We assume that the program is correct. This means that warnings can happen, but fatal errors not.
@@ -92,6 +96,7 @@
     \section{Rascal}
     Explain what \Gls{Rascal} is and what we use it for...
     Some general stuff here.
+    This research is performed in a Rascal environment.
 
     \section{M3}
     In this chapter, only describe what m3 is.
