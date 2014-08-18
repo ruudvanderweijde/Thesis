@@ -11,87 +11,95 @@
     %Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
     
     \paragraph{Scoping}
-    For variables there are three scopes: global, function, and method.
-    PHP has a few scopes. "Define what scope is".
-    Global, namespace, class, method, function.
-    The global scope is contained in every file which is not inside a function or class.
-    The global scope can contain namespaces.
-    Namespaces are comparable to packages in Java.
-    When namespaces are used, classes and functions will be scoped to the namespace.
-    You can access them by providing the namespace name.
+    In PHP, all classes and functions are globally available once they are declared.
+    All classes and functions are implicitly public, inner classes are not allowed, and conditional functions (see paragraph about conditional classes and functions) will be available in the global scope.
+    If a class or function is declared inside a namespace, their name will be prefixed with the namespace name.
+    Closures (anonymous functions in PHP) have the same scoping rules as variables, but they can use variables from outside closure by providing them in the use statement. In this research we will not support closures because they are fairly new and not much used in practice. 
     \\
-    Todo: say something about the global statement and \$GLOBALS. (it is resolved in the M3 relation @uses). Refer to this link\footnotemark.
-        \footnotetext{http://php.net/manual/en/language.variables.scope.php, July 2014}
-        
-    \begin{itemize}
-        \item In general:
-        \item Functions are declared in 
-
-    \end{itemize}
-
+    For variables there are three scopes: global-, function-, and method-scope. 
+    There is an exception for some global variables which are available everywhere. 
+    Examples are \texttt{\$GLOBALS}, \texttt{\$\_POST}, and \texttt{\$\_GET}. 
+    Variables inside a function or method can be aliased to a global variable by adding the keyword \texttt{GLOBAL} in front of the variable name.
+    The variable will then be linked to the global variable in the symbol table\footnotemark.
+    \footnotetext{http://php.net/manual/en/language.variables.scope.php, July 2014}
     
     \paragraph{Includes}
-    Note to myself: how will I deal with this concept in my analysis (totally ignore it??? when maybe not add it to this background information. In our research we will assume that all files are included.).
-    The problem of including files can be reduced using namespaces and autoloading.
-    When a class which is not loaded in memory is instantiated, the autoloading will try to include a file and load the class. 
-    For this analysis we will include all files 
+    In PHP it is possible to include other files during execution. 
+    These files will be loaded inline, so if you include another file in the middle of the file the code will be inserted virtually at that place.
+    Todo here: show the results in some extra section.
+    In this research we will assume that all files are loaded.
+    We have checked all projects for duplicate classes and functions but we have found none.
+    Therefor we assume that this does not effect the outcome of the analysis.
+    It is not known if there are effects on inline includes that we do not cover.
     \\
-    * Refer to the analysis of mark hills, that most files can be resolved, but not all. 
-    We consider the use of including scripts for logic as bad practice. 
-    Every file should contain a class, and in this case, it is for our analysis not very interesting to resolve the includes.
+    According to the coding standard that is used in the php community\footnotemark, function- and class-name classes should not appear when using namespaces and autoloading.
+    \footnotetext{http://www.php-fig.org/psr/psr-0/, July 2014}
+    When a class which is not loaded in memory is instantiated, the autoloading will try to include a file and load the class.
+    The structure of the autoloading is meant to include classes, interfaces, traits and functions and should not have inline code executions which would lead to side-effects.
     
-    \paragraph{Conditional functions and classes}
-    Explain the code below.
+    \paragraph{Conditional classes and functions}
+    Once a file is included in the execution, al the classes and functions in the top scope are declared.
+    All class and function declarations within condition statements or within a method or function scope are only declared when the code is executed.
+    \\
+    An example of an conditional statement can be found in listing \ref{conditionals1}.
+    If the class \texttt{Foo} or function \texttt{bar} to not exist before the statements is executed, then the class and function will not yet declared. 
+    When you try to use the class or function, the script will die with an fatal error (if the class or function was not defined before).
+
     \lstinputlisting[language=PHP,label=conditionals1,caption=Conditional class and function definitions]{src/php/conditionals1.php}
 
-    Explain the code below.
+    Listing \ref{conditionals2} shows when functions and classes will be available.
+    If the first call is \texttt{g()} as you can see in \texttt{line 7}, the script will result in a fatal error.
+    When \texttt{function f} is executed, \texttt{function g} will be declared, but not yet \texttt{class C}.
+    The \texttt{class C} will be declared once \texttt{function g} is executed.
+    Once the functions and classes are declared, they are available in the top scope, possibly prefixed with the name of the namespace.
     \lstinputlisting[language=PHP,label=conditionals2,caption=Conditional function declaration]{src/php/conditionals2.php}
 
     
     \paragraph{Dynamic features}
-    These include dynamic variables, dynamic class instantiations, dynamic function calls.
+    PHP includes some dynamic features like: include dynamic variables, dynamic class instantiations, dynamic function calls, dynamic function creation, reflection, and eval.
+    A previous study by Mark Hills\cite{Hil:13} has shown that the dynamic features are not used too much. (please double check this!!) %todo check this
+    Our focus will not be on trying to analyse these features, but we must me aware of these features and should handle them.
+    The downside of these dynamic features is that it will probably lower our precision. (please check this) %todo check this
     
 
     \paragraph{Late static binding}
-    Late static binding\footnotemark is implemented in PHP since version 5.3 by adding the keyword `static' to the language.
+    Late static binding\footnotemark is implemented in PHP since version 5.3 by adding the keyword \texttt{static} to the language.
     \footnotetext{http://php.net/manual/en/language.oop5.late-static-bindings.php, July 2014}
-    It has the same function as `parent' and `self', because they both point to a class. 
-    The main difference is that `parent' and `self' can be resolved statically.
-    `static' can only be resolved on runtime and represents the exact class that is instantiated.
+    It is similar to the keyword \texttt{self}, but it does not refer to the class it is declared in. 
+    The main difference is that \texttt{self} can be resolved statically, because it refers to the class it is declared in.
+    \texttt{static} can only be resolved on runtime and represents the exact class that is instantiated.
     
     \paragraph{Magic methods}
     In PHP it is allowed to call methods or use properties that do not exists.
     Normally this would result in a fatal error, but not with the use of magic methods.
-    One of the magic methods is het constructor method `\_\_ construct'.
+    One of the magic methods is het constructor method \texttt{\_\_{}call}.
+    This method is called when a non-accessible or non-existing method is called.
 
     \paragraph{Dynamic class properties}
     Although it is a good practice to define your class properties, it is not required.
     On runtime it is possible to add properties to classes, even without the implementation of magic methods.
+    In listing \ref{dynamicProperty} you can see a code sample of adding a property after instantiation of a class.
+    The acces of the non-existing propery \texttt{nonExistingProperty} will result in a warning, but code execution will continue and will just return \texttt{NULL}.
+    The code on \texttt{line 5} is where the property is written.
+    The object \texttt{\$c} will have the \texttt{nonExistingProperty} publicly available now.
+    But in a new class instantiation, like you can see on \texttt{line 6}, will not have the property there.
     
-    \lstinputlisting[language=PHP,label=dynamicProperty,caption=Dynamic class property,label=x]{src/php/dynamicProperty.php}
+    \lstinputlisting[language=PHP,label=dynamicProperty,caption=Dynamic class property]{src/php/dynamicProperty.php}
 
     \paragraph{Annotations}
-    Explain here how annotations work in php. (in the next section I will explain something about parsing/reading annotations for the analysis)
-    
-    \paragraph{Other concepts}
-    Todo: move this list to a different chapter, this is about my research. Not about php in general.
-    \begin{itemize}
-        \item We assume that the program is correct. This means that warnings can happen, but fatal errors not.
-        \item We assume that all files are included.
-        \item We assume that register globals is off! (maybe add some other runtime environments)
-        \item Ingore warnings (because most production code has them off)
-    \end{itemize}
-    These items will not be covered by the anlysis (maybe add this to threats/future work)
-    \begin{itemize}
-        \item Analysis is flow insensitive
-        \item Closure
-        \item References
-        \item Variable constructs (variable -variable, -method/function calls, -class instantiation, eval) :: todo: explain WHY not.
-        \item Yields
-        
-    \end{itemize}
-
-
+    In PHP Annotations are not part of the official language.
+    They are however widely used. 
+    For instance in ZEND, Symfony and Doctrine you can write business logic rules in the form of annotations.
+    These annotations will be parsed and used in real code.
+    \\
+    Other annotations are placed on top of classes, methods, functions, and variables.
+    These annotations will help the developers to better understand what the code does. 
+    For example you can see what kind of input and output is expected for a method.
+    IDE's will also use this information to better analyse the source code.
+    \\
+    Writing annotations is not yet in the PSR standards for PHP, but there is a proposal\footnotemark.
+    \footnotetext{https://github.com/php-fig/fig-standards/pull/169/files, July 2014}
+    For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
     
     \section{Rascal}
     Explain what \Gls{Rascal} is and what we use it for...
@@ -143,7 +151,7 @@
     Describe these:
     \begin{itemize}
         \item `The HipHop Compiler for PHP'\cite{Zhao:12} (not much information available, only source code)
-        \item `Phantm: PHP analyzer for type mismatch'\cite{Kne:10,Bar:10} (investigate this in more details)
+        \item `Phantm: PHP analyzer for type mismatch'\cite{Kne:10,Bar:10} (investigate this in more details, their focus is on finding type errors)
         \item PHPLint \footnotemark (uses a different kind of annotations, not the java like phpdocs)
         \item `Soft typing and analyses on PHP programs'\cite{}, code implementations: https://github.com/henkerik/typing and https://github.com/marcelosousa/soft-typing-PHP5 (created for php4, code for php5, should check this out, might be able to compare results with this)
         \item `Design and Implementation of an Ahead-of-Time Compiler for PHP'\cite{Big:10} (to check in detail)
