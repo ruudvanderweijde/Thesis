@@ -1,6 +1,6 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-    \chapter{Research Method}\label{chap:research_method}
+    \chapter{Research}\label{chap:research}
 
     %This section will contain:
     %TODO: Explain the used method. %TODO research method
@@ -10,13 +10,17 @@
     $<<$ Todo: properly introduction of this chapter $>>$
         
     
-    
-    But for now (need to create an image of the steps here):
+    \section{$M^3$ for PHP}
+    We have constructed a similar $M^3$ for PHP as was already done for JAVA.
+    Some language constructs are different and are therefor not applicable for PHP and the other way around.
+    For the overlapping constructs we created a similar structure.
+    The model will be used to query the system for information. % vaag..
+    The following steps are performed to create an $M^3$ for a system.
     \begin{itemize}
-        \item Parse all files (create \gls{AST}s)
-        \item For each file, create an m3 of the ast of the parsed file (aka extract information)
-        \item Combine all the m3s
-        \item Now run more analysis when all facts are collected in the m3.
+        \item Parse all PHP files, resulting in an \gls{AST}.
+        \item For each file, create an independent $M^3$ from the ast.
+        \item Combine all the m3s into one $M^3$ for the project.
+        \item For each file, add additional informationNow run more analysis when all facts are collected in the m3.
         \item Done. M3 is finished! 
     \end{itemize}
 
@@ -57,13 +61,7 @@
         \item Add result to m3 (all decls)
     \end{itemize}
     In the next step, annotations will be added to see how the results be like.
-    
-    \section{Research Question}
-    The research question will be something like: \\
-    \begin{quote}
-        Will the use of phpdoc annotations produce better (to be defined) results for constraint based type inference?
-    \end{quote}
-    
+       
     \section{Put this somewhere}
     Todo: put this text somewhere....
     \begin{itemize}
@@ -72,7 +70,7 @@
         \item We assume that register globals is off! (maybe add some other runtime environments)
         \item Ingore warnings (because most production code has them off)
     \end{itemize}
-    These items will not be covered by the anlysis (maybe add this to threats/future work)
+    These items will not be covered by the analysis (maybe add this to threats/future work)
     \begin{itemize}
         \item Analysis is flow insensitive
         \item Closure
