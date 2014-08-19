@@ -1,0 +1,51 @@
+\documentclass[preview,border=5pt,varwidth]{standalone}
+
+\usepackage{graphicx}
+\usepackage{forest}
+
+\begin{document}
+
+\forestset{
+.style={for tree={no edge,s sep=5pt}}, 
+}
+
+\begin{forest}
+[
+    [{$\$a$},name=A1]
+    [{$ = $},name=Assign1]
+    [{$\$b$},name=B1]
+]
+\draw[->, dotted] (B1) to[out=north west,in=north east] (A1) node[midway,above]{\tiny{[\$b] <: [\$a]}};
+\draw[->, dotted] (B1) .. controls +(south east:0.7cm) and +(east:0.7cm) .. (B1) node[near start,below]{\tiny{(decl=at)}};
+\draw[->, dotted] (A1) .. controls +(south west:0.7cm) and +(west:0.7cm) .. (A1) node[near start,below]{\tiny{(decl=at)}};
+\end{forest}
+
+%\begin{forest} 
+%[object$()$,name=O
+%    [D,name=D
+%        [C,name=C
+%            [A,name=A] 
+%        ] 
+%        [B,name=B]
+%    ] 
+%]
+% indirect lines
+%\draw[->,dashed] (A) to[out=north east,in=south] (D);
+%\draw[->,dashed] (A) to[out=north west,in=west] (O);
+%\draw[->,dashed] (B) to[out=north east,in=south east] (O);
+%\draw[->,dashed] (C) to[out=north west,in=south west] (O);
+% self reference
+%\draw[->,dotted] (A) .. controls +(south west:0.7cm) and +(west:0.7cm) .. (A);
+%\draw[->,dotted] (B) .. controls +(south west:0.7cm) and +(west:0.7cm) .. (B);
+%\draw[->,dotted] (C) .. controls +(south west:0.7cm) and +(west:0.7cm) .. (C);
+%\draw[->,dotted] (D) .. controls +(north east:0.7cm) and +(east:0.7cm) .. (D);
+%\draw[->,dotted] (O) .. controls +(north east:1.0cm) and +(east:1.4cm) .. (O);
+% legend
+%\draw[] (0.75,-2.2) node[right]{\tiny{subtype of:}};
+%\draw[->] (0.25 ,-2.5) to (.75,-2.5) node[right]{\tiny{direct}};
+%\draw[->,dashed] (0.25 ,-2.8) to (.75,-2.8) node[right]{\tiny{indirect}};
+%\draw[->,dotted] (0.25 ,-3.1) to (.75,-3.1) node[right]{\tiny{self}};
+%
+%\end{forest}
+
+\end{document}

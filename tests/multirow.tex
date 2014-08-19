@@ -1,0 +1,64 @@
+\documentclass[11pt]{article}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{tocloft}
+\usepackage{boxedminipage}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{multirow}
+\usepackage[unicode,bookmarks=false,pdfstartview={FitW},colorlinks,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\begin{document}
+ 
+\begin{table}[ht]
+\caption{Multi-column and multi-row table}
+\begin{center}
+\begin{tabular}{ccc}
+    \hline
+    \multicolumn{2}{c}{\multirow{2}{*}{Multi-col-row}}&X\\
+    \multicolumn{2}{c}{}&X\\
+    \hline
+    X&X&X\\
+    \hline
+\end{tabular}
+\end{center}
+\label{tab:multicol}
+\end{table}
+
+\begin{table}[ht]
+\caption{Multi-column and multi-row table}
+\begin{center}
+\begin{tabular}{c|c}
+    \hline
+    X & \multirow{2}{*}{Multi-col-row} \\
+    X & \\
+    \hline
+    X&X\\
+    \hline
+\end{tabular}
+\end{center}
+\label{tab:multicol}
+\end{table}
+ 
+ 
+  \begin{tabular}{r|l}
+    \textsc{\Large Werkspot} & \multirow{3}{*}{\includegraphics[height=48pt,width=48pt]{../img/werkspot.pdf}}\\
+	\textsc{Klus . Klik . Klaar} & \\
+	\textsc{!017BS Amsterdam} & \\
+	\url{http://www.werkspot.nl} \\
+	\multicolumn{2}{c}{} \\
+	\multicolumn{2}{c}{}
+  \end{tabular}
+  
+  \begin{table}[h]
+\begin{tabular}{ll}
+\multicolumn{1}{l|}{} & \multirow{3}{*}{} \\
+\multicolumn{1}{l|}{} &                   \\
+\multicolumn{1}{l|}{} &                   \\
+                      &                   \\
+\multicolumn{1}{l|}{} &                  
+\end{tabular}
+\end{table}
+\end{document}
