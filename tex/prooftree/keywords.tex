@@ -1,18 +1,20 @@
 \begin{prooftree}
-    \AxiomC{$\$ this \in C$}
-    \UnaryInfC{$[\$ this]$ = class(C)}
+    \AxiomC{$E \equiv \$ this \in C$}
+    \UnaryInfC{$[E]$ <: object()} \noLine
+    \UnaryInfC{$[E]$ = class(C) $\lor [E]$ :> class(C)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{$self \in C$}
+    \AxiomC{$E \equiv self \in C$}
+    \UnaryInfC{$[E]$ <: object()} \noLine
     \UnaryInfC{$[self]$ = class(C)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{$parent \in C$}
-    \UnaryInfC{$[parent]$ <: class($C.p^+$\footnotemark)}
-    \footnotetext{all direct or indirect parents}
+    \AxiomC{$E \equiv parent \in C$}
+    \UnaryInfC{$[E]$ <: object()} \noLine
+    \UnaryInfC{$[E]$ :> class(C)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{$static \in C$}
-    \UnaryInfC{$[static]$ <: class($C^+$\footnotemark)}
-    \footnotetext{all direct or indirect parents, including the class itself}
+    \AxiomC{$E \equiv static \in C$}
+    \UnaryInfC{$[E]$ <: object()} \noLine
+    \UnaryInfC{( $[E]$ <: class(C) $\lor$ $[E]$ :> class(C) )}
 \end{prooftree}

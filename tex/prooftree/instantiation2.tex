@@ -1,4 +1,5 @@
 \begin{prooftree}
-    \AxiomC{$new \; E_1$ $\in \Gamma$}
-    \UnaryInfC{$[new \; E_1]$ <: object()}
+    \AxiomC{$E \equiv new \; E_1$}
+    \UnaryInfC{$[E] <: object(),$} \noLine
+    \UnaryInfC{$[E_1] <: object() \lor [E_1] = string()$}
 \end{prooftree}

@@ -1,7 +1,7 @@
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1 + E_2)$}
     \UnaryInfC{$[E] <: array(\_) \lor [E] <: float(),$} \noLine
-    \UnaryInfC{$if([E_1] <: array(\_) \land [E_2] <: array(\_) => [E] <: array(\_),$} \noLine
+    \UnaryInfC{$if([E_1] <: array(\_) \land [E_2] <: array(\_)) => [E] <: array(\_),$} \noLine
     \UnaryInfC{$if([E_1] !<: array(\_) \lor [E_2] !<: array(\_)) => [E] <: float()$}
 \end{prooftree}
 \begin{prooftree}

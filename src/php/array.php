@@ -1,2 +1,2 @@
 array(/*...*/); // typeOf() = array();
-// Rascal: array(_) => array()
+// Rascal: array(_) => array(\any())
