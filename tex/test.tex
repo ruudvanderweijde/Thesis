@@ -152,6 +152,59 @@ See the tables below...
 \npfourdigitnosep
 \npnoaddmissingzero
 
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}
+  \centering
+  %\ra{1.2}
+  \scriptsize
+  \begin{tabular}{@{}lllrrrrrrrrrr@{}} \toprule
+     \multicolumn{3}{c}{Product}        & \multicolumn{2}{c}{Files} & \multicolumn{3}{c}{Objects}        & \multicolumn{5}{c}{Lines of code} \\
+     \cmidrule(l{2pt}r{2pt}){1-3}       \cmidrule(l{2pt}r{2pt}){4-5} \cmidrule(l{2pt}r{2pt}){6-8}        \cmidrule(l{2pt}r{2pt}){9-13}                    
+     Vendor  & Name* & Version           & D$^1$         & F$^2$          & C$^3$ & I$^4$ & T$^5$ & Total & \multicolumn{2}{c}{Logical} & \multicolumn{2}{c}{Global$^6$} \\ \midrule
+     doctrine & lexer & 1.0  		    & - 			& - 		     & 1         & 0  & 0 & \numprint{265} 	    & \numprint{42} & (15.85 \%) 	& 1 & (2.38 \%) \\
+     doctrine & inflector & 1.0 			& - 			& - 		     & 1         & 0  & 0 & \numprint{385} 	    & \numprint{44} & (11.43 \%) 	& 1 & (2.27 \%) \\
+     psr & log & 1.0.0 					& \numprint{1}  & \numprint{9}   & 6         & 2  & 2 & \numprint{571} 	    & \numprint{69} & (12.08 \%) 	& 10 & (14.49 \%) \\
+     symfony & filesystem & 2.5.3 		& \numprint{1}  & \numprint{5}   & 3         & 2  & 0 & \numprint{602} 	    & \numprint{99} & (16.45 \%) 	& 7 & (7.07 \%) \\
+     symfony & event-dispatcher & 2.5.3 	& \numprint{2}  & \numprint{11}  & 8         & 3  & 0 & \numprint{1466} 	& \numprint{239} & (16.30 \%) 	& 23 & (9.62 \%) \\
+     phpunit & php-token-stream & 1.2.2 	& \numprint{4}  & \numprint{6}   & 167       & 0  & 0 & \numprint{1714} 	& \numprint{285} & (16.63 \%) 	& 0 & (0.00 \%) \\
+     symfony & yaml & 2.5.3 				& \numprint{1}  & \numprint{10}  & 9         & 1  & 0 & \numprint{1782} 	& \numprint{415} & (23.29 \%) 	& 16 & (3.86 \%) \\
+     symfony & debug & 2.5.3 			& \numprint{2}  & \numprint{16}  & 16        & 1  & 0 & \numprint{1920} 	& \numprint{417} & (21.72 \%) 	& 40 & (9.59 \%) \\
+     doctrine & collections & 1.2 		& - 			& - 		     & 9         & 3  & 0 & \numprint{2036} 	& \numprint{308} & (15.13 \%) 	& 21 & (6.82 \%) \\
+     doctrine & cache & 1.3.0 			& - 			& - 		     & 16        & 1  & 0 & \numprint{2167} 	& \numprint{310} & (14.31 \%) 	& 29 & (9.35 \%) \\
+     symfony & dom-crawler & 2.5.3 		& \numprint{1}  & \numprint{9}   & 9         & 0  & 0 & \numprint{2560} 	& \numprint{441} & (17.23 \%) 	& 12 & (2.72 \%) \\
+     symfony & process & 2.5.3 			& \numprint{1}  & \numprint{13}  & 12        & 1  & 0 & \numprint{2710} 	& \numprint{510} & (18.82 \%) 	& 25 & (4.90 \%) \\
+     doctrine & annotations & 1.2.0 		& \numprint{2}  & \numprint{20}  & 19        & 1  & 0 & \numprint{3807} 	& \numprint{649} & (17.05 \%) 	& 33 & (5.08 \%) \\
+     symfony & translation & 2.5.3 		& \numprint{6}  & \numprint{44}  & 36        & 8  & 0 & \numprint{3896} 	& \numprint{705} & (18.10 \%) 	& 115 & (16.31 \%) \\
+     symfony & browser-kit & 2.5.3 		& \numprint{2}  & \numprint{15}  & 15        & 0  & 0 & \numprint{4154} 	& \numprint{705} & (16.97 \%) 	& 22 & (3.12 \%) \\
+     symfony & finder & 2.5.3 			& \numprint{6}  & \numprint{37}  & 34        & 3  & 0 & \numprint{4488} 	& \numprint{815} & (18.16 \%) 	& 68 & (8.34 \%) \\
+     symfony & css-selector & 2.5.3 		& \numprint{8}  & \numprint{48}  & 42        & 6  & 0 & \numprint{4752} 	& \numprint{757} & (15.93 \%) 	& 133 & (17.57 \%) \\
+     symfony & routing & 2.5.3 			& \numprint{7}  & \numprint{43}  & 32        & 11 & 0 & \numprint{5872} 	& \numprint{1115} & (18.99 \%)	& 122 & (10.94 \%) \\
+     phpunit & phpunit-mock-objects & 2.2.0 & \numprint{13} & \numprint{54} & 36     & 16 & 0 & \numprint{6462} 	& \numprint{629} & (09.73 \%) 	& 22 & (3.50 \%) \\
+     monolog & monolog & 1.10.0 			& \numprint{7}  & \numprint{80}  & 74        & 5  & 2 & \numprint{7989} 	& \numprint{1464} & (18.33 \%)	& 167 & (11.41 \%) \\
+     phpunit & php-code-coverage & 2.0.10	& \numprint{26} & \numprint{55} & 210    & 1  & 0 & \numprint{10676}	& \numprint{1711} & (16.03 \%)	& 18 & (1.05 \%) \\
+     symfony & console & 2.5.3 			& \numprint{10} & \numprint{58}  & 50        & 8  & 0 & \numprint{11004}	& \numprint{2146} & (19.50 \%)	& 200 & (9.32 \%) \\
+     symfony & http-foundation & 2.5.3 	& \numprint{10} & \numprint{61}  & 53        & 9  & 0 & \numprint{11895}	& \numprint{1763} & (14.82 \%)	& 99 & (5.62 \%) \\ 
+     twig & twig & 1.16.0 				& \numprint{16} & \numprint{166} & 146       & 19 & 0 & \numprint{14221}	& \numprint{2544} & (17.89 \%)	& 3 & (0.12 \%) \\
+     doctrine & common & 2.4.2 			& \numprint{15} & \numprint{110} & 86        & 24 & 0 & \numprint{16679}	& \numprint{2444} & (14.65 \%)	& 212 & (8.67 \%) \\
+     swiftmailer & swiftmailer & 5.2.1 	& \numprint{25} & \numprint{171} & 114       & 47 & 0 & \numprint{22387}	& \numprint{3388} & (15.13 \%)	& 29 & (0.86 \%) \\
+     guzzle & guzzle & 3.9.2 			& \numprint{48} & \numprint{248} & 194       & 53 & 0 & \numprint{27537}	& \numprint{5645} & (20.50 \%)	& 804 & (14.24 \%) \\
+     symfony & http-kernel & 2.5.3      & \numprint{35} & \numprint{206} & 175       & 32 & 2 & \numprint{27837}	& \numprint{4754} & (17.08 \%)	& 551 & (11.59 \%) \\
+     phpunit & phpunit & 4.2.2 			& \numprint{63} & \numprint{262} & 386       & 26 & 0 & \numprint{50470}	& \numprint{6667} & (13.21 \%)	& 111 & (1.66 \%) \\
+     doctrine & dbal & 2.4.2 			& \numprint{50} & \numprint{280} & 243       & 35 & 0 & \numprint{51229}	& \numprint{7840} & (15.30 \%)	& 713 & (9.09 \%) \\
+
+  \bottomrule
+     \multicolumn{13}{l}{} \\
+     \multicolumn{13}{l}{*This is a list of the 30 most popular packages of packagist ordered by total lines of code, in July 2014.} \\
+     \multicolumn{13}{l}{$^1$ = Directories, $^2$ = Files, $^3$ = Classes, $^4$ = Interfaces, $^5$ = Traits, $^6$ = Not in class or function} \\
+  \bottomrule
+  \end{tabular}
+  \normalsize
+  \caption{List of analysed projects.\label{corpus}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+
 
 %%------[ Table 5 ]-------%%
 \npaddmissingzero

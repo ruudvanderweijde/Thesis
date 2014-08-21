@@ -5,7 +5,7 @@
     \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\notin$ Mfs) $\lor$} \noLine
     %\UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
     %\UnaryInfC{$[E_1]$ = $C_1$[.parent].hasMethod("\_\_call"),} \noLine
-    \UnaryInfC{$[E] = ?$}
+    \UnaryInfC{$[E] <: [E_1]$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$E \equiv self :: E_1 \subseteq C_1$}

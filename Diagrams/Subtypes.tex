@@ -5,29 +5,45 @@
 
 \begin{document}
 
-\begin{forest} for tree={
-    edge path={\noexpand\path[\forestoption{edge}] (\forestOve{\forestove{@parent}}{name}.parent anchor) -- +(0,-12pt)-| (\forestove{name}.child anchor)\forestoption{edge label};}
-}
-[any(),name=any
-    [array(any()),name=array]
-    [boolean()]
-    [float()
-        [integer()]
+\begin{forest}[any(),name=any
+    [array(),name=array
+        [a(any())
+            [a(array(...))
+                [...]
+                [...]
+            ]
+            [a(scalar)
+                [...]
+                [...]
+            ]
+            [a(object)
+                [...]
+                [...]
+            ]
+        ]
+    ]
+    [scalar()
+        [resource()]
+        [string()
+            [boolean()]
+            [number()
+                [float()]
+                [integer()]
+            ]
+        ]
+        [null()]
     ]
     [object()
+        [class(childless)]
         [class(parent)
             [class(child1)
                 [class(grandChild)]
             ]
             [class(child2)]
         ]
-        [class(childless)]
     ]
-    [resource()]
-    [null()]
-    [string()]
 ]
-\draw[->,dotted] (array) .. controls +(north west:2cm) and +(north:2cm).. (any);
+%\draw[->,dotted] (array) .. controls +(north west:2cm) and +(north:2cm).. (any);
 \end{forest}
 
 \end{document}

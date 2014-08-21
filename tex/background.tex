@@ -11,26 +11,28 @@
     %Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
     
     \paragraph{Scoping}
-    In PHP, all classes and functions are globally available once they are declared.
+    In PHP, all classes and functions are globally accessible once they are declared.
     All classes and functions are implicitly public, inner classes are not allowed, and conditional functions (see paragraph about conditional classes and functions) will be available in the global scope.
     If a class or function is declared inside a namespace, their name will be prefixed with the namespace name.
-    Closures (anonymous functions in PHP) have the same scoping rules as variables, but they can use variables from outside closure by providing them in the use statement. In this research we will not support closures because they are fairly new and not much used in practice. 
+    Closures (anonymous functions in PHP) have the same scoping rules as variables, but they can inherhit variables from outside their scope by providing them in the use statement. 
+    In this research we will not support closures because they are fairly new and not much used in practice. 
     \\
     For variables there are three scopes: global-, function-, and method-scope. 
-    There is an exception for some global variables which are available everywhere. 
+    There is an exception for some predefined global variables which are available everywhere. 
     Examples are \texttt{\$GLOBALS}, \texttt{\$\_POST}, and \texttt{\$\_GET}. 
     Variables inside a function or method can be aliased to a global variable by adding the keyword \texttt{GLOBAL} in front of the variable name.
     The variable will then be linked to the global variable in the symbol table\footnotemark.
     \footnotetext{http://php.net/manual/en/language.variables.scope.php, July 2014}
     
     \paragraph{Includes}
-    In PHP it is possible to include other files during execution. 
-    These files will be loaded inline, so if you include another file in the middle of the file the code will be inserted virtually at that place.
-    Todo here: show the results in some extra section.
-    In this research we will assume that all files are loaded.
-    We have checked all projects for duplicate classes and functions but we have found none.
-    Therefor we assume that this does not effect the outcome of the analysis.
-    It is not known if there are effects on inline includes that we do not cover.
+    In PHP it is possible to include other PHP-files during execution of the program. 
+    These files will be loaded inline. 
+    This means that if you use an include in the middle of a file, the source code of this file will be inserted virtually at that place.
+    In this research we will not perform an include analysis.
+    Instead we will assume that all files in the project are included during execution. 
+    %We have checked all projects for duplicate classes and functions but we have found none.
+    %Therefor we assume that this does not effect the outcome of the analysis.
+    %It is not known if there are effects on inline includes that we do not cover.
     \\
     According to the coding standard that is used in the php community\footnotemark, function- and class-name classes should not appear when using namespaces and autoloading.
     \footnotetext{http://www.php-fig.org/psr/psr-0/, July 2014}
@@ -120,6 +122,16 @@
     The \texttt{types} relation has information about the type of the source code elements.
     The \texttt{uses} relation describes what reference is using which object. For instance when a field of a class is used in some expression, the \texttt{uses} relation links the field in the expression to the declaration of the field in the class.
     And lastly, \texttt{messages} contains errors, warnings or info statements.
+    
+    \section{Type systems}
+    Todo, add some general things about type-systems.
+    
+    Static type systems: catch many programming errors, avoids overhead of runtime type checks.
+    Dynamic type systems: static type systems are restrictive, difficult to do rapid prototype.
+    
+    Why resolve types of dynamic typed systems?
+    Is useful for optimisation (and transformations) and analysis.
+    
     
     \section{Related work}
     Describe these:

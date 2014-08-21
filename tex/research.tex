@@ -63,7 +63,9 @@
     In the next step, annotations will be added to see how the results be like.
 
     \section{Types}
-    Explain here what I mean with a type...
+    PHP is dynamically typed and allow coercions and duck-typing.
+    Coercion make it possible for variables to hold different types
+    Duck-typing checks the object instead of the class)
     
     \begin{rascal}
 \CAT{Keyword}{module} lang::php::m3::TypeSymbol
@@ -135,39 +137,7 @@
     For these facts, we can use a relation, so we have a many-to-many relation.
     On the left size we will have the class, function or method. On the right side we have their attribute.
     \\
-    A list of properties: (todo: rewrite this list into a `normal' section.) %todo rewrite this piece
-    \begin{itemize}
-        \item \textless{}loc classDecl, className(str name)\textgreater{}
-        \item \textless{}loc classDecl, classMethod(str name, set[Modifier] modifiers)\textgreater{}
-        \item \textless{}loc classDecl, classProperty(str name, set[Modifier] modifiers)\textgreater{}
-        \item \textless{}loc classDecl, classConstant(str name, set[Modifier] modifiers)\textgreater{}
-        \item \textless{}loc classDecl, classConstructorParameters(list[PhpParam] params)\textgreater{}
-        
-        \item \textless{}loc methodDecl, methodName(str name)\textgreater{}
-        \item \textless{}loc methodDecl, methodParameters(list[PhpParam] params)\textgreater{}
-        %\item \textless{}loc methodDecl, methodHasReturnStatements(bool)\textgreater{}
-        
-        \item \textless{}loc functionDecl, functionName(str name)\textgreater{}
-        \item \textless{}loc functionDecl, functionParameters(list[PhpParam] params)\textgreater{}
-    \end{itemize}
-    
-    In Rascal:
-    \begin{rascal}
-\CAT{Keyword}{alias} TypeFacts = \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, Fact fact];
-
-\CAT{Keyword}{data} Fact
-    = className(\CAT{Keyword}{str} name) \CAT{Comment}{// = FQN = fully qualified name}
-    | classMethod(\CAT{Keyword}{str} name)
-    | classProperty(\CAT{Keyword}{str} name)
-    | classConstant(\CAT{Keyword}{str} name)
-    | classConstructorParameters(\CAT{Keyword}{list}{}[PhpParam] params)
-    | methodName(\CAT{Keyword}{str} name)
-    | methodParameters(\CAT{Keyword}{list}{}[PhpParam] params)
-    | functionName(\CAT{Keyword}{str} name)
-    | functionParameters(\CAT{Keyword}{list}{}[PhpParam] params)
-    ;
-    \end{rascal}
-
+ 
     Other facts that will be used:
     \begin{rascal} 
 \CAT{Keyword}{alias} PhpParams = \CAT{Keyword}{lrel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{set}{}[\CAT{Keyword}{loc}] typeHints, \CAT{Keyword}{bool} isRequired, \CAT{Keyword}{bool} byRef];
@@ -210,6 +180,7 @@
     \end{rascal}
   
     \subsection{Constraint extraction}
+    (based on these rules, we can add constraints to the source code)
        
     Introduction is needed here... for now I will just list the types that I have found.
     Maybe this needs to be moved to a different chapter.
@@ -367,6 +338,9 @@
     
     \section{Constraint solving}
     Explain how we will solve constraints.
+    
+    We use the least upper bound between variables. We use the least common ancestor (https://class.coursera.org/compilers/lecture/preview, subtyping).
+    First check if one is a subset of the other.
 
 
 \end{document}
