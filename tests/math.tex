@@ -1,0 +1,51 @@
+\documentclass[a4paper,10pt,oneside]{report}
+\setlength{\textwidth}{440pt}
+\setlength{\textheight}{660pt}
+\setlength{\oddsidemargin}{10pt}
+\setlength{\topmargin}{-10pt}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\addtolength{\fboxsep}{1pt}
+\usepackage{amsmath}
+\begin{document}
+\begin{equation}
+  \begin{aligned}
+  \texttt{@return}=\begin{cases}
+    \texttt{@return} \; type, & \text{unconditionally try to read}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{8cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  \texttt{@param}=\begin{cases}
+    \texttt{@param} \; type \; \$var, & \text{if `\texttt{@param} type \$var' occurs at least once}.\\
+    \texttt{@param} \; \$var \; type, & \text{else if `\texttt{@param} \$var type' occurs at least once}.\\
+    \texttt{@param} \; type, & \text{otherwise try to match `@param type'}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{2.9cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  \texttt{@var}=\begin{cases}
+    \texttt{@var} \; type \; \$var, & \text{if `\texttt{@var} type \$var' occurs at least once}.\\
+    \texttt{@var} \; \$var \; type, & \text{else if `\texttt{@var} \$var type' occurs at least once}.\\
+    \texttt{@var} \; type, & \text{otherwise try to match `@var type'}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{2.83cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  type=\begin{cases}
+    type|type, & \text{if `$\vert$' in type}.\\
+    type, & \text{otherwise}
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{8.48cm}} %%<---adjust the value as you want
+\end{equation}
+\end{document}
