@@ -103,6 +103,56 @@
     \footnotetext{https://github.com/php-fig/fig-standards/pull/169/files, July 2014}
     For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
     
+    \section{Annotations}
+    Explain here how annotations are used in PHP.
+    \\
+    For our this analysis, the \texttt{@return}, \texttt{@param}, and \texttt{@var} are read from the source code.
+    The annotations \texttt{@return} and \texttt{@param} are only useful for functions and class methods. Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
+    \\
+    There is no official standard for the use of annotations, but most syntax follows the phpDocumentor syntax.
+    For this research the following annotations are parsed:
+    
+\begin{equation}
+  \begin{aligned}
+  \texttt{@return}=\begin{cases}
+    \texttt{@return} \; type, & \text{unconditionally read \texttt{@return} $type$}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{8cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  \texttt{@param}=\begin{cases}
+    \texttt{@param} \; type \; \$var, & \text{if `\texttt{@param} $type$ \$var' occurs at least once}.\\
+    \texttt{@param} \; \$var \; type, & \text{else if `\texttt{@param} \$var $type$' occurs at least once}.\\
+    \texttt{@param} \; type, & \text{otherwise try to match `\texttt{@param} $type$'}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{3.55cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  \texttt{@var}=\begin{cases}
+    \texttt{@var} \; type \; \$var, & \text{if `\texttt{@var} $type$ \$var' occurs at least once}.\\
+    \texttt{@var} \; \$var \; type, & \text{else if `\texttt{@var} \$var $type$' occurs at least once}.\\
+    \texttt{@var} \; type, & \text{otherwise try to match `\texttt{@var} $type$'}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{3.2cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  type=\begin{cases}
+    type|type, & \text{if `$\vert$' in $type$}.\\
+    type, & \text{otherwise}
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{8.8cm}} %%<---adjust the value as you want
+\end{equation}
+ 
     \section{Rascal}
     \Gls{Rascal} is a meta programming language developed by the Centrum Wiskunde \& Informatica (CWI)\cite{Kli:09}.
     Rascal is designed to analyse, transform and visualise source code.
