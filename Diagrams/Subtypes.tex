@@ -24,24 +24,26 @@
     ]
     [scalar()
         [resource()]
-        [string()
-            [boolean()]
-            [number()
-                [float()]
-                [integer()]
-            ]
+        [boolean()]
+        [number()
+            [float()]
+            [integer()]
         ]
+        [string(), name=string]
     ]
-    [object()
-        [class(childless)]
-        [class(parent)
-            [class(child1)]
-            [class(child2)
-                [class(grandChild)]
+    [callable(), name=callable
+        [object()
+            [class(childless)]
+            [class(parent)
+                [class(child1)]
+                [class(child2)
+                    [class(grandChild)]
+                ]
             ]
         ]
     ]
 ]
+\draw (callable.south west) -- (string.north east);
 %\draw[->,dotted] (array) .. controls +(north west:2cm) and +(north:2cm).. (any);
 \end{forest}
 
