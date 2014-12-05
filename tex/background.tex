@@ -104,7 +104,7 @@
     For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
     
     \section{Annotations}
-    Explain here how annotations are used in PHP.
+    Explain here how annotations are used in PHP. What the advantage is (/can be) and why you would (not) use it.
     \\
     For our this analysis, the \texttt{@return}, \texttt{@param}, and \texttt{@var} are read from the source code.
     The annotations \texttt{@return} and \texttt{@param} are only useful for functions and class methods. Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
@@ -181,6 +181,15 @@
     
     Why resolve types of dynamic typed systems?
     Is useful for optimisation (and transformations) and analysis.
+    
+    \section{Type inference}
+    Explain the difference between inference and type checking here.
+    \\
+    In this research we use set based type inference.
+    Flow insensitive, context sensitive.
+    \\
+    Also describe $k$-CFA ($k$-control flow analysis) and CPA (cartesian product algorithm)
+    
     
     
     \section{Related work}
