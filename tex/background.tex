@@ -87,9 +87,18 @@
     But in a new class instantiation, like you can see on \texttt{line 6}, will not have the property there.
     
     \lstinputlisting[language=PHP,label=dynamicProperty,caption=Dynamic class property]{src/php/dynamicProperty.php}
+    
+    \section{Annotations}
+    PHP has no native support for annotations.
+    But PHP has a \texttt{getDocComment}\footnotemark method in the \texttt{ReflectionClass}. 
+    \footnotetext{http://php.net/manual/en/reflectionclass.getdoccomment.php}
+    This \texttt{getDocComment} method returns the complete doc block of a certain element as a string.
+    A doc block in php has the format \texttt{\slash**...*\slash}.
+    Listing \ref{docblock} shows an example of a doc block in PHP.
+    
+    \lstinputlisting[language=PHP,label=docblock,caption=PHP DocBlock]{src/php/docBlock.php}
 
-    \paragraph{Annotations}
-    In PHP Annotations are not part of the official language.
+  In PHP Annotations are not part of the official language.
     They are however widely used. 
     For instance in ZEND, Symfony and Doctrine you can write business logic rules in the form of annotations.
     These annotations will be parsed and used in real code.
@@ -102,14 +111,9 @@
     Writing annotations is not yet in the PSR standards for PHP, but there is a proposal\footnotemark.
     \footnotetext{https://github.com/php-fig/fig-standards/pull/169/files, July 2014}
     For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
-    
-    \section{Annotations}
-    Explain here how annotations are used in PHP. What the advantage is (/can be) and why you would (not) use it.
-    \\
-    For our this analysis, the \texttt{@return}, \texttt{@param}, and \texttt{@var} are read from the source code.
     The annotations \texttt{@return} and \texttt{@param} are only useful for functions and class methods. Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
     \\
-    There is no official standard for the use of annotations, but most syntax follows the phpDocumentor syntax.
+    There is no official standard for the use of annotations, but most projects follow the phpDocumentor syntax.
     For this research the following annotations are parsed:
     
 \begin{equation}
