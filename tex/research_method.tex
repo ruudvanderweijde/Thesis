@@ -2,10 +2,11 @@
 \begin{document}
     \chapter{Research Method}\label{chap:research_method}
 
-    \section{Introduction}
-    $<<$ Some kind of introduction here... $>>$
+    In this research we will try to answer research questions.
+    The questions will be described in section \ref{sec:research_question}
+    The research context is described in section \ref{sec:research_context}
 
-    \section{Research question}
+    \section{Research question}\label{sec:research_question}
     The research question will be something like: \\
     \begin{quote}
         Will the use of annotations\footnotemark{} provide more resolution for constraint based type inference?
@@ -25,7 +26,25 @@
     \\
     Explain the subquestions here.
     
-    \section{Research context}
+    \section{Research context} \cite{sec:research_context}
+    In order to let our research take place, we need to make sure that some environment variables are constant.
+    
+    \paragraph{Program Correctness}
+    In order to be able to execute this research we will need to assume that the program is correct and works as intended. We will assume that the system contains no bugs.
+    
+    \paragraph{File includes}
+    In this research we will assume that all file are included during runtime. 
+    When a PHP system is constructed of classes with namespaces, the files will be logically loaded using PHP's autoloader.
+    Because most recent systems use namespaces, we will assume that all files are included.
+    For legacy systems, this can influence the results of this research.
+    
+    \paragraph{Register globals}
+    Register globals allows variables to be magically be created from GET and POST values.
+    Since it is discouraged to use this setting, we will assume that all software products have this setting disabled.
+    
+    \paragraph{PHP Warnings}
+    For this research we will ignore all warnings
+    
     The following items should be wrapped in a piece of text. (Design decisions??)
     \begin{itemize}
         \item We assume that the program is correct. This means that warnings can happen, but fatal errors not.
