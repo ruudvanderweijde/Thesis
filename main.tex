@@ -5,9 +5,9 @@
 \usepackage{sty/rascal}
 \usepackage{sty/codeformat}
 
-\title{Value of annotations in PHP}
-%\title{Type inference for PHP}
-\subtitle{Will manual type hinting result in better source code analysis}
+%\title{Value of annotations in PHP}
+\title{Type inference for PHP}
+\subtitle{The value of annotations in a dynamic language}
 
 \author{Ruud van der Weijde}
 
@@ -16,10 +16,12 @@
 \supervisorhost{Winfred Peereboom}
 
 \abstract{
-PHP is widely used. \\
-Some parts are hard to analyse. \\
-Knowing (object) types can provide better results (no proof for this). \\
-Annotations can (not) help to better resolve types.
+Dynamic language are generally hard to statically analyse because of their run-time dependencies, which cannot be determinated without running the program.
+Because dynamic languages are PHP are widely used, the need for decent analysis tool grow.
+This research examines the value of adding annotations to PHP code to improve the analysability.
+In the results we see that annotations improve the analysability of software code.
+Here I should state something about the correctness of the annotations.
+And end with a general conclusion.
 }
 
 
