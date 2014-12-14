@@ -177,23 +177,40 @@
     The \texttt{uses} relation describes what reference is using which object. For instance when a field of a class is used in some expression, the \texttt{uses} relation links the field in the expression to the declaration of the field in the class.
     And lastly, \texttt{messages} contains errors, warnings or info statements.
     
-    \section{Type systems}
-    Todo, add some general things about type-systems.
-    
-    Static type systems: catch many programming errors, avoids overhead of runtime type checks.
-    Dynamic type systems: static type systems are restrictive, difficult to do rapid prototype.
-    
-    Why resolve types of dynamic typed systems?
-    Is useful for optimisation (and transformations) and analysis.
+    \section{Type checking}
+    Type checking of dynamic languages differs from static languages.
+    In dynamic languages, most type checking is performed during run-time.
+    The down side here is that you actually have to run the program to get feedback on incorrect usage of types. 
+    For example when you divide an integer by a boolean with value true.
+    In PHP these operations are (most of the times) valid and will return you a value.
+    In this case, the boolean will be internally concerted to the integer 1.
+    This can result in unexpected behaviour and is discouraged to do.
+    \\
+    On the other hand we have static type systems which allow type checking without executing the code.
+    Most analysis can be performed during compile time.
+    These systems can catch programming errors related to typing issues and can avoid overhead of runtime type checks.
+    In dynamic languages the type checking is done during run time, and this will decrease the performance.
     
     \section{Type inference}
-    Explain the difference between inference and type checking here.
+    In the previous section we explained the type checking.
+    In order to check the types of variables and expression, we need to know the types of the variables and expressions first.
+    The process of resolving the type of a variable or expressions is called type inference.
+    In dynamic languages like PHP it can be difficult to resolve the type of a variable or expression without running the program.
+    When you are able to resolve the type before running the program, you are able to optimise the execution code.
+    This allows you to make performance improvements or avoid memory usage.
     \\
-    In this research we use set based type inference.
-    Flow insensitive, context sensitive.
+    In this research we use constraint based type inference.
+    Every tapeable language construct will have a set of possible types.
+    At the start of the analysis everything will have all possible types, we call this \texttt{Universe}.
+    Then we will read all the constraints and will try to solve them.
+    Every time a constraint is solved, the number of possible types for one variable will decrease.
+    This process will be repeated until we have solved all the constraints and can no longer limit the number of types for a variable. 
     \\
-    Also describe $k$-CFA ($k$-control flow analysis) and CPA (cartesian product algorithm)
-    
+    Other forms of type inference are $k$-CFA ($k$-control flow analysis) and CPA (cartesian product algorithm).
+    %todo explaing K-CFA en CPA
+    \\
+    The analysis we perform is flow insensitive, which means that we do not analyse the flows of the program.
+    We do take the context of the programs into account, making the analysis context sensitive.
     
     
     \section{Related work}
