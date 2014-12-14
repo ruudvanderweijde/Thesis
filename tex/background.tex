@@ -164,9 +164,9 @@
     In this research, most of our code is implement in rascal.
 
     \section{$M^3$}
-    The $M^3$-model is a model which can hold information of source code\cite{Ana:13}.
+    The $M^3$-model is a model which holds information of source code\cite{Ana:13}.
     This model is created to analyse one single JAVA program or compare two or more JAVA systems with each other.
-    The core of the $M^3$-model contains \texttt{containment}, \texttt{declarations}, \texttt{document$M^3$ation}, \texttt{modifiers}, \texttt{names}, \texttt{types}, \texttt{uses}, \texttt{messages}.
+    The core of the $M^3$-model contains \texttt{containment}, \texttt{declarations}, \texttt{documentation}, \texttt{modifiers}, \texttt{names}, \texttt{types}, \texttt{uses}, \texttt{messages}.
     \\
     The \texttt{declarations} relation contains class, method, variable- information with their logical name and their real location. The type of the relation are \texttt{locations} and represent the logical name of the declaration and will be used in the rest of the $M^3$.
     The \texttt{containment} relation has information on what declarations are contained in each other. For example a package can contain a class; a class can contain fields and methods or an inner class; a method can contain variables.    
@@ -177,7 +177,12 @@
     The \texttt{uses} relation describes what reference is using which object. For instance when a field of a class is used in some expression, the \texttt{uses} relation links the field in the expression to the declaration of the field in the class.
     And lastly, \texttt{messages} contains errors, warnings or info statements.
     
-    \section{Type checking}
+    \section{Type system}
+    The type system defines how rules are applied to types.
+    The system determines validates the type usage with type checking.
+    The process of actually resolving types is called type inference.
+    On one hand the system needs to determine the type of variables, on the other hand it will check the type of the variables.
+    \paragraph{Type checking}
     Type checking of dynamic languages differs from static languages.
     In dynamic languages, most type checking is performed during run-time.
     The down side here is that you actually have to run the program to get feedback on incorrect usage of types. 
@@ -191,7 +196,7 @@
     These systems can catch programming errors related to typing issues and can avoid overhead of runtime type checks.
     In dynamic languages the type checking is done during run time, and this will decrease the performance.
     
-    \section{Type inference}
+    \paragraph{Type inference}
     In the previous section we explained the type checking.
     In order to check the types of variables and expression, we need to know the types of the variables and expressions first.
     The process of resolving the type of a variable or expressions is called type inference.
