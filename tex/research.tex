@@ -332,13 +332,31 @@
     \end{itemize}
     
     \section{Annotations}\label{sec:annotations}
-    Explain how the annotations are added to the constraints.
+    After we gathers all the facts from the source code, we will add additional information which we read from the annotations.
+    For this we use regex to match \texttt{@return type} and \texttt{@param type var} for methods and functions.
+    We read \texttt{@var type} for variables and class attributes.
+    In our first analysis we do not include the facts we gathered from the annotations. 
+    In the second analysis we do include the facts.
+    This way we can compare the end results.
+    \\
+    In order to gain some knowledge about the reliability of the annotations, we compare the result our or initial analysis with the provided provided annotation information.
+    Here the implementation should comply to the used annotations.
     
     \section{Constraint solving}\label{sec:constraint_solving}
-    Explain how we will solve constraints.
-    
-    We use the least upper bound between variables. We use the least common ancestor (https://class.coursera.org/compilers/lecture/preview, subtyping).
-    First check if one is a subset of the other.
-
-
+    When we have all the constraints from the source code as facts, we will solve the constraints until we can no longer solve any constraints.
+    The result will be a list of possible types for each class, method, fields, functions, variable and expression.
+    \\
+    The first step is to initialise all type-able objects we want to solve.
+    In this initial phase the status of all objects can be of any type, because we do not know anything about them yet.
+    When we solve the constraints step by step, we will be able to limit the number of possible types for a certain object.
+    We do this by taking the intersection of the constraint result and the possible types we have.
+    This way there should be less and less possible types for each variable.
+    \\
+    When we take the intersection of none overlapping types, we have a type error.
+    There is no possible type for this object.
+    Because PHP allows ducktyping, allowing objects to be of more than one type, we will use widening in these cases.
+    Widening means that we pick the union instead of the intersection, so we can continue our analysis.
+    \\
+    Some of the constraints only give us information that a certain object should be a subtype of a certain type.
+    When we solve these constraints, we will take the least common ancestor.
 \end{document}

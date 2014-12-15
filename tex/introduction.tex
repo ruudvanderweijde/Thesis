@@ -22,13 +22,13 @@
         OPcache speeds up the performance of including files on run-time by storing precompiled script bytecode in shared memory.
        
         \paragraph{Popularity}
-        According to the Tiobe Index\footnotemark of july 2014, PHP is the 7th most popular programming language.
-            \footnotetext{http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html, July 2014}
+        According to the Tiobe Index\footnotemark of december 2014, PHP is the 6th most popular programming language.
+            \footnotetext{http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html, December 2014}
         The language has been in the top 10 since its introduction in the Tiobe Index in 2001.
         More than 80 procent of the websites have a php backend\footnotemark.
-            \footnotetext{http://w3techs.com/technologies/details/pl-php/all/all, July 2014}
+            \footnotetext{http://w3techs.com/technologies/details/pl-php/all/all, December 2014}
         The majority of these websites use PHP version 5, rather than version 4 or older versions.
-        It is therefor wise to focus on PHP version from 5 and discard the older unsupported versions.
+        It is therefor wise to focus on PHP version from 5 and discard the older unused versions.
             
         \paragraph{Analysability}
         Although the popularity for more than a decade, there is still a lack of good PHP code analysis tools.
@@ -38,15 +38,17 @@
         More information on the analysability of php can be found in section \ref{sec:PHP_Language_Constructs}.
         
     \section{Position} % Position: what makes this paper unique, position to related work. (Explain about the current position of PHP.)
-        This research focusses on how we can improve the analysability of source code.
-        Annotations can be validated by analysing the source code. 
-        %TODO fill position, reread after writing
-        % Maybe add a 'problem' statement here? or in the previous section is maybe better.
-        
-        Todo: explain here why it is important to analyse programs: for security analysis and compiler optimisations. The next stuff needs to be rewritten. \\
+        In this research we want to find out how we can improve the analysability of programs written in PHP.
+        We will show that the use of annotated source code can help to improve the analysability.
+        The correctness of the annotations can also be examined by checking the implementation of the code. 
+        \\
+        %todo fix this
+        These annotations can help to improve the analysis.
+        The results can be used to find security issues, and if they are highly reliable we can even make compiler optimisations.
+        \\
         As far as we know, there is no constraint based type inference research like this one performed for PHP.
         That makes this research unique.
-        There have been similar analysis for other dynamic languages, like smalltalk, ruby and javascript.
+        There have been similar analysis for other dynamic languages, like smalltalk, ruby and javascript, but none like this.
        
     \section{Contribution} % Contribution: what is the return of investment for the reader. (Resolving types can: helpt to build IDE tools, identify dependencies, beter security scans, gecombineerd worden met andere analyses (voor future work).)
         % TODO rewrite this piece
