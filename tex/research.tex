@@ -12,20 +12,17 @@
     
     \section{$M^3$ for PHP}\label{sec:m3_for_php}
     We have constructed a similar $M^3$ for PHP as was already done for JAVA.
-    Because language constructs are different and are therefor not applicable for PHP and the other way around.
-    For the overlapping constructs we created a similar structure.
-    The model will be used to query the system for information. % vaag..
+    Because language constructs differ per language we had to check which elements were applicable for PHP and which were not.
+    For the overlapping language constructs we created a similar structure.
+    The model will be used to query the system for information about the system.
     The following steps are performed to create an $M^3$ for a system.
     \begin{itemize}
         \item Parse all PHP files, resulting in an \gls{AST}.
         \item For each file, create an independent $M^3$ from the ast.
         \item Combine all the m3s into one $M^3$ for the project.
-        \item For each file, add additional informationNow run more analysis when all facts are collected in the m3.
-        \item Done. M3 is finished! 
+        \item For each file, add additional informationNow run more analysis when all facts are collected in the m3. 
     \end{itemize}
 
-    \footnotesize{*Maybe add this section to the next chapter, for the research methods. Many aspects will be useful for the type inference analysis}
-    \\
     Our goals is to provide the results in an M3 model.
     Future research can use this to compare different programming languages.
     \\ 
@@ -35,12 +32,20 @@
         \item Declarations (need to explain in more details)
         \item Modifiers
         \item Extends
-        \item Uses (explain in details what is and what is NOT covered)
+        \item Uses
     \end{itemize}
+    
+    The \texttt{containment} has information about what elements logically contain other elements.
+    For example, a property or method is contained in a class and a class is contained in a package.
+    In \texttt{declarations}, you will find the relation between the logical name and the actual file location. 
+    For example the logical name of a class can be \texttt{$\vert$php+class://SomeNameSpace/ClassX$\vert$} while the actual location might be \texttt{$\vert$file:///project/SomeNameSpace/ClassX.php$\vert$}.
+    The \texttt{modifiers} element contains information about the \texttt{public}, \texttt{private}, or \texttt{protected} modifiers of a certain method, class, function or property.
+    \texttt{Extends} contains information about what classes and interface extend other classes of interfaces. Please note that we do not hold information about which class implements which interface, because that information is contained in the \texttt{implements} relation.
+    The \texttt{uses} relation holds information about the usages of certain elements.
+    For example when you instantiate a class, in that case you 'use' that specific class.
     
     The following php specific items are added:
     \begin{itemize}
-        \item Extends (class or interface and their extended class or interface)
         \item Implements (which class implements which interfaces)
         \item TraitUses (which class uses which trait)
         \item Parameters (methods and functions and their parameters)
@@ -48,12 +53,17 @@
         \item Aliases (class aliases, for example the usage of class\_{}alias)
         \item Annotations (contraints annotations on classes, methods, fields and variables)
     \end{itemize}
-    Todo, explain in more details...
-
+    \texttt{Implements} holds information on what class implements which interfaces.
+    \texttt{TraitUses} knows what traits a class uses.
+    \texttt{Parameters} keeps track of the parameters of a method or function.
+    \texttt{Constructors} lists all the constructors for classes. This is needed because it is not always clear what constructor is used, due to legacy PHP4 way of using class constructors.
+    \texttt{Aliases} lists the class aliases, created by the \texttt{class\_alias} function. 
+    \texttt{Annotations} has all the annotations for a certain element.
+    
     \section{Types}\label{sec:types}
     PHP is dynamically typed and allow coercions and duck-typing.
     Coercion make it possible for variables to hold different types
-    Duck-typing checks the object instead of the class)
+    Duck-typing checks the object instead of the class.
     
     \begin{rascal}
 \CAT{Keyword}{module} lang::php::m3::TypeSymbol
