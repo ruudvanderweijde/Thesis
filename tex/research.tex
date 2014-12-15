@@ -2,18 +2,17 @@
 \begin{document}
     \chapter{Research}\label{chap:research}
 
-    %This section will contain:
-    %TODO: Explain the used method. %TODO research method
-    %TODO: Hypothese/research questions %TODO research question
-
-    \section{Introduction}
-    $<<$ Todo: properly introduction of this chapter $>>$
-    Explain the next paragraphs: M3 (why do we need it?). Types, subtype relations. Fact extractions
-        
+    This research is executed in 4 main steps.
+    First we created an $M^3$ model for PHP and is explained in section \ref{sec:m3_for_php}.
+    The next section, section \ref{sec:types} explains how we define the type system. 
+    This will include the subtype relation between types.
+    After we define the types, we gather facts from the source code in section \ref{sec:fact_extraction}.
+    The next step is to include annotations in chapter \ref{sec:annotations}.
+    The final chapter \ref{sec:constraint_solving} shows how we solve the constraints we got from the fact extracting.
     
-    \section{$M^3$ for PHP}
+    \section{$M^3$ for PHP}\label{sec:m3_for_php}
     We have constructed a similar $M^3$ for PHP as was already done for JAVA.
-    Some language constructs are different and are therefor not applicable for PHP and the other way around.
+    Because language constructs are different and are therefor not applicable for PHP and the other way around.
     For the overlapping constructs we created a similar structure.
     The model will be used to query the system for information. % vaag..
     The following steps are performed to create an $M^3$ for a system.
@@ -50,20 +49,8 @@
         \item Annotations (contraints annotations on classes, methods, fields and variables)
     \end{itemize}
     Todo, explain in more details...
-    \\
-    The type inference analysis will be performed in this order:
-    \begin{itemize}
-        \item M3 stuff...
-        \item Resolve types
-        \item Resolve sub type relations
-        \item Extract facts from the source code
-        \item Extract constraints from source code
-        \item Solve the constraints
-        \item Add result to m3 (all decls)
-    \end{itemize}
-    In the next step, annotations will be added to see how the results be like.
 
-    \section{Types}
+    \section{Types}\label{sec:types}
     PHP is dynamically typed and allow coercions and duck-typing.
     Coercion make it possible for variables to hold different types
     Duck-typing checks the object instead of the class)
@@ -133,7 +120,7 @@
     \label{fig:subtypes}
     \end{figure}
     
-    \section{Fact extraction}
+    \section{Fact extraction}\label{sec:fact_extraction}
     We can extract fact about classes, class-constants/fields/methods, functions, parameters.
     For these facts, we can use a relation, so we have a many-to-many relation.
     On the left size we will have the class, function or method. On the right side we have their attribute.
@@ -334,10 +321,10 @@
         \item Annotate the rest of the expressions with @type = any(); (should only be for relevant expressions)
     \end{itemize}
     
-    \section{Annotations}
+    \section{Annotations}\label{sec:annotations}
     Explain how the annotations are added to the constraints.
     
-    \section{Constraint solving}
+    \section{Constraint solving}\label{sec:constraint_solving}
     Explain how we will solve constraints.
     
     We use the least upper bound between variables. We use the least common ancestor (https://class.coursera.org/compilers/lecture/preview, subtyping).
