@@ -15,21 +15,25 @@
     \end{quote}
     Subquestions:
     \begin{quote}
-        - If we get better results, where do they come from?
+        - What is the accuracy (recall and precision) of our analysis?
         \\
-        - Can we say something about the reliability of the annotations?
-        \\
-        - What is the accuracy of the results? (recall and precision)
+        - Are annotations used in programs reliable?
     \end{quote}
-    * These questions need to be more concrete, making them `testable'.
+    The subquestions are here to support the main question. 
+    In the first question we want to measure the precision and recall of this research.
+    With precision we want to measure if the results we have are reliable.
+    With recall we want to have the number of results we were able to reveal.
     \\
-    
+    In the second subquestion we want to know if the annotations conform to the documentation.
+    We will measure this by doing the analysis without using annotations, and see if the results fit the annotations.    
     
     \section{Research context}\label{sec:research_context}
     In order to let our research take place, we need to make sure that some environment variables are constant.
     
     \paragraph{Program Correctness}
-    In order to be able to execute this research we will need to assume that the program is correct and works as intended. We will assume that the system contains no bugs.
+    In order to be able to execute this research we will need to assume that the program is correct and works as intended. 
+    We will assume that the system contains no bugs.
+    This is needed to be able to say something about the programs we analyse.
     
     \paragraph{File includes}
     In this research we will assume that all file are included during runtime. 
@@ -42,23 +46,16 @@
     Since it is discouraged to use this setting, we will assume that all software products have this setting disabled.
     
     \paragraph{PHP Warnings}
-    For this research we will ignore all warnings
+    For this research we will ignore all warnings.
+    Warnings do not alter the behaviour of the program.
+    In a normal production environment, the warnings are not shown.
     
-    The following items should be wrapped in a piece of text. (Design decisions??)
-    \begin{itemize}
-        \item We assume that the program is correct. This means that warnings can happen, but fatal errors not.
-        \item We assume that all files are included.
-        \item We assume that register globals is off! (maybe add some other runtime environments)
-        \item Ingore warnings (because most production code has them off)
-        \item Our analysis is flow-, control-, and context-insensitive (explain what this means)
-    \end{itemize}
-    These items will not be covered by the analysis (maybe add this to threats/future work)
-    \begin{itemize}
-        \item Analysis is flow insensitive
-        \item Closure
-        \item References
-        \item Variable constructs (variable -variable, -method/function calls, -class instantiation, eval) :: todo: explain WHY not.
-        \item Yields
-    \end{itemize}
-
+    \paragraph{Sensitivity}
+    Our analysis is flow-, control-, and context-insensitive.
+    Flow-insensitive means that we do not look at messages between objects, and only look in the body of a method.
+    Control-insensitive means that we ignore all control structures. 
+    Examples of control structures are \texttt{if}, \texttt{else}, and \texttt{switch}.
+    Context-insensitive means that we do not look at the order of which code is executed.
+    
+    
 \end{document}
