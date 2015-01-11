@@ -5,7 +5,8 @@
 \usepackage{sty/rascal}
 \usepackage{sty/codeformat}
 \usepackage[firstpage]{draftwatermark}
-\SetWatermarkScale{4}
+\SetWatermarkScale{3}
+\SetWatermarkText{First draft}
 
 %\title{Value of annotations in PHP}
 \title{Type inference for PHP}
@@ -19,7 +20,7 @@
 
 
 \abstract{
-Dynamic language are generally hard to statically analyse because of the run-time dependencies. 
+Dynamic language are generally hard to statically analyse because of run-time dependencies. 
 Without running the program there are many things unknown.
 Because dynamic languages are PHP are widely used, the need for decent analysis tool grows.
 This research examines the value of adding annotations to PHP code to improve the analysability.
