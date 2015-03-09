@@ -6,7 +6,7 @@
 \usepackage{sty/codeformat}
 \usepackage[firstpage]{draftwatermark}
 \SetWatermarkScale{3}
-\SetWatermarkText{First draft}
+\SetWatermarkText{Draft version}
 
 %\title{Value of annotations in PHP}
 \title{Type inference for PHP}
@@ -32,8 +32,10 @@ And end with a general conclusion.
 
 \begin{document}
     \maketitle
-	\makeglossaries
-    \subfile{tex/glossaryDef.tex} % contains glossary declarations, can be used using \gls{key} or \Gls{key}
+	
+	% contains glossary declarations, can be used using \gls{key} or \Gls{key}
+    \makeglossaries
+	\subfile{tex/glossaryDef.tex}
     
    	\subfile{tex/preface.tex}
    	\subfile{tex/introduction.tex}

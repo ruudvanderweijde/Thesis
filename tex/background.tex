@@ -1,11 +1,13 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Background and related work}\label{chap:background}
-    This chapter explains language constructs that are important for this research.
-    The next section explains Rascal and $M^3$.
-    The final section of this chapter describes the related work.
+    Chapter \ref{chap:background} describes seven important language constructs in section \ref{sec:background_language-constructs} which you need to understand in order to understand the difficulties of analysing PHP.
+    The second section, \ref{sec:background_annotations}, gives an introduction to the syntax and usage of annotation in PHP.
+    Section \ref{sec:background_rascal} explains the used programming language \Gls{Rascal}.
+    $M^3$ is a generic model designed to analyse programming languages and is described in more details in section \ref{sec:background_m3}.
+    The final section, section \ref{sec:background_related-work} of this chapter describes the related work and how these researches are related to this thesis.
 
-    \section{PHP Language Constructs}\label{sec:PHP_Language_Constructs}
+    \section{PHP Language Constructs}\label{sec:background_language-constructs}
     This section presents important language constructs for this research.
     Explanations of these constructs should help to understand the performed analysis.
     %Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
@@ -88,7 +90,7 @@
     
     \lstinputlisting[language=PHP,label=dynamicProperty,caption=Dynamic class property]{src/php/dynamicProperty.php}
     
-    \section{Annotations}
+    \section{Annotations}\label{sec:background_annotations}
     PHP has no native support for annotations.
     But PHP has a \texttt{getDocComment}\footnotemark method in the \texttt{ReflectionClass}. 
     \footnotetext{http://php.net/manual/en/reflectionclass.getdoccomment.php}
@@ -157,13 +159,13 @@
   \phantom{\hspace{8.8cm}} %%<---adjust the value as you want
 \end{equation}
  
-    \section{Rascal}
+    \section{Rascal}\label{sec:background_rascal}
     \Gls{Rascal} is a meta programming language developed by the Centrum Wiskunde \& Informatica (CWI)\cite{Kli:09}.
     Rascal is designed to analyse, transform and visualise source code.
     The language is build on top of JAVA and implements various constructs of existing programming languages.
     In this research, most of our code is implement in rascal.
 
-    \section{$M^3$}
+    \section{$M^3$}\label{sec:background_m3}
     The $M^3$-model is a model which holds information of source code\cite{Ana:13}.
     This model is created to analyse one single JAVA program or compare two or more JAVA systems with each other.
     The core of the $M^3$-model contains \texttt{containment}, \texttt{declarations}, \texttt{documentation}, \texttt{modifiers}, \texttt{names}, \texttt{types}, \texttt{uses}, \texttt{messages}.
@@ -177,7 +179,7 @@
     The \texttt{uses} relation describes what reference is using which object. For instance when a field of a class is used in some expression, the \texttt{uses} relation links the field in the expression to the declaration of the field in the class.
     And lastly, \texttt{messages} contains errors, warnings or info statements.
     
-    \section{Type system}
+    \section{Type system}\label{sec:background_type-system}
     The type system defines how rules are applied to types.
     The system determines validates the type usage with type checking.
     The process of actually resolving types is called type inference.
@@ -220,7 +222,8 @@
     (todo, describe K-CFA and CPA in more details)
     
     
-    \section{Related work}
+    \section{Related work}\label{sec:background_related-work}
+    %todo describe related work
     Describe these:
     \begin{itemize}
         \item `The HipHop Compiler for PHP'\cite{Zhao:12} (not much information available on their type inference, only source code)
