@@ -4,7 +4,7 @@
     Chapter \ref{chap:background} describes seven important language constructs in section \ref{sec:background_language-constructs} which you need to understand in order to understand the difficulties of analysing PHP.
     The second section, \ref{sec:background_annotations}, gives an introduction to the syntax and usage of annotation in PHP.
     Section \ref{sec:background_rascal} explains the used programming language \Gls{Rascal}.
-    $M^3$ is a generic model designed to analyse programming languages and is described in more details in section \ref{sec:background_m3}.
+    $M^3$ is a generic model designed to analyseprogramming languages and is described in more details in section \ref{sec:background_m3}.
     The final section, section \ref{sec:background_related-work} of this chapter describes the related work and how these researches are related to this thesis.
 
     \section{PHP Language Constructs}\label{sec:background_language-constructs}
@@ -16,7 +16,7 @@
     In PHP, all classes and functions are globally accessible once they are declared.
     All classes and functions are implicitly public, inner classes are not allowed, and conditional functions (see paragraph about conditional classes and functions) will be available in the global scope.
     If a class or function is declared inside a namespace, their name will be prefixed with the namespace name.
-    Closures (anonymous functions in PHP) have the same scoping rules as variables, but they can inherhit variables from outside their scope by providing them in the use statement. 
+    Closures (anonymous functions in PHP) have the same scoping rules as variables, but they can inherit variables from outside their scope by providing them in the use statement. 
     In this research we will not support closures because they are fairly new and not much used in practice. 
     \\
     For variables there are three scopes: global-, function-, and method-scope. 
@@ -162,12 +162,12 @@
     \section{Rascal}\label{sec:background_rascal}
     \Gls{Rascal} is a meta programming language developed by the Centrum Wiskunde \& Informatica (CWI)\cite{Kli:09}.
     Rascal is designed to analyse, transform and visualise source code.
-    The language is build on top of JAVA and implements various constructs of existing programming languages.
+    The language is build on top of Java and implements various constructs of existing programming languages.
     In this research, most of our code is implement in rascal.
 
     \section{$M^3$}\label{sec:background_m3}
     The $M^3$-model is a model which holds information of source code\cite{Ana:13}.
-    This model is created to analyse one single JAVA program or compare two or more JAVA systems with each other.
+    This model is created to analyse one single Java program or compare two or more Java systems with each other.
     The core of the $M^3$-model contains \texttt{containment}, \texttt{declarations}, \texttt{documentation}, \texttt{modifiers}, \texttt{names}, \texttt{types}, \texttt{uses}, \texttt{messages}.
     \\
     The \texttt{declarations} relation contains class, method, variable- information with their logical name and their real location. The type of the relation are \texttt{locations} and represent the logical name of the declaration and will be used in the rest of the $M^3$.
@@ -228,10 +228,10 @@
     \begin{itemize}
         \item `The HipHop Compiler for PHP'\cite{Zhao:12} (not much information available on their type inference, only source code)
         \item `Phantm: PHP analyzer for type mismatch'\cite{Kne:10,Bar:10} (investigate this in more details, their focus is on finding type errors)
-        \item PHPLint \footnotemark (uses a different kind of annotations, not the java like phpdocs)
+        \item PHPLint \footnotemark (uses a different kind of annotations, not the Java like PhpDocs)
         \item `Soft typing and analyses on PHP programs'\cite{}, code implementations: https://github.com/henkerik/typing and https://github.com/marcelosousa/soft-typing-PHP5 (created for php4, code for php5, should check this out, might be able to compare results with this)
         \item `Design and Implementation of an Ahead-of-Time Compiler for PHP'\cite{Big:10} (to check in detail)
-        \footnotetext{http://www.icosaedro.it/phplint, july 2014}
+        \footnotetext{http://www.icosaedro.it/phplint, July 2014}
     \end{itemize}
     Also describe their differences with my research.
     

@@ -2,17 +2,16 @@
 \begin{document}
     \chapter{Research}\label{chap:research}
 
-    \includegraphics{Diagrams/ResearchOverview.pdf}
-    This research is executed in 4 main steps.
-    First we created an $M^3$ model for PHP and is explained in section \ref{sec:m3_for_php}.
-    The next section, section \ref{sec:types} explains how we define the type system. 
-    This will include the subtype relation between types.
-    After we define the types, we gather facts from the source code in section \ref{sec:fact_extraction}.
-    The next step is to include annotations in chapter \ref{sec:annotations}.
-    The final chapter \ref{sec:constraint_solving} shows how we solve the constraints we got from the fact extracting.
+    This research is executed in 3 main steps.
+    The first step is to create an $M^3$ model for a PHP program, containing various facts about the program, which is explained in section \ref{sec:m3_for_php} in more details.
+    Once the $M^3$ model is constructed, constraints are extracted from the $M^3$ model which is explained in section \ref{sec:fact_extraction}.
+    In the third step, in section \ref{sec:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
+    The final chapter \ref{sec:annotations} explains how annotations can be included in the process to gain more precise results.
     
     \section{$M^3$ for PHP}\label{sec:m3_for_php}
-    We have constructed a similar $M^3$ for PHP as was already done for JAVA.
+    Constructing a $M^3$ for PHP is differs from construction a $M^3$ for Java.
+    For Java to constructing a
+    We have constructed a similar $M^3$ for PHP as was already done for Java.
     Because language constructs differ per language we had to check which elements were applicable for PHP and which were not.
     For the overlapping language constructs we created a similar structure.
     The model will be used to query the system for information about the system.
@@ -23,6 +22,13 @@
         \item Combine all the m3s into one $M^3$ for the project.
         \item For each file, add additional informationNow run more analysis when all facts are collected in the m3. 
     \end{itemize}
+    
+    
+    \begin{figure}[H]
+        \centerline{\includegraphics{Diagrams/M3Creation.pdf}}
+        \caption{$M^3$ Creation}
+        \label{fig:M3Creation}
+    \end{figure}
 
     Our goals is to provide the results in an M3 model.
     Future research can use this to compare different programming languages.
@@ -61,76 +67,35 @@
     \texttt{Aliases} lists the class aliases, created by the \texttt{class\_alias} function. 
     \texttt{Annotations} has all the annotations for a certain element.
     
-    \section{Types}\label{sec:types}
-    PHP is dynamically typed and allow coercions and duck-typing.
-    Coercion make it possible for variables to hold different types
-    Duck-typing checks the object instead of the class.
-    
-    \begin{rascal}
-\CAT{Keyword}{module} lang::php::m3::TypeSymbol
-
-\CAT{Keyword}{data} TypeSymbol
-  = \textbackslash{}any()        | array(TypeSymbol arrayType)
-  | boolean()     | class(\CAT{Keyword}{loc} decl)
-  | float()       | integer()
-  | null()        | object()
-  | resource()    | string()
-  ;
-    \end{rascal}
-    
-    \subsection{PHP types}
-    PHP has a similar class inheritance structure and interface implementation as Java.
-    The main difference is that in PHP all class are \texttt{public} and that inner classes are not allowed in PHP. 
-    \\
-    The basis types in PHP are integers, floats (similar to doubles and reals), booleans, strings, arrays, resources and null.
-    When variables are initialised without a values, they are null. The recourse type is a special one which is not important for this research.
- 
-    \subsection{Subtypes}
-    
-    Explain something about subtypes here. For now, only this figure\ref{fig:subtypeTree}
-
-    \begin{figure}[H]
-        \includegraphics{Diagrams/Subtypes.pdf}
-        \caption{Subtype hierarchy}
-        \label{fig:subtypeTree}
-    \end{figure}
-
-    The subtype relation of class inheritance is a \gls{reflexive transitive closure} relation.
-    A class extension of \textbf{\texttt{class A}} on \textbf{\texttt{class C}} will define \textbf{\texttt{class A}} as a subtype of \textbf{\texttt{class C}} in our analysis, as you can see in figure \ref{fig:subtypes}.
-    If a class does not extend another class, it will implicitly extend the \gls{stdClass} class.
-    You can see that this happens with \textbf{\texttt{class D}} in the example.
-    The \textbf{\texttt{stdClass}} is represented as the type \textbf{\texttt{object()}} in our analysis.
-    \\
-    The basic PHP types also contain a subtype relation.
-    Integers are subtypes of floats.
- 
-    % show three images next to each other
-    \begin{figure}[H]
-    \begin{subfigure}[b]{.33\textwidth}
-      \begin{center}
-      \includegraphics[scale=1]{Diagrams/Inheritance_example.pdf}
-      \caption{Inheritance relation}
-      \label{fig:subtype}
-      \end{center}
-    \end{subfigure}
-    \begin{subfigure}[b]{.33\textwidth}
-      \begin{center}
-      \includegraphics[scale=1]{Diagrams/Subtypes_example.pdf}
-      \caption{Subtype relation}
-      \label{subtype_tc}
-      \end{center}
-    \end{subfigure}
-    \begin{subfigure}[b]{.33\textwidth}
-      \begin{center}
-      \lstinputlisting[xleftmargin=20pt,xrightmargin=20pt,language=PHP]{src/php/inheritance.php}
-      \caption{Inheritance in PHP}
-      \label{subtype_code}
-      \end{center}
-    \end{subfigure}
-    \caption{Relation of subtypes among classes}
-    \label{fig:subtypes}
-    \end{figure}
-    
+    \begin{algorithm}[H]
+	 \KwIn{PHP files of a program}
+	 \KwOut{$M^3$ for the PHP program}
+     \BlankLine
+	 m3Collection = []\;
+     \BlankLine
+	 \ForAll{file $\in$ program}{
+	  ast = parseUsingPhpParserAndReturnRascalAST(file)\;
+   	  ast = addPublicModifierWhenNotProvided(ast)\;
+	  m3 = createEmptyM3(ast)\;
+      \BlankLine
+	  m3 = addDeclarations(m3, ast)\;
+	  ast = addScopeInformation(m3, ast)\;
+	  m3 = addContainment(m3, ast)\;
+	  m3 = addExtendsAndImplements(m3, ast)\;
+	  m3 = addModifiers(m3, ast)\;
+	  m3 = addRawDocBlocksAndAnnotations(m3, ast)\;
+      \BlankLine
+	  m3 = calculateAliasesFlowInsensitive(m3, ast)\;
+	  m3 = calculateUsesFlowInsensitive(m3, ast)\;
+	  m3Collection += m3\;
+	 }
+	 \BlankLine
+	 projectM3 = composePhpM3(m3Collection)\;
+	 \BlankLine
+	 \Return projectM3\;
+	 \caption{PHP program to $M^3$}
+	\end{algorithm}
+   
     \section{Fact extraction}\label{sec:fact_extraction}
     We can extract fact about classes, class-constants/fields/methods, functions, parameters.
     For these facts, we can use a relation, so we have a many-to-many relation.
@@ -332,17 +297,6 @@
         \item Annotate the rest of the expressions with @type = any(); (should only be for relevant expressions)
     \end{itemize}
     
-    \section{Annotations}\label{sec:annotations}
-    After we gathers all the facts from the source code, we will add additional information which we read from the annotations.
-    For this we use regex to match \texttt{@return type} and \texttt{@param type var} for methods and functions.
-    We read \texttt{@var type} for variables and class attributes.
-    In our first analysis we do not include the facts we gathered from the annotations. 
-    In the second analysis we do include the facts.
-    This way we can compare the end results.
-    \\
-    In order to gain some knowledge about the reliability of the annotations, we compare the result our or initial analysis with the provided provided annotation information.
-    Here the implementation should comply to the used annotations.
-    
     \section{Constraint solving}\label{sec:constraint_solving}
     When we have all the constraints from the source code as facts, we will solve the constraints until we can no longer solve any constraints.
     The result will be a list of possible types for each class, method, fields, functions, variable and expression.
@@ -360,4 +314,17 @@
     \\
     Some of the constraints only give us information that a certain object should be a subtype of a certain type.
     When we solve these constraints, we will take the least common ancestor.
+    
+    \section{Annotations}\label{sec:annotations}
+    %todo: moved this section below constraint solving: check copy
+    After we gathers all the facts from the source code, we will add additional information which we read from the annotations.
+    For this we use regex to match \texttt{@return type} and \texttt{@param type var} for methods and functions.
+    We read \texttt{@var type} for variables and class attributes.
+    In our first analysis we do not include the facts we gathered from the annotations. 
+    In the second analysis we do include the facts.
+    This way we can compare the end results.
+    \\
+    In order to gain some knowledge about the reliability of the annotations, we compare the result our or initial analysis with the provided provided annotation information.
+    Here the implementation should comply to the used annotations.
+        
 \end{document}

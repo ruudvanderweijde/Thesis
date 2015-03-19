@@ -3,7 +3,8 @@
     \chapter{Research Method}\label{chap:research_method}
 
     In this research we will try to answer research questions.
-    Section \ref{sec:research_question} describes our research questions.
+    Section \ref{sec:research_question} describes the research questions.
+    In section \ref{sec:types} we will explain more about types, subtypes and their relationship.
     Section \ref{sec:research_context} explains in which context the research is executed.
 
     \section{Research question}\label{sec:research_question}
@@ -27,6 +28,76 @@
     In the second subquestion we want to know if the annotations conform to the documentation.
     We will measure this by doing the analysis without using annotations, and see if the results fit the annotations.    
     
+   \section{Types}\label{sec:types}
+    PHP is dynamically typed and allow coercions and duck-typing.
+    Coercion make it possible for variables to hold different types
+    Duck-typing checks the object instead of the class.
+    
+    \begin{rascal}
+\CAT{Keyword}{module} lang::php::m3::TypeSymbol
+
+\CAT{Keyword}{data} TypeSymbol
+  = \textbackslash{}any()        | array(TypeSymbol arrayType)
+  | boolean()     | class(\CAT{Keyword}{loc} decl)
+  | float()       | integer()
+  | null()        | object()
+  | resource()    | string()
+  ;
+    \end{rascal}
+    
+    \subsection{PHP types}
+    PHP has a similar class inheritance structure and interface implementation as Java.
+    The main difference is that in PHP all class are \texttt{public} and that inner classes are not allowed in PHP. 
+    \\
+    The basis types in PHP are integers, floats (similar to doubles and reals), booleans, strings, arrays, resources and null.
+    When variables are initialised without a values, they are null. The recourse type is a special one which is not important for this research.
+ 
+    \subsection{Subtypes}
+    
+    Explain something about subtypes here. For now, only this figure\ref{fig:subtypeTree}
+
+    \begin{figure}[H]
+        \includegraphics{Diagrams/Subtypes.pdf}
+        \caption{Subtype hierarchy}
+        \label{fig:subtypeTree}
+    \end{figure}
+
+    The subtype relation of class inheritance is a \gls{reflexive transitive closure} relation.
+    A class extension of \textbf{\texttt{class A}} on \textbf{\texttt{class C}} will define \textbf{\texttt{class A}} as a subtype of \textbf{\texttt{class C}} in our analysis, as you can see in figure \ref{fig:subtypes}.
+    If a class does not extend another class, it will implicitly extend the \gls{stdClass} class.
+    You can see that this happens with \textbf{\texttt{class D}} in the example.
+    The \textbf{\texttt{stdClass}} is represented as the type \textbf{\texttt{object()}} in our analysis.
+    \\
+    The basic PHP types also contain a subtype relation.
+    Integers are subtypes of floats.
+ 
+    % show three images next to each other
+    \begin{figure}[H]
+    \begin{subfigure}[b]{.33\textwidth}
+      \begin{center}
+      \includegraphics[scale=1]{Diagrams/Inheritance_example.pdf}
+      \caption{Inheritance relation}
+      \label{fig:subtype}
+      \end{center}
+    \end{subfigure}
+    \begin{subfigure}[b]{.33\textwidth}
+      \begin{center}
+      \includegraphics[scale=1]{Diagrams/Subtypes_example.pdf}
+      \caption{Subtype relation}
+      \label{subtype_tc}
+      \end{center}
+    \end{subfigure}
+    \begin{subfigure}[b]{.33\textwidth}
+      \begin{center}
+      \lstinputlisting[xleftmargin=20pt,xrightmargin=20pt,language=PHP]{src/php/inheritance.php}
+      \caption{Inheritance in PHP}
+      \label{subtype_code}
+      \end{center}
+    \end{subfigure}
+    \caption{Relation of subtypes among classes}
+    \label{fig:subtypes}
+    \end{figure}
+
     \section{Research context}\label{sec:research_context}
     In order to let our research take place, we need to make sure that some environment variables are constant.
     
@@ -56,6 +127,6 @@
     Control-insensitive means that we ignore all control structures. 
     Examples of control structures are \texttt{if}, \texttt{else}, and \texttt{switch}.
     Context-insensitive means that we do not look at the order of which code is executed.
-    
+     
     
 \end{document}
