@@ -2,35 +2,89 @@
 \begin{document}
     \chapter{Research}\label{chap:research}
 
-    This research is executed in 3 main steps.
-    The first step is to create an $M^3$ model for a PHP program, containing various facts about the program, which is explained in section \ref{sec:m3_for_php} in more details.
-    Once the $M^3$ model is constructed, constraints are extracted from the $M^3$ model which is explained in section \ref{sec:fact_extraction}.
+    The research is executed in 3 main steps.
+    The first step creates an $M^3$ model for a PHP program and contains various facts about the program. 
+    The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
+    Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model. How and which constraints are extracted is described in section \ref{sec:fact_extraction}.
     In the third step, in section \ref{sec:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
-    The final chapter \ref{sec:annotations} explains how annotations can be included in the process to gain more precise results.
+    The final section \ref{sec:annotations} of this chapter explains how annotations can be included in the process to gain more precise results.
     
     \section{$M^3$ for PHP}\label{sec:m3_for_php}
-    Constructing a $M^3$ for PHP is differs from construction a $M^3$ for Java.
-    For Java to constructing a
-    We have constructed a similar $M^3$ for PHP as was already done for Java.
-    Because language constructs differ per language we had to check which elements were applicable for PHP and which were not.
-    For the overlapping language constructs we created a similar structure.
-    The model will be used to query the system for information about the system.
-    The following steps are performed to create an $M^3$ for a system.
-    \begin{itemize}
-        \item Parse all PHP files, resulting in an \gls{AST}.
-        \item For each file, create an independent $M^3$ from the ast.
-        \item Combine all the m3s into one $M^3$ for the project.
-        \item For each file, add additional informationNow run more analysis when all facts are collected in the m3. 
-    \end{itemize}
-    
+    As explained in section \ref{sec:background_m3}, $M^3$ is a language independent meta model which holds facts about programs.
+    The model can be extended with language specific elements and will be used to query the system for facts about the system.
+    An overview how an $M^3$ for PHP is build is shown in figure \ref{fig:research_m3_creation}.
+    Independent $M^3$ models are build each PHP file in the program.
+    All these individual $M^3$'s are in the end combined to collect all the facts about a program.
+    This results in one $M^3$ for the whole program.
+    $M^3$'s are first created for each file is because it is not defined what the dependencies of a individual file are.
+    There is no main file, and all files can load each other.
+    In this research we assume that all files in a program are loaded when needed using autoloaders or manual includes.
     
     \begin{figure}[H]
         \centerline{\includegraphics{Diagrams/M3Creation.pdf}}
         \caption{$M^3$ Creation}
-        \label{fig:M3Creation}
+        \label{fig:research_m3_creation}
     \end{figure}
 
-    Our goals is to provide the results in an M3 model.
+    %The following steps are performed to create an $M^3$ for a system.
+    %\begin{itemize}
+    %    \item Parse all PHP files, resulting in an.
+    %    \item For each file, create an independent $M^3$ from the ast.
+    %    \item Combine all the m3s into one $M^3$ for the project.
+    %    \item For each file, add additional informationNow run more analysis when all facts are collected in the m3. 
+    %\end{itemize}
+    
+    \subsection{The algorithm}
+    In order to get a better understanding of the creation of an $M^3$ for PHP, the algorithm is provided in algorithm \ref{alg:research_m3}.
+    \textbf{The input} of the algorithm is all the \texttt{PHP files of a program}, which are all files ending on \texttt{.php}.
+    \textbf{The output} is an $M^3$ with facts about the provided program.
+    The algorithm starts with initialising an empty $M^3$ collection in line \ref{alg:research_m3:init_collection} which with be filled with the result of each individual files.
+    In the big loop on line \ref{alg:research_m3:loop_start} to \ref{alg:research_m3:loop_end} we iterate over all the PHP files of the program.
+    The first thing that needs to be done is to create an Abstract Syntax Tree (\gls{AST}) of the program using an external PHP parser\footnotemark{} which returns an Rascal AST in \texttt{parseUsingPhpParserAndReturnRascalAST} on line \ref{alg:research_m3:get_ast}.
+    \footnotetext{https://github.com/ruudvanderweijde/PHP-Parser}
+    %In line \ref{alg:research_m3:add_modifier} we add ...
+    From this AST we create an empty $M^3$ in \texttt{createEmptyM3} on line \ref{alg:research_m3:create_m3}.
+    In order to be able to refer to any source code element, we need to have the declarations of the elements.
+    These elements are extracted in \texttt{addDeclarations} on line \ref{alg:research_m3:add_decl} can be \texttt{namespace}, \texttt{class}, \texttt{interface}, \texttt{trait}, \texttt{method},  \texttt{function}, \texttt{variable}, \texttt{field}, or \texttt{constant}.
+    For all \texttt{functions} we need to add scope information in case functions are declared inside another function or method.
+    In line \ref{alg:research_m3:scope_info} we add the scope information to all nodes to the AST by visiting the AST.
+    This is needed in order to extract the right facts about the logical containment which is done in line \ref{alg:research_m3:containment}.
+    The next three lines (\ref{alg:research_m3:extends}-\ref{alg:research_m3:docblock}) extract facts about class inheritance and the interface implementations, modifiers, PHP doc blocks, and annotations.
+    
+	\\
+    \begin{algorithm}[H]
+	 \KwIn{PHP files of a program}
+	 \KwOut{$M^3$ for the PHP program}
+     \BlankLine
+	 m3Collection = []\; \label{alg:research_m3:init_collection}
+     \BlankLine
+	 \ForAll{file $\in$ program}{                         \label{alg:research_m3:loop_start}
+	  ast = parseUsingPhpParserAndReturnRascalAST(file)\; \label{alg:research_m3:get_ast}
+   	  %ast = addPublicModifierWhenNotProvided(ast)\;      \label{alg:research_m3:add_modifier}
+	  m3 = createEmptyM3(ast)\;                           \label{alg:research_m3:create_m3}
+      \BlankLine
+	  m3 = addDeclarations(m3, ast)\;                     \label{alg:research_m3:add_decl}
+	  ast = addScopeInformation(m3, ast)\;                \label{alg:research_m3:scope_info}
+      m3 = addContainment(m3, ast)\;                      \label{alg:research_m3:containment}
+      \BlankLine
+      m3 = addExtendsAndImplements(m3, ast)\;             \label{alg:research_m3:extends}
+	  m3 = addModifiers(m3, ast)\;                        \label{alg:research_m3:modifiers}
+	  m3 = addRawDocBlocksAndAnnotations(m3, ast)\;       \label{alg:research_m3:docblock}
+      \BlankLine
+	  m3 = calculateAliasesFlowInsensitive(m3, ast)\;
+	  m3 = calculateUsesFlowInsensitive(m3, ast)\;
+	  m3Collection += m3\;
+	 } \label{alg:research_m3:loop_end}
+	 \BlankLine
+	 projectM3 = composePhpM3(m3Collection)\;
+	 \BlankLine
+	 \Return projectM3\;
+	 \caption{PHP program to $M^3$}
+	 \label{alg:research_m3}
+	\end{algorithm}
+    
+    
+	Our goals is to provide the results in an M3 model.
     Future research can use this to compare different programming languages.
     \\ 
     The following core items are filled for M3:
@@ -67,34 +121,7 @@
     \texttt{Aliases} lists the class aliases, created by the \texttt{class\_alias} function. 
     \texttt{Annotations} has all the annotations for a certain element.
     
-    \begin{algorithm}[H]
-	 \KwIn{PHP files of a program}
-	 \KwOut{$M^3$ for the PHP program}
-     \BlankLine
-	 m3Collection = []\;
-     \BlankLine
-	 \ForAll{file $\in$ program}{
-	  ast = parseUsingPhpParserAndReturnRascalAST(file)\;
-   	  ast = addPublicModifierWhenNotProvided(ast)\;
-	  m3 = createEmptyM3(ast)\;
-      \BlankLine
-	  m3 = addDeclarations(m3, ast)\;
-	  ast = addScopeInformation(m3, ast)\;
-	  m3 = addContainment(m3, ast)\;
-	  m3 = addExtendsAndImplements(m3, ast)\;
-	  m3 = addModifiers(m3, ast)\;
-	  m3 = addRawDocBlocksAndAnnotations(m3, ast)\;
-      \BlankLine
-	  m3 = calculateAliasesFlowInsensitive(m3, ast)\;
-	  m3 = calculateUsesFlowInsensitive(m3, ast)\;
-	  m3Collection += m3\;
-	 }
-	 \BlankLine
-	 projectM3 = composePhpM3(m3Collection)\;
-	 \BlankLine
-	 \Return projectM3\;
-	 \caption{PHP program to $M^3$}
-	\end{algorithm}
+
    
     \section{Fact extraction}\label{sec:fact_extraction}
     We can extract fact about classes, class-constants/fields/methods, functions, parameters.
