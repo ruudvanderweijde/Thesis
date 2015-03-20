@@ -18,15 +18,15 @@
         The 5th version of PHP was released in 2004 and provided an improved OO structure.
         Namespace were added in PHP 5.3 in 2009, to be able to resolve class naming conflicts between library and create better readable class names.
         Namespaces are comparable to packages in Java.
-        OPcache extension is added was added in PHP 5.5 and speeds up the performance of including files on run-time by storing precompiled script bytecode in shared memory.
+        OPcache extension is added was added in PHP 5.5 and speeds up the performance of including files on run-time by storing precompiled script byte-code in shared memory.
         The most recent stable version is 5.6 and includes more internal performance optimisations and introduces a new debugger.
         % The next version of PHP will be 7.
        
         \paragraph{Popularity}
-        According to the Tiobe Index\footnotemark of december 2014, PHP is the 6th most popular programming language.
+        According to the Tiobe Index\footnotemark of December 2014, PHP is the 6th most popular language of all programming languages.
             \footnotetext{http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html, December 2014}
-        The language has been in the top 10 since its introduction in the Tiobe Index in 2001.
-        More than 80 procent of the websites have a php backend\footnotemark.
+        The language has been in the top 10 since it's introduction in the Tiobe Index in 2001.
+        More than 80 precent of the websites have a php backend\footnotemark.
             \footnotetext{http://w3techs.com/technologies/details/pl-php/all/all, December 2014}
         The majority of these websites use PHP version 5, rather than version 4 or older versions.
         It is therefor wise to focus on PHP version from 5 and discard the older unused versions.
@@ -36,14 +36,14 @@
         Tools can help to reveal security vulnerabilities or find vulnerabilities or bugs in source code.
         The tools can also provide code completions or do automatic transformations which can be used to execute refactoring patterns.
         Source code analysis can be performed statically or dynamically or a combination of the two.
-        More information on the analysability of php can be found in section \ref{sec:PHP_Language_Constructs}.
+        More information on the analysability of php can be found in section \ref{sec:background_language-constructs}.
         
     \section{Position} % Position: what makes this paper unique, position to related work. (Explain about the current position of PHP.)
-        In this research we want to find out how we can improve the analysability of programs written in PHP.
+        In this research we investigate how we can improve the analysability of PHP programs.
         We will show that the use of annotated source code can help to improve the analysability.
         The correctness of the annotations can also be examined by checking the implementation of the code. 
         \\
-        %todo fix this
+        %todo rewrite (introduction:position)
         These annotations can help to improve the analysis.
         The results can be used to find security issues, and if they are highly reliable we can even make compiler optimisations.
         \\
@@ -52,7 +52,7 @@
         There have been similar analysis for other dynamic languages, like smalltalk, ruby and javascript, but none like this.
        
     \section{Contribution} % Contribution: what is the return of investment for the reader. (Resolving types can: helpt to build IDE tools, identify dependencies, beter security scans, gecombineerd worden met andere analyses (voor future work).)
-        % TODO Review this part when the result of the analysis are performed.
+        % TODO Review (intoduction:contribution) when the result of the analysis are performed.
         TODO Review this part when the result of the analysis are performed.
         \begin{itemize}
             \item Created an M3 for php.
@@ -68,10 +68,12 @@
     \section{Plan} % Plan: outline of the paper. (In section x stuff.) 
         The rest of this thesis is as follows:
         chapter \ref{chap:background} contains background and related work.
-        Here we explain important language constructs and explain similar research.
-        In the next chapter \ref{chap:research_method} the research method is explained, which contains the steps taken in this the research.
-        Chapter \ref{chap:research} describes the actual research. 
+        Background exists of important language constructs, information about annotations in PHP, introduction to $M^3$ and type systems. 
+        The last section of this chapter shows similar research and their relation to this research.
+        Chapter \ref{chap:research_method}, research method, defines the research question and the research context.
+        Chapter \ref{chap:research} describes the performed actions of this research. 
         The analysis is presented in chapter \ref{chap:analysis}, with the results in chapter \ref{chap:results}.
+        %todo: chapter 7: case study is missing here
         This thesis ends with the conclusions in chapter \ref{chap:conclusion}.
         
         

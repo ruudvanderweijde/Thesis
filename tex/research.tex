@@ -35,7 +35,7 @@
     %\end{itemize}
     
     \subsection{The algorithm}
-    In order to get a better understanding of the creation of an $M^3$ for PHP, the algorithm is provided in algorithm \ref{alg:research_m3}.
+    In order to get a better understanding of the creation of an $M^3$ for PHP, the algorithm is provided in Algorithm \ref{alg:research_m3}.
     \textbf{The input} of the algorithm is all the \texttt{PHP files of a program}, which are all files ending on \texttt{.php}.
     \textbf{The output} is an $M^3$ with facts about the provided program.
     The algorithm starts with initialising an empty $M^3$ collection in line \ref{alg:research_m3:init_collection} which with be filled with the result of each individual files.
@@ -50,13 +50,17 @@
     In line \ref{alg:research_m3:scope_info} we add the scope information to all nodes to the AST by visiting the AST.
     This is needed in order to extract the right facts about the logical containment which is done in line \ref{alg:research_m3:containment}.
     The next three lines (\ref{alg:research_m3:extends}-\ref{alg:research_m3:docblock}) extract facts about class inheritance and the interface implementations, modifiers, PHP doc blocks, and annotations.
-    
-	\\
+    %In \texttt{calculateAliasesFlowInsensitive} on line \ref{alg:research_m3:aliases}
+   	Once all the basic information is collected, \texttt{calculateUsesFlowInsensitive} on line \ref{alg:research_m3:uses} tries to find the declarations of the used objects, methods, functions and variables.
+   	This is flow and context insensitive and only tries to resolve non-dynamic language constructs.
+   	The last step of the iterator is to add the constructed $M^3$ to the $M^3$ collection.
+   	Finally when an $M^3$ is constructed for all files, all facts of the individual $M^3$'s are merged into one $M^3$ model in line \ref{alg:research_m3:return}. 
+   	\vspace{5 mm}
     \begin{algorithm}[H]
 	 \KwIn{PHP files of a program}
 	 \KwOut{$M^3$ for the PHP program}
      \BlankLine
-	 m3Collection = []\; \label{alg:research_m3:init_collection}
+	 m3Collection = []\;                                  \label{alg:research_m3:init_collection}
      \BlankLine
 	 \ForAll{file $\in$ program}{                         \label{alg:research_m3:loop_start}
 	  ast = parseUsingPhpParserAndReturnRascalAST(file)\; \label{alg:research_m3:get_ast}
@@ -71,58 +75,72 @@
 	  m3 = addModifiers(m3, ast)\;                        \label{alg:research_m3:modifiers}
 	  m3 = addRawDocBlocksAndAnnotations(m3, ast)\;       \label{alg:research_m3:docblock}
       \BlankLine
-	  m3 = calculateAliasesFlowInsensitive(m3, ast)\;
-	  m3 = calculateUsesFlowInsensitive(m3, ast)\;
-	  m3Collection += m3\;
-	 } \label{alg:research_m3:loop_end}
+	  %m3 = calculateAliasesFlowInsensitive(m3, ast)\;     \label{alg:research_m3:aliases}
+	  m3 = calculateUsesFlowInsensitive(m3, ast)\;        \label{alg:research_m3:uses}
+      \BlankLine
+	  m3Collection += m3\;                                \label{alg:research_m3:add_to_collection}
+	 }                                                    \label{alg:research_m3:loop_end}
 	 \BlankLine
-	 projectM3 = composePhpM3(m3Collection)\;
-	 \BlankLine
-	 \Return projectM3\;
+	 \Return projectM3 = composePhpM3(m3Collection)\;     \label{alg:research_m3:return}
 	 \caption{PHP program to $M^3$}
 	 \label{alg:research_m3}
 	\end{algorithm}
     
+    \subsection{Core elements}
+    The $M^3$ model has the following core elements: \texttt{Declarations}, \texttt{Containment}, \texttt{Modifiers}, \texttt{Extends}, and \texttt{Uses}.
+    All these core elements are explained in more detail in the paragraphs below.
     
-	Our goals is to provide the results in an M3 model.
-    Future research can use this to compare different programming languages.
-    \\ 
-    The following core items are filled for M3:
-    \begin{itemize}
-        \item Containment
-        \item Declarations (need to explain in more details)
-        \item Modifiers
-        \item Extends
-        \item Uses
-    \end{itemize}
-    
-    The \texttt{containment} has information about what elements logically contain other elements.
-    For example, a property or method is contained in a class and a class is contained in a package.
-    In \texttt{declarations}, you will find the relation between the logical name and the actual file location. 
+    \paragraph{\texttt{Declarations}} defines the declarations of namespaces, classes, interfaces, traits, methods, functions, and variables and holds the relation between the logical name (which is used to refer to the declaration) and the actual file location (which is the physical place in the file system.
     For example the logical name of a class can be \texttt{$\vert$php+class://SomeNameSpace/ClassX$\vert$} while the actual location might be \texttt{$\vert$file:///project/SomeNameSpace/ClassX.php$\vert$}.
-    The \texttt{modifiers} element contains information about the \texttt{public}, \texttt{private}, or \texttt{protected} modifiers of a certain method, class, function or property.
-    \texttt{Extends} contains information about what classes and interface extend other classes of interfaces. Please note that we do not hold information about which class implements which interface, because that information is contained in the \texttt{implements} relation.
-    The \texttt{uses} relation holds information about the usages of certain elements.
+    
+    \paragraph{\texttt{Containment}} holds information about what elements logically contain other elements.
+    For example, a property or method is contained in a class and a class is contained in a package.
+    When a function is declared in another function, they are both logically contained in the global namespace (the highers level) because all functions are declared as first class citizens in PHP.
+    
+    \paragraph{\texttt{Modifiers}} element contains information about the modifiers of classes, fields, and methods. 
+    Classes can only be \texttt{abstract}, fields can be \texttt{public}, \texttt{private}, or \texttt{protected}, and methods can be all of them. 
+    Abstract methods can only be declared in abstract classes. 
+    Classes are implicitly public.
+    
+    \paragraph{\texttt{Extends}} contains information about what classes and interface extend other classes of interfaces. 
+    Please note that we do not hold information about which class implements which interface, because that information is contained in the \texttt{implements} relation.
+    Interface extensions work just like class extensions.
+    
+    \paragraph{\texttt{Uses}} relation holds information about the usages of certain elements.
+    It is the relation between the usage and the declaration.
     For example when you instantiate a class, in that case you 'use' that specific class.
     
-    The following php specific items are added:
-    \begin{itemize}
-        \item Implements (which class implements which interfaces)
-        \item TraitUses (which class uses which trait)
-        \item Parameters (methods and functions and their parameters)
-        \item Constructors (which class uses which constructor, explain this more)
-        \item Aliases (class aliases, for example the usage of class\_{}alias)
-        \item Annotations (contraints annotations on classes, methods, fields and variables)
-    \end{itemize}
-    \texttt{Implements} holds information on what class implements which interfaces.
-    \texttt{TraitUses} knows what traits a class uses.
-    \texttt{Parameters} keeps track of the parameters of a method or function.
-    \texttt{Constructors} lists all the constructors for classes. This is needed because it is not always clear what constructor is used, due to legacy PHP4 way of using class constructors.
-    \texttt{Aliases} lists the class aliases, created by the \texttt{class\_alias} function. 
-    \texttt{Annotations} has all the annotations for a certain element.
+    \subsection{PHP specific elements}
+    Because every programming language differs in syntax and semantics, the $M^3$ model is extensible to provide language specific modeling elements.
+    The following php specific items are added: \texttt{Implements}, \texttt{TraitUses}, \texttt{Parameters}, \texttt{Constructors}, \texttt{Aliases}, and \texttt{Annotations}.
+    These PHP specific modeling elements are described in more detail in the paragraphs below.
     
-
-   
+    \paragraph{\texttt{Implements}} holds information on what class implements which interfaces.
+    One class can implement multiple interfaces.
+    Because the information is a relation between the class and the interface, we can easily add multiple interfaces to one class in the model.
+    
+    \paragraph{\texttt{TraitUses}} knows which traits a class uses.
+    Traits are a collection of reusable functions, are defined on class level, and one class can have multiple trait usages.
+    All the methods of a trait are on runtime imported in the class.
+    
+    \paragraph{\texttt{Parameters}} keeps track of the parameters of a method or function.
+    This information is stored to make it easier to resolve the call to a method or function.
+    
+    \paragraph{\texttt{Constructors}} lists all the constructors for classes. 
+    This information is needed because it is not always clear what constructor is used, due to legacy PHP4 way of using class constructors.
+    In PHP4 the constructor was defined as a method with the same name as the class.
+    Since PHP5 the language is provided with a magic method \texttt{\_\_construct()}, which results in two ways to have constructors, but only one constructor will be called.
+    The PHP4 constructors will be removed in PHP7.
+    
+    \paragraph{\texttt{Aliases}} has a relation between aliases and the actual implementation.
+    For instance the function \texttt{class\_alias} defines a new name for the same class.
+    This relation is also used to keep track of references. 
+    
+    \paragraph{\texttt{Annotations}} contain a relation between a declaration and the annotations that are known.
+    Annotations are defined in the raw doc blocks and are parsed using regex.
+    Regex was in this case easier then parsing because there is no official grammar or standard defined.
+    For this research we only use \texttt{@param}, \texttt{@var}, \texttt{@returns}.
+    
     \section{Fact extraction}\label{sec:fact_extraction}
     We can extract fact about classes, class-constants/fields/methods, functions, parameters.
     For these facts, we can use a relation, so we have a many-to-many relation.

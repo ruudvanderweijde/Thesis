@@ -1,30 +1,34 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Background and related work}\label{chap:background}
-    Chapter \ref{chap:background} describes seven important language constructs in section \ref{sec:background_language-constructs} which you need to understand in order to understand the difficulties of analysing PHP.
-    The second section, \ref{sec:background_annotations}, gives an introduction to the syntax and usage of annotation in PHP.
-    Section \ref{sec:background_rascal} explains the used programming language \Gls{Rascal}.
-    $M^3$ is a generic model designed to analyseprogramming languages and is described in more details in section \ref{sec:background_m3}.
-    The final section, section \ref{sec:background_related-work} of this chapter describes the related work and how these researches are related to this thesis.
+    Chapter \ref{chap:background} describes seven important language constructs which you need to understand in order to understand the difficulties of analysing PHP in section \ref{sec:background_language-constructs}.
+    The second section, section \ref{sec:background_annotations}, gives an introduction to the syntax and usage of annotation in PHP.
+    Section \ref{sec:background_rascal} explains the programming language \Gls{Rascal} which is used for analysis.
+    $M^3$ is a programming language independent meta model which holds various facts about programs. $M^3$ is described in more details in section \ref{sec:background_m3}.
+    Section \ref{sec:background_type-system} gives an introduction to type systems and how they are related to this research.
+    The final section of this chapter, section \ref{sec:background_related-work}, describes the related work and how these researches are related to this thesis.
 
     \section{PHP Language Constructs}\label{sec:background_language-constructs}
-    This section presents important language constructs for this research.
-    Explanations of these constructs should help to understand the performed analysis.
-    %Including some concepts like scope, includes, dynamic variables, dynamic class instantiation, dynamic function call, dynamic dispatch, runtime environment variables and constants, late static binding (static keyword), magic methods.
+    This section presents for this research important language constructs and why these constructs are important.
+    Explanations of these constructs help you to understand the performed analysis.
+    The discussed parts are scoping, includes, conditional classes and functions, dynamic features, late static binding, magic methods and dynamic class properties.
     
     \paragraph{Scoping}
     In PHP, all classes and functions are globally accessible once they are declared.
     All classes and functions are implicitly public, inner classes are not allowed, and conditional functions (see paragraph about conditional classes and functions) will be available in the global scope.
-    If a class or function is declared inside a namespace, their name will be prefixed with the namespace name.
-    Closures (anonymous functions in PHP) have the same scoping rules as variables, but they can inherit variables from outside their scope by providing them in the use statement. 
-    In this research we will not support closures because they are fairly new and not much used in practice. 
+    If a class or function is declared inside a namespace, their name is prefixed with the name of the namespace.
     \\
-    For variables there are three scopes: global-, function-, and method-scope. 
+    Variables have three scope levels: global-, function-, and method-scope.
+    Under normal circumstances when a variable is declared inside a function or method, their scope is limited to this function or method.
+    Variables declared outside function or methods are available in the global scope, but not in the method or function scope.
     There is an exception for some predefined global variables which are available everywhere. 
     Examples are \texttt{\$GLOBALS}, \texttt{\$\_POST}, and \texttt{\$\_GET}. 
     Variables inside a function or method can be aliased to a global variable by adding the keyword \texttt{GLOBAL} in front of the variable name.
-    The variable will then be linked to the global variable in the symbol table\footnotemark.
+    The variable are then linked to the global variable in the symbol table\footnotemark.
     \footnotetext{http://php.net/manual/en/language.variables.scope.php, July 2014}
+    \\
+    Closures (anonymous functions in PHP) have the same scoping rules as variables, but they can inherit variables from outside their scope by providing them in the use statement. 
+    In this research we will not support closures. 
     
     \paragraph{Includes}
     In PHP it is possible to include other PHP-files during execution of the program. 
@@ -65,7 +69,6 @@
     Our focus will not be on trying to analyse these features, because we would need constant propagation.
     The downside of these dynamic features is that it will probably lower our precision. (please check this, and move this to another section) %todo check this
     
-
     \paragraph{Late static binding}
     Late static binding\footnotemark is implemented in PHP since version 5.3 by adding the keyword \texttt{static} to the language.
     \footnotetext{http://php.net/manual/en/language.oop5.late-static-bindings.php, July 2014}
