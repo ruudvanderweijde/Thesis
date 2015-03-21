@@ -9,16 +9,16 @@ class Example
     /**
      * This is a description of the method getSomething
      *
-     * @param SomeTypeHint $someTypeHint
-     * @return bool
-     * @throws CustomException
+     * @param SomeTypeHint $someObject
+     * @return string
+     * @throws NoNameException
      */
-    public function getSomething(SomeTypeHint $someTypeHint)
+    public function getSomething(SomeTypeHint $someObject)
     {
-        if ($someTypeHint->getType() == 'something') {
-            throw new CustomException(sprintf('%s is not supported', $someTypeHint->getType()));
+        if (null === $someObject->getName()) {
+            throw new NoNameException();
         }
 
-        return true;
+        return $someObject->getName();
     }
 }
