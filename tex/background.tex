@@ -64,17 +64,19 @@
 
     
     \paragraph{Dynamic features}
-    PHP includes some dynamic features like: include dynamic variables, dynamic class instantiations, dynamic function calls, dynamic function creation, reflection, and eval.
-    A previous study by Mark Hills\cite{Hil:13} has shown that the dynamic features are not used too much. (please double check this!!) %todo check this
+    PHP comes with dynamic features like: include dynamic variables, dynamic class instantiations, dynamic function calls, dynamic function creation, reflection, and eval.
+    A previous study by Mark Hills\cite{Hil:13} has shown that the dynamic features are not used too much.
+    %todo (background:dynamic features) check study of mark hills
+    Although their are not frequently declared, they can be frequently used.
+    Dynamic features are handy to handle the generic case for different variants of an computation, for instance in an abstract class with many descendants.
     Our focus will not be on trying to analyse these features, because we would need constant propagation.
-    The downside of these dynamic features is that it will probably lower our precision. (please check this, and move this to another section) %todo check this
     
     \paragraph{Late static binding}
     Late static binding\footnotemark is implemented in PHP since version 5.3 by adding the keyword \texttt{static} to the language.
     \footnotetext{http://php.net/manual/en/language.oop5.late-static-bindings.php, July 2014}
-    It is similar to the keyword \texttt{self}, but it does not refer to the class it is declared in. 
-    The main difference is that \texttt{self} can be resolved statically, because it refers to the class it is declared in.
-    \texttt{static} can only be resolved on runtime and represents the exact class that is instantiated.
+    It's usage is similar to the keyword \texttt{self}, which refers to the current class. 
+    The main difference is that \texttt{self} refers to the class where the code is located, while \texttt{static} refers to the actual instantiated class.
+    The keyword \texttt{self} can be easily resolved while \texttt{static} can only be resolved on runtime.
     
     \paragraph{Magic methods}
     In PHP it is allowed to call methods or use properties that do not exists.
@@ -83,11 +85,11 @@
     This method is called when a non-accessible or non-existing method is called.
 
     \paragraph{Dynamic class properties}
-    Although it is a good practice to define your class properties, it is not required.
-    On runtime it is possible to add properties to classes, even without the implementation of magic methods.
+    Although it is a good practice to define your class properties, it is not required to do so in PHP.
+    After instantiating a class it is possible to add properties to classes, even without the implementation of magic methods.
     In listing \ref{dynamicProperty} you can see a code sample of adding a property after instantiation of a class.
-    The acces of the non-existing propery \texttt{nonExistingProperty} will result in a warning, but code execution will continue and will just return \texttt{NULL}.
-    The code on \texttt{line 5} is where the property is written.
+    The access of the non-existing property \texttt{nonExistingProperty} will result in a warning, but code execution will continue and will just return \texttt{NULL}.
+    The code on \texttt{line 4} is where the property is written.
     The object \texttt{\$c} will have the \texttt{nonExistingProperty} publicly available now.
     But in a new class instantiation, like you can see on \texttt{line 6}, will not have the property there.
     
@@ -99,11 +101,15 @@
     \footnotetext{http://php.net/manual/en/reflectionclass.getdoccomment.php}
     This \texttt{getDocComment} method returns the complete doc block of a certain element as a string.
     A doc block in php has the format \texttt{\slash**...*\slash}.
-    Listing \ref{docblock} shows an example of a doc block in PHP.
+    Listing \ref{docblock} shows an example of two doc blocks in PHP.
+    The first doc block is defined above the class and contains information about the class.
+    The second doc block is related to the method \texttt{getSomething}. 
+    The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information what exceptions can be thrown by the method. 
+    
     
     \lstinputlisting[language=PHP,label=docblock,caption=PHP DocBlock]{src/php/docBlock.php}
 
-  In PHP Annotations are not part of the official language.
+    Annotations are not part of the official language.
     They are however widely used. 
     For instance in ZEND, Symfony and Doctrine you can write business logic rules in the form of annotations.
     These annotations will be parsed and used in real code.
