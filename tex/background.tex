@@ -107,24 +107,26 @@
     The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information what exceptions can be thrown by the method. 
     
     
-    \lstinputlisting[language=PHP,label=docblock,caption=PHP DocBlock]{src/php/docBlock.php}
+    \lstinputlisting[language=PHP,label=docblock,caption=PHP DocBlocks]{src/php/docBlock.php}
 
     Annotations are not part of the official language.
-    They are however widely used. 
-    For instance in ZEND, Symfony and Doctrine you can write business logic rules in the form of annotations.
+    They are however widely used.
+    On one hand for type hinting to help static software analysis.
+    On the other hand frameworks like ZEND, Symfony and Doctrine you can write business logic rules in the form of annotations.
     These annotations will be parsed and used in real code.
+    These frameworks created their own syntax for annotations.
     \\
-    Other annotations are placed on top of classes, methods, functions, and variables.
-    These annotations will help the developers to better understand what the code does. 
+    This research will be limited to the first type of annotations which can help developers and IDE's to better understand what the code does.
     For example you can see what kind of input and output is expected for a method.
-    IDE's will also use this information to better analyse the source code.
+    Doc blocks with annotations can be placed on top of classes, methods, functions, and variables.
     \\
     Writing annotations is not yet in the PSR standards for PHP, but there is a proposal\footnotemark.
     \footnotetext{https://github.com/php-fig/fig-standards/pull/169/files, July 2014}
     For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
     The annotations \texttt{@return} and \texttt{@param} are only useful for functions and class methods. Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
     \\
-    There is no official standard for the use of annotations, but most projects follow the phpDocumentor syntax.
+    There is no official standard for the use of annotations, but most projects follow the phpDocumentor\footnotemark{http://www.phpdoc.org/} syntax.
+    \footnotext{}
     For this research the following annotations are parsed:
     
 \begin{equation}
@@ -167,15 +169,18 @@
   \end{aligned}
   \phantom{\hspace{8.8cm}} %%<---adjust the value as you want
 \end{equation}
+	%todo: (background:annotations) explain the used equations above.
  
     \section{Rascal}\label{sec:background_rascal}
-    \Gls{Rascal} is a meta programming language developed by the Centrum Wiskunde \& Informatica (CWI)\cite{Kli:09}.
+    \Gls{Rascal} is a meta programming language developed by Centrum Wiskunde \& Informatica (CWI)\cite{Kli:09}.
     Rascal is designed to analyse, transform and visualise source code.
-    The language is build on top of Java and implements various constructs of existing programming languages.
-    In this research, most of our code is implement in rascal.
+    The language is build on top of Java and implements various concepts of existing programming languages.
+    In this research, besides the modifier PHP-Parser, all of our code is implement in rascal.
+    A
+    %todo: (background: rascal) explain what rascal is. And how/why we use it in this research
 
     \section{$M^3$}\label{sec:background_m3}
-    The $M^3$-model is a model which holds information of source code\cite{Ana:13}.
+    The $M^3$-model\cite{Ana:13} is a model which holds information of source code.
     This model is created to analyse one single Java program or compare two or more Java systems with each other.
     The core of the $M^3$-model contains \texttt{containment}, \texttt{declarations}, \texttt{documentation}, \texttt{modifiers}, \texttt{names}, \texttt{types}, \texttt{uses}, \texttt{messages}.
     \\
@@ -208,31 +213,30 @@
     In dynamic languages the type checking is done during run time, and this will decrease the performance.
     
     \paragraph{Type inference}
-    In the previous section we explained the type checking.
-    In order to check the types of variables and expression, we need to know the types of the variables and expressions first.
+    In the previous section we explained type checking.
+    In order to check the types of variables and expression, we need to know the types of variables and expressions first.
     The process of resolving the type of a variable or expressions is called type inference.
     In dynamic languages like PHP it can be difficult to resolve the type of a variable or expression without running the program.
     When you are able to resolve the type before running the program, you are able to optimise the execution code.
     This allows you to make performance improvements or avoid memory usage.
     \\
-    In this research we use constraint based type inference.
-    Every tapeable language construct will have a set of possible types.
-    At the start of the analysis everything will have all possible types, we call this \texttt{Universe}.
+    In this research we use \textbf{constraint based type inference}.
+    Every typeable language construct will have a set of possible types.
+    At the start of the analysis every variable and expression will have all possible types, we call this \texttt{Universe}.
     Then we will read all the constraints and will try to solve them.
     Every time a constraint is solved, the number of possible types for one variable will decrease.
-    This process will be repeated until we have solved all the constraints and can no longer limit the number of types for a variable. 
+    This process will be repeated until we have solved all the constraints and can no longer limit the number of types for a variable.
+    This is explained in more details in chapter \ref{sec:research:constraint_solving}.
     \\
-    Other forms of type inference are $k$-CFA ($k$-control flow analysis) and CPA (cartesian product algorithm).
-    %todo explaing K-CFA en CPA
+    \textbf{$k$ control flow analysis} ($k$-CFA) and \textbf{cartesian product algorithm} (CPA) are two other ways of type inference.
+    In $k$-CFA
+    %todo (background:k-cfa/cpa) explain K-CFA en CPA
     \\
     The analysis we perform is flow insensitive, which means that we do not analyse the flows of the program.
     We do take the context of the programs into account, making the analysis context sensitive.
-    \\
-    (todo, describe K-CFA and CPA in more details)
-    
     
     \section{Related work}\label{sec:background_related-work}
-    %todo describe related work
+    %todo (background:related work) describe related work
     Describe these:
     \begin{itemize}
         \item `The HipHop Compiler for PHP'\cite{Zhao:12} (not much information available on their type inference, only source code)

@@ -6,7 +6,7 @@
     The first step creates an $M^3$ model for a PHP program and contains various facts about the program. 
     The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
     Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model. How and which constraints are extracted is described in section \ref{sec:fact_extraction}.
-    In the third step, in section \ref{sec:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
+    In the third step, in section \ref{sec:research:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
     The final section \ref{sec:annotations} of this chapter explains how annotations can be included in the process to gain more precise results.
     
     \section{$M^3$ for PHP}\label{sec:m3_for_php}
@@ -342,7 +342,7 @@
         \item Annotate the rest of the expressions with @type = any(); (should only be for relevant expressions)
     \end{itemize}
     
-    \section{Constraint solving}\label{sec:constraint_solving}
+    \section{Constraint solving}\label{sec:research:constraint_solving}
     When we have all the constraints from the source code as facts, we will solve the constraints until we can no longer solve any constraints.
     The result will be a list of possible types for each class, method, fields, functions, variable and expression.
     \\
