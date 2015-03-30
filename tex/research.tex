@@ -142,10 +142,11 @@
     For this research we only use \texttt{@param}, \texttt{@var}, \texttt{@returns}.
     
     \section{Fact extraction}\label{sec:fact_extraction}
-    We can extract fact about classes, class-constants/fields/methods, functions, parameters.
-    For these facts, we can use a relation, so we have a many-to-many relation.
-    On the left size we will have the class, function or method. On the right side we have their attribute.
+    We extract fact about classes, class-constants, class-fields, methods, functions, and parameters.
+    We store these facts in a relation in Rascal.
+    The left side of the relation contains the class, function, or method.
     \\
+    %todo: fact extraction (rewrite this stuff above, it totally makes no sense.
  
     Other facts that will be used:
     \begin{rascal} 
