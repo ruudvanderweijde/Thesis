@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-    \chapter{Background and related work}\label{chap:background}
-    Chapter \ref{chap:background} describes seven important language constructs which you need to understand in order to understand the difficulties of analysing PHP in section \ref{sec:background_language-constructs}.
+    \chapter{Background and related work}\label{ch:background}
+    Chapter \ref{ch:background} describes seven important language constructs which you need to understand in order to understand the difficulties of analysing PHP in section \ref{sec:background_language-constructs}.
     The second section, section \ref{sec:background_annotations}, gives an introduction to the syntax and usage of annotation in PHP.
     Section \ref{sec:background_rascal} explains the programming language \Gls{Rascal} which is used for analysis.
     $M^3$ is a programming language independent meta model which holds various facts about programs. $M^3$ is described in more details in section \ref{sec:background_m3}.
@@ -49,13 +49,13 @@
     Once a file is included in the execution, al the classes and functions in the top scope are declared.
     All class and function declarations within condition statements or within a method or function scope are only declared when the code is executed.
     \\
-    An example of an conditional statement can be found in listing \ref{conditionals1}.
+    An example of an conditional statement can be found in listing \ref{lst:conditionals1}.
     If the class \texttt{Foo} or function \texttt{bar} to not exist before the statements is executed, then the class and function will not yet declared. 
     When you try to use the class or function, the script will die with an fatal error (if the class or function was not defined before).
 
-    \lstinputlisting[language=PHP,label=conditionals1,caption=Conditional class and function definitions]{src/php/conditionals1.php}
+    \lstinputlisting[language=PHP,label=lst:conditionals1,caption=Conditional class and function definitions]{src/php/conditionals1.php}
 
-    Listing \ref{conditionals2} shows when functions and classes will be available.
+    Listing \ref{lst:conditionals2} shows when functions and classes will be available.
     If the first call is \texttt{g()} as you can see in \texttt{line 7}, the script will result in a fatal error.
     When \texttt{function f} is executed, \texttt{function g} will be declared, but not yet \texttt{class C}.
     The \texttt{class C} will be declared once \texttt{function g} is executed.
@@ -87,13 +87,13 @@
     \paragraph{Dynamic class properties}
     Although it is a good practice to define your class properties, it is not required to do so in PHP.
     After instantiating a class it is possible to add properties to classes, even without the implementation of magic methods.
-    In listing \ref{dynamicProperty} you can see a code sample of adding a property after instantiation of a class.
+    In listing \ref{lst:dynamicProperty} you can see a code sample of adding a property after instantiation of a class.
     The access of the non-existing property \texttt{nonExistingProperty} will result in a warning, but code execution will continue and will just return \texttt{NULL}.
     The code on \texttt{line 4} is where the property is written.
     The object \texttt{\$c} will have the \texttt{nonExistingProperty} publicly available now.
     But in a new class instantiation, like you can see on \texttt{line 6}, will not have the property there.
     
-    \lstinputlisting[language=PHP,label=dynamicProperty,caption=Dynamic class property]{src/php/dynamicProperty.php}
+    \lstinputlisting[language=PHP,label=lst:dynamicProperty,caption=Dynamic class property]{src/php/dynamicProperty.php}
     
     \section{Annotations}\label{sec:background_annotations}
     PHP has no native support for annotations.
@@ -101,13 +101,13 @@
     \footnotetext{http://php.net/manual/en/reflectionclass.getdoccomment.php}
     This \texttt{getDocComment} method returns the complete doc block of a certain element as a string.
     A doc block in php has the format \texttt{\slash**...*\slash}.
-    Listing \ref{docblock} shows an example of two doc blocks in PHP.
+    Listing \ref{lst:docblock} shows an example of two doc blocks in PHP.
     The first doc block is defined above the class and contains information about the class.
     The second doc block is related to the method \texttt{getSomething}. 
     The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information what exceptions can be thrown by the method. 
     
     
-    \lstinputlisting[language=PHP,label=docblock,caption=PHP DocBlocks]{src/php/docBlock.php}
+    \lstinputlisting[language=PHP,label=lst:docblock,caption=Examples of PHP DocBlocks]{src/php/docBlock.php}
 
     Annotations are not part of the official language.
     They are however widely used.
@@ -125,8 +125,8 @@
     For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
     The annotations \texttt{@return} and \texttt{@param} are only useful for functions and class methods. Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
     \\
-    There is no official standard for the use of annotations, but most projects follow the phpDocumentor\footnotemark{http://www.phpdoc.org/} syntax.
-    \footnotext{}
+    There is no official standard for the use of annotations, but most projects follow the phpDocumentor\footnotemark{} syntax.
+    \footnotetext{http://www.phpdoc.org/}
     For this research the following annotations are parsed:
     
 \begin{equation}

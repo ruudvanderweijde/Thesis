@@ -137,6 +137,11 @@
   \uvacoverfoot
   \newpage
   \tableofcontents
+  %%%% LOF, LOT, LOL, LOS %%%%
+  %\listoffigures
+  %\listoftables
+  %\lstlistoflistings
+  %\listofsourcecode
   \newpage
   \uvaabstract
   \global\@topnum\z@ % To prevent floats above the title

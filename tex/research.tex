@@ -1,6 +1,6 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-    \chapter{Research}\label{chap:research}
+    \chapter{Research}\label{ch:research}
 
     The research is executed in 3 main steps.
     The first step creates an $M^3$ model for a PHP program and contains various facts about the program. 
@@ -137,11 +137,25 @@
     This relation is also used to keep track of references. 
     
     \paragraph{\texttt{Annotations}} contain a relation between a declaration and the annotations that are known.
-    Annotations are defined in the raw doc blocks and are parsed using regex.
+    Annotations are defined in the raw doc blocks and are parsed using regular expressions (regex).
     Regex was in this case easier then parsing because there is no official grammar or standard defined.
     For this research we only use \texttt{@param}, \texttt{@var}, \texttt{@returns}.
-    
+    \begin{program}    
+    \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} file] M3@declarations;        \CAT{Comment}{// 'decl' is the logical name}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@containment;          \CAT{Comment}{// 'from' directly contains 'to'}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@extends;              \CAT{Comment}{// 'from' extends 'to' }
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements;           \CAT{Comment}{// 'from' implements 'to' }
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, PhpParams params] M3@parameters; \CAT{Comment}{// formal parameters of functions/methods}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} to] M3@constructors;         \CAT{Comment}{// 'decl' and its constructor 'to'}
+    \end{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+	
+	\caption{$M^3$ definitions in Rascal}
+	\label{fig:some_test}
+	\end{program}
+	    
     \section{Fact extraction}\label{sec:fact_extraction}
+    Besides the just discussed items of the $M^3$ model, we need to add more facts to the $M^3$ model.
     We extract fact about classes, class-constants, class-fields, methods, functions, and parameters.
     We store these facts in a relation in Rascal.
     The left side of the relation contains the class, function, or method.
