@@ -2,8 +2,11 @@
 \begin{document}
 
     \chapter{Results}\label{ch:results}
-    For the results we picked X software products to see how it performs.
-    For each product we performed the type inference with and without reading annotations from the doc blocks.
+    The results below are based on our analysis on PhpStorm.
+    The first table contains information about the source folder of the test projects.
+    The second table includes vendor folders, which makes is harder to pin point the problems, but does give a better indication of the impact of using annotations.
+    In either cases the vendor folders are used in the analysis to resolve types.
+    The type resolution is based on the type inference implementation of PhpStorm.
     
     \section{Results}
 \npaddmissingzero
@@ -12,123 +15,164 @@
 	\centering
 	\scriptsize
 	\begin{tabular}{@{}lrrrrrrrrrrrr@{}} 
-		\toprule    	
-    		&  
-    		\multicolumn{4}{c}{With docblocs} &
-    		\multicolumn{4}{c}{Without docblocs} \\ 
-    		
-    		Product &
-    		Tot & Res & Uniq & Multi &
-    		Tot & Res & Uniq & Multi \\ 
-     	\midrule
+		\toprule
+			&  
+			\multicolumn{4}{c}{With docblocs} &
+			\multicolumn{4}{c}{Without docblocs} \\ 
+			
+			Product &
+			Tot & Res & Uniq & Multi &
+			Tot & Res & Uniq & Multi \\ 
+		\midrule
 			php-timer &
 			\numprint{21} & \numprint{7} & \numprint{13} & \numprint{1} &
-			\numprint{21} & \numprint{12} & \numprint{8} & \numprint{1} &
-			\numprint{13751} & \numprint{2998} & \numprint{10157} & \numprint{596} &
-			\numprint{13751} & \numprint{4671} & \numprint{8615} & \numprint{465} \\
+			\numprint{21} & \numprint{12} & \numprint{8} & \numprint{1} \\
 			php-code-coverage &
 			\numprint{1444} & \numprint{396} & \numprint{991} & \numprint{57} &
-			\numprint{1444} & \numprint{583} & \numprint{809} & \numprint{52} &
-			\numprint{12717} & \numprint{2621} & \numprint{9536} & \numprint{560} &
-			\numprint{12717} & \numprint{4174} & \numprint{8103} & \numprint{440} \\
+			\numprint{1444} & \numprint{583} & \numprint{809} & \numprint{52} \\
 			phpunit-mock-objects &
 			\numprint{800} & \numprint{117} & \numprint{642} & \numprint{41} &
-			\numprint{800} & \numprint{243} & \numprint{539} & \numprint{18} &
-			\numprint{13559} & \numprint{2984} & \numprint{9989} & \numprint{586} &
-			\numprint{13559} & \numprint{4633} & \numprint{8468} & \numprint{458} \\
+			\numprint{800} & \numprint{243} & \numprint{539} & \numprint{18} \\
 			Twig &
 			\numprint{3720} & \numprint{1081} & \numprint{2458} & \numprint{181} &
-			\numprint{3720} & \numprint{1346} & \numprint{2286} & \numprint{88} &
-			\numprint{5518} & \numprint{1570} & \numprint{3717} & \numprint{231} &
-			\numprint{5518} & \numprint{1856} & \numprint{3533} & \numprint{129} \\
+			\numprint{3720} & \numprint{1346} & \numprint{2286} & \numprint{88} \\
 			doctrine2 &
 			\numprint{11452} & \numprint{2843} & \numprint{8057} & \numprint{552} &
-			\numprint{11452} & \numprint{5320} & \numprint{5929} & \numprint{203} &
-			\numprint{63148} & \numprint{15408} & \numprint{45307} & \numprint{2433} &
-			\numprint{63148} & \numprint{22830} & \numprint{39425} & \numprint{893} \\
+			\numprint{11452} & \numprint{5320} & \numprint{5929} & \numprint{203} \\
 			php-text-template &
 			\numprint{41} & \numprint{8} & \numprint{32} & \numprint{1} &
-			\numprint{41} & \numprint{13} & \numprint{27} & \numprint{1} &
-			\numprint{162} & \numprint{39} & \numprint{108} & \numprint{15} &
-			\numprint{162} & \numprint{65} & \numprint{91} & \numprint{6} \\
+			\numprint{41} & \numprint{13} & \numprint{27} & \numprint{1} \\
 			lexer &
 			\numprint{65} & \numprint{8} & \numprint{50} & \numprint{7} &
-			\numprint{65} & \numprint{27} & \numprint{37} & \numprint{1} &
-			\numprint{174} & \numprint{35} & \numprint{118} & \numprint{21} &
-			\numprint{174} & \numprint{75} & \numprint{93} & \numprint{6} \\
+			\numprint{65} & \numprint{27} & \numprint{37} & \numprint{1} \\
 			php-token-stream &
 			\numprint{398} & \numprint{90} & \numprint{300} & \numprint{8} &
-			\numprint{398} & \numprint{123} & \numprint{270} & \numprint{5} &
-			\numprint{723} & \numprint{174} & \numprint{527} & \numprint{22} &
-			\numprint{723} & \numprint{228} & \numprint{485} & \numprint{10} \\
+			\numprint{398} & \numprint{123} & \numprint{270} & \numprint{5} \\
 			inflector &
 			\numprint{39} & \numprint{6} & \numprint{29} & \numprint{4} &
-			\numprint{39} & \numprint{25} & \numprint{10} & \numprint{4} &
-			\numprint{177} & \numprint{43} & \numprint{116} & \numprint{18} &
-			\numprint{177} & \numprint{83} & \numprint{85} & \numprint{9} \\
+			\numprint{39} & \numprint{25} & \numprint{10} & \numprint{4} \\
 			php-file-iterator &
 			\numprint{96} & \numprint{23} & \numprint{59} & \numprint{14} &
-			\numprint{96} & \numprint{37} & \numprint{57} & \numprint{2} &
-			\numprint{217} & \numprint{54} & \numprint{135} & \numprint{28} &
-			\numprint{217} & \numprint{89} & \numprint{121} & \numprint{7} \\
+			\numprint{96} & \numprint{37} & \numprint{57} & \numprint{2} \\
 			dbal &
 			\numprint{7770} & \numprint{1848} & \numprint{5516} & \numprint{406} &
-			\numprint{7770} & \numprint{2993} & \numprint{4658} & \numprint{119} &
-			\numprint{31828} & \numprint{6988} & \numprint{23397} & \numprint{1443} &
-			\numprint{31828} & \numprint{10901} & \numprint{20202} & \numprint{725} \\
+			\numprint{7770} & \numprint{2993} & \numprint{4658} & \numprint{119} \\
 			monolog &
 			\numprint{2018} & \numprint{390} & \numprint{1536} & \numprint{92} &
-			\numprint{2018} & \numprint{689} & \numprint{1304} & \numprint{25} &
-			\numprint{59226} & \numprint{12592} & \numprint{44237} & \numprint{2397} &
-			\numprint{56725} & \numprint{19169} & \numprint{36455} & \numprint{1101} \\
+			\numprint{2018} & \numprint{689} & \numprint{1304} & \numprint{25} \\
 			common &
 			\numprint{1583} & \numprint{316} & \numprint{1151} & \numprint{116} &
-			\numprint{1583} & \numprint{736} & \numprint{826} & \numprint{21} &
-			\numprint{17997} & \numprint{3986} & \numprint{13153} & \numprint{858} &
-			\numprint{17997} & \numprint{6280} & \numprint{11169} & \numprint{548} \\
+			\numprint{1583} & \numprint{736} & \numprint{826} & \numprint{21} \\
 			collections &
 			\numprint{518} & \numprint{174} & \numprint{312} & \numprint{32} &
-			\numprint{518} & \numprint{240} & \numprint{270} & \numprint{8} &
-			\numprint{866} & \numprint{255} & \numprint{565} & \numprint{46} &
-			\numprint{866} & \numprint{343} & \numprint{510} & \numprint{13} \\
+			\numprint{518} & \numprint{240} & \numprint{270} & \numprint{8} \\
 			cache &
 			\numprint{524} & \numprint{226} & \numprint{272} & \numprint{26} &
-			\numprint{524} & \numprint{282} & \numprint{235} & \numprint{7} &
-			\numprint{36379} & \numprint{7974} & \numprint{26830} & \numprint{1575} &
-			\numprint{36379} & \numprint{11970} & \numprint{23615} & \numprint{794} \\
+			\numprint{524} & \numprint{282} & \numprint{235} & \numprint{7} \\
 			phpunit &
 			\numprint{5010} & \numprint{1065} & \numprint{3796} & \numprint{149} &
-			\numprint{5010} & \numprint{2115} & \numprint{2798} & \numprint{97} &
-			\numprint{13201} & \numprint{2841} & \numprint{9783} & \numprint{577} &
-			\numprint{13201} & \numprint{4452} & \numprint{8298} & \numprint{451} \\
+			\numprint{5010} & \numprint{2115} & \numprint{2798} & \numprint{97} \\
 			swiftmailer &
 			\numprint{5131} & \numprint{852} & \numprint{3925} & \numprint{354} &
-			\numprint{5122} & \numprint{2041} & \numprint{3001} & \numprint{80} &
-			\numprint{13289} & \numprint{3503} & \numprint{9354} & \numprint{432} &
-			\numprint{13280} & \numprint{4873} & \numprint{8276} & \numprint{131} \\
+			\numprint{5122} & \numprint{2041} & \numprint{3001} & \numprint{80} \\
 			annotations &
 			\numprint{709} & \numprint{171} & \numprint{520} & \numprint{18} &
-			\numprint{709} & \numprint{286} & \numprint{416} & \numprint{7} &
-			\numprint{16341} & \numprint{3641} & \numprint{11978} & \numprint{722} &
-			\numprint{16341} & \numprint{5546} & \numprint{10234} & \numprint{561} \\
+			\numprint{709} & \numprint{286} & \numprint{416} & \numprint{7} \\
 			guzzle3 &
 			\numprint{0} & \numprint{0} & \numprint{0} & \numprint{0} &
-			\numprint{0} & \numprint{0} & \numprint{0} & \numprint{0} &
-			\numprint{37146} & \numprint{7949} & \numprint{27141} & \numprint{2056} &
-			\numprint{37145} & \numprint{13151} & \numprint{23139} & \numprint{855} \\
+			\numprint{0} & \numprint{0} & \numprint{0} & \numprint{0} \\
 			log &
 			\numprint{185} & \numprint{8} & \numprint{177} & \numprint{0} &
-			\numprint{185} & \numprint{68} & \numprint{117} & \numprint{0} &
-			\numprint{294} & \numprint{35} & \numprint{245} & \numprint{14} &
-			\numprint{294} & \numprint{116} & \numprint{173} & \numprint{5} \\
-	  		\bottomrule
+			\numprint{185} & \numprint{68} & \numprint{117} & \numprint{0} \\
+		\bottomrule 
 	\end{tabular}
 	\normalsize
-	\caption{List of analysed projects.\label{table:corpus}}
+\caption{Results of type usage, source folder only\label{table:results:source_only}}
 \end{table}
 \npfourdigitnosep
 \npnoaddmissingzero
-
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}[H]
+	\centering
+	\scriptsize
+	\begin{tabular}{@{}lrrrrrrrrrrrr@{}} 
+		\toprule
+			&  
+			\multicolumn{4}{c}{With docblocs} &
+			\multicolumn{4}{c}{Without docblocs} \\ 
+			
+			Product &
+			Tot & Res & Uniq & Multi &
+			Tot & Res & Uniq & Multi \\ 
+		\midrule
+			php-timer &
+			\numprint{13751} & \numprint{2998} & \numprint{10157} & \numprint{596} &
+			\numprint{13751} & \numprint{4671} & \numprint{8615} & \numprint{465} \\
+			php-code-coverage &
+			\numprint{12717} & \numprint{2621} & \numprint{9536} & \numprint{560} &
+			\numprint{12717} & \numprint{4174} & \numprint{8103} & \numprint{440} \\
+			phpunit-mock-objects &
+			\numprint{13559} & \numprint{2984} & \numprint{9989} & \numprint{586} &
+			\numprint{13559} & \numprint{4633} & \numprint{8468} & \numprint{458} \\
+			Twig &
+			\numprint{5518} & \numprint{1570} & \numprint{3717} & \numprint{231} &
+			\numprint{5518} & \numprint{1856} & \numprint{3533} & \numprint{129} \\
+			doctrine2 &
+			\numprint{63148} & \numprint{15408} & \numprint{45307} & \numprint{2433} &
+			\numprint{63148} & \numprint{22830} & \numprint{39425} & \numprint{893} \\
+			php-text-template &
+			\numprint{162} & \numprint{39} & \numprint{108} & \numprint{15} &
+			\numprint{162} & \numprint{65} & \numprint{91} & \numprint{6} \\
+			lexer &
+			\numprint{174} & \numprint{35} & \numprint{118} & \numprint{21} &
+			\numprint{174} & \numprint{75} & \numprint{93} & \numprint{6} \\
+			php-token-stream &
+			\numprint{723} & \numprint{174} & \numprint{527} & \numprint{22} &
+			\numprint{723} & \numprint{228} & \numprint{485} & \numprint{10} \\
+			inflector &
+			\numprint{177} & \numprint{43} & \numprint{116} & \numprint{18} &
+			\numprint{177} & \numprint{83} & \numprint{85} & \numprint{9} \\
+			php-file-iterator &
+			\numprint{217} & \numprint{54} & \numprint{135} & \numprint{28} &
+			\numprint{217} & \numprint{89} & \numprint{121} & \numprint{7} \\
+			dbal &
+			\numprint{31828} & \numprint{6988} & \numprint{23397} & \numprint{1443} &
+			\numprint{31828} & \numprint{10901} & \numprint{20202} & \numprint{725} \\
+			monolog &
+			\numprint{59226} & \numprint{12592} & \numprint{44237} & \numprint{2397} &
+			\numprint{56725} & \numprint{19169} & \numprint{36455} & \numprint{1101} \\
+			common &
+			\numprint{17997} & \numprint{3986} & \numprint{13153} & \numprint{858} &
+			\numprint{17997} & \numprint{6280} & \numprint{11169} & \numprint{548} \\
+			collections &
+			\numprint{866} & \numprint{255} & \numprint{565} & \numprint{46} &
+			\numprint{866} & \numprint{343} & \numprint{510} & \numprint{13} \\
+			cache &
+			\numprint{36379} & \numprint{7974} & \numprint{26830} & \numprint{1575} &
+			\numprint{36379} & \numprint{11970} & \numprint{23615} & \numprint{794} \\
+			phpunit &
+			\numprint{13201} & \numprint{2841} & \numprint{9783} & \numprint{577} &
+			\numprint{13201} & \numprint{4452} & \numprint{8298} & \numprint{451} \\
+			swiftmailer &
+			\numprint{13289} & \numprint{3503} & \numprint{9354} & \numprint{432} &
+			\numprint{13280} & \numprint{4873} & \numprint{8276} & \numprint{131} \\
+			annotations &
+			\numprint{16341} & \numprint{3641} & \numprint{11978} & \numprint{722} &
+			\numprint{16341} & \numprint{5546} & \numprint{10234} & \numprint{561} \\
+			guzzle3 &
+			\numprint{37146} & \numprint{7949} & \numprint{27141} & \numprint{2056} &
+			\numprint{37145} & \numprint{13151} & \numprint{23139} & \numprint{855} \\
+			log &
+			\numprint{294} & \numprint{35} & \numprint{245} & \numprint{14} &
+			\numprint{294} & \numprint{116} & \numprint{173} & \numprint{5} \\
+		\bottomrule
+	\end{tabular}
+	\normalsize
+\caption{Results of type usage, including vendor folder\label{table:results:with_vendor}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
     
     \section{Validation of the results (or something)}
     Say something about:
