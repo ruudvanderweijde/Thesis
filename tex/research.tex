@@ -95,7 +95,7 @@
     
     \paragraph{\texttt{Containment}} holds information about what elements logically contain other elements.
     For example, a property or method is contained in a class and a class is contained in a package.
-    When a function is declared in another function, they are both logically contained in the global namespace (the highers level) because all functions are declared as first class citizens in PHP.
+    When a function is declared in another function, they are both logically contained in the global namespace (the highest level) because all functions are declared as first class citizens in PHP.
     
     \paragraph{\texttt{Modifiers}} element contains information about the modifiers of classes, fields, and methods. 
     Classes can only be \texttt{abstract}, fields can be \texttt{public}, \texttt{private}, or \texttt{protected}, and methods can be all of them. 
@@ -375,6 +375,27 @@
     \\
     Some of the constraints only give us information that a certain object should be a subtype of a certain type.
     When we solve these constraints, we will take the least common ancestor.
+    \\
+    In algorithm \ref{alg:research_cs} we show the algorithm to solve the constraints.
+    %todo explain the algorithm to solve constraints
+    
+    \vspace{5 mm}
+    \begin{algorithm}[H]
+	 \KwIn{set[Constraint] constraints}
+	 \KwOut{map[TypeOf, set[Type]] solutions}
+     \BlankLine
+	 map[TypeOf, set[Type]] solutions = init(constraints)\;           \label{alg:research_cs:init_solutions}
+     \BlankLine
+	 \While{changes in constraints or solutions}{                      \label{alg:research_cs:loop_start}
+	  constraints = constraints + deriveMore(constraints, solutions)\; \label{alg:research_cs:derive}
+   	  constraints = propagateConstraints(constraints, solutions)\;     \label{alg:research_cs:prop_c}
+   	  solutions = propagateSolutions(constraints, solutions)\;         \label{alg:research_cs:prop_s}
+ 	 }                                                                 \label{alg:research_cs:loop_end}
+	 \BlankLine
+	 \Return solutions\;     \label{alg:research_cs:return}s
+	 \caption{Constraint solving algorithm}
+	 \label{alg:research_cs}
+	\end{algorithm}
     
     \section{Annotations}\label{sec:annotations}
     %todo: moved this section below constraint solving: check copy
