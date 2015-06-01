@@ -261,27 +261,39 @@
     
     \textbf{Legend} \\
     \begin{table}[H]
-        \begin{tabular}{ c c l c c l }
+        \begin{tabular}{ r c l | r c l }
+            $\equiv$ & = & Equal to (expression) &
+                 &  &  \\
+            
             $=$     & = & Equal to (type) &
             $C$     & = & A class \\
-            $<:$    & = & Is subTypeOf &
+            
+            $<:$    & = & (lhs) is subTypeOf (rhs) &
             $\rightarrow c$     & = & A class constant \\
+            
             $E_k$   & = & An expression &
             $\rightarrow p$     & = & A class property \\
+            
             $[E_k]$ & = & Type of some expression &
             $\rightarrow m$     & = & A class method \\
+            
             $f$     & = & A function &
             $[m]$   & = & (Return) type of a method call \\
+            
             $[f]$   & = & (Return) type of a function &
             $(A_n)$ & = & The n'th actual argument \\
+            
             $::c$   & = & Static property fetch &
             $(P_n)$ & = & The n'th formal parameter \\
+            
             $::m$   & = & Static method call &
             $th$    & = & Type hint \\
+            
             $::p$   & = & Static property fetch &
             $v$     & = & Default value \\
+            
             Mfs     & = & Modifiers &
-            $\Gamma$ & = & Whole program 
+            $\Gamma$ & = & The program 
             
             
         \end{tabular}
