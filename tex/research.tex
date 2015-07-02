@@ -374,37 +374,45 @@
     When we have all the constraints from the source code as facts, we will solve the constraints until we can no longer solve any constraints.
     The result will be a list of possible types for each class, method, fields, functions, variable and expression.
     \\
-    The first step is to initialise all type-able objects we want to solve.
-    In this initial phase the status of all objects can be of any type, because we do not know anything about them yet.
+    The first step is to initialise all type-able objects.
+    In this initial phase the types of each object is of type any, except for the literal types which can be resolved already.
     When we solve the constraints step by step, we will be able to limit the number of possible types for a certain object.
     We do this by taking the intersection of the constraint result and the possible types we have.
     This way there should be less and less possible types for each variable.
     \\
     When we take the intersection of none overlapping types, we have a type error.
-    There is no possible type for this object.
-    Because PHP allows ducktyping, allowing objects to be of more than one type, we will use widening in these cases.
-    Widening means that we pick the union instead of the intersection, so we can continue our analysis.
-    \\
-    Some of the constraints only give us information that a certain object should be a subtype of a certain type.
-    When we solve these constraints, we will take the least common ancestor.
-    \\
+    There is no possible type for this object, resulting in an empty set of possible types.
+    \paragraph{The algorithm}
     In algorithm \ref{alg:research_cs} we show the algorithm to solve the constraints.
-    %todo explain the algorithm to solve constraints
+    The algorithm input is a set of constraints and the output is a map of solutions.
+    The set of constraints are the constraints defined in constraint extracting section, and the map of results is the location of all type-able objects with their possible solutions.
+    The init function on line \ref{alg:research_cs:init_solutions} adds all type-able objects to the set of possible solutions.
+    The initial possible types of the objects will be the collection of all possible types, called $Universe()$.
+    Only the literal types can be resolved already, like strings, numbers and boolean constants.
+    \\
+    Line \label{alg:research_cs:loop_start} starts a loop until a fixed point is reached. 
+    In Rascal this method is called \texttt{Solve()} and will loop until there are no more changes in the given data.
+    The methods of line \ref{alg:research_cs:derive}-\ref{alg:research_cs:prop_s} may alter the values of constraints or solutions.
+    \\
+    The first function of the loop on line \ref{alg:research_cs:derive}, \texttt{deiveMore}, visits all constraints and checks if there can be new constraints extracted based on the latest constraints and solutions.
+    Example of these new constraints are conditional constraints, which could only be added if more information of the conditional was available.
+    \\
+    Function \texttt{propagateSolutions} on line \ref{alg:research_cs:prop_s} propagates resolved estimates. 
+    Here we take the intersection of the known solutions with the given constraints.
     
     \vspace{5 mm}
     \begin{algorithm}[H]
 	 \KwIn{set[Constraint] constraints}
-	 \KwOut{map[TypeOf, set[Type]] solutions}
+	 \KwOut{map[TypeOf expression, set[Type] possibleTypes] solutions}
      \BlankLine
 	 map[TypeOf, set[Type]] solutions = init(constraints)\;           \label{alg:research_cs:init_solutions}
      \BlankLine
 	 \While{changes in constraints or solutions}{                      \label{alg:research_cs:loop_start}
 	  constraints = constraints + deriveMore(constraints, solutions)\; \label{alg:research_cs:derive}
-   	  constraints = propagateConstraints(constraints, solutions)\;     \label{alg:research_cs:prop_c}
    	  solutions = propagateSolutions(constraints, solutions)\;         \label{alg:research_cs:prop_s}
  	 }                                                                 \label{alg:research_cs:loop_end}
 	 \BlankLine
-	 \Return solutions\;     \label{alg:research_cs:return}s
+	 \Return solutions\;     \label{alg:research_cs:return}
 	 \caption{Constraint solving algorithm}
 	 \label{alg:research_cs}
 	\end{algorithm}
@@ -422,4 +430,3 @@
     Here the implementation should comply to the used annotations.
         
 \end{document}
-at
