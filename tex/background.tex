@@ -1,19 +1,20 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Background and related work}\label{ch:background}
-    Chapter \ref{ch:background} describes seven important language constructs which you need to understand in order to understand the difficulties of analysing PHP in section \ref{sec:background_language-constructs}.
-    The second section, section \ref{sec:background_annotations}, gives an introduction to the syntax and usage of annotation in PHP.
-    Section \ref{sec:background_rascal} explains the programming language \Gls{Rascal} which is used for analysis.
+    Chapter \ref{ch:background} describes seven important language constructs which the reader needs to understand in order to understand the difficulties of analysing PHP in section \ref{sec:background_language-constructs}.
+    The second section, section \ref{sec:background_annotations}, introduces the syntax and usage of annotations in PHP.
+    Section \ref{sec:background_rascal} explains \Gls{Rascal}, the programming language used for the analysis.
     $M^3$ is a programming language independent meta model which holds various facts about programs. $M^3$ is described in more details in section \ref{sec:background_m3}.
-    Section \ref{sec:background_type-system} gives an introduction to type systems and how they are related to this research.
-    The final section of this chapter, section \ref{sec:background_related-work}, describes the related work and how these researches are related to this thesis.
+    Section \ref{sec:background_type-system} introduces type systems and how type systems relate to this research.
+    The last section of this chapter, section \ref{sec:background_related-work}, describes the related work and how these researches are related to this thesis.
 
     \section{PHP Language Constructs}\label{sec:background_language-constructs}
+    PHP has various language constructs which complicate statical analysis. 
     This section presents for this research important language constructs and why these constructs are important.
     Explanations of these constructs help you to understand the performed analysis.
-    The discussed parts are scoping, includes, conditional classes and functions, dynamic features, late static binding, magic methods and dynamic class properties.
+    The discussed parts are scope, file includes, conditional classes and functions, dynamic features, late static binding, magic methods and dynamic class properties.
     
-    \paragraph{Scoping}
+    \paragraph{Scope}
     In PHP, all classes and functions are globally accessible once they are declared.
     All classes and functions are implicitly public, inner classes are not allowed, and conditional functions (see paragraph about conditional classes and functions) will be available in the global scope.
     If a class or function is declared inside a namespace, their name is prefixed with the name of the namespace.
@@ -31,8 +32,8 @@
     In this research we will not support closures. 
     
     \paragraph{Includes}
-    In PHP it is possible to include other PHP-files during execution of the program. 
-    These files will be loaded inline. 
+    PHP allows files to include other PHP-files during execution of the program. 
+    The content of these files will be loaded inline. 
     This means that if you use an include in the middle of a file, the source code of this file will be inserted virtually at that place.
     In this research we will not perform an include analysis.
     Instead we will assume that all files in the project are included during execution. 
@@ -40,7 +41,7 @@
     %Therefor we assume that this does not effect the outcome of the analysis.
     %It is not known if there are effects on inline includes that we do not cover.
     \\
-    According to the coding standard that is used in the php community\footnotemark, function- and class-name classes should not appear when using namespaces and autoloading.
+    According to the php community\footnotemark standard, function- and class-name classes should not appear when using namespaces and autoloading.
     \footnotetext{http://www.php-fig.org/psr/psr-0/, July 2014}
     When a class which is not loaded in memory is instantiated, the autoloading will try to include a file and load the class.
     The structure of the autoloading is meant to include classes, interfaces, traits and functions and should not have inline code executions which would lead to side-effects.
