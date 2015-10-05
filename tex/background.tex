@@ -1,16 +1,17 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-    \chapter{Background and related work}\label{ch:background}
+    \chapter{Background and Related Work}\label{ch:background}
     Chapter \ref{ch:background} describes seven important language constructs which the reader needs to understand in order to understand the difficulties of analysing PHP in section \ref{sec:background_language-constructs}.
     The second section, section \ref{sec:background_annotations}, introduces the syntax and usage of annotations in PHP.
     Section \ref{sec:background_rascal} explains \Gls{Rascal}, the programming language used for the analysis.
-    $M^3$ is a programming language independent meta model which holds various facts about programs. $M^3$ is described in more details in section \ref{sec:background_m3}.
+    $M^3$ is described in more details in section \ref{sec:background_m3}.
+    $M^3$ is a programming language independent meta model which holds various facts about programs. 
     Section \ref{sec:background_type-system} introduces type systems and how type systems relate to this research.
     The last section of this chapter, section \ref{sec:background_related-work}, describes the related work and how these researches are related to this thesis.
 
     \section{PHP Language Constructs}\label{sec:background_language-constructs}
     PHP has various language constructs which complicate statical analysis. 
-    This section presents for this research important language constructs and why these constructs are important.
+    This section presents language constructs and why these constructs are important for this research.
     Explanations of these constructs help you to understand the performed analysis.
     The discussed parts are scope, file includes, conditional classes and functions, dynamic features, late static binding, magic methods and dynamic class properties.
     
@@ -29,7 +30,7 @@
     \footnotetext{http://php.net/manual/en/language.variables.scope.php, July 2014}
     \\
     Closures (anonymous functions in PHP) have the same scoping rules as variables, but they can inherit variables from outside their scope by providing them in the use statement. 
-    In this research we will not support closures. 
+    %In this research we will not support closures. 
     
     \paragraph{Includes}
     PHP allows files to include other PHP-files during execution of the program. 
@@ -41,9 +42,9 @@
     %Therefor we assume that this does not effect the outcome of the analysis.
     %It is not known if there are effects on inline includes that we do not cover.
     \\
-    According to the php community\footnotemark standard, function- and class-name classes should not appear when using namespaces and autoloading.
+    According to the php community standard\footnotemark, function- and class-name classes should not appear when using namespaces and autoloading.
     \footnotetext{http://www.php-fig.org/psr/psr-0/, July 2014}
-    When a class which is not loaded in memory is instantiated, the autoloading will try to include a file and load the class.
+    When a class which is not loaded in memory, the autoloading function will try to include a file and load the class.
     The structure of the autoloading is meant to include classes, interfaces, traits and functions and should not have inline code executions which would lead to side-effects.
     
     \paragraph{Conditional classes and functions}
@@ -52,21 +53,20 @@
     \\
     An example of an conditional statement can be found in listing \ref{lst:conditionals1}.
     If the class \texttt{Foo} or function \texttt{bar} to not exist before the statements is executed, then the class and function will not yet declared. 
-    When you try to use the class or function, the script will die with an fatal error (if the class or function was not defined before).
+    When you try to use the class or function before the code is executed, the script will exit with an fatal error.
 
     \lstinputlisting[language=PHP,label=lst:conditionals1,caption=Conditional class and function definitions]{src/php/conditionals1.php}
 
-    Listing \ref{lst:conditionals2} shows when functions and classes will be available.
-    If the first call is \texttt{g()} as you can see in \texttt{line 7}, the script will result in a fatal error.
-    When \texttt{function f} is executed, \texttt{function g} will be declared, but not yet \texttt{class C}.
-    The \texttt{class C} will be declared once \texttt{function g} is executed.
-    Once the functions and classes are declared, they are available in the top scope, possibly prefixed with the name of the namespace.
-    \lstinputlisting[language=PHP,label=conditionals2,caption=Conditional function declaration]{src/php/conditionals2.php}
+    More examples of dynamic function and class loading is displayed in listing \ref{lst:conditionals2}.
+    If the first call is \texttt{g()} as you can see in \texttt{line 8}, the script will result in a fatal error because \texttt{function g()} will only be declared after \texttt{function f()} is executed.
+    The \texttt{class C} will be declared once \texttt{function g()} is executed.
+    As soon as the functions and classes are declared, they are available in the top scope, possibly prefixed with the name of the namespace they are declared within.
+    \lstinputlisting[language=PHP,label=lst:conditionals2,caption=Conditional function declaration]{src/php/conditionals2.php}
 
     
     \paragraph{Dynamic features}
     PHP comes with dynamic features like: include dynamic variables, dynamic class instantiations, dynamic function calls, dynamic function creation, reflection, and eval.
-    A previous study by Mark Hills\cite{Hil:13} has shown that the dynamic features are not used too much.
+    A previous study by Mark Hills\cite{Hil:13} has shown that the dynamic features are not used much.
     %todo (background:dynamic features) check study of mark hills
     Although their are not frequently declared, they can be frequently used.
     Dynamic features are handy to handle the generic case for different variants of an computation, for instance in an abstract class with many descendants.
