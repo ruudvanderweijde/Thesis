@@ -66,14 +66,15 @@
     
     \paragraph{Dynamic features}
     PHP comes with dynamic features like: include dynamic variables, dynamic class instantiations, dynamic function calls, dynamic function creation, reflection, and eval.
-    These functions allow code to change during compile time. 
-    New functions and classes can be added on the fly.
+    These features allow code to change during compile time. 
+    New functions and classes can be declared on the fly.
     Method calls, or even whole pieces of code, can be executed based on variable strings.
     \\
-    A previous study by Mark Hills\cite{Hil:13} has shown that the dynamic features are not used much.
+    A previous study by Mark Hills\cite{Hil:13} has shown that most real applications make use of dynamic features.
     %todo (background:dynamic features) check study of mark hills
-    Dynamic features are handy to handle the generic case for different variants of an computation, for instance in an abstract class with many descendants.
-    Our focus will not be on trying to analyse these features, because we would need constant propagation.
+    Dynamic features powerful, but can complicate the statical analysis.
+    Additional analysis like constant propagation is needed to resolve most of these dynamic features.
+    This is not in scope for this research.
     
     \paragraph{Late static binding}
     Late static binding\footnotemark is implemented in PHP since version 5.3 by adding the keyword \texttt{static} to the language.
