@@ -82,6 +82,7 @@
     It's usage is similar to the keyword \texttt{self}, which refers to the current class. 
     The main difference is that \texttt{self} refers to the class where the code is located, while \texttt{static} refers to the actual instantiated class.
     The keyword \texttt{self} can be easily resolved while \texttt{static} can only be resolved on runtime.
+    For the keyword \texttt{self} we will have to refer to the class it's declared in, plus all their descended classes.
     
     \paragraph{Magic methods}
     In PHP it is allowed to call methods or use properties that do not exists.
@@ -132,7 +133,7 @@
     \\
     There is no official standard for the use of annotations, but most projects follow the phpDocumentor\footnotemark{} syntax.
     \footnotetext{http://www.phpdoc.org/}
-    For this research the following annotations are parsed:
+    For this research the following annotations are considered:
     
 \begin{equation}
   \begin{aligned}
