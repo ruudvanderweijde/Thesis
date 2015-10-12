@@ -42,10 +42,10 @@
     %Therefor we assume that this does not effect the outcome of the analysis.
     %It is not known if there are effects on inline includes that we do not cover.
     \\
-    According to the php community standard\footnotemark, function- and class-name classes should not appear when using namespaces and autoloading.
+    According to the php coding standard\footnotemark, function- and class-name classes should not appear when using namespaces and autoloading.
     \footnotetext{http://www.php-fig.org/psr/psr-0/, July 2014}
-    When a class which is not loaded in memory, the autoloading function will try to include a file and load the class.
-    The structure of the autoloading is meant to include classes, interfaces, traits and functions and should not have inline code executions which would lead to side-effects.
+    When a class which is not already loaded in memory, the autoloading function will try to include a file and load the class.
+    The structure of the autoloading is meant to include classes, interfaces, traits, and functions and should not have inline code executions which would lead to side-effects.
     
     \paragraph{Conditional classes and functions}
     Once a file is included in the execution, al the classes and functions in the top scope are declared.
@@ -85,10 +85,14 @@
     For the keyword \texttt{self} we will have to refer to the class it's declared in, plus all their descended classes.
     
     \paragraph{Magic methods}
-    In PHP it is allowed to call methods or use properties that do not exists.
-    Normally this would result in a fatal error, but not with the use of magic methods.
-    One of the magic methods is het constructor method \texttt{\_\_{}call}.
-    This method is called when a non-accessible or non-existing method is called.
+    PHP allows calls and property access on methods and fields that don't exist on a class.
+    Normally a call to a non-existing method or property would result in a fatal error, but with the use of magic methods you can specify the wanted behavior.
+    Listing \ref{lst:magicMethods} shows an example of the \texttt{\_\_{}call} method.
+    This method is triggered when a non-accessible or non-existing method is called.
+    In this example the code will try to return the value of a private property based on the provided name.
+    The full list of magic methods is \texttt{\_\_{}construct}, \texttt{\_\_{}destruct}, \texttt{\_\_{}call}, \texttt{\_\_{}callStatic}, \texttt{\_\_{}get}, \texttt{\_\_{}set}, \texttt{\_\_{}isset}, \texttt{\_\_{}unset}, \texttt{\_\_{}wakeup}, \texttt{\_\_{}toString}, \texttt{\_\_{}invoke}, \texttt{\_\_{}set\_state}, \texttt{\_\_{}clone}, and \texttt{\_\_{}debugInfo}.
+	
+	\lstinputlisting[language=PHP,label=lst:magicMethods,caption=Magic methods in PHP]{src/php/magicMethods.php}
 
     \paragraph{Dynamic class properties}
     Although it is a good practice to define your class properties, it is not required to do so in PHP.
@@ -102,34 +106,34 @@
     \lstinputlisting[language=PHP,label=lst:dynamicProperty,caption=Dynamic class property]{src/php/dynamicProperty.php}
     
     \section{Annotations}\label{sec:background_annotations}
-    PHP has no native support for annotations.
-    But PHP has a \texttt{getDocComment}\footnotemark method in the \texttt{ReflectionClass}. 
+    Annotations are pieces of meta data, defined on class, method, function, or statement level.
+    Despite the proposal\footnotemark for official support of annotations, PHP has still no native support them.
+    \footnotetext{https://wiki.php.net/rfc/annotations-in-docblock}
+    But PHP has a \texttt{getDocComment}\footnotemark method in the \texttt{ReflectionClass} since version 5.1 in 2005. 
     \footnotetext{http://php.net/manual/en/reflectionclass.getdoccomment.php}
-    This \texttt{getDocComment} method returns the complete doc block of a certain element as a string.
+    The \texttt{getDocComment} method returns the complete doc block of a certain element as a string.
     A doc block in php has the format \texttt{\slash**...*\slash}.
     Listing \ref{lst:docblock} shows an example of two doc blocks in PHP.
     The first doc block is defined above the class and contains information about the class.
     The second doc block is related to the method \texttt{getSomething}. 
-    The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information what exceptions can be thrown by the method. 
-    
+    The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information which possible exceptions can be thrown by the method. 
     
     \lstinputlisting[language=PHP,label=lst:docblock,caption=Examples of PHP DocBlocks]{src/php/docBlock.php}
 
-    Annotations are not part of the official language.
-    They are however widely used.
-    On one hand for type hinting to help static software analysis.
-    On the other hand frameworks like ZEND, Symfony and Doctrine you can write business logic rules in the form of annotations.
-    These annotations will be parsed and used in real code.
-    These frameworks created their own syntax for annotations.
+    Annotations are mainly used for type hinting, documentation, and code execution.
+    Software analysis tools and IDE's can use the type hints to aid understanding code and in finding bugs and security issues.
+    Available tools can generate documentation based on the doc blocks.
+    Programs like Symfony2, ZEND Framework, and Doctrine ORM use annotations for controller routing, templating information, ORM mappings, filters, and validation configuration.
     \\
-    This research will be limited to the first type of annotations which can help developers and IDE's to better understand what the code does.
-    For example you can see what kind of input and output is expected for a method.
+    This research focusses on the first type of annotations which can help developers and IDE's to better understand how code behaves within a program.
+    For example a programmer can see what kind of input and output is expected for a method.
     Doc blocks with annotations can be placed on top of classes, methods, functions, and variables.
     \\
-    Writing annotations is not yet in the PSR standards for PHP, but there is a proposal\footnotemark.
+    A standard on using annotations is not in the PHP Standard Recommendations (\gls{PSR}) yet, but there is a proposal\footnotemark.
     \footnotetext{https://github.com/php-fig/fig-standards/pull/169/files, July 2014}
     For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
-    The annotations \texttt{@return} and \texttt{@param} are only useful for functions and class methods. Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
+    The annotations \texttt{@return} and \texttt{@param} are only useful for functions, class methods, and closures.
+    Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
     \\
     There is no official standard for the use of annotations, but most projects follow the phpDocumentor\footnotemark{} syntax.
     \footnotetext{http://www.phpdoc.org/}
@@ -178,11 +182,10 @@
 	%todo: (background:annotations) explain the used equations above.
  
     \section{Rascal}\label{sec:background_rascal}
-    \Gls{Rascal} is a meta programming language developed by Centrum Wiskunde \& Informatica (CWI)\cite{Kli:09}.
+    \Gls{Rascal}\cite{Kli:09} is a meta programming language developed by Centrum Wiskunde \& Informatica (CWI).
     Rascal is designed to analyse, transform and visualise source code.
     The language is build on top of Java and implements various concepts of existing programming languages.
-    In this research, besides the modifier PHP-Parser, all of our code is implement in rascal.
-    A
+    This research uses rascal for most of the analysis.    
     %todo: (background: rascal) explain what rascal is. And how/why we use it in this research
 
     \section{$M^3$}\label{sec:background_m3}
