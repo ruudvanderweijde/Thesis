@@ -185,23 +185,25 @@
     \Gls{Rascal}\cite{Kli:09} is a meta programming language developed by Centrum Wiskunde \& Informatica (CWI).
     Rascal is designed to analyse, transform and visualise source code.
     The language is build on top of Java and implements various concepts of existing programming languages.
-    This research uses rascal for analysing PHP source code.
-    
-    %todo: (background: rascal) explain what rascal is. And how/why we use it in this research
+    In this research, Rascal is the main programming language.
+    The only part that does not use Rascal is the parser of PHP code.
+    Although this could be easily implemented in Rascal, there was an existing library written in PHP available.
 
     \section{$M^3$}\label{sec:background_m3}
-    The $M^3$-model\cite{Ana:13} is a model which holds information of source code.
-    This model is created to analyse one single Java program or compare two or more Java systems with each other.
-    The core of the $M^3$-model contains \texttt{containment}, \texttt{declarations}, \texttt{documentation}, \texttt{modifiers}, \texttt{names}, \texttt{types}, \texttt{uses}, \texttt{messages}.
-    \\
+    The $M^3$-model\cite{Ana:13} is a model which holds various information of source code and is implemented in Rascal.
+    % todo explain its general usage
+    This model is created to get multiple insights in the quality of open-source projects.
+    For our research we use the $M^3$-model to store facts about the program in a structured way, so we can easily use it at a later stage.
+    
+    The core element of the $M^3$-model contains \texttt{containment}, \texttt{declarations}, \texttt{documentation}, \texttt{modifiers}, \texttt{names}, \texttt{types}, \texttt{uses}, \texttt{messages}.
     The \texttt{declarations} relation contains class, method, variable- information with their logical name and their real location. The type of the relation are \texttt{locations} and represent the logical name of the declaration and will be used in the rest of the $M^3$.
     The \texttt{containment} relation has information on what declarations are contained in each other. For example a package can contain a class; a class can contain fields and methods or an inner class; a method can contain variables.    
-    The \texttt{documentation} relation contains all comments from the source code. 
-    The \texttt{modifiers} relation has information on the modifiers of declarations. Modifiers are abstract, final, public, protected or private.
+    The \texttt{documentation} relation contains all comments from the source code and its source location.
+    The \texttt{modifiers} relation has information on the modifiers of declarations. Modifiers are abstract, final, public, protected, or private.
     The \texttt{names} relation contains a simplified name of the full declarations.
     The \texttt{types} relation has information about the type of the source code elements.
-    The \texttt{uses} relation describes what reference is using which object. For instance when a field of a class is used in some expression, the \texttt{uses} relation links the field in the expression to the declaration of the field in the class.
-    And lastly, \texttt{messages} contains errors, warnings or info statements.
+    The \texttt{uses} relation describes what references use an object. For instance when a field of a class is used in some expression, the \texttt{uses} relation links the field in the expression to the declaration of the field in the class.
+    And lastly, \texttt{messages} contains errors, warnings, and info statements.
     
     \section{Type system}\label{sec:background_type-system}
     The type system defines how rules are applied to types.
