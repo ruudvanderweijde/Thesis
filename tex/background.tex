@@ -192,7 +192,7 @@
     \section{$M^3$}\label{sec:background_m3}
     The $M^3$-model\cite{Ana:13} is a model which holds various information of source code and is implemented in Rascal.
     % todo explain its general usage
-    This model is created to get multiple insights in the quality of open-source projects.
+    This model is created to gain insights in the quality of open-source projects.
     For our research we use the $M^3$-model to store facts about the program in a structured way, so we can easily use it at a later stage.
     
     The core element of the $M^3$-model contains \texttt{containment}, \texttt{declarations}, \texttt{documentation}, \texttt{modifiers}, \texttt{names}, \texttt{types}, \texttt{uses}, \texttt{messages}.
@@ -206,32 +206,31 @@
     And lastly, \texttt{messages} contains errors, warnings, and info statements.
     
     \section{Type system}\label{sec:background_type-system}
-    The type system defines how rules are applied to types.
-    The system determines validates the type usage with type checking.
-    The process of actually resolving types is called type inference.
+    Type systems define how a set of rules are applied to types in their context.
+    The system validates the type usage with \textbf{type checking}.
+    The process of actually resolving types is called \textbf{type inference}.
     On one hand the system needs to determine the type of variables, on the other hand it will check the type of the variables.
+    
     \paragraph{Type checking}
-    Type checking of dynamic languages differs from static languages.
-    In dynamic languages, most type checking is performed during run-time.
-    The down side here is that you actually have to run the program to get feedback on incorrect usage of types. 
-    For example when you divide an integer by a boolean with value true.
-    In PHP these operations are (most of the times) valid and will return you a value.
-    In this case, the boolean will be internally concerted to the integer 1.
-    This can result in unexpected behaviour and is discouraged to do.
-    \\
-    On the other hand we have static type systems which allow type checking without executing the code.
-    Most analysis can be performed during compile time.
-    These systems can catch programming errors related to typing issues and can avoid overhead of runtime type checks.
-    In dynamic languages the type checking is done during run time, and this will decrease the performance.
+    Type checking is a mechanism which validates and/or enforces the constraints of a type in their specific context.
+    There is a difference between static type checking and dynamic type checking.
+    Static type checking is a process of checking the types based on the source code.
+    This type checker will ensure that a program is type safe, which means that there will occor no type errors, before the program is executed.
+    Dynamic type checking performs the type checking during run time.
+    This means that the program needs to run to gain feedback on the usage of types.
+    There are languages, like JAVA, which have use a combination of static and dynamic type checking.
+    PHP is fully dynamically typed, which means that there are no types checked before actually running the program.
+    The advantage of static types is that they can catch type errors early and can perform compiler optimisations, while dynamic type checking systems allow more flexible in their type allowance.
+    The downside of static types is that they can be too restrictive, while dynamic typing allows run time type errors which can lead to hard to locate errors.
     
     \paragraph{Type inference}
-    In the previous section we explained type checking.
-    In order to check the types of variables and expression, we need to know the types of variables and expressions first.
-    The process of resolving the type of a variable or expressions is called type inference.
+    Type inference is the process of resolving the type of a variable or expression.
+    In order to validate the types during type checking, we first need to know the types of variables and expressions.
+    Being able to infer the type before running the program enables you to optimise code execution by applying compiler optimisations.
+    These optimisation allow performance improvements or reduce memory usage.
     In dynamic languages like PHP it can be difficult to resolve the type of a variable or expression without running the program.
-    When you are able to resolve the type before running the program, you are able to optimise the execution code.
-    This allows you to make performance improvements or avoid memory usage.
     \\
+    % re-structure the stuff below
     In this research we use \textbf{constraint based type inference}.
     Every typeable language construct will have a set of possible types.
     At the start of the analysis every variable and expression will have all possible types, we call this \texttt{Universe}.
@@ -247,6 +246,15 @@
     The analysis we perform is flow insensitive, which means that we do not analyse the flows of the program.
     We do take the context of the programs into account, making the analysis context sensitive.
     
+    \section{Constraint solvers}\label{sec:background_constraint-solver}
+    todo: Give answers to the following questions:
+    \\
+    What is a constraint solver?
+    \\
+    What types of constraint solvers are there?
+    \\
+    Which one did I use and why?
+
     \section{Related work}\label{sec:background_related-work}
     %todo (background:related work) describe related work
     Describe these:
