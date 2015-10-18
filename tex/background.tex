@@ -205,30 +205,49 @@
     The \texttt{uses} relation describes what references use an object. For instance when a field of a class is used in some expression, the \texttt{uses} relation links the field in the expression to the declaration of the field in the class.
     And lastly, \texttt{messages} contains errors, warnings, and info statements.
     
+    %todo add duck typing as sub part of Type Systems
     \section{Type system}\label{sec:background_type-system}
     Type systems define how a set of rules are applied to types in their context.
     The system validates the type usage with \textbf{type checking}.
-    The process of actually resolving types is called \textbf{type inference}.
+    The process of resolving types is called \textbf{type inference}.
     On one hand the system needs to determine the type of variables, on the other hand it will check the type of the variables.
     
     \paragraph{Type checking}
     Type checking is a mechanism which validates and/or enforces the constraints of a type in their specific context.
     There is a difference between static type checking and dynamic type checking.
-    Static type checking is a process of checking the types based on the source code.
-    This type checker will ensure that a program is type safe, which means that there will occor no type errors, before the program is executed.
-    Dynamic type checking performs the type checking during run time.
+    \textbf{Static type checking} is a process of checking the types based on the source code.
+    The static type checker will ensure that a program is type safe before executing the program, which means that there will occur no type errors during runtime.
+    \textbf{Dynamic type checking} performs the type checking during runtime.
     This means that the program needs to run to gain feedback on the usage of types.
+    PHP is a dynamically typed language, which means that there are no types checked before actually running the program.
     There are languages, like JAVA, which have use a combination of static and dynamic type checking.
-    PHP is fully dynamically typed, which means that there are no types checked before actually running the program.
-    The advantage of static types is that they can catch type errors early and can perform compiler optimisations, while dynamic type checking systems allow more flexible in their type allowance.
-    The downside of static types is that they can be too restrictive, while dynamic typing allows run time type errors which can lead to hard to locate errors.
+    The advantage of static type checking is that type errors can be caught early in the development process and allows for compiler optimisations.
+    Dynamic type checking systems have more flexibility and allow dynamic loading of new code.
     
     \paragraph{Type inference}
     Type inference is the process of resolving the type of a variable or expression.
-    In order to validate the types during type checking, we first need to know the types of variables and expressions.
+    This process is required to be able perform type checking.
+    In statically typed languages, type inference happens at compile time.
+    In this paragraph we explain four types of type inference algorithms.
+    \\
+    The \textbf{Hindley-Milner} type system was found in 1969 by Roger J. Hinldey\cite{Hin:69} and rediscovered by Robin Milner\cite{Mil:78} in 1978.
+    Damas\cite{Dam82}
+    
+    The first algorithm use to infer types was \texttt{algoritm W}, which was based on the  type system.
+    %todo: actually explain
+    This line explains what hinley milner does..
+    
     Being able to infer the type before running the program enables you to optimise code execution by applying compiler optimisations.
     These optimisation allow performance improvements or reduce memory usage.
     In dynamic languages like PHP it can be difficult to resolve the type of a variable or expression without running the program.
+    
+    \paragraph{Type inference algorithms}
+    \textbf{$k$ control flow analysis} ($k$-CFA) and \textbf{cartesian product algorithm} (CPA) are two other ways of type inference.
+    %todo (background:k-cfa/cpa) explain K-CFA en CPA
+    In $k$-CFA. 
+    \\
+    The analysis we perform is flow insensitive, which means that we do not analyse the flows of the program.
+    We do take the context of the programs into account, making the analysis context sensitive.
     \\
     % re-structure the stuff below
     In this research we use \textbf{constraint based type inference}.
@@ -238,13 +257,6 @@
     Every time a constraint is solved, the number of possible types for one variable will decrease.
     This process will be repeated until we have solved all the constraints and can no longer limit the number of types for a variable.
     This is explained in more details in chapter \ref{sec:research:constraint_solving}.
-    \\
-    \textbf{$k$ control flow analysis} ($k$-CFA) and \textbf{cartesian product algorithm} (CPA) are two other ways of type inference.
-    In $k$-CFA
-    %todo (background:k-cfa/cpa) explain K-CFA en CPA
-    \\
-    The analysis we perform is flow insensitive, which means that we do not analyse the flows of the program.
-    We do take the context of the programs into account, making the analysis context sensitive.
     
     \section{Constraint solvers}\label{sec:background_constraint-solver}
     todo: Give answers to the following questions:
@@ -267,5 +279,4 @@
         \footnotetext{http://www.icosaedro.it/phplint, July 2014}
     \end{itemize}
     Also describe their differences with my research.
-    
 \end{document}
