@@ -227,22 +227,18 @@
     \paragraph{Type inference}
     Type inference is the process of resolving the type of a variable or expression.
     This process is required to be able perform type checking.
-    In statically typed languages, type inference happens at compile time.
-    In this paragraph we explain four types of type inference algorithms.
-    \\
-    The \textbf{Hindley-Milner} type system was found in 1969 by Roger J. Hinldey\cite{Hin:69} and rediscovered by Robin Milner\cite{Mil:78} in 1978.
-    Damas\cite{Dam82}
-    
-    The first algorithm use to infer types was \texttt{algoritm W}, which was based on the  type system.
-    %todo: actually explain
-    This line explains what hinley milner does..
-    
     Being able to infer the type before running the program enables you to optimise code execution by applying compiler optimisations.
     These optimisation allow performance improvements or reduce memory usage.
     In dynamic languages like PHP it can be difficult to resolve the type of a variable or expression without running the program.
-    
-    \paragraph{Type inference algorithms}
-    \textbf{$k$ control flow analysis} ($k$-CFA) and \textbf{cartesian product algorithm} (CPA) are two other ways of type inference.
+    In statically typed languages, type inference happens at compile time.
+    In this paragraph we explain four types of type inference algorithms.
+    \\
+    The Hindley-Milner (HM) type system was found in 1969 by Roger J. Hinldey\cite{Hin:69} and almost 10 years later rediscovered by Robin Milner\cite{Mil:78}.
+    The first implementation, \textbf{Algorithm W}\cite{Dam:82}, was four years later created by pHd student Luis Damas in the language \texttt{ML}.
+    The HM type system deduces the types of the variables based on their usage.
+    \texttt{Haskell} uses a version of the HM type system.
+    \\
+    \textbf{kth-order control-flow analysis}!!need citation!! ($k$-CFA) and \textbf{cartesian product algorithm} (CPA) are two other ways of type inference.
     %todo (background:k-cfa/cpa) explain K-CFA en CPA
     In $k$-CFA. 
     \\
