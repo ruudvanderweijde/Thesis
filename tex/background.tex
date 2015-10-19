@@ -238,13 +238,12 @@
     The HM type system deduces the types of the variables based on their usage to their most abstract type.
     The type system of \texttt{Haskell} uses the HM type system as a foundation.
     \\
-    The \textbf{cartesian product algorithm}\cite{Age:95} (CPA) is a type inference algorithm created by Ole Agesen.
-    His work was based on previous object oriented type inference
-    constraint graph
-    templating
-    template repository
-    
-    
+    The \textbf{Cartesian Product Algorithm}\cite{Age:95} (CPA) is a type inference algorithm created by Ole Agesen.
+    His work was based on the \textbf{basic type inference algorithm}\cite{Pal:91} of Palsberg and Schwartzbach.
+    These algorithms build a constraint graph and solve the constraints using a fixed point algorithm.
+    The scope of a constraint graph is based on the control flow and is called a template.
+    The start and end nodes of the templates are connected to the other templates.
+	\\
     \textbf{kth-order control-flow analysis}!!need citation!! ($k$-CFA) and  are two other ways of type inference.
     %todo (background:k-cfa/cpa) explain K-CFA en CPA
     In $k$-CFA. 
