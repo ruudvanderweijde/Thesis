@@ -233,12 +233,19 @@
     In statically typed languages, type inference happens at compile time.
     In this paragraph we explain four types of type inference algorithms.
     \\
-    The Hindley-Milner (HM) type system was found in 1969 by Roger J. Hinldey\cite{Hin:69} and almost 10 years later rediscovered by Robin Milner\cite{Mil:78}.
-    The first implementation, \textbf{Algorithm W}\cite{Dam:82}, was four years later created by pHd student Luis Damas in the language \texttt{ML}.
-    The HM type system deduces the types of the variables based on their usage.
-    \texttt{Haskell} uses a version of the HM type system.
+    The \textbf{Hindley-Milner} (HM) type system was found in 1969 by Roger J. Hinldey\cite{Hin:69} and almost 10 years later rediscovered by Robin Milner\cite{Mil:78}.
+    The first implementation, \textbf{Algorithm W}\cite{Dam:82} which proved the soundness and completeness, was four years later created by pHd student Luis Damas in the context of the programming language \texttt{ML}.
+    The HM type system deduces the types of the variables based on their usage to their most abstract type.
+    The type system of \texttt{Haskell} uses the HM type system as a foundation.
     \\
-    \textbf{kth-order control-flow analysis}!!need citation!! ($k$-CFA) and \textbf{cartesian product algorithm} (CPA) are two other ways of type inference.
+    The \textbf{cartesian product algorithm}\cite{Age:95} (CPA) is a type inference algorithm created by Ole Agesen.
+    His work was based on previous object oriented type inference
+    constraint graph
+    templating
+    template repository
+    
+    
+    \textbf{kth-order control-flow analysis}!!need citation!! ($k$-CFA) and  are two other ways of type inference.
     %todo (background:k-cfa/cpa) explain K-CFA en CPA
     In $k$-CFA. 
     \\
