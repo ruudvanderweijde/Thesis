@@ -251,17 +251,18 @@
     
     In $k$-CFA (shivers). 
     
-Inspired by call strings, Shivers [145] formulated the context-sensitivefirst-order control-flow analysis (1-CFA) and suggested the extension to kth-order control-flow analysis (k-CFA) [145, p.55] as a refined choice of contours.Since then Jagannathan and Weeks [76] have suggested a polynomial 1-CFA, amore approximate 1-CFA variant with better worst-case time complexity. Jagannathanand Weeks achieve the speedup by restricting the environment componentof an abstract closure to a constant function mapping all variables to acontour representing the most recent call-site. The uniform k-CFA is anotherk-CFA variant suggested by Nielson and Nielson [110, 112].
-\\
-[110] Flemming Nielson and Hanne Riis Nielson. Infinitary control flow analysis:a collecting semantics for closure analysis. In Jones [83], pages 332–345.
-\\
-[112] Flemming Nielson, Hanne Riis Nielson, and Chris Hankin. Principles ofProgram Analysis. Springer-Verlag, 1999.
-\\
-[145] Olin Shivers. Control-Flow Analysis of Higher-Order Languages or Tam-ing Lambda. PhD thesis, School of Computer Science, Carnegie MellonUniversity, Pittsburgh, Pennsylvania, May 1991. Technical Report CMUCS-91-145.
-    \\
+%Inspired by call strings, Shivers [145] formulated the context-sensitive%first-order control-flow analysis (1-CFA) and suggested the extension to kth-%order control-flow analysis (k-CFA) [145, p.55] as a refined choice of contours.%Since then Jagannathan and Weeks [76] have suggested a polynomial 1-CFA, a%more approximate 1-CFA variant with better worst-case time complexity. Jagannathan%and Weeks achieve the speedup by restricting the environment component%of an abstract closure to a constant function mapping all variables to a%contour representing the most recent call-site. The uniform k-CFA is another%k-CFA variant suggested by Nielson and Nielson [110, 112].
+%\\
+%[110] Flemming Nielson and Hanne Riis Nielson. Infinitary control flow analysis:%a collecting semantics for closure analysis. In Jones [83], pages 332–345.
+%\\
+%[112] Flemming Nielson, Hanne Riis Nielson, and Chris Hankin. Principles of%Program Analysis. Springer-Verlag, 1999.
+%\\
+%[145] Olin Shivers. Control-Flow Analysis of Higher-Order Languages or Tam-%ing Lambda. PhD thesis, School of Computer Science, Carnegie Mellon%University, Pittsburgh, Pennsylvania, May 1991. Technical Report CMUCS-%91-145.
+
+    %x§\\
     %The analysis we perform is flow insensitive, which means that we do not analyse the flows of the program.
     %We do take the context of the programs into account, making the analysis context sensitive.
-    \\
+    %\\
     % re-structure the stuff below
     %In this research we use \textbf{constraint based type inference}.
     %Every typeable language construct will have a set of possible types.
