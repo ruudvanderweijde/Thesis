@@ -254,10 +254,33 @@
 
     \section{Related work}\label{sec:background_related-work}
     %todo (background:related work) describe related work
+    
+    Due to the big growth of the internet in the last couple of years, with a big market share of PHP programs, there are numerous people who have analysed PHP programs.
+    We will briefly describe a few of them.
+    
+    \paragraph{}
+    Facebook improved the performance of PHP programs with a static compiler, called HipHop Virtual Machine\cite{Zha:12} (HHVM).
+    This static compiler extracts the program into an AST, traverses this AST to collect information, performs pre-optimisations, performs type inference, preforms post-optimisations, and lastly generates C++ code.
+    During the pre-optimisations the compiler removes unneeded actions, for example constant inlining, logical-expression simplifications, and dead-code elimination.
+    The type inference process is based on the Hindley-Milner constraint based algorithm\cite{Dam:82}, to infer types of constants, variables, functions parameters, and return types.
+    These new inferred types are then used in the post-optimisation.
+    In the last step the AST is traversed to generate C++ code.
+    Although the compiler does not cover all functions of PHP, it does covers most of the features.
+    The performance benefits on the other hand are significantly better, showing on average 5.5x more effiency.
+    
+    \paragraph{}
+    \texttt{PHANTM}\cite{Kne:10,Bar:10} (PHp ANalyzer for Type Mismatch) is an open source PHP analyser written in Scala.
+    Because of PHP's dynamic nature, without compiler or interpreter type checking, it is easy to make typing errors that result in unexpected behaviour or in fatal errors.
+    \texttt{PHANTM} performs a hybrid flow-sensitive analysis to find type errors in PHP5.
+    The hybrid analysis combines static and dynamic analysis.
+    A program can be annotated to start a static analysis at a specific point.
+    The analyser collects run-time type information while running the program and then starts the static analysis.
+    \texttt{PHANTM} uses data-flow analysis to infer types.
+    Although \texttt{PHANTM} has proven to be able to find a number of type errors in three different programs, there is a lack of finding errors in object oriented structures.
+    The found errors are found in scalar types.
+    
     Describe these:
     \begin{itemize}
-        \item `The HipHop Compiler for PHP'\cite{Zhao:12} (not much information available on their type inference, only source code)
-        \item `Phantm: PHP analyzer for type mismatch'\cite{Kne:10,Bar:10} (investigate this in more details, their focus is on finding type errors)
         \item PHPLint \footnotemark (uses a different kind of annotations, not the Java like PhpDocs)
         \item `Soft typing and analyses on PHP programs'\cite{}, code implementations: https://github.com/henkerik/typing and https://github.com/marcelosousa/soft-typing-PHP5 (created for php4, code for php5, should check this out, might be able to compare results with this)
         \item `Design and Implementation of an Ahead-of-Time Compiler for PHP'\cite{Big:10} (to check in detail)
