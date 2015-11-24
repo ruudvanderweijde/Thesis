@@ -53,17 +53,26 @@
        
     \section{Contribution} % Contribution: what is the return of investment for the reader. (Resolving types can: helpt to build IDE tools, identify dependencies, beter security scans, gecombineerd worden met andere analyses (voor future work).)
         % TODO Review (intoduction:contribution) when the result of the analysis are performed.
-        TODO Review this part when the result of the analysis are performed.
+        This research contains contributions to the static analysis research field.
+        It contribues by:
         \begin{itemize}
-            \item Created an M3 for php.
-            \item Constraint system.
-            \item Show the value of annotations for analysis.
+            \item extending the $M^3$ model with support for PHP
+            \item constraint based type inference
+            %\item shows the result of the type inference
+            %\item value of annotations for analysis.
         \end{itemize}
 
-        Some idea's are that this analysis can help IDE tools to perform transformations on the source code.
-        (But the performance may not be sufficient.)
-        \\
-        The creation of the M3 model can help to compare researchers compare PHP programs with other programming languages. For now only Java is implemented, but more can follow (unchecked statement).
+		The \textit{extension of the $M^3$ model}, a generic model which holds facts of a program, to support PHP programs can help researchers to compare PHP programs with programs written in other languages. 
+		Until now only Java was supported.
+		More information about $M^3$ can be found in section \ref{sec:m3_for_php}.
+		
+		This paper also presents a \textit{constrained based type inference} algorithm.
+		These type inference results can help IDE tools and programmers by providing helpful tools.
+		The algorithm can be found in section \ref{sec:research:constraint_solving}.
+		
+		%The \textit{results of the analysis} show ...
+        
+        
     
     \section{Plan} % Plan: outline of the paper. (In section x stuff.) 
         The rest of this thesis is as follows:

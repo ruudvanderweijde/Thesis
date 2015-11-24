@@ -151,7 +151,7 @@
     In order to let our research take place, we need to make sure that some environment variables are constant.
     
     \paragraph{Program correctness}
-    In order to be able to execute this research we assume that the programs are correct and works as intended and does not contain any bugs.
+    In order to be able to execute this research we assume that the programs are correct and works as intended.
     This is needed to be able to say something about the programs we analyse.
     
     \paragraph{File includes}
@@ -167,14 +167,14 @@
     \paragraph{PHP warnings}
     For this research we will ignore all warnings.
     Warnings do not alter the behaviour of the program.
-    In a normal production environment, the warnings are not shown.
+    In a most production environment these warnings are suppressed and will not change the behaviour of the program.
     
     \paragraph{Sensitivity}
     Our analysis is flow-, control-, and context-insensitive.
     \textit{Flow-insensitive} means that we do not look at messages between objects, and only look in the body of a method.
     \textit{Control-insensitive} means that we ignore all control structures. 
     Examples of control structures are \texttt{if}, \texttt{else}, and \texttt{switch}.
-    \texit{Context-insensitive} means that we do not look at the order of which code is executed.
+    \textit{Context-insensitive} means that we do not look at the order of which code is executed.
      
     
 \end{document}
