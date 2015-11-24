@@ -185,7 +185,10 @@
     Rascal is designed to analyse, transform and visualise source code.
     The language is build on top of Java and implements various concepts of existing programming languages.
     In this research, Rascal is the main programming language.
-    The only part that does not use Rascal is the parser of PHP code.
+    Rascal is used for gathering facts about the program and to solve constraints.
+    The facts are gathered by visiting AST tree representing the program and hold semantic information about the program.
+    Constraints are generated based on the collected facts and these constraints are solved with an in Rascal created constraint solver.
+    The only part that does not use Rascal is the PHP parser.
     Although this could be easily implemented in Rascal, there was an existing library written in PHP available.
 
     \paragraph{}
@@ -252,11 +255,34 @@
     These templates are based on control flow and have start and end nodes with their possible in- and outputs.
     The CPA calculates the possibles output types for each template by taking the cartesian product (the set of all possible ordered pairs) of the input types.
 
-    \section{Related work}\label{sec:background_related-work}
-    %todo (background:related work) describe related work
-    
+    \section{Related work}\label{sec:background_related-work}    
     Due to the big growth of the internet in the last couple of years, with a big market share of PHP programs, there are numerous people who have analysed PHP programs.
     We will briefly describe a few of them.
+    
+    \paragraph{}
+    Similar work has been presented by a student of Universiteit Utrecht\cite{Cam:07, Cam:09}.
+    He created a constraint-based type inference analysis for his master thesis.
+    The inference algorithm combines possible results of the constraints and takes the union to define the types.
+    To guarantee termination the algorithm uses widening, by replacing the current result with the result of the union, to make sure that there will be a fixed-point.
+    Further work improved the implementation by adding object support\cite{Hoe:15}.
+    
+    \paragraph{}
+    Paul Biggar created an Ahead-Of-Time (AOT) compiler for PHP\cite{Big:10}.
+    The main goal of this compiler is to improve the performance of PHP programs.
+    The AOT compiler starts by parsing a PHP program into an AST.
+    This AST is transformed into an High-level Intermediate Representation (HIR) to remove all redundant constructs and then transformed into a Medium-level Intermediate Representation (MIR).
+    Using dataflow analysis, alias analysis, static single assignment (SSA), and type analysis the compiler performs optimisations on the MIR.
+    After the optimisations, the compiler generates C code, which then can be executed to run the program.
+   
+    \paragraph{}
+    \texttt{PHANTM}\cite{Kne:10,Bar:10} (PHp ANalyzer for Type Mismatch) is an open source PHP analyser written in Scala.
+    Because of PHP's dynamic nature, without compiler or interpreter type checking, it is easy to make typing errors that result in unexpected behaviour or in fatal errors.
+    \texttt{PHANTM} performs a hybrid flow-sensitive analysis to find type errors in PHP5.
+    The hybrid analysis combines static and dynamic analysis.
+    A program can be annotated to start a static analysis at a specific point.
+    The analyser collects run-time type information while running the program and then starts the static analysis.
+    \texttt{PHANTM} uses data-flow analysis to infer types.
+    Although \texttt{PHANTM} has proven to be able to find a decent number of type errors on scalar usages in three different programs, there is a lack of finding errors in object oriented structures.
     
     \paragraph{}
     Facebook improved the performance of PHP programs with a static compiler, called HipHop Virtual Machine\cite{Zha:12} (HHVM).
@@ -266,25 +292,15 @@
     These new inferred types are then used in the post-optimisation.
     In the last step the AST is traversed to generate C++ code.
     Although the compiler does not cover all functions of PHP, it does covers most of the features.
-    The performance benefits on the other hand are significantly better, showing on average 5.5x more effiency.
-    
+    The performance benefits on the other hand are significantly better, showing on average 5.5x more efficiency.
+        
     \paragraph{}
-    \texttt{PHANTM}\cite{Kne:10,Bar:10} (PHp ANalyzer for Type Mismatch) is an open source PHP analyser written in Scala.
-    Because of PHP's dynamic nature, without compiler or interpreter type checking, it is easy to make typing errors that result in unexpected behaviour or in fatal errors.
-    \texttt{PHANTM} performs a hybrid flow-sensitive analysis to find type errors in PHP5.
-    The hybrid analysis combines static and dynamic analysis.
-    A program can be annotated to start a static analysis at a specific point.
-    The analyser collects run-time type information while running the program and then starts the static analysis.
-    \texttt{PHANTM} uses data-flow analysis to infer types.
-    Although \texttt{PHANTM} has proven to be able to find a number of type errors in three different programs, there is a lack of finding errors in object oriented structures.
-    The found errors are found in scalar types.
-    
-    Describe these:
-    \begin{itemize}
-        \item PHPLint \footnotemark (uses a different kind of annotations, not the Java like PhpDocs)
-        \item `Soft typing and analyses on PHP programs'\cite{}, code implementations: https://github.com/henkerik/typing and https://github.com/marcelosousa/soft-typing-PHP5 (created for php4, code for php5, should check this out, might be able to compare results with this)
-        \item `Design and Implementation of an Ahead-of-Time Compiler for PHP'\cite{Big:10} (to check in detail)
-        \footnotetext{http://www.icosaedro.it/phplint, July 2014}
-    \end{itemize}
-    Also describe their differences with my research.
+    PHPLint\footnotemark extends the PHP syntax with type hints where PHP lacks support for it, using custom inline comment blocks to add extra typing information.
+    \footnotetext{http://www.icosaedro.it/phplint, July 2015}
+    These doc blocks with type information can be used in the analysis, allowing more strict type checking.
+    The used syntax for the type hints are \texttt{/*. .*/}, for example: \texttt{/*. string .*/ \$s = null;} which means that the variable \texttt{\$s} is of type \texttt{string}.
+    PHPLint solves the lack of type hint support on scalar and array types.
+    PHPLint can generate type hints based on information retrieved from simple type inference.
+    Despite the good intentions, it seems like PHP7 will support scalar type hints as provided by this tool.
+
 \end{document}

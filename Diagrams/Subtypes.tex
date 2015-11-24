@@ -5,45 +5,31 @@
 
 \begin{document}
 
-\begin{forest}[any(),name=any
-    [array(),name=array
-        [a(any())
-            [a(array(...))
-                [...]
-                [...]
-            ]
-            [a(scalar)
-                [...]
-                [...]
-            ]
-            [a(object)
-                [...]
-                [...]
-            ]
+\begin{forest}
+[any,name=any
+    [scalar
+        [resource]
+        [boolean]
+        [number
+            [float]
+            [integer]
         ]
+        [string, name=string]
     ]
-    [scalar()
-        [resource()]
-        [boolean()]
-        [number()
-            [float()]
-            [integer()]
-        ]
-        [string(), name=string]
-    ]
-    [callable(), name=callable
-        [object()
-            [class(childless)]
-            [class(parent)
-                [class(child1)]
-                [class(child2)
-                    [class(grandChild)]
-                ]
+    [array(any),fit=band	]
+    [object
+    	[class(noChild)]
+        [class(parent)
+            [class(child1)]
+            [class(child2)
+                [class(grandChild1)]
             ]
         ]
     ]
 ]
-\draw (callable.south west) -- (string.north east);
+\node at (current bounding box.south)
+    {\footnotesize{Note: `-Type' postfix is omitted in this diagram to save space.}};
+%\draw (callable.south west) -- (string.north east);
 %\draw[->,dotted] (array) .. controls +(north west:2cm) and +(north:2cm).. (any);
 \end{forest}
 
