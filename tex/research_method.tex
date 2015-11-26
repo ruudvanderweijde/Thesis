@@ -14,7 +14,7 @@
     \\
 	Because PHP has no explicit type system, we have defined our own type system for PHP.
 	In the Rascal code below you can see our defined types, with a brief description below.
-
+	\begin{program}
     \begin{rascal}
 \CAT{Keyword}{module} lang::php::m3::TypeSymbol
  
@@ -34,12 +34,13 @@
   | stringType()                    \CAT{Comment}{// text values}
   ; 
     \end{rascal}
-\footnotetext{any is escaped with a backslash because it is a reserved keyword.}       
-    
-    
+\footnotetext{any is escaped with a backslash because it is a reserved keyword.}      
+	\caption{$M^3$ core definitions in Rascal}
+	\label{fig:rascal_typesymbols}
+	\end{program} 
     
     \paragraph{any} 
-    As you can see in the comments in the code above, \texttt{any()} represents the combination of all possible types. 
+    As you can see in the comments in the code above, \ref{fig:rascal_typesymbols}, \texttt{any()} represents the combination of all possible types. 
     This type will be used for mixed and unknown types, for example when variables are used, but are never defined.
     
     \paragraph{arrayType}

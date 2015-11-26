@@ -3,58 +3,34 @@
     \chapter{Research}\label{ch:research}
 
     The research is executed in 3 main steps.
-    The first step creates an $M^3$ model for a PHP program and contains various facts about the program. 
+    The first step creates an $M^3$ model for a PHP program which contains various facts about the program. 
     The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
     Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model. How and which constraints are extracted is described in section \ref{sec:fact_extraction}.
     In the third step, in section \ref{sec:research:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
     The final section \ref{sec:annotations} of this chapter explains how annotations can be included in the process to gain more precise results.
     
     \section{$M^3$ for PHP}\label{sec:m3_for_php}
-    As explained in section \ref{sec:background_m3}, $M^3$ is a language independent meta model which holds facts about programs.
+    As explained in section \ref{sec:background_rascal}, $M^3$ is a language independent meta model which holds facts about programs.
     The model can be extended with language specific elements and will be used to query the system for facts about the system.
     An overview how an $M^3$ for PHP is build is shown in figure \ref{fig:research_m3_creation}.
     Independent $M^3$ models are build each PHP file in the program.
-    All these individual $M^3$'s are in the end combined to collect all the facts about a program.
-    This results in one $M^3$ for the whole program.
-    $M^3$'s are first created for each file is because it is not defined what the dependencies of a individual file are.
-    There is no main file, and all files can load each other.
-    In this research we assume that all files in a program are loaded when needed using autoloaders or manual includes.
     
     \begin{figure}[H]
         \centerline{\includegraphics{Diagrams/M3Creation.pdf}}
         \caption{$M^3$ Creation}
         \label{fig:research_m3_creation}
     \end{figure}
-
-    %The following steps are performed to create an $M^3$ for a system.
-    %\begin{itemize}
-    %    \item Parse all PHP files, resulting in an.
-    %    \item For each file, create an independent $M^3$ from the ast.
-    %    \item Combine all the m3s into one $M^3$ for the project.
-    %    \item For each file, add additional informationNow run more analysis when all facts are collected in the m3. 
-    %\end{itemize}
+    
+    All these individual $M^3$'s are in the end combined to collect all the facts about a program.
+    This results in one $M^3$ for the whole program.
+    $M^3$'s are first created for each file is because it is not defined what the dependencies of a individual file are.
+    There is no main file, and all files can load each other.
+    In this research we assume that all files in a program are loaded when needed using autoloaders or manual includes.
+    
     
     \subsection{The algorithm}
     In order to get a better understanding of the creation of an $M^3$ for PHP, the algorithm is provided in Algorithm \ref{alg:research_m3}.
-    \textbf{The input} of the algorithm is all the \texttt{PHP files of a program}, which are all files ending on \texttt{.php}.
-    \textbf{The output} is an $M^3$ with facts about the provided program.
-    The algorithm starts with initialising an empty $M^3$ collection in line \ref{alg:research_m3:init_collection} which with be filled with the result of each individual files.
-    In the big loop on line \ref{alg:research_m3:loop_start} to \ref{alg:research_m3:loop_end} we iterate over all the PHP files of the program.
-    The first thing that needs to be done is to create an Abstract Syntax Tree (\gls{AST}) of the program using an external PHP parser\footnotemark{} which returns an Rascal AST in \texttt{parseUsingPhpParserAndReturnRascalAST} on line \ref{alg:research_m3:get_ast}.
-    \footnotetext{https://github.com/ruudvanderweijde/PHP-Parser}
-    %In line \ref{alg:research_m3:add_modifier} we add ...
-    From this AST we create an empty $M^3$ in \texttt{createEmptyM3} on line \ref{alg:research_m3:create_m3}.
-    In order to be able to refer to any source code element, we need to have the declarations of the elements.
-    These elements are extracted in \texttt{addDeclarations} on line \ref{alg:research_m3:add_decl} can be \texttt{namespace}, \texttt{class}, \texttt{interface}, \texttt{trait}, \texttt{method},  \texttt{function}, \texttt{variable}, \texttt{field}, or \texttt{constant}.
-    For all \texttt{functions} we need to add scope information in case functions are declared inside another function or method.
-    In line \ref{alg:research_m3:scope_info} we add the scope information to all nodes to the AST by visiting the AST.
-    This is needed in order to extract the right facts about the logical containment which is done in line \ref{alg:research_m3:containment}.
-    The next three lines (\ref{alg:research_m3:extends}-\ref{alg:research_m3:docblock}) extract facts about class inheritance and the interface implementations, modifiers, PHP doc blocks, and annotations.
-    %In \texttt{calculateAliasesFlowInsensitive} on line \ref{alg:research_m3:aliases}
-   	Once all the basic information is collected, \texttt{calculateUsesFlowInsensitive} on line \ref{alg:research_m3:uses} tries to find the declarations of the used objects, methods, functions and variables.
-   	This is flow and context insensitive and only tries to resolve non-dynamic language constructs.
-   	The last step of the iterator is to add the constructed $M^3$ to the $M^3$ collection.
-   	Finally when an $M^3$ is constructed for all files, all facts of the individual $M^3$'s are merged into one $M^3$ model in line \ref{alg:research_m3:return}. 
+    
    	\vspace{5 mm}
     \begin{algorithm}[H]
 	 \KwIn{PHP files of a program}
@@ -85,74 +61,119 @@
 	 \caption{PHP program to $M^3$}
 	 \label{alg:research_m3}
 	\end{algorithm}
+   	\vspace{5 mm}
+	
+	\textbf{The input} of the algorithm is all the \texttt{PHP files of a program}, which are all files ending on \texttt{.php}.
+    \textbf{The output} is an $M^3$ with facts about the provided program.
+    The algorithm starts with initialising an empty $M^3$ collection in line \ref{alg:research_m3:init_collection} which with be filled with the result of each individual files.
+    In the big loop on line \ref{alg:research_m3:loop_start} to \ref{alg:research_m3:loop_end} we iterate over all the PHP files of the program.
+    The first thing that needs to be done is to create an Abstract Syntax Tree (\gls{AST}) of the program using an external PHP parser\footnotemark{} which returns an Rascal AST in \texttt{parseUsingPhpParserAndReturnRascalAST} on line \ref{alg:research_m3:get_ast}.
+    \footnotetext{https://github.com/ruudvanderweijde/PHP-Parser}
+    %In line \ref{alg:research_m3:add_modifier} we add ...
+    From this AST we create an empty $M^3$ in \texttt{createEmptyM3} on line \ref{alg:research_m3:create_m3}.
+    In order to be able to refer to any source code element, we need to have the declarations of the elements.
+    These elements are extracted in \texttt{addDeclarations} on line \ref{alg:research_m3:add_decl} can be \texttt{namespace}, \texttt{class}, \texttt{interface}, \texttt{trait}, \texttt{method},  \texttt{function}, \texttt{variable}, \texttt{field}, or \texttt{constant}.
+    For all \texttt{functions} we need to add scope information in case functions are declared inside another function or method.
+    In line \ref{alg:research_m3:scope_info} we add the scope information to all nodes to the AST by visiting the AST.
+    This is needed in order to extract the right facts about the logical containment which is done in line \ref{alg:research_m3:containment}.
+    The next three lines (\ref{alg:research_m3:extends}-\ref{alg:research_m3:docblock}) extract facts about class inheritance and the interface implementations, modifiers, PHP doc blocks, and annotations.
+    %In \texttt{calculateAliasesFlowInsensitive} on line \ref{alg:research_m3:aliases}
+   	Once all the basic information is collected, \texttt{calculateUsesFlowInsensitive} on line \ref{alg:research_m3:uses} tries to find the declarations of the used objects, methods, functions and variables.
+   	This is flow and context insensitive and only tries to resolve non-dynamic language constructs.
+   	The last step of the iterator is to add the constructed $M^3$ to the $M^3$ collection.
+   	Finally when an $M^3$ is constructed for all files, all facts of the individual $M^3$'s are merged into one $M^3$ model in line \ref{alg:research_m3:return}. 
     
     \subsection{Core elements}
-    The $M^3$ model has the following core elements: \texttt{Declarations}, \texttt{Containment}, \texttt{Modifiers}, \texttt{Extends}, and \texttt{Uses}.
-    All these core elements are explained in more detail in the paragraphs below.
-    
-    \paragraph{\texttt{Declarations}} defines the declarations of namespaces, classes, interfaces, traits, methods, functions, and variables and holds the relation between the logical name (which is used to refer to the declaration) and the actual file location (which is the physical place in the file system.
+    The $M^3$ model has the following core elements: \texttt{declarations}, \texttt{containment}, \texttt{modifiers}, \texttt{uses}, \texttt{names}, and \texttt{documentation}.
+    The rascal code is displayed in Rascal \ref{fig:m3_core_elements}. The characteristics of the elements are described in the paragraphs below.
+
+    \begin{program}    
+    \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} name, \CAT{Keyword}{loc} src] M3@declarations; \CAT{Comment}{// maps declarations to file location.}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@containment; \CAT{Comment}{// what is logically contained in what else}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} definition, Modifier modifier] M3@modifiers; \CAT{Comment}{// associated modifiers}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} src, \CAT{Keyword}{loc} name] M3@uses; \CAT{Comment}{// maps src locations of usages to the declarations}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{str} simpleName, \CAT{Keyword}{loc} qualifiedName] M3@names; \CAT{Comment}{// end-user readable names}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} definition, \CAT{Keyword}{loc} comments] M3@documentation; \CAT{Comment}{// comments and doc-blocks}\end{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+	
+	\caption{$M^3$ core definitions in Rascal}
+	\label{fig:m3_core_elements}
+	\end{program}
+	    
+    \paragraph{Declarations} \texttt{Declarations} defines the declarations of namespaces, classes, interfaces, traits, methods, functions, and variables and holds the relation between the logical name (which is used to refer to the declaration) and the actual file location (which is the physical place in the file system.
     For example the logical name of a class can be \texttt{$\vert$php+class://SomeNameSpace/ClassX$\vert$} while the actual location might be \texttt{$\vert$file:///project/SomeNameSpace/ClassX.php$\vert$}.
     
-    \paragraph{\texttt{Containment}} holds information about what elements logically contain other elements.
+    \paragraph{Containment} \texttt{Containment} holds information about what elements logically contain other elements.
     For example, a property or method is contained in a class and a class is contained in a package.
     When a function is declared in another function, they are both logically contained in the global namespace (the highest level) because all functions are declared as first class citizens in PHP.
     
-    \paragraph{\texttt{Modifiers}} element contains information about the modifiers of classes, fields, and methods. 
+    \paragraph{Modifiers} \texttt{Modifiers} element contains information about the modifiers of classes, fields, and methods. 
     Classes can only be \texttt{abstract}, fields can be \texttt{public}, \texttt{private}, or \texttt{protected}, and methods can be all of them. 
     Abstract methods can only be declared in abstract classes. 
     Classes are implicitly public.
     
-    \paragraph{\texttt{Extends}} contains information about what classes and interface extend other classes of interfaces. 
-    Please note that we do not hold information about which class implements which interface, because that information is contained in the \texttt{implements} relation.
-    Interface extensions work just like class extensions.
-    
-    \paragraph{\texttt{Uses}} relation holds information about the usages of certain elements.
+    \paragraph{Uses} \texttt{Uses} relation holds information about the usages of certain elements.
     It is the relation between the usage and the declaration.
     For example when you instantiate a class, in that case you 'use' that specific class.
+     
+    \paragraph{Names} \texttt{Names} contains the declaration and a simplified version of the name.
+    The declared name can be long and unreadable.
+    \texttt{names} contains human readable name which can be used for presenting the element in a GUI.
+    
+    \paragraph{Documentation} \texttt{Documentation} contains all the comments and doc-blocks of the source code.
+    This information is mapped to a declaration.
     
     \subsection{PHP specific elements}
-    Because every programming language differs in syntax and semantics, the $M^3$ model is extensible to provide language specific modeling elements.
+    Because every programming language differs in syntax and semantics, the $M^3$ model is extensible to provide language specific elements.
     The following php specific items are added: \texttt{Implements}, \texttt{TraitUses}, \texttt{Parameters}, \texttt{Constructors}, \texttt{Aliases}, and \texttt{Annotations}.
-    These PHP specific modeling elements are described in more detail in the paragraphs below.
+    These PHP specific elements are described in more detail in the paragraphs below.
+
+    \begin{program}    
+    \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@extends;              \CAT{Comment}{// 'from' extends 'to' }
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements;           \CAT{Comment}{// 'from' implements 'to' }
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@traitUses;    \CAT{Comment}{// classes using traits and traits using traits}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, PhpParams params] M3@parameters; \CAT{Comment}{// formal parameters of functions/methods}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} to] M3@constructors;         \CAT{Comment}{// 'decl' and its constructor 'to'}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@aliases;      \CAT{Comment}{// class name aliases (new name -\textgreater{} old name)}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} pos, Annotation annotation] M3@annotations;    \CAT{Comment}{// result of parsed php docs}
+
+    \end{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+	
+	\caption{PHP specific $M^3$ element}
+	\label{fig:m3_php_elements}
+	\end{program}
+	    
+	\paragraph{Extends} \texttt{Extends} contains information about what classes and interface extend other classes of interfaces.
+	Please note that we do not hold information about which class implements which interface, because that information is contained in the \texttt{implements} relation.
+    Interface extensions work just like class extensions.
     
-    \paragraph{\texttt{Implements}} holds information on what class implements which interfaces.
+    \paragraph{Implements} \texttt{Implements} holds information on what class implements which interfaces.
     One class can implement multiple interfaces.
     Because the information is a relation between the class and the interface, we can easily add multiple interfaces to one class in the model.
     
-    \paragraph{\texttt{TraitUses}} knows which traits a class uses.
+    \paragraph{TraitUses} \texttt{TraitUses} knows which traits a class uses.
     Traits are a collection of reusable functions, are defined on class level, and one class can have multiple trait usages.
     All the methods of a trait are on runtime imported in the class.
     
-    \paragraph{\texttt{Parameters}} keeps track of the parameters of a method or function.
+    \paragraph{Parameters} \texttt{Parameters} keeps track of the parameters of a method or function.
     This information is stored to make it easier to resolve the call to a method or function.
     
-    \paragraph{\texttt{Constructors}} lists all the constructors for classes. 
+    \paragraph{Constructors} \texttt{Constructors} lists all the constructors for classes. 
     This information is needed because it is not always clear what constructor is used, due to legacy PHP4 way of using class constructors.
     In PHP4 the constructor was defined as a method with the same name as the class.
     Since PHP5 the language is provided with a magic method \texttt{\_\_construct()}, which results in two ways to have constructors, but only one constructor will be called.
     The PHP4 constructors will be removed in PHP7.
     
-    \paragraph{\texttt{Aliases}} has a relation between aliases and the actual implementation.
+    \paragraph{Aliases} \texttt{Aliases} has a relation between aliases and the actual implementation.
     For instance the function \texttt{class\_alias} defines a new name for the same class.
     This relation is also used to keep track of references. 
     
-    \paragraph{\texttt{Annotations}} contain a relation between a declaration and the annotations that are known.
+    \paragraph{Annotations} \texttt{Annotations} contain a relation between a declaration and the annotations that are known.
     Annotations are defined in the raw doc blocks and are parsed using regular expressions (regex).
     Regex was in this case easier then parsing because there is no official grammar or standard defined.
     For this research we only use \texttt{@param}, \texttt{@var}, \texttt{@returns}.
-    \begin{program}    
-    \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} file] M3@declarations;        \CAT{Comment}{// 'decl' is the logical name}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@containment;          \CAT{Comment}{// 'from' directly contains 'to'}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@extends;              \CAT{Comment}{// 'from' extends 'to' }
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements;           \CAT{Comment}{// 'from' implements 'to' }
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, PhpParams params] M3@parameters; \CAT{Comment}{// formal parameters of functions/methods}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} to] M3@constructors;         \CAT{Comment}{// 'decl' and its constructor 'to'}
-    \end{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
-	
-	\caption{$M^3$ definitions in Rascal}
-	\label{fig:some_test}
-	\end{program}
+
 	    
     \section{Fact extraction}\label{sec:fact_extraction}
     Besides the just discussed items of the $M^3$ model, we need to add more facts to the $M^3$ model.
