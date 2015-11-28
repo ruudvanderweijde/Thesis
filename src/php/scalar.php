@@ -1,4 +1,4 @@
-"Str" // string()
-'abc' // string()
-100 // integer()
-1.4 // float()
+"Str" // stringType()
+'abc' // stringType()
+100   // integerType()
+1.4   // floatType()

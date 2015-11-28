@@ -179,16 +179,24 @@
     In this section we present the constraint definitions and how they are extracted.
     
     \subsection{Constraint definitions}
-    The constraints used like defined in the book \cite{Pal:94}.
-    (based on these rules, we can add constraints to the source code)
-       
+    The constraint definitions we use are based on the definition of Palsberg and Schwartzbach\cite{Pal:94}.
+    We have extended the definition to conform to the PHP language.
+    A legend with all symbols is displayed in table \ref{table:constraintLegend}, followed by the constraint definitions for PHP.
+
+% https://en.wikibooks.org/wiki/LaTeX/Linguistics
+
     \begin{table}[H]
-    	\caption{Simple table} \centering
-        \begin{tabular}{ r c l | r c l } \toprule
-            $\equiv$ & = & equal to (expression) &
-                 &  &  \\
+    	\center
+        \begin{tabular}{ r c l | r c l } 
+        	\toprule
+        	symbol & & description & 
+        	symbol & & description \\ 
+        	\midrule
+ 
+            $\equiv$ & = & equivalent expression &
+            $=$     & = & equivalent type \\
             
-            $=$     & = & equal to (type) &
+            $:=$    & = & assignment &
             $C$     & = & a class \\
             
             $<:$    & = & (lhs) is subTypeOf (rhs) &
@@ -197,13 +205,13 @@
             $E_k$   & = & an expression &
             $\rightarrow p$     & = & a class property \\
             
-            $[E_k]$ & = & type of some expression &
+            $\llbracket{}E_k\rrbracket{}$ & = & type of some expression &
             $\rightarrow m$     & = & a class method \\
             
             $f$     & = & a function &
-            $[m]$   & = & (return) type of a method call \\
+            $\llbracket{}m\rrbracket{}$   & = & (return) type of a method call \\
             
-            $[f]$   & = & (return) type of a function &
+            $\llbracket{}f\rrbracket{}$   & = & (return) type of a function &
             $(A_n)$ & = & the n'th actual argument \\
             
             $::c$   & = & static property fetch &
@@ -213,29 +221,39 @@
             $th$    & = & type hint \\
             
             $::p$   & = & static property fetch &
-            $v$     & = & sefault value \\
+            $v$     & = & default value \\
             
             Mfs     & = & modifiers &
-            $\Gamma$ & = & the program 
-            
+            $\Gamma$ & = & the program \\
+                        
+            $\{ \}$     & = & set of types &
+            \texttt{instanceof} & = & instance of class in parse tree	
             
         \end{tabular}
-        \caption{Constraint legend}
+        \caption{Constraint definition legend}
         \label{table:constraintLegend}
-    \end{table}
-    
-    A list of predefined items can be found here:
-    \begin{itemize}
-        \item \href{Constants https://github.com/ruudvanderweijde/php-analysis/blob/master/src/lang/php/types/core/Constants.rsc}{Constants}
-        \item \href{Constants https://github.com/ruudvanderweijde/php-analysis/blob/master/src/lang/php/types/core/Variables.rsc}{Variables}
-        \item todo: functions
-        \item todo: classes
-    \end{itemize}
+   \end{table}
+   
+    We write the definitions in the following form:
+	   
+    \begin{prooftree}
+    	\AxiomC{an expression $E$ possibly in some context (premiss)} 
+    	\UnaryInfC{constraint 1,} \noLine
+    	\UnaryInfC{constraint 2}
+	\end{prooftree}
+	
+	Above the horizontal line we write the premisses.
+	In our case premisses are PHP expressions which be true or false possibly depending on the context.
+	If the premiss is true for a PHP statement or expression we can define the constraints below the horizontal line.
 
+    \subsection{Scalars}
+    \fact{scalar}{Scalars}{}
+    \fact{encapsed}{Encapsulated strings}{}
     
-    \subsubsection{Expressions}
-    \fact{assignment1}{Normal assignment}{}
-    \fact{ternary}{Ternary}{}
+    \subsection{Expressions}
+	For expressions 
+    \fact{assignment1}{Variable assignment}{}
+    \fact{ternary}{Ternary operator}{}
     \fact{assignment2}{Assignments with operators (1)}{always resulting in ints}
     \fact{assignment3}{Assignments with operators (2)}{string concat ($.=$)}
     \fact{assignment4}{Assignments with operators (3)}{resulting in int where rhs is no array}
@@ -245,21 +263,18 @@
     \fact{comparisonOperators}{Comparison operators}{}
     \fact{logicalOperators}{Logical operators}{}
     
-    \subsubsection{Array}
+    \subsection{Array}
     \fact{arrayAccess}{Array value fetch}{}
     \fact{array}{Array declaration}{}
 
-    \subsubsection{Scalars}
-    \fact{scalar}{Scalars}{}
-    \fact{encapsed}{Encapsulated strings}{}
     
-    \subsubsection{Casts}
+    \subsection{Casts}
     \fact{casts}{Casts}{\\ {\footnotesize{Note: PHP Warnings are ignored}}}
             
-    \subsubsection{Clone}
+    \subsection{Clone}
     \fact{clone}{Clone}{}
     
-    \subsubsection{Class}
+    \subsection{Class}
     \fact{instantiation1}{Class instantiation (1)}{matching the class name}
     \fact{instantiation2}{Class instantiation (2)}{of an expression}
     \fact{keywords}{Special keywords}{\texttt{self}\, \texttt{parent} \texttt{parent} \texttt{static}}
@@ -270,20 +285,20 @@
     \fact{methodCall2}{Class method call variable}{}
     \fact{classConstants}{Class constants (needs to be reviewed)}{}
     
-    \subsubsection{Parameters}
+    \subsection{Parameters}
     \fact{parameter1}{Parameters in class instantiation}{
         \\
         \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
         \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
     }
     
-    \subsubsection{Scope}
+    \subsection{Scope}
     \fact{function1}{Type of a certain variable within some scope}{\\ {\footnotesize{this applies to global- class- function- and method- scope}}}
     \fact{return1}{Return type of function or method (1)}{having no return statements or \texttt{return;}}
     \fact{return2}{Return type of function or method (2)}{every exit path ends with a return statement}
     \fact{return3}{Return type of function or method (3)}{possible no return value}
     
-    \subsubsection{Function calls}
+    \subsection{Function calls}
     \fact{functionCall1}{Function call}{}
     \fact{functionCall2}{Function call variable}{}
     
