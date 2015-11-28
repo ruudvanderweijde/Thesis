@@ -5,7 +5,7 @@
     The research is executed in 3 main steps.
     The first step creates an $M^3$ model for a PHP program which contains various facts about the program. 
     The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
-    Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model. How and which constraints are extracted is described in section \ref{sec:fact_extraction}.
+    Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model. How and which constraints are extracted is described in section \ref{sec:constraint_extraction}.
     In the third step, in section \ref{sec:research:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
     The final section \ref{sec:annotations} of this chapter explains how annotations can be included in the process to gain more precise results.
     
@@ -26,62 +26,6 @@
     $M^3$'s are first created for each file is because it is not defined what the dependencies of a individual file are.
     There is no main file, and all files can load each other.
     In this research we assume that all files in a program are loaded when needed using autoloaders or manual includes.
-    
-    
-    \subsection{The algorithm}
-    In order to get a better understanding of the creation of an $M^3$ for PHP, the algorithm is provided in Algorithm \ref{alg:research_m3}.
-    
-   	\vspace{5 mm}
-    \begin{algorithm}[H]
-	 \KwIn{PHP files of a program}
-	 \KwOut{$M^3$ for the PHP program}
-     \BlankLine
-	 m3Collection = []\;                                  \label{alg:research_m3:init_collection}
-     \BlankLine
-	 \ForAll{file $\in$ program}{                         \label{alg:research_m3:loop_start}
-	  ast = parseUsingPhpParserAndReturnRascalAST(file)\; \label{alg:research_m3:get_ast}
-   	  %ast = addPublicModifierWhenNotProvided(ast)\;      \label{alg:research_m3:add_modifier}
-	  m3 = createEmptyM3(ast)\;                           \label{alg:research_m3:create_m3}
-      \BlankLine
-	  m3 = addDeclarations(m3, ast)\;                     \label{alg:research_m3:add_decl}
-	  ast = addScopeInformation(m3, ast)\;                \label{alg:research_m3:scope_info}
-      m3 = addContainment(m3, ast)\;                      \label{alg:research_m3:containment}
-      \BlankLine
-      m3 = addExtendsAndImplements(m3, ast)\;             \label{alg:research_m3:extends}
-	  m3 = addModifiers(m3, ast)\;                        \label{alg:research_m3:modifiers}
-	  m3 = addRawDocBlocksAndAnnotations(m3, ast)\;       \label{alg:research_m3:docblock}
-      \BlankLine
-	  %m3 = calculateAliasesFlowInsensitive(m3, ast)\;     \label{alg:research_m3:aliases}
-	  m3 = calculateUsesFlowInsensitive(m3, ast)\;        \label{alg:research_m3:uses}
-      \BlankLine
-	  m3Collection += m3\;                                \label{alg:research_m3:add_to_collection}
-	 }                                                    \label{alg:research_m3:loop_end}
-	 \BlankLine
-	 \Return projectM3 = composePhpM3(m3Collection)\;     \label{alg:research_m3:return}
-	 \caption{PHP program to $M^3$}
-	 \label{alg:research_m3}
-	\end{algorithm}
-   	\vspace{5 mm}
-	
-	\textbf{The input} of the algorithm is all the \texttt{PHP files of a program}, which are all files ending on \texttt{.php}.
-    \textbf{The output} is an $M^3$ with facts about the provided program.
-    The algorithm starts with initialising an empty $M^3$ collection in line \ref{alg:research_m3:init_collection} which with be filled with the result of each individual files.
-    In the big loop on line \ref{alg:research_m3:loop_start} to \ref{alg:research_m3:loop_end} we iterate over all the PHP files of the program.
-    The first thing that needs to be done is to create an Abstract Syntax Tree (\gls{AST}) of the program using an external PHP parser\footnotemark{} which returns an Rascal AST in \texttt{parseUsingPhpParserAndReturnRascalAST} on line \ref{alg:research_m3:get_ast}.
-    \footnotetext{https://github.com/ruudvanderweijde/PHP-Parser}
-    %In line \ref{alg:research_m3:add_modifier} we add ...
-    From this AST we create an empty $M^3$ in \texttt{createEmptyM3} on line \ref{alg:research_m3:create_m3}.
-    In order to be able to refer to any source code element, we need to have the declarations of the elements.
-    These elements are extracted in \texttt{addDeclarations} on line \ref{alg:research_m3:add_decl} can be \texttt{namespace}, \texttt{class}, \texttt{interface}, \texttt{trait}, \texttt{method},  \texttt{function}, \texttt{variable}, \texttt{field}, or \texttt{constant}.
-    For all \texttt{functions} we need to add scope information in case functions are declared inside another function or method.
-    In line \ref{alg:research_m3:scope_info} we add the scope information to all nodes to the AST by visiting the AST.
-    This is needed in order to extract the right facts about the logical containment which is done in line \ref{alg:research_m3:containment}.
-    The next three lines (\ref{alg:research_m3:extends}-\ref{alg:research_m3:docblock}) extract facts about class inheritance and the interface implementations, modifiers, PHP doc blocks, and annotations.
-    %In \texttt{calculateAliasesFlowInsensitive} on line \ref{alg:research_m3:aliases}
-   	Once all the basic information is collected, \texttt{calculateUsesFlowInsensitive} on line \ref{alg:research_m3:uses} tries to find the declarations of the used objects, methods, functions and variables.
-   	This is flow and context insensitive and only tries to resolve non-dynamic language constructs.
-   	The last step of the iterator is to add the constructed $M^3$ to the $M^3$ collection.
-   	Finally when an $M^3$ is constructed for all files, all facts of the individual $M^3$'s are merged into one $M^3$ model in line \ref{alg:research_m3:return}. 
     
     \subsection{Core elements}
     The $M^3$ model has the following core elements: \texttt{declarations}, \texttt{containment}, \texttt{modifiers}, \texttt{uses}, \texttt{names}, and \texttt{documentation}.
@@ -174,147 +118,105 @@
     Regex was in this case easier then parsing because there is no official grammar or standard defined.
     For this research we only use \texttt{@param}, \texttt{@var}, \texttt{@returns}.
 
-	    
-    \section{Fact extraction}\label{sec:fact_extraction}
-    Besides the just discussed items of the $M^3$ model, we need to add more facts to the $M^3$ model.
-    We extract fact about classes, class-constants, class-fields, methods, functions, and parameters.
-    We store these facts in a relation in Rascal.
-    The left side of the relation contains the class, function, or method.
-    \\
-    %todo: fact extraction (rewrite this stuff above, it totally makes no sense.
- 
-    Other facts that will be used:
-    \begin{rascal} 
-\CAT{Keyword}{alias} PhpParams = \CAT{Keyword}{lrel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{set}{}[\CAT{Keyword}{loc}] typeHints, \CAT{Keyword}{bool} isRequired, \CAT{Keyword}{bool} byRef];
-\CAT{Keyword}{data} Annotation = returnType(\CAT{Keyword}{set}{}[TypeSymbol]) | parameterType(\CAT{Keyword}{loc} var, \CAT{Keyword}{set}{}[TypeSymbol])
-    | varType(\CAT{Keyword}{loc} var, \CAT{Keyword}{set}{}[TypeSymbol]);
-
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@containment;          \CAT{Comment}{// 'from' directly contains 'to'}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@extends;              \CAT{Comment}{// 'from' extends 'to' }
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements;           \CAT{Comment}{// 'from' implements 'to' }
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, PhpParams params] M3@parameters; \CAT{Comment}{// formal parameters of functions/methods}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} to] M3@constructors;         \CAT{Comment}{// 'decl' and its constructor 'to'}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, Annotation annotation] M3@annotations;  \CAT{Comment}{// result of parsed php docs}
-
-    \end{rascal}
+    \subsection{The algorithm}
+    In order to get a better understanding of the creation of an $M^3$ for PHP, the algorithm is provided in Algorithm \ref{alg:research_m3}.
     
-    \subsection{Type extraction}
-    In order to define the subtype relations in class extensions, we will need to declare all existing class types.
-    We can do this in rascal like is done in the example below:
-    \begin{rascal}
-\CAT{Keyword}{visit} (system) \{{}
-    \CAT{Keyword}{case} c:class(\_{}, \_{}, \_{}, \_{}, \_{}): types += class(c@decl);
-\}{}
-    \end{rascal}
-    Once all types are defined, we can add the subtype relation. We will need to have the subtype of \texttt{int()} and \texttt{float()} and the class extensions.
-    You can see that in the code below:
-    \begin{rascal}
-\CAT{Keyword}{public} \CAT{Keyword}{rel}{}[TypeSymbol, TypeSymbol] getSubTypes(M3 m3, System system) 
-\{{}
-    \CAT{Keyword}{rel}{}[TypeSymbol, TypeSymbol] subtypes
-        \CAT{Comment}{// add int() as subtype of float()}
-        = \{{} \textless{}\textbackslash{}int(), float()\textgreater{} \}{} 
-        \CAT{Comment}{// use the extends relation from M3}
-        + \{{} \textless{}class(c), class(e)\textgreater{} | \textless{}c,e\textgreater{} \textless{}- m3@extends \}{}
-        \CAT{Comment}{// add subtype of object for all classes which do not extends a class}
-        + \{{} \textless{}class(c@decl), object()\textgreater{} | l \textless{}- system, /c:class(n,\_{},noName(),\_{},\_{}) \textless{}- system{}[l] \}{};
-        
-    \CAT{Comment}{// compute reflexive transitive closure and return the result }
-    \CAT{Keyword}{return} subtypes*;        
-\}{}
-    \end{rascal}
-  
-    \subsection{Constraint extraction}
+   	\vspace{5 mm}
+    \begin{algorithm}[H]
+	 \KwIn{PHP files of a program}
+	 \KwOut{$M^3$ for the PHP program}
+     \BlankLine
+	 m3Collection = []\;                                  \label{alg:research_m3:init_collection}
+     \BlankLine
+	 \ForAll{file $\in$ program}{                         \label{alg:research_m3:loop_start}
+	  ast = parseUsingPhpParserAndReturnRascalAST(file)\; \label{alg:research_m3:get_ast}
+   	  %ast = addPublicModifierWhenNotProvided(ast)\;      \label{alg:research_m3:add_modifier}
+	  m3 = createEmptyM3(ast)\;                           \label{alg:research_m3:create_m3}
+      \BlankLine
+	  m3 = addDeclarations(m3, ast)\;                     \label{alg:research_m3:add_decl}
+	  ast = addScopeInformation(m3, ast)\;                \label{alg:research_m3:scope_info}
+      m3 = addContainment(m3, ast)\;                      \label{alg:research_m3:containment}
+      \BlankLine
+      m3 = addExtendsAndImplements(m3, ast)\;             \label{alg:research_m3:extends}
+	  m3 = addModifiers(m3, ast)\;                        \label{alg:research_m3:modifiers}
+	  m3 = addRawDocBlocksAndAnnotations(m3, ast)\;       \label{alg:research_m3:docblock}
+      \BlankLine
+	  %m3 = calculateAliasesFlowInsensitive(m3, ast)\;     \label{alg:research_m3:aliases}
+	  m3 = calculateUsesFlowInsensitive(m3, ast)\;        \label{alg:research_m3:uses}
+      \BlankLine
+	  m3Collection += m3\;                                \label{alg:research_m3:add_to_collection}
+	 }                                                    \label{alg:research_m3:loop_end}
+	 \BlankLine
+	 \Return projectM3 = composePhpM3(m3Collection)\;     \label{alg:research_m3:return}
+	 \caption{PHP program to $M^3$}
+	 \label{alg:research_m3}
+	\end{algorithm}
+   	\vspace{5 mm}
+	
+	\textbf{The input} of the algorithm is all the \texttt{PHP files of a program}, which are all files ending on \texttt{.php}.
+    \textbf{The output} is an $M^3$ with facts about the provided program.
+    The algorithm starts with initialising an empty $M^3$ collection in line \ref{alg:research_m3:init_collection} which with be filled with the result of each individual files.
+    In the big loop on line \ref{alg:research_m3:loop_start} to \ref{alg:research_m3:loop_end} we iterate over all the PHP files of the program.
+    The first thing that needs to be done is to create an Abstract Syntax Tree (\gls{AST}) of the program using an external PHP parser\footnotemark{} which returns an Rascal AST in \texttt{parseUsingPhpParserAndReturnRascalAST} on line \ref{alg:research_m3:get_ast}.
+    \footnotetext{https://github.com/ruudvanderweijde/PHP-Parser}
+    %In line \ref{alg:research_m3:add_modifier} we add ...
+    From this AST we create an empty $M^3$ in \texttt{createEmptyM3} on line \ref{alg:research_m3:create_m3}.
+    In order to be able to refer to any source code element, we need to have the declarations of the elements.
+    These elements are extracted in \texttt{addDeclarations} on line \ref{alg:research_m3:add_decl} can be \texttt{namespace}, \texttt{class}, \texttt{interface}, \texttt{trait}, \texttt{method},  \texttt{function}, \texttt{variable}, \texttt{field}, or \texttt{constant}.
+    For all \texttt{functions} we need to add scope information in case functions are declared inside another function or method.
+    In line \ref{alg:research_m3:scope_info} we add the scope information to all nodes to the AST by visiting the AST.
+    This is needed in order to extract the right facts about the logical containment which is done in line \ref{alg:research_m3:containment}.
+    The next three lines (\ref{alg:research_m3:extends}-\ref{alg:research_m3:docblock}) extract facts about class inheritance and the interface implementations, modifiers, PHP doc blocks, and annotations.
+    %In \texttt{calculateAliasesFlowInsensitive} on line \ref{alg:research_m3:aliases}
+   	Once all the basic information is collected, \texttt{calculateUsesFlowInsensitive} on line \ref{alg:research_m3:uses} tries to find the declarations of the used objects, methods, functions and variables.
+   	This is flow and context insensitive and only tries to resolve non-dynamic language constructs.
+   	The last step of the iterator is to add the constructed $M^3$ to the $M^3$ collection.
+   	Finally when an $M^3$ is constructed for all files, all facts of the individual $M^3$'s are merged into one $M^3$ model in line \ref{alg:research_m3:return}. 
+    	    
+    \section{Constraint extraction}\label{sec:constraint_extraction}
+    
+    In the previous section \ref{sec:m3_for_php} we've shown how an $M^3$ model for PHP is created.
+    In this section we present the constraint definitions and how they are extracted.
+    
+    \subsection{Constraint definitions}
     The constraints used like defined in the book \cite{Pal:94}.
     (based on these rules, we can add constraints to the source code)
        
-    Introduction is needed here... for now I will just list the types that I have found.
-    Maybe this needs to be moved to a different chapter.
-    \\
-    \textbf{This is a list of items which are not supported (yet)}:
-
-    \begin{itemize}
-        
-        \item References (in PHP they are symbol table aliases)
-        \begin{itemize}
-            \item on expression assignments :: $\$a \; = \; \&\$b$
-            \item on functions :: function $\&f()$ $\{ \dots \}$
-            \item on parameters :: function $f(\&\$a)$ $\{ \dots \}$             
-        \end{itemize}
-
-        \item Variable structures:
-        \begin{itemize}
-            \item \sout{Variable variables} :: $\$\$a;$
-            \item \sout{Variable class instantiation} :: $new \; \$a;$
-            \item \sout{Variable method or function calls} :: $\$a();$
-        \end{itemize}
-
-        \item List assign :: $list(\$a, \$b) = array("one", "two");$ (we can assume that the rhs is of type array, when the program is correct)
-        
-        \item \sout{Method or function parameters (including type hints)}
-        \item \sout{Class structures, method calls}
-        \item \sout{Class Constants}
-        
-        \item \sout{The global statement} (should be resolved by the usage relation from M3)
-        
-        \item \sout{Casts of expressions}
-        
-        \item Parameters
-        
-        \item \sout{Predefined variables} (\$this, self, parent, static)
-
-        \item \sout{Eval} (will not be supported)        
-        \item \sout{Closures} (not used much in production code)
-        \item \sout{Traits} (not used much in production code)
-        \item \sout{Callable} (introduced in 5.4 as typehint, not used much in production code)
-        
-        \item Foreach(\$a as ... (=> ...)) => \$a is an array or an object;
-        \item \sout{return; => return type is null} (is added to the situation when there are no return statements)
-        \item add predefined globals (and their type: \$[GLOBALS, \_SERVER, \_GET, \_POST, \_REQUEST, \_COOKIE, \_ENV, \_SESSION, php\_errormsg] (all in global scope))
-        \item add magic constants: \_\_[DIR, FILE, LINE, NAMESPACE, FUNCTION, CLASS, METHOD]\_\_
-        \item \sout{predefined constants: TRUE(b), FALSE(b), NAN(f), INF(f), NULL(n), STDIN(r), STDOUT(r), STDERR(r)}
-        \item define("name", value) mixed with constants (?out of scope?)
-        \item \sout{keywords: self, parent, static in a class} (is included in method and property calls    )
-        \item ADD CONSTANTS! RECORD THE TYPE OF THE DEFINED CONSTANTS AND TRY TO READ THEIR TYPE.    
-    \end{itemize}
-
-    \hrulefill
-    
-    \textbf{Legend} \\
     \begin{table}[H]
-        \begin{tabular}{ r c l | r c l }
-            $\equiv$ & = & Equal to (expression) &
+    	\caption{Simple table} \centering
+        \begin{tabular}{ r c l | r c l } \toprule
+            $\equiv$ & = & equal to (expression) &
                  &  &  \\
             
-            $=$     & = & Equal to (type) &
-            $C$     & = & A class \\
+            $=$     & = & equal to (type) &
+            $C$     & = & a class \\
             
             $<:$    & = & (lhs) is subTypeOf (rhs) &
-            $\rightarrow c$     & = & A class constant \\
+            $\rightarrow c$     & = & a class constant \\
             
-            $E_k$   & = & An expression &
-            $\rightarrow p$     & = & A class property \\
+            $E_k$   & = & an expression &
+            $\rightarrow p$     & = & a class property \\
             
-            $[E_k]$ & = & Type of some expression &
-            $\rightarrow m$     & = & A class method \\
+            $[E_k]$ & = & type of some expression &
+            $\rightarrow m$     & = & a class method \\
             
-            $f$     & = & A function &
-            $[m]$   & = & (Return) type of a method call \\
+            $f$     & = & a function &
+            $[m]$   & = & (return) type of a method call \\
             
-            $[f]$   & = & (Return) type of a function &
-            $(A_n)$ & = & The n'th actual argument \\
+            $[f]$   & = & (return) type of a function &
+            $(A_n)$ & = & the n'th actual argument \\
             
-            $::c$   & = & Static property fetch &
-            $(P_n)$ & = & The n'th formal parameter \\
+            $::c$   & = & static property fetch &
+            $(P_n)$ & = & the n'th formal parameter \\
             
-            $::m$   & = & Static method call &
-            $th$    & = & Type hint \\
+            $::m$   & = & static method call &
+            $th$    & = & type hint \\
             
-            $::p$   & = & Static property fetch &
-            $v$     & = & Default value \\
+            $::p$   & = & static property fetch &
+            $v$     & = & sefault value \\
             
-            Mfs     & = & Modifiers &
-            $\Gamma$ & = & The program 
+            Mfs     & = & modifiers &
+            $\Gamma$ & = & the program 
             
             
         \end{tabular}
@@ -403,24 +305,10 @@
     \\
     When we take the intersection of none overlapping types, we have a type error.
     There is no possible type for this object, resulting in an empty set of possible types.
-    \paragraph{The algorithm}
-    In algorithm \ref{alg:research_cs} we show the algorithm to solve the constraints.
-    The algorithm input is a set of constraints and the output is a map of solutions.
-    The set of constraints are the constraints defined in constraint extracting section, and the map of results is the location of all type-able objects with their possible solutions.
-    The init function on line \ref{alg:research_cs:init_solutions} adds all type-able objects to the set of possible solutions.
-    The initial possible types of the objects will be the collection of all possible types, called $Universe()$.
-    Only the literal types can be resolved already, like strings, numbers and boolean constants.
-    \\
-    Line \label{alg:research_cs:loop_start} starts a loop until a fixed point is reached. 
-    In Rascal this method is called \texttt{Solve()} and will loop until there are no more changes in the given data.
-    The methods of line \ref{alg:research_cs:derive}-\ref{alg:research_cs:prop_s} may alter the values of constraints or solutions.
-    \\
-    The first function of the loop on line \ref{alg:research_cs:derive}, \texttt{deiveMore}, visits all constraints and checks if there can be new constraints extracted based on the latest constraints and solutions.
-    Example of these new constraints are conditional constraints, which could only be added if more information of the conditional was available.
-    \\
-    Function \texttt{propagateSolutions} on line \ref{alg:research_cs:prop_s} propagates resolved estimates. 
-    Here we take the intersection of the known solutions with the given constraints.
     
+    \subsection{The algorithm}
+    In algorithm \ref{alg:research_cs} we show the algorithm to solve the constraints.
+        
     \vspace{5 mm}
     \begin{algorithm}[H]
 	 \KwIn{set[Constraint] constraints}
@@ -438,6 +326,23 @@
 	 \label{alg:research_cs}
 	\end{algorithm}
     
+    
+    The algorithm input is a set of constraints and the output is a map of solutions.
+    The set of constraints are the constraints defined in constraint extracting section, and the map of results is the location of all type-able objects with their possible solutions.
+    The init function on line \ref{alg:research_cs:init_solutions} adds all type-able objects to the set of possible solutions.
+    The initial possible types of the objects will be the collection of all possible types, called $Universe()$.
+    Only the literal types can be resolved already, like strings, numbers and boolean constants.
+    \\
+    Line \label{alg:research_cs:loop_start} starts a loop until a fixed point is reached. 
+    In Rascal this method is called \texttt{Solve()} and will loop until there are no more changes in the given data.
+    The methods of line \ref{alg:research_cs:derive}-\ref{alg:research_cs:prop_s} may alter the values of constraints or solutions.
+    \\
+    The first function of the loop on line \ref{alg:research_cs:derive}, \texttt{deiveMore}, visits all constraints and checks if there can be new constraints extracted based on the latest constraints and solutions.
+    Example of these new constraints are conditional constraints, which could only be added if more information of the conditional was available.
+    \\
+    Function \texttt{propagateSolutions} on line \ref{alg:research_cs:prop_s} propagates resolved estimates. 
+    Here we take the intersection of the known solutions with the given constraints.
+
     \section{Annotations}\label{sec:annotations}
     %todo: moved this section below constraint solving: check copy
     After we gathers all the facts from the source code, we will add additional information which we read from the annotations.
