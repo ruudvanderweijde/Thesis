@@ -294,7 +294,7 @@
     	Here the type of the expression should be either the type of $E_1$ or $E_3$.
     }
     \fact{assignment2}{Assignments resulting in integers}{
-		PHP has assignment statements combined operators.
+		PHP provides several assignment statements combined with operators.
 		The type of the left hand side ($E_1$) is in the cases of \texttt{$\&=$} (bitwise and), \texttt{$\vert{}=$} (bitwise inclusive or), \texttt{\^{}=} (bitwise exclusive or), \texttt{$<<=$} (bitwise shift left), \texttt{$>>=$} (bitwise shift right), and \texttt{$\%=$} (modulus) always \texttt{integerType()}.
     }
     \fact{assignment3}{Assignment with string concat}{
@@ -302,8 +302,14 @@
     	\\
     	About the right hand side ($E_2$) we can say that \textbf{if} the type of $E_2$ is a subtype of object, then this object should have the method \texttt{$\_\_toString()$}.
     }
-    \fact{assignment4}{Assignments with operators (3)}{resulting in int where rhs is no array}
-    \fact{assignment5}{Assignments with operators (4)}{resulting in int or float}
+    \fact{assignment4}{Assignments with operators (3)}{
+    	Division and subtraction assignment in PHP will always result in an integer type.
+    	This is the case for all values, except for array's.
+    	A fatal error will occur when the right hand side value is of type array.
+    }
+    \fact{assignment5}{Assignments with operators (4)}{
+    resulting in int or float
+    }
     \fact{unaryOperators}{Unary operators}{}
     \fact{binaryOperators}{Binary operators}{}
     \fact{comparisonOperators}{Comparison operators}{}
