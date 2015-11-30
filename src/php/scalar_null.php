@@ -1,0 +1,2 @@
+null;  // nullType()
+NULL;  // nullType()

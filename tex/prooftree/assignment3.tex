@@ -1,5 +1,11 @@
-\begin{prooftree}
+\begin{center}
+\begin{bprooftree}
     \AxiomC{$E_1$ .= $E_2$}
-    \UnaryInfC{$[E_1] = string(),$} \noLine
-    \UnaryInfC{$if ([E_2] <: object()) => hasMethod([E_2], "\_\_tostring")$}
-\end{prooftree}  
+    \UnaryInfC{$[E_1] = stringType()$}
+\end{bprooftree}  
+\begin{bprooftree}
+    \AxiomC{$E_1$ .= $E_2$} 
+    \AxiomC{$E_1$ <: objectType()} 
+    \BinaryInfC{$hasMethod([E_2], "\_\_tostring"$}
+\end{bprooftree}  
+\end{center}  

@@ -1,2 +1,2 @@
-$expr ? $b : $c; // typeOf(E) is subtypeOf($b) or subtypeOf($c)
-$expr ? : $c; // typeOf(E) is subtypeOf($expr) or subtypeOf($c)
+$a ? $b : $c; // [$a ? $b : $c] = ([$b] || [$c])
+$a ?: $c;     // [$a ?: $c]     = ([$a] || [$c])

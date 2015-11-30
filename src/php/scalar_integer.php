@@ -1,0 +1,5 @@
+1234;       // integerType() (decimal number)
+-123;       // integerType() (negative number)
+0123;       // integerType() (octal number)
+0x1A;       // integerType() (hexadecimal number)
+0b11111111; // integerType() (binary number)

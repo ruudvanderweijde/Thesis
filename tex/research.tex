@@ -247,15 +247,61 @@
 	If the premiss is true for a PHP statement or expression we can define the constraints below the horizontal line.
 
     \subsection{Scalars}
-    \fact{scalar}{Scalars}{}
-    \fact{encapsed}{Encapsulated strings}{}
-    
-    \subsection{Expressions}
-	For expressions 
-    \fact{assignment1}{Variable assignment}{}
-    \fact{ternary}{Ternary operator}{}
-    \fact{assignment2}{Assignments with operators (1)}{always resulting in ints}
-    \fact{assignment3}{Assignments with operators (2)}{string concat ($.=$)}
+    Extracting constraints from the scalar types is pretty straight forward.
+    The PHP parser defines the string, integer, and float types in the AST.
+    Booleans and null values can also be easily found in the AST.
+    \fact{scalar_string}{Strings}{
+    	Strings in PHP can be written with single or double quotes.
+    	In the AST these are represented by the string type.
+    }
+    \fact{scalar_integer}{Integers}{
+    	In the example below you can see integers with different bases.
+    	All of these are parsed into an integer type in the Rascal AST.
+    }
+    \fact{scalar_float}{Floats}{
+    	Floats can have different forms in PHP code, but are all parsed to float objects in the Rascal AST. 
+    }
+    \fact{scalar_boolean}{Boolean values}{
+    	Boolean values in PHP are case sensitive, as you can see in the examples.
+    	True and false are reserved keywords in PHP.
+    	In the premiss we've only provided the lower case values.
+    }
+    \fact{scalar_null}{Null values}{
+    	Null is a reserved keyword in PHP.
+    	When we encounter null in the source code we can add the nullType type constraint.
+    }
+
+    %%
+    %% Assignments
+    %%
+    \subsection{Assignments}
+	Assign statements transfer values from one expression or variable into another.
+	In PHP the $=$ symbol is used for assignments.
+	In the premiss we use $:=$ for normal assigns.
+	
+    \fact{assignment1}{Variable assignment}{
+    	When an assignment is used, we can extract the following constraint: the right hand side ($E_2$) of the assignment is a subtype of the left hand side ($E_1$).
+    	This relation is a subtype relation, not an is equal relation, because polymorphism.
+    	The whole expression ($E$) is equal to the newly assigned value.
+    }
+    \fact{ternary}{Ternary operator}{
+    	The ternary operator is a conditional assignment.
+    	If the expression $E_1$ is evaluated as \texttt{true}, the left hand side ($E_2$) is the value of the whole ternary expression.
+    	If $E_1$ is evaluated as \texttt{false}, the right hand side ($E_3$) is the value.
+    	The constraint we can extract from the ternary expression is that the type of the whole expression should be the type of $E_2$ or $E_3$.
+    	\\
+    	The ternary operator without a left hand side value (\texttt{?:}), also known as the elvis operator, returns the value of $E_1$ when $E_1$ is evaluated as \texttt{true}.
+    	Here the type of the expression should be either the type of $E_1$ or $E_3$.
+    }
+    \fact{assignment2}{Assignments resulting in integers}{
+		PHP has assignment statements combined operators.
+		The type of the left hand side ($E_1$) is in the cases of \texttt{$\&=$} (bitwise and), \texttt{$\vert{}=$} (bitwise inclusive or), \texttt{\^{}=} (bitwise exclusive or), \texttt{$<<=$} (bitwise shift left), \texttt{$>>=$} (bitwise shift right), and \texttt{$\%=$} (modulus) always \texttt{integerType()}.
+    }
+    \fact{assignment3}{Assignment with string concat}{
+    	When the string concat operator is used, in combination with the assignment operator (\texttt{$.=$}), the type of the left hand side ($E_1$) is always a string.
+    	\\
+    	About the right hand side ($E_2$) we can say that \textbf{if} the type of $E_2$ is a subtype of object, then this object should have the method \texttt{$\_\_toString()$}.
+    }
     \fact{assignment4}{Assignments with operators (3)}{resulting in int where rhs is no array}
     \fact{assignment5}{Assignments with operators (4)}{resulting in int or float}
     \fact{unaryOperators}{Unary operators}{}
@@ -263,13 +309,18 @@
     \fact{comparisonOperators}{Comparison operators}{}
     \fact{logicalOperators}{Logical operators}{}
     
+    %%
+    %% Array
+    %%
     \subsection{Array}
     \fact{arrayAccess}{Array value fetch}{}
     \fact{array}{Array declaration}{}
 
-    
+    %%
+    %% Casts
+    %%
     \subsection{Casts}
-    \fact{casts}{Casts}{\\ {\footnotesize{Note: PHP Warnings are ignored}}}
+    \fact{casts}{Casts}{ {\footnotesize{Note: PHP Warnings are ignored}}}
             
     \subsection{Clone}
     \fact{clone}{Clone}{}
@@ -278,22 +329,22 @@
     \fact{instantiation1}{Class instantiation (1)}{matching the class name}
     \fact{instantiation2}{Class instantiation (2)}{of an expression}
     \fact{keywords}{Special keywords}{\texttt{self}\, \texttt{parent} \texttt{parent} \texttt{static}}
-    \fact{property1}{Class property fetch}
-        {\\ \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}}
-    \fact{property2}{Class property fetch variable}{}
+    %\fact{property1}{Class property fetch}
+    %    {\\ \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}}
+    %\fact{property2}{Class property fetch variable}{}
     \fact{methodCall1}{Class method call}{}
     \fact{methodCall2}{Class method call variable}{}
     \fact{classConstants}{Class constants (needs to be reviewed)}{}
     
     \subsection{Parameters}
     \fact{parameter1}{Parameters in class instantiation}{
-        \\
+        
         \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
         \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
     }
     
     \subsection{Scope}
-    \fact{function1}{Type of a certain variable within some scope}{\\ {\footnotesize{this applies to global- class- function- and method- scope}}}
+    \fact{function1}{Type of a certain variable within some scope}{{\footnotesize{this applies to global- class- function- and method- scope}}}
     \fact{return1}{Return type of function or method (1)}{having no return statements or \texttt{return;}}
     \fact{return2}{Return type of function or method (2)}{every exit path ends with a return statement}
     \fact{return3}{Return type of function or method (3)}{possible no return value}

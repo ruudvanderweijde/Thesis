@@ -1,9 +1,28 @@
-\begin{prooftree}
-    \AxiomC{$E_1$ $\&=$ $E_2$} \noLine
-    \UnaryInfC{$E_1$ $\vert=$ $E_2$} \noLine
-    \UnaryInfC{$E_1$ \^{}= $E_2$} \noLine
-    \UnaryInfC{$E_1$ $<<=$ $E_2$} \noLine
-    \UnaryInfC{$E_1$ $>>=$ $E_2$} \noLine
-    \UnaryInfC{$E_1$ $\%=$ $E_2$} 
-    \UnaryInfC{$[E_1] = integer()$}
-\end{prooftree}
+\begin{center}
+\begin{bprooftree}
+    \AxiomC{$E_1$ $\&=$ $E_2$}
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = integerType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E_1$ $\vert=$ $E_2$}
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = integerType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E_1$ \^{}= $E_2$}
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = integerType()$}
+\end{bprooftree}
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$E_1$ $<<=$ $E_2$}
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = integerType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E_1$ $>>=$ $E_2$}
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = integerType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E_1$ $\%=$ $E_2$} 
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = integerType()$}
+\end{bprooftree}
+\end{center}

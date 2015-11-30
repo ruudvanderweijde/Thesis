@@ -56,6 +56,11 @@
 % helper for double brackets and parentheses
 % http://ctan.org/pkg/stmaryrd
 \usepackage{stmaryrd}
+
+% align prooftrees on one line
+\newenvironment{bprooftree}
+  {\leavevmode\hbox\bgroup}
+  {\DisplayProof\egroup}
 	
 % algorithm helper
 \makeatletter
@@ -72,9 +77,9 @@
 %proof tree layout
 %\fact{name}{title}{description}
 \newcommand{\fact}[3]{
-    #2 #3
+    \paragraph{#2} #3 remove me
     \input{tex/prooftree/#1}
-    Code example: \\
+    Code sample: \\
     \lstinputlisting[language=PHP,label=#1,caption=#2]{src/php/#1.php}
     \hrulefill
     \\
