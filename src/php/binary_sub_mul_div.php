@@ -1,0 +1,8 @@
+$a - $b // (subtraction)
+$a * $b // (mulitiplication)
+$a / $b // (division)
+        // [$a - $b] <: numberType()
+        // [$a * $b] <: numberType()
+        // [$a / $b] <: numberType()
+        // [$a] !<: array(_)
+        // [$b] !<: array(_)

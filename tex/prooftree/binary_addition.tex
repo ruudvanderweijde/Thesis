@@ -1,0 +1,16 @@
+\begin{prooftree}
+    \AxiomC{$E \equiv (E_1 + E_2)$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; arrayType(\_) \lor numberType() \; \}$}
+\end{prooftree}
+\begin{center}
+\begin{prooftree}
+    \AxiomC{$E \equiv (E_1 + E_2)$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} <: arrayType(\_) \land \llbracket{}E_2\rrbracket{} <: arrayType(\_))$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} <: arrayType(\_)$} 
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv (E_1 + E_2)$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} \; !<: arrayType(\_) \lor \llbracket{}E_2\rrbracket{} \; !<: arrayType(\_)$} 
+    \BinaryInfC{$ \llbracket{}E\rrbracket{} <: numberType()$}
+\end{prooftree}
+\end{center}

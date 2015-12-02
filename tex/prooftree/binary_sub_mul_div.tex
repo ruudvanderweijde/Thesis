@@ -1,0 +1,20 @@
+\begin{center}
+\begin{bprooftree}
+    \AxiomC{$E \equiv (E_1 - E_2)$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: numberType(),$} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: array(\_),$} \noLine
+    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: array(\_)$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E \equiv (E_1 * E_2)$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: numberType(),$} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: array(\_),$} \noLine
+    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: array(\_)$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E \equiv (E_1 / E_2)$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: numberType(),$} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: array(\_),$} \noLine
+    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: array(\_)$}
+\end{bprooftree}
+\end{center}

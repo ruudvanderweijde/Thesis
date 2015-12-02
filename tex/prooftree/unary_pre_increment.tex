@@ -1,0 +1,48 @@
+\begin{center}
+\begin{bprooftree}
+    \AxiomC{$(E \equiv (++E_1))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} <: arrayType())$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} <: arrayType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$(E \equiv (++E_1))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = booleanType())$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$(E \equiv (++E_1))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = floatType())$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = floatType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$(E \equiv (++E_1))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = integerType())$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = integerType()$}
+\end{bprooftree}
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$(E \equiv (++E_1))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = nullType())$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = nullType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$(E \equiv (++E_1))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} <: objectType())$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} <: objectType()$}
+\end{bprooftree}
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$(E \equiv (++E_1))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = resourceType())$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = resourceType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$(E \equiv (++E_1))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = stringType())$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; numberType() \lor stringType() \; \}$}
+\end{bprooftree}
+\end{center}
