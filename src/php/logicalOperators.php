@@ -1,5 +1,5 @@
-$a and $b /* boolean() */
-$a or $b  /* boolean() */
-$a xor $b /* boolean() */
-$a && $b  /* boolean() */
-$a || $b  /* boolean() */
+$a and $b // [$a and $b] = booleanType()
+$a or $b  // [$a or $b]  = booleanType()
+$a xor $b // [$a xor $b] = booleanType()
+$a && $b  // [$a && $b]  = booleanType()
+$a || $b  // [$a || $b]  = booleanType()

@@ -1,8 +1,24 @@
-\begin{prooftree}
-    \AxiomC{$E \equiv $ ($E_1$ $and$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $or$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $xor$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $\&\&$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $\vert\vert$ $E_2$)}
+\begin{center}
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $and$ $E_2$)}
     \UnaryInfC{$[E] = boolean()$}
-\end{prooftree}   
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $or$ $E_2$)}
+    \UnaryInfC{$[E] = boolean()$}
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $xor$ $E_2$)}
+    \UnaryInfC{$[E] = boolean()$}
+\end{bprooftree}   
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $\&\&$ $E_2$)}
+    \UnaryInfC{$[E] = boolean()$}
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $\vert\vert$ $E_2$)}
+    \UnaryInfC{$[E] = boolean()$}
+\end{bprooftree}   
+\end{center}   

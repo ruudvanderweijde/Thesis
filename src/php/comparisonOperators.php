@@ -1,9 +1,9 @@
-$a == $b  /* boolean() */
-$a === $b /* boolean() */
-$a != $b  /* boolean() */
-$a <> $b  /* boolean() */
-$a !== $b /* boolean() */
-$a < $b   /* boolean() */
-$a > $b   /* boolean() */
-$a <= $b  /* boolean() */
-$a >= $b  /* boolean() */
+$a == $b  // [$a == $b]  = booleanType()
+$a === $b // [$a === $b] = booleanType()
+$a != $b  // [$a != $b]  = booleanType()
+$a <> $b  // [$a <> $b]  = booleanType()
+$a !== $b // [$a !== $b] = booleanType()
+$a < $b   // [$a < $b]   = booleanType()
+$a > $b   // [$a > $b]   = booleanType()
+$a <= $b  // [$a <= $b]  = booleanType()
+$a >= $b  // [$a >= $b]  = booleanType()

@@ -1,2 +1,3 @@
-array(/*...*/); // typeOf() = array();
-// Rascal: array(_) => array(\any())
+array(/*...*/); // [array(/*..*/)] = arrayType(_)
+[/*...*/];      // [[(/*..*/)]]    = arrayType(_)
+                // The [] array syntax is introduced in 5.4

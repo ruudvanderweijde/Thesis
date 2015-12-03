@@ -1,21 +1,23 @@
 \begin{prooftree}
-    \AxiomC{$E \equiv E_1[E_2]$}
-    \UnaryInfC{$[E_1] \neq object(),$} \noLine
-    \UnaryInfC{$if ([E_1] = string()) => [E] = string(),$} \noLine
-    \UnaryInfC{$if ([E_1] = array(\{types\})) => [E] <: \{types\},$} \noLine
-    \UnaryInfC{$if ([E_1] \neq string() \land [E_1] \neq array(\_)) => [E] = null()$}
+    \AxiomC{$E_1[E_2]$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{}$ \texttt{instanceof} arrayAccess}
+    \BinaryInfC{$\llbracket{}E_1\rrbracket{} \neq objectType()$}
 \end{prooftree} 
-
-% previous values
-%\begin{prooftree}
-%    \AxiomC{$E_1[E_2]$ $\land$ $[E_1] == string()$}
-%    \UnaryInfC{$[E_1[E_2]] = string()$}
-%\end{prooftree} 
-%\begin{prooftree}
-%    \AxiomC{$E_1[E_2]$ $\land$ $[E_1] == array()$}
-%    \UnaryInfC{$[E_1[E_2]] <: any()$}
-%\end{prooftree} 
-%\begin{prooftree}
-%    \AxiomC{$E_1[E_2]$ $\land$ $(E_1 == string()$ $\lor$ [$E_1] == array())$}
-%    \UnaryInfC{$[E_1[E_2]] = null()$}
-%\end{prooftree} 
+\begin{prooftree}
+    \AxiomC{$E_1[E_2]$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{}$ \texttt{instanceof} arrayAccess}
+    \AxiomC{$\llbracket{}E_1\rrbracket{}$ = stringType()}
+    \TrinaryInfC{$\llbracket{}E\rrbracket{} = stringType()$}
+\end{prooftree} 
+\begin{prooftree}
+    \AxiomC{$E_1[E_2]$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{}$ \texttt{instanceof} arrayAccess}
+    \AxiomC{$\llbracket{}E_1\rrbracket{}$ = arrayType($E_2$)}
+    \TrinaryInfC{$\llbracket{}E\rrbracket{} = E_2$}
+\end{prooftree} 
+\begin{prooftree}
+    \AxiomC{$E_1[E_2]$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{}$ \texttt{instanceof} arrayAccess}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} \neq (stringType() and arrayType(\_)$}
+    \TrinaryInfC{$\llbracket{}E\rrbracket{} = nullType()}
+\end{prooftree} 

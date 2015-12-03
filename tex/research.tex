@@ -343,7 +343,7 @@
     %% Binary operators
     %%
     \subsection{Binary operators}
-	Addition, subtraction, multiplication, division, modulus, and bitwise operators are in PHP binary operators.
+	Addition, subtraction, multiplication, division, modulus, bitwise, comparison, and logical operators are in PHP binary operators.
 	
 	\fact{binary_addition}{Addition operator}{
 		The result of an addition operator will always be a number or an array.
@@ -367,16 +367,28 @@
 		In all other cases the result of this operation is a number.
 		For the sake of readability we've omitted the constraints for the operators \texttt{bitwise or} (inclusive or) and \texttt{bitwise xor} (exclusive or).
 	}
-    %\fact{binaryOperators}{Binary operators}{}
-    \fact{comparisonOperators}{Comparison operators}{}
-    \fact{logicalOperators}{Logical operators}{}
+		
+    \fact{comparisonOperators}{Comparison operators}{
+    	The result of the comparison operators is always of boolean type.
+    }
+    \fact{logicalOperators}{Logical operators}{
+    	Just like the comparison operators, the result of the logical operators is always of boolean type.
+    }
     
     %%
     %% Array
     %%
     \subsection{Array}
-    \fact{arrayAccess}{Array value fetch}{}
-    \fact{array}{Array declaration}{}
+    Introduce array here...
+    
+    \fact{array}{Array declaration}{
+    	From the array declarations (\texttt{array()} or \texttt{[]}) we can extract the constraint that they should be of any array type.
+    }
+    \fact{arrayAccess}{Array value fetch}{
+    	From the usage of array access you cannot tell what the type of the expression is.
+    	The same syntax is used to access strings.
+    	We can only extract that the type should not be of object type.
+    }
 
     %%
     %% Casts

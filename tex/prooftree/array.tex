@@ -1,4 +1,4 @@
 \begin{prooftree}
-    \AxiomC{$E'$, where $E'$ is an array declaration}
-    \UnaryInfC{$[E'] <: array(any())$}
+    \AxiomC{$E$ \texttt{instanceof} array}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: arrayType(\_)$}
 \end{prooftree} 

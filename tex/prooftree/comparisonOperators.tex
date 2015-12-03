@@ -1,12 +1,42 @@
-\begin{prooftree}
-    \AxiomC{$E \equiv $ ($E_1$ $==$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $===$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $!=$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $<>$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $!==$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $<$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $>$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $<=$ $E_2$)} \noLine
-    \UnaryInfC{$E \equiv $ ($E_1$ $>=$ $E_2$)}
-    \UnaryInfC{$[E] = boolean()$}
-\end{prooftree}   
+\begin{center}
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $==$ $E_2$)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $===$ $E_2$)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $!=$ $E_2$)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $<>$ $E_2$)} 
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $!==$ $E_2$)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $<$ $E_2$)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $>$ $E_2$)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $<=$ $E_2$)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\begin{bprooftree}
+    \AxiomC{$E \equiv $ ($E_1$ $>=$ $E_2$)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+\end{bprooftree}   
+\end{center}   
