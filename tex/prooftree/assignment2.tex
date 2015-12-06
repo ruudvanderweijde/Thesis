@@ -1,28 +1,34 @@
 \begin{center}
 \begin{bprooftree}
     \AxiomC{$E_1$ $\&=$ $E_2$}
+    \RightLabel{(i)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \}$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E_1$ $\vert=$ $E_2$}
+    \RightLabel{(ii)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \}$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E_1$ \^{}= $E_2$}
+    \RightLabel{(iii)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \}$}
 \end{bprooftree}
 \\
 \vspace{1em}
 \begin{bprooftree}
     \AxiomC{$E_1$ $<<=$ $E_2$}
+    \RightLabel{(iv)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \}$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E_1$ $>>=$ $E_2$}
+    \RightLabel{(v)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \}$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E_1$ $\%=$ $E_2$} 
+    \RightLabel{(vi)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \}$}
 \end{bprooftree}
 \end{center}

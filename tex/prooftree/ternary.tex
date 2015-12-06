@@ -1,10 +1,12 @@
 \begin{center}
 \begin{bprooftree}
     \AxiomC{$E \equiv (E_1 \; ? \; E_2 : E_3)$}
+    \RightLabel{(i)}
     \UnaryInfC{$\llbracket{}E\rrbracket{} = \llbracket{}E_2\rrbracket{} \lor \llbracket{}E_3\rrbracket{}$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E \equiv (E_1 \; ?: E_3)$}
+    \RightLabel{(ii)}
     \UnaryInfC{$\llbracket{}E\rrbracket{} = \llbracket{}E_1\rrbracket{} \lor \llbracket{}E_3\rrbracket{}$}
 \end{bprooftree}
 \end{center}

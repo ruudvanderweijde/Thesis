@@ -276,39 +276,39 @@
     %%
     \subsection{Assignments}
 	Assign statements transfer values from one expression or variable into another.
-	In PHP the $=$ symbol is used for assignments.
-	In the premiss we use $:=$ for normal assigns.
+	PHP uses the $=$ symbol as assignment systax.
+	In the premiss we use $:=$ for assigns.
 	
-    \fact{assignment1}{Variable assignment}{
+    \fact{assignment1}{Assignment}{
     	When an assignment is used, we can extract the following constraint: the right hand side ($E_2$) of the assignment is a subtype of the left hand side ($E_1$).
     	This relation is a subtype relation, not an is equal relation, because polymorphism.
     	The whole expression ($E$) is equal to the newly assigned value.
     }
     \fact{ternary}{Ternary operator}{
-    	The ternary operator is a conditional assignment.
-    	If the expression $E_1$ is evaluated as \texttt{true}, the left hand side ($E_2$) is the value of the whole ternary expression.
+    	The \textit{ternary} operator is a conditional assignment.
+    	If the expression $E_1$ is evaluated as \texttt{true}, the left hand side ($E_2$) is the value of the whole ternary expression (i).
     	If $E_1$ is evaluated as \texttt{false}, the right hand side ($E_3$) is the value.
     	The constraint we can extract from the ternary expression is that the type of the whole expression should be the type of $E_2$ or $E_3$.
     	\\
-    	The ternary operator without a left hand side value (\texttt{?:}), also known as the elvis operator, returns the value of $E_1$ when $E_1$ is evaluated as \texttt{true}.
+    	The ternary operator without a left hand side value (ii), also known as the elvis operator, returns the value of $E_1$ when $E_1$ is evaluated as \texttt{true}.
     	Here the type of the expression should be either the type of $E_1$ or $E_3$.
     }
     \fact{assignment2}{Assignments resulting in integers}{
 		PHP provides several assignment statements combined with operators.
-		The type of the left hand side ($E_1$) is in the cases of \texttt{$\&=$} (bitwise and), \texttt{$\vert{}=$} (bitwise inclusive or), \texttt{\^{}=} (bitwise exclusive or), \texttt{$<<=$} (bitwise shift left), \texttt{$>>=$} (bitwise shift right), and \texttt{$\%=$} (modulus) always \texttt{integerType()}.
+		The type of the left hand side ($E_1$) is in the cases of \textit{bitwise and} (i), \textit{bitwise inclusive or} (ii), \textit{bitwise exclusive or} (iii), \textit{bitwise shift left} (iv), \textit{bitwise shift right} (v), and \textit{modulus} (vi) always of \textit{integer} type.
     }
     \fact{assignment3}{Assignment with string concat}{
-    	When the string concat operator is used, in combination with the assignment operator (\texttt{$.=$}), the type of the left hand side ($E_1$) is always a string.
+    	When the \textit{string concat} operator is used, in combination with the assignment operator (i), the type of the left hand side ($E_1$) is always a string.
     	\\
-    	About the right hand side ($E_2$) we can say that \textbf{if} the type of $E_2$ is a subtype of object, then this object should have the method \texttt{$\_\_toString()$}.
+    	About the right hand side ($E_2$) we can say that \textbf{if} the type of $E_2$ is a subtype of object, then this object should have the method \texttt{$\_\_toString()$} (ii).
     }
     \fact{assignment4}{Assignments with division or subtraction operator}{
-    	Division and subtraction assignment in PHP will always result in an integer type.
+    	\textit{Division} (i) and \textit{subtraction} (ii) assignment in PHP will always result in an integer type.
     	This is the case for all values, except for array's.
     	A fatal error will occur when the right hand side value is of type array.
     }
     \fact{assignment5}{Assignments resulting in numbers}{
-    	The result of an assignment \texttt{$*=$} (multiplication) and \texttt{$+=$} (addition) is either a float or an integer.
+    	The result of an \textit{multiplication} (i) and \textit{addition} (ii) assignment is either a float or an integer.
     	When the type of the right hand side ($E_2$) is either booleanType, integerType, or nullType, the result of the assignment ($E_1$) will be of integerType.
     	If $E_2$ is of any other type, $E_1$ will be of type floatType.
     	Float and integer are both subtypes of integers, so we can use the subtype relation for numberType for this.
@@ -321,22 +321,40 @@
 	Unary operators in PHP consist of positive and negative numbers, negation operators, and increase and decrease operators.
 
     \fact{unary_numbers}{Positive and negative number}{
-    	When a plus ($+$) or minus ($-$) sign is used in PHP in front of a variable, the type of the whole expression must be of numberType.
-    	The type of the variable cannot be	 of any arrayType.
+    	When a \textit{plus} (i) or \textit{minus} (ii) sign is used in PHP in front of a variable, the type of the whole expression must be of numberType.
+    	The type of the variable cannot be of any arrayType.
     }
     \fact{unary_negation}{Negation operators}{
     	The PHP language holds two types of negation operators.
-    	The type of the whole expression for normal negation operator ($!$) is boolean.
-    	For the bitwise negation operator ($\sim$) the type of attached variable is either a number or a string.
+    	The type of the whole expression for \textit{normal negation} operator (i) is boolean.
+    	For the \textit{bitwise negation} operator (ii) the type of attached variable is either a number or a string.
     	The type of the whole expression is an integer or string.
     }
     \fact{unary_post_increment}{Post increment operators}{
     	From post increment and decrement operators we can only extract conditional constraints.
+    	\\
+    	If the type of $E_1$ is of any \texttt{array} type, the result of the expression is also of any \texttt{array} type (i).
+    	\\
+    	If the type of $E_1$ is of \texttt{boolean} type, the result of the expression is also of \texttt{boolean} type (ii).
+    	\\
+    	If the type of $E_1$ is of \texttt{float} type, the result of the expression is also of \texttt{float} type (iii).
+    	\\
+    	If the type of $E_1$ is of \texttt{integer} type, the result of the expression is also of \texttt{integer} type (iv).
+    	\\
+    	If the type of $E_1$ is of \texttt{null} type, the result of the expression is either of \texttt{integer} or \texttt{boolean} type (v).
+    	\\
+    	If the type of $E_1$ is of any \texttt{object} type, the result of the expression is also of any \texttt{object} type (vi).
+    	\\
+    	If the type of $E_1$ is of \texttt{resource} type, the result of the expression is also of any \texttt{resource} type (vii).
+    	\\
+    	If the type of $E_1$ is of \texttt{string} type, the result of the expression is either of \texttt{number} or \texttt{string} type (vii).
+    	\\
     	The rules below are only written for the post increment, but also apply on the post decrement.
     }
     \fact{unary_pre_increment}{Pre increment operators}{
     	From pre increment and decrement operators we can also only extract conditional constraints.
     	The rules are similar to the rules for the post increment, except for the \texttt{nullType()}.
+    	If the type of $E_1$ is of \texttt{null} type, the result of the expression is either of \texttt{null} type (v).
     }    
     
     %%
@@ -346,48 +364,50 @@
 	Addition, subtraction, multiplication, division, modulus, bitwise, comparison, and logical operators are in PHP binary operators.
 	
 	\fact{binary_addition}{Addition operator}{
-		The result of an addition operator will always be a number or an array.
-		If the left and right hand side are both arrays, the return type will be array.
+		The result of an addition operator will always be a number or an array (i).
+		If the left and right hand side are both arrays, the return type will be array (ii).
 		In this case two arrays are merged.
-		In all other cases the result of this operation is a number.
+		In all other cases the result of this operation is a number (iii).
 	}
 	\fact{binary_sub_mul_div}{Subtraction multiplication division operators}{
-		These three operators are merged together in this paragraph because they have identical behaviour.
-		The result of these operations is always a number.
-		The operations cannot be used if one of the sides is of type array.
-		Therefore we can says that the left and right hand side cannot be of arrayType.
+		The \textit{subtraction} (i), \textit{multiplication} (ii), and \textit{division} (iii) operators are merged together in this paragraph because they have identical behaviour.
+		The result of these operations is always of \texttt{number} type.
+		The operations cannot be used if one of the sides is of type \texttt{array}.
+		Therefore we can says that the left and right hand side cannot be of \texttt{array} type.
 	}
 	\fact{binary_mod_bitshift}{Modulus and bitwise shift operators}{
-		The merge of modulus and bitwise shift operators seems not so obvious at first, but they have the same behaviour.
+		The merge of \textit{modulus} (i) and \textit{bitwise shift} (ii, iii) operators seems not so obvious at first, but they have the same behaviour.
 		The results of these operations is of integer type.
 	}
 	\fact{binary_bitwise}{Bitwise operators}{
-		The results of the bitwise operators \texttt{and}, \texttt{or}, and \texttt{xor} is always of integer or string type.
-		When the left and right hand side are both strings, the result of the operation is also of type string.
+		The results of the bitwise operators \textit{and} (i, ii, iii), \textit{or}, and \textit{xor} is always of \texttt{integer} or \texttt{string} type.
+		When the left and right hand side are both strings, the result of the operation is also of type \texttt{string}.
 		In all other cases the result of this operation is a number.
-		For the sake of readability we've omitted the constraints for the operators \texttt{bitwise or} (inclusive or) and \texttt{bitwise xor} (exclusive or).
+		%For the sake of readability we've omitted the constraints for the operators \textit{bitwise or} (inclusive or, $\vert{}$) and \textit{bitwise xor} (exclusive or, $\^{}$), because they have provide the same results as the \textit{bitwise and} operator.
 	}
 		
     \fact{comparisonOperators}{Comparison operators}{
     	The result of the comparison operators is always of boolean type.
+    	The comparison operators are \textit{equals} (i), \textit{identical} (ii), \textit{not equal} (iii), \textit{not equal} (iv), \textit{not identical} (v), \textit{less than} (vi), \textit{greater than} (vii), \textit{less than or equal to} (viii), and \textit{greater than or equal to} (ix) operators.
     }
     \fact{logicalOperators}{Logical operators}{
     	Just like the comparison operators, the result of the logical operators is always of boolean type.
+    	The logical operators are \textit{and} (i), \textit{or} (ii), \textit{xor} (iii), \textit{and} (iv), and \textit{or} (v).
     }
     
     %%
     %% Array
     %%
     \subsection{Array}
-    Introduce array here...
+    From the PHP parser we get array declaration and array access nodes.
     
     \fact{array}{Array declaration}{
-    	From the array declarations (\texttt{array()} or \texttt{[]}) we can extract the constraint that they should be of any array type.
+    	From the array declarations (\texttt{array()} or \texttt{[]}) we can extract the constraint that they should be of any \texttt{array} type.
     }
     \fact{arrayAccess}{Array value fetch}{
-    	From the usage of array access you cannot tell what the type of the expression is.
+    	From the usage of array access syntax you cannot tell what the type of the expression is.
     	The same syntax is used to access strings.
-    	We can only extract that the type should not be of object type.
+    	We can extract that the type of the base expression should not be of object type.
     }
 
     %%

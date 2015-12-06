@@ -1,10 +1,12 @@
 \begin{center}
 \begin{bprooftree}
     \AxiomC{$E_1$ *= $E_2$}
+    \RightLabel{(i)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} <: \{ \; numberType() \; \}$}
 \end{bprooftree} 
 \begin{bprooftree}
     \AxiomC{$E_1$ += $E_2$}
+    \RightLabel{(ii)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} <: \{ \; numberType() \; \}$}
 \end{bprooftree} 
 \end{center} 

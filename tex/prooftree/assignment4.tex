@@ -1,12 +1,14 @@
 \begin{center}
 \begin{bprooftree}
     \AxiomC{$E_1$ $/= E_2$}
+    \RightLabel{(i)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \},$} \noLine
-    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \neq \{ \; array(any()) \; \}$}
+    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \neq \{ \; array(\_) \; \}$}
 \end{bprooftree}    
 \begin{bprooftree}
     \AxiomC{$E_1 -= E_2$}
+    \RightLabel{(ii)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \},$} \noLine
-    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \neq \{ \; array(any()) \; \}$}
+    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \neq \{ \; array(\_) \; \}$}
 \end{bprooftree}    
 \end{center}    

@@ -1,10 +1,12 @@
 \begin{center}
 \begin{bprooftree}
     \AxiomC{$E \equiv \; (!E_1)$}
+    \RightLabel{(i)}
     \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; booleanType() \; \}$} 
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E \equiv \; (\sim E_1)$}
+    \RightLabel{(ii)}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; numberType() \lor stringType() \; \},$} \noLine
     \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; integerType() \lor stringType() \; \}$}
 \end{bprooftree}
