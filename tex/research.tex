@@ -404,24 +404,49 @@
     \fact{array}{Array declaration}{
     	From the array declarations (\texttt{array()} or \texttt{[]}) we can extract the constraint that they should be of any \texttt{array} type.
     }
-    \fact{arrayAccess}{Array value fetch}{
+    \fact{arrayAccess}{Array access}{
     	From the usage of array access syntax you cannot tell what the type of the expression is.
     	The same syntax is used to access strings.
-    	We can extract that the type of the base expression should not be of object type.
+    	We can extract that the type of the base expression should not be of object type (i).
+    	If we know that the base type is of \texttt{string} type, we know that the result of the expression will also be a string (ii).
+    	When the base type is an array, the result type is the type of the elements in there array (iii).
+    	For all other cases, when the base type is not an string or array, the result of the expression will be of \texttt{null} type.
     }
 
     %%
     %% Casts
     %%
     \subsection{Casts}
-    \fact{casts}{Casts}{ {\footnotesize{Note: PHP Warnings are ignored}}}
-            
+    \fact{casts}{Casts}{
+    	PHP contains syntax to arrays, booleans, integers, floats, objects, strings, and to unset variables.
+    	The result of a cast to array is of any \texttt{array} type (i).
+    	For casting to boolean there are two keywords, \textit{bool} (ii) and \textit{boolean} (iii), and the result will always be of \texttt{boolean} type.
+    	There are three keywords to cast to floats, \textit{float} (iv), \textit{double} (v), and \textit{real} (vi).
+    	Casts to integer integer type, you can use \textit{integer} (vii) or \textit{int} (viii) keywords.
+    	Any cast to \textit{object} (ix) will result in any \texttt{object} type.
+    	A cast to \textit{string} will always result in a \texttt{string} type.
+    	String casts (x) will always result in a \texttt{string} type. If we know that the expression ($E_1$) is an object, we know that this method needs to have an \texttt{$\_\_toString()$} method (xi).
+    	The last cast, \textit{unset}, results in a \texttt{null} type.
+    }
+        
+    %%    
+    %% Clone
+    %%
     \subsection{Clone}
-    \fact{clone}{Clone}{}
+    \fact{clone}{Clone}{
+    	From the PHP function \textit{clone} we can extract the constraint that the type of the given expression and the result must be of any \texttt{object} type.
+    	We also know that the type will not change, and so the type of the expression will be the same as 
+    }
     
+    %%
+    %% Class
+    %%
     \subsection{Class}
-    \fact{instantiation1}{Class instantiation (1)}{matching the class name}
-    \fact{instantiation2}{Class instantiation (2)}{of an expression}
+    This section contains fact extraction rules from object related syntax.
+    Special keywords, class instantiation, method calls, parameters, and class constants.
+    
+    \fact{classInstantiation}{Class instantiation}{
+    }
     \fact{keywords}{Special keywords}{\texttt{self}\, \texttt{parent} \texttt{parent} \texttt{static}}
     %\fact{property1}{Class property fetch}
     %    {\\ \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}}
@@ -437,12 +462,18 @@
         \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
     }
     
+    %%
+    %% Scope
+    %%
     \subsection{Scope}
     \fact{function1}{Type of a certain variable within some scope}{{\footnotesize{this applies to global- class- function- and method- scope}}}
     \fact{return1}{Return type of function or method (1)}{having no return statements or \texttt{return;}}
     \fact{return2}{Return type of function or method (2)}{every exit path ends with a return statement}
     \fact{return3}{Return type of function or method (3)}{possible no return value}
     
+    %%
+    %% Function calls
+    %%
     \subsection{Function calls}
     \fact{functionCall1}{Function call}{}
     \fact{functionCall2}{Function call variable}{}

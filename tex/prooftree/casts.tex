@@ -1,29 +1,71 @@
-\begin{prooftree}
+\begin{center}
+\begin{bprooftree}
     \AxiomC{$E \equiv (array)E_1$}
-    \UnaryInfC{$[E] <: array(any())$}
-\end{prooftree}
-\begin{prooftree}
-    \AxiomC{$E \equiv (bool)E_1$ $\lor$ $(boolean)E_1$}
-    \UnaryInfC{$[E] = boolean()$}
-\end{prooftree}
-\begin{prooftree}
-    \AxiomC{$E \equiv (float)E_1$ $\lor$ $(double)E_1$ $\lor$ $(real)E_1$}
-    \UnaryInfC{$[E] = float()$}
-\end{prooftree}    
-\begin{prooftree}
-    \AxiomC{$E \equiv (int)E_1$ $\lor$ $(integer)E_1$}
-    \UnaryInfC{$[E] = integer()$}
-\end{prooftree}
-\begin{prooftree}
+    \RightLabel{(i)}
+    \UnaryInfC{$[E] <: arrayType(\_)$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E \equiv (boolean)E_1$}
+    \RightLabel{(ii)}
+    \UnaryInfC{$[E] = booleanType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E \equiv (bool)E_1$}
+    \RightLabel{(iii)}
+    \UnaryInfC{$[E] = booleanType()$}
+\end{bprooftree}
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$E \equiv (float)E_1$}
+    \RightLabel{(iv)}
+    \UnaryInfC{$[E] = floatType()$}
+\end{bprooftree}    
+\begin{bprooftree}
+    \AxiomC{$E \equiv (double)E_1$}
+    \RightLabel{(v)}
+    \UnaryInfC{$[E] = floatType()$}
+\end{bprooftree}    
+\begin{bprooftree}
+    \AxiomC{$E \equiv (real)E_1$}
+    \RightLabel{(vi)}
+    \UnaryInfC{$[E] = floatType()$}
+\end{bprooftree}    
+\\
+\vspace{1em}
+\begin{bprooftree}
+    \AxiomC{$E \equiv (integer)E_1$}
+    \RightLabel{(vii)}
+    \UnaryInfC{$[E] = integerType()$}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E \equiv (int)E_1$}
+    \RightLabel{(viii)}
+    \UnaryInfC{$[E] = integerType()$}
+\end{bprooftree}
+\begin{bprooftree}
     \AxiomC{$E \equiv (object)E_1$}
-    \UnaryInfC{$[E] <: object()$}
-\end{prooftree}
-\begin{prooftree}
+    \RightLabel{(ix)}
+    \UnaryInfC{$[E] <: objectType()$}
+\end{bprooftree}
+\\
+\vspace{1em}
+\begin{bprooftree}
     \AxiomC{$E \equiv (string)E_1$}
-    \UnaryInfC{$[E] = string(),$} \noLine
-    \UnaryInfC{$if ([E_1] <: object()) => hasMethod([E_1], `\_\_tostring')$}
-\end{prooftree}
-\begin{prooftree}
+    \RightLabel{(x)}
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; stringType() \; \}$}
+\end{bprooftree}  
+\begin{bprooftree}
+    \AxiomC{$E \equiv (string)E_1$}
+    \AxiomC{$(E_1$ <: objectType()$)$} 
+    \RightLabel{(xi)}
+    \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ \texttt{hasMethod} $"\_\_tostring"$}
+\end{bprooftree}  
+\\
+\vspace{1em}
+\begin{bprooftree}
     \AxiomC{$E \equiv (unset)E_1$}
-    \UnaryInfC{$[E] = null()$}
-\end{prooftree}
+    \RightLabel{(xii)}
+    \UnaryInfC{$[E] = nullType()$}
+\end{bprooftree}
+\end{center}

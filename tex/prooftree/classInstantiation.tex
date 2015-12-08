@@ -1,0 +1,13 @@
+\begin{center}
+\begin{bprooftree}
+    \AxiomC{$E \equiv new \; C_1()$}
+    \RightLabel{(i)}
+    \UnaryInfC{$[E]$ = class(C.decl)}
+\end{bprooftree}
+\begin{bprooftree}
+    \AxiomC{$E \equiv new \; E_1$}
+    \RightLabel{(ii)}
+    \UnaryInfC{$[E] <: object(),$} \noLine
+    \UnaryInfC{$[E_1] <: object() \lor [E_1] = string()$}
+\end{bprooftree}
+\end{center}

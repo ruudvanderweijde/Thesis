@@ -1,5 +1,5 @@
-$a[0];
-// typeOf($a) != object()
-// when typeOf($a) == string() => typeOf($a[/*...*/]) is string()
-// when typeOf($a) == array() => typeOf($a[/*...*/]) is mixed()
-// when typeOf($a) !== string|array => typeOf($a[/*...*/]) is null()
+$a[$b];
+// [$a] != objectType()
+// if ([$a] == stringType())     => [$a[$b]] = stringType()
+// if ([$a] == arrayType(x)      => [$a[$b]] = [x]
+// if ([$a] != (string or array) => [$a[$b]] = nullType()

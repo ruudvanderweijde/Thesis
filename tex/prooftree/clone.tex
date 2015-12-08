@@ -1,4 +1,6 @@
 \begin{prooftree}
     \AxiomC{$E \equiv clone(E_1)$}
-    \UnaryInfC{$[E] <: object()$, $[E_1] <: object()$}
+    \UnaryInfC{$[E] <: object()$} \noLine
+    \UnaryInfC{$[E_1] <: object()$} \noLine
+    \UnaryInfC{$[E] = [E_1]$}
 \end{prooftree}

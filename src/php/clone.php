@@ -1,1 +1,3 @@
-clone($a) // typeOf($a) = object, typeOf(clone($a)) = object
+clone($a) // [$a]        <: object
+          // [clone($a)] <: object
+          // [$a]        =  [clone($a)]
