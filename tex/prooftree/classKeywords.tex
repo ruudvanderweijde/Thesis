@@ -1,0 +1,24 @@
+\begin{prooftree}
+    \AxiomC{$E \equiv self \in C$}
+    \RightLabel{(i)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: objectType(),} \noLine
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ = classType(C) $\lor$ $\llbracket{}E\rrbracket{}$ :> classType(C)}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv static \in C$}
+    \RightLabel{(ii)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: objectType(),} \noLine
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ = classType(C) $\lor$ $\llbracket{}E\rrbracket{}$ :> classType(C)}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv \$ this \in C$}
+    \RightLabel{(iii)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: objectType(),} \noLine
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ = classType(C) $\lor$ $\llbracket{}E\rrbracket{}$ :> classType(C)}
+\end{prooftree}
+\begin{prooftree}
+    \AxiomC{$E \equiv parent \in C$}
+    \RightLabel{(iv)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: objectType(),} \noLine
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ :> classType(C)}
+\end{prooftree}

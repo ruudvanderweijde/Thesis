@@ -410,7 +410,7 @@
     	We can extract that the type of the base expression should not be of object type (i).
     	If we know that the base type is of \texttt{string} type, we know that the result of the expression will also be a string (ii).
     	When the base type is an array, the result type is the type of the elements in there array (iii).
-    	For all other cases, when the base type is not an string or array, the result of the expression will be of \texttt{null} type.
+    	For all other cases, when the base type is not an string or array, the result of the expression will be of \texttt{null} type (iv).
     }
 
     %%
@@ -442,25 +442,36 @@
     %% Class
     %%
     \subsection{Class}
-    This section contains fact extraction rules from object related syntax.
-    Special keywords, class instantiation, method calls, parameters, and class constants.
+    This section contains fact extraction rules from object syntax.
+    Class instantiation, special keywords, method calls, parameters, and class constants.
     
     \fact{classInstantiation}{Class instantiation}{
+    	Classes can be instantiated with the name of the class.
+    	The type of the whole expression is then of the specific \texttt{class} type (i).
+    	When a class is dynamically instantiated, we only know that it should be of some \texttt{object} type, and that the type of the expression should be any \texttt{object} or \texttt{string} type (ii).	
     }
-    \fact{keywords}{Special keywords}{\texttt{self}\, \texttt{parent} \texttt{parent} \texttt{static}}
+    \fact{classKeywords}{Special keywords}{
+    	PHP contains a few class related reserved keywords with special behaviour.
+    	These keywords can be used inside a class scope ($\in C$).
+    	From the usage of the keyword \textit{self} we know that the type of the expression should be the same \texttt{class} type as which the keyword is defined in (i).
+    	The constraint we can extract from \textit{self} is that the type should be any \texttt{object} type and it should be either the contained class or one of the parent classes.
+    	The behaviour of \textit{\$this} (ii) and \textit{static} (iii) differs, but the constraints we can extract are equal to the \textit{self} keyword.
+    	The \textit{parent} (iv) keyword differs because it must be a super type of the class they keyword is defined in.
+    }
     %\fact{property1}{Class property fetch}
     %    {\\ \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}}
     %\fact{property2}{Class property fetch variable}{}
-    \fact{methodCall1}{Class method call}{}
-    \fact{methodCall2}{Class method call variable}{}
-    \fact{classConstants}{Class constants (needs to be reviewed)}{}
+    \fact{classMethodCall}{Class method call}{..}
+    \fact{methodCall1}{Class method call}{..}
+    \fact{methodCall2}{Class method call variable}{..}
+    \fact{classConstants}{Class constants (needs to be reviewed)}{..}
     
-    \subsection{Parameters}
-    \fact{parameter1}{Parameters in class instantiation}{
-        
-        \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
-        \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
-    }
+    %\subsection{Parameters}
+    %\fact{parameter1}{Parameters in class instantiation}{
+    %    
+    %    \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
+    %    \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
+    %}
     
     %%
     %% Scope

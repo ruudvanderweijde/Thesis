@@ -2,51 +2,51 @@
 \begin{bprooftree}
     \AxiomC{$E \equiv (array)E_1$}
     \RightLabel{(i)}
-    \UnaryInfC{$[E] <: arrayType(\_)$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: arrayType(\_)$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E \equiv (boolean)E_1$}
     \RightLabel{(ii)}
-    \UnaryInfC{$[E] = booleanType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E \equiv (bool)E_1$}
     \RightLabel{(iii)}
-    \UnaryInfC{$[E] = booleanType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
 \end{bprooftree}
 \\
 \vspace{1em}
 \begin{bprooftree}
     \AxiomC{$E \equiv (float)E_1$}
     \RightLabel{(iv)}
-    \UnaryInfC{$[E] = floatType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = floatType()$}
 \end{bprooftree}    
 \begin{bprooftree}
     \AxiomC{$E \equiv (double)E_1$}
     \RightLabel{(v)}
-    \UnaryInfC{$[E] = floatType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = floatType()$}
 \end{bprooftree}    
 \begin{bprooftree}
     \AxiomC{$E \equiv (real)E_1$}
     \RightLabel{(vi)}
-    \UnaryInfC{$[E] = floatType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = floatType()$}
 \end{bprooftree}    
 \\
 \vspace{1em}
 \begin{bprooftree}
     \AxiomC{$E \equiv (integer)E_1$}
     \RightLabel{(vii)}
-    \UnaryInfC{$[E] = integerType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = integerType()$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E \equiv (int)E_1$}
     \RightLabel{(viii)}
-    \UnaryInfC{$[E] = integerType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = integerType()$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E \equiv (object)E_1$}
     \RightLabel{(ix)}
-    \UnaryInfC{$[E] <: objectType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: objectType()$}
 \end{bprooftree}
 \\
 \vspace{1em}
@@ -66,6 +66,6 @@
 \begin{bprooftree}
     \AxiomC{$E \equiv (unset)E_1$}
     \RightLabel{(xii)}
-    \UnaryInfC{$[E] = nullType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = nullType()$}
 \end{bprooftree}
 \end{center}

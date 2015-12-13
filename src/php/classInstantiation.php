@@ -1,4 +1,4 @@
-new C;    // [new C()] = classType(C)
+new C;    // [new C] = classType(C)
     
 $c = "C";
 new $c;   // [new $c] <: objectType()
