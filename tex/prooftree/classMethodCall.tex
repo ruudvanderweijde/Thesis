@@ -1,63 +1,13 @@
 \begin{prooftree}
-    \AxiomC{$E \equiv E_1\rightarrow E_2 \subseteq C_1$*}
-    \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_2$.name, static $\notin$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_2$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C$.hasMethod($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
-\end{prooftree}
-\footnotesize{*The same goes for static method calls, except for the `static $\notin$ Mfs' part: `static $\in$ Mfs'.}
-\begin{prooftree}
-    \AxiomC{$E \equiv \$this\rightarrow E_1 \subseteq C_1$}
-    \UnaryInfC{$[E_1]$ isMethod(), $[E_1]$ hasName($E_1.name \lor $"\_\_call"),} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\notin$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$[.parent].hasMethod("\_\_call"),} \noLine
-    \UnaryInfC{$[E] <: [E_1]$}
+    \AxiomC{$E_1\rightarrow E_2 \in C$}
+    \AxiomC{$E_2$ \texttt{instanceof} name}
+    \RightLabel{(i)}
+    \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ <: objectType(),} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{}$ = $C$.hasMethod($E_2$.name, static $\notin$ Mfs)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{$E \equiv self :: E_1 \subseteq C_1$}
-    \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\in$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\in$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.hasMethod("\_\_callStatic")}
+    \AxiomC{$E_1\rightarrow E_2 \in C$}
+    \AxiomC{$E_2$ \texttt{instanceof} expression}
+    \RightLabel{(ii)}
+    \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ <: objectType()}
 \end{prooftree}
-\begin{prooftree}
-    \AxiomC{$E \equiv parent :: E_1 \subseteq C_1$}
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod("\_\_callStatic")}
-\end{prooftree}
-\begin{prooftree}
-    \AxiomC{$E \equiv E_1\rightarrow E_2 \not\subseteq C \subseteq \Gamma$*}
-    \UnaryInfC{$[E_1]$ = C.hasMethod($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
-\end{prooftree}
-%\footnotesize{*method call outside a class scope, also for static methods.}
-
-%\hrule
-%This stuff is old!!!!!!
-\begin{prooftree}
-    \AxiomC{$\$this\rightarrow E_1 \subseteq C_1$}
-    \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\notin$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$[.parent].hasMethod("\_\_call")}
-\end{prooftree}
-\begin{prooftree}
-    \AxiomC{$self :: E_1 \subseteq C_1$}
-    \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_1$.name, static $\in$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\in$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.hasMethod("\_\_callStatic")}
-\end{prooftree}
-\begin{prooftree}
-    \AxiomC{$parent :: E_1 \subseteq C_1$}
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_1$.name, public$\textbar$protected $\in$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod("\_\_callStatic")}
-\end{prooftree}
-\begin{prooftree}
-    \AxiomC{$E_1\rightarrow E_2 \subseteq C_1$*}
-    \UnaryInfC{$[E_1]$ = $C_1$.hasMethod($E_2$.name, static $\notin$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C_1$.parent.hasMethod($E_2$.name, public$\textbar$protected $\in$ Mfs $\land$ static $\notin$ Mfs) $\lor$} \noLine
-    \UnaryInfC{$[E_1]$ = $C$.hasMethod($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
-\end{prooftree}
-\footnotesize{*The same goes for static method calls, except for the `static $\notin$ Mfs' part: `static $\in$ Mfs'.}
-\begin{prooftree}
-    \AxiomC{$E_1\rightarrow E_2 \not\subseteq C \subseteq \Gamma$*}
-    \UnaryInfC{$[E_1]$ = C.hasMethod($E_2$.name, public $\in$ Mfs $\land$ static $\notin$ Mfs)}
-\end{prooftree}
-\footnotesize{*method call outside a class scope, also for static methods.}
