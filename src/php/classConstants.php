@@ -1,3 +1,6 @@
+SomeClass::CONST
+$classname::CONSTANT
+
 self::CONST
 parent::CONST
-SOMECLASS::CONST
+static::CONST

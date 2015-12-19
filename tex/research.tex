@@ -461,12 +461,13 @@
     %\fact{property1}{Class property fetch}
     %    {\\ \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}}
     %\fact{property2}{Class property fetch variable}{}
-    \fact{classMethodCall}{Class method call}{
-    	From the usage of a method call (\textit{expression} -> \textit{expression}) we can extract the constraint that the type of the left hand side should be an object
+    \fact{classMethodCall}{Method calls}{
+    	From the usage of a method call (\textit{expression} -> \textit{expression}) we can extract the constraint that the type of the left hand side should be an object (i and ii).
+    	If the right hand side ($E_2$) is a name of a method, we can extract the constraint that the left hand side ($E_1$) must implement this method (ii).
     }
-    %\fact{methodCall1}{Class method call}{..}
-    %\fact{methodCall2}{Class method call variable}{..}
-    \fact{classConstants}{Class constants (needs to be reviewed)}{..}
+    \fact{classConstants}{Class constants}{
+    	Class constants
+    }
     
     %\subsection{Parameters}
     %\fact{parameter1}{Parameters in class instantiation}{

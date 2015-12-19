@@ -8,4 +8,4 @@
      // if ([$a]  = resourceType()) => [++$a]  = resourceTYpe()
      // if ([$a]  = stringType())   => [++$a] <: numberType() or stringType()
 --$a // (pre decrease)
-     // same rules as above apply for $a--
+     // same rules as above apply for --$a
