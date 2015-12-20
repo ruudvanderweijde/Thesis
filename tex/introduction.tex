@@ -33,11 +33,10 @@
             
         \paragraph{Analysability}
         Although the popularity for more than a decade, there is still a lack of good PHP code analysis tools.
-        Tools can help to reveal security vulnerabilities or find vulnerabilities or bugs in source code.
+        These tools can help to reveal security vulnerabilities or find vulnerabilities or bugs in source code.
         The tools can also provide code completions or do automatic transformations which can be used to execute refactoring patterns.
-        Source code analysis can be performed statically or dynamically or a combination of the two.
-        More information on the analysability of php can be found in section \ref{sec:background_language-constructs}.
-        
+        Source code analysis is performed statically or dynamically or a combination of the two.
+                
     \section{Position} % Position: what makes this paper unique, position to related work. (Explain about the current position of PHP.)
         In this research we investigate how we can improve the analysability of PHP programs.
         We will show that the use of annotated source code can help to improve the analysability.
@@ -46,17 +45,13 @@
         %todo rewrite (introduction:position)
         These annotations can help to improve the analysis.
         The results can be used to find security issues, and if they are highly reliable we can even make compiler optimisations.
-        \\
-        As far as we know, there is no constraint based type inference research like this one performed for PHP.
-        That makes this research unique.
-        There have been similar analysis for other dynamic languages, like smalltalk, ruby and javascript, but none like this.
        
     \section{Contribution} % Contribution: what is the return of investment for the reader. (Resolving types can: helpt to build IDE tools, identify dependencies, beter security scans, gecombineerd worden met andere analyses (voor future work).)
         % TODO Review (intoduction:contribution) when the result of the analysis are performed.
         This research contains contributions to the static analysis research field.
         It contribues by:
         \begin{itemize}
-            \item extending the $M^3$ model with support for PHP
+            \item creation of $M^3$ model for PHP programs
             \item constraint based type inference
             %\item shows the result of the type inference
             %\item value of annotations for analysis.
