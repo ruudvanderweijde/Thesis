@@ -1,13 +1,14 @@
 \begin{prooftree}
-    \AxiomC{self::$c_1$ $\subseteq$ $\Gamma$}
+    \AxiomC{self::$c_1$ $\in$ $C$}
     \UnaryInfC{$\llbracket{}$self::$c_1\rrbracket{}$ = $C_1$.hasConstant($E_2$.name) $\lor$} \noLine
     \UnaryInfC{$\llbracket{}$self::$c_1\rrbracket{}$ = $C_1$.parent.hasConstant($E_2$.name, public$\textbar$protected $\in$ Mfs)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{parent::$c_1$ $\subseteq$ $\Gamma$}
+    \AxiomC{parent::$c_1$ $\in$ $C$}
     \UnaryInfC{$\llbracket{}$self::$c_1\rrbracket{}$ = $C_1$.parent.hasConstant($E_2$.name, public$\textbar$protected $\in$ Mfs)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{$E_1$::$c_1$ $\subseteq$ $\Gamma$}
-    \UnaryInfC{$\llbracket{}E_1\rrbracket{}$ = object() }
+    \AxiomC{$E_1$::$c_1$ $\in$ $C$}
+    \AxiomC{$E_1$::$c_1$ $\in$ $C$}
+    \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ = object() }
 \end{prooftree}

@@ -1,2 +1,2 @@
-array(/*...*/); // [array(/*..*/)] = arrayType(_)
-[/*...*/];      // [[(/*..*/)]]    = arrayType(_)
+array(/*..*/); // [array(/*..*/)] <: arrayType(any())
+[/*..*/];      // [[(/*..*/)]]    <: arrayType(any())

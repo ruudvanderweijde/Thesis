@@ -224,7 +224,7 @@
             $v$     & = & default value \\
             
             Mfs     & = & modifiers &
-            $\Gamma$ & = & the program \\
+            $\in$ & = & is defined in \\
                         
             $\{ \}$     & = & set of types &
             \texttt{instanceof} & = & instance of class in parse tree	
@@ -237,17 +237,18 @@
     We write the definitions in the following form:
 	   
     \begin{prooftree}
-    	\AxiomC{an expression $E$ possibly in some context (premiss)} 
-    	\UnaryInfC{constraint 1,} \noLine
+    	\AxiomC{premiss 1} 
+    	\AxiomC{premiss 2} 
+    	\BinaryInfC{constraint 1,} \noLine
     	\UnaryInfC{constraint 2}
 	\end{prooftree}
 	
 	Above the horizontal line we write the premisses.
-	In our case premisses are PHP expressions which be true or false possibly depending on the context.
+	In our case premisses are PHP expressions which are true or false depending on the context.
 	If the premiss is true for a PHP statement or expression we can define the constraints below the horizontal line.
 
     \subsection{Scalars}
-    Extracting constraints from the scalar types is pretty straight forward.
+    Extracting constraints from the scalar types is straight forward.
     The PHP parser defines the string, integer, and float types in the AST.
     Booleans and null values can also be easily found in the AST.
     \fact{scalar_string}{Strings}{
@@ -320,7 +321,7 @@
     \subsection{Unary operators}
 	Unary operators in PHP consist of positive and negative numbers, negation operators, and increase and decrease operators.
 
-    \fact{unary_numbers}{Positive and negative number}{
+    \fact{unary_numbers}{Positive and negative numbers}{
     	When a \textit{plus} (i) or \textit{minus} (ii) sign is used in PHP in front of a variable, the type of the whole expression must be of numberType.
     	The type of the variable cannot be of any arrayType.
     }
@@ -464,10 +465,12 @@
     \fact{classMethodCall}{Method calls}{
     	From the usage of a method call (\textit{expression} -> \textit{expression}) we can extract the constraint that the type of the left hand side should be an object (i and ii).
     	If the right hand side ($E_2$) is a name of a method, we can extract the constraint that the left hand side ($E_1$) must implement this method (ii).
+    	% Could do something with the reserved keywords here (different behaviour with parent::method
     }
-    \fact{classConstants}{Class constants}{
-    	Class constants
-    }
+    
+    %\fact{classConstants}{Class constants}{
+    %	Class constants
+    %}
     
     %\subsection{Parameters}
     %\fact{parameter1}{Parameters in class instantiation}{
@@ -479,27 +482,66 @@
     %%
     %% Scope
     %%
-    \subsection{Scope}
-    \fact{function1}{Type of a certain variable within some scope}{{\footnotesize{this applies to global- class- function- and method- scope}}}
-    \fact{return1}{Return type of function or method (1)}{having no return statements or \texttt{return;}}
-    \fact{return2}{Return type of function or method (2)}{every exit path ends with a return statement}
-    \fact{return3}{Return type of function or method (3)}{possible no return value}
+    %\subsection{Scope}
+    %\fact{function1}{Type of a certain variable within some scope}{{\footnotesize{this applies to global- class- function- and method- scope}}}
+    %\fact{return1}{Return type of function or method (1)}{having no return statements or \texttt{return;}}
+    %\fact{return2}{Return type of function or method (2)}{every exit path ends with a return statement}
+    %\fact{return3}{Return type of function or method (3)}{possible no return value}
     
     %%
     %% Function calls
     %%
-    \subsection{Function calls}
-    \fact{functionCall1}{Function call}{}
-    \fact{functionCall2}{Function call variable}{}
+    %\subsection{Function calls}
+    %\fact{functionCall1}{Function call}{}
+    %\fact{functionCall2}{Function call variable}{}
     
-    \paragraph{self reminder}
-    Show the constraints we defined in rascal.
+    \subsection{Rascal implementation}
+    The constraints are implemented in Rascal with the \texttt{TypeOf} and \texttt{Constraint} definitions, which are shown in Rascal \ref{fig:typeof_and_constraint}.
     
-    How to resolve expressions:
-    \begin{itemize}
-        \item Find all expressions which are defined above and annotate them with @type.
-        \item Annotate the rest of the expressions with @type = any(); (should only be for relevant expressions)
-    \end{itemize}
+    The \texttt{TypeOf} definition represents a literal type or the type of an expression.
+    To define a literal type, we use the \texttt{typeSymbol} which takes a \texttt{TypeSymbol} as argument.
+    TypeSymbols are defined in Rascal \ref{fig:rascal_typesymbols}.
+    We use the \texttt{typeOf} definition, which takes a Rascal location (loc) as argument, when we define the type of an expression or statement.
+    The location represents the physical location of the expression in the source code.
+    
+    The \texttt{Constraint} definition consists of recursive and non-recursive definitions.
+    \texttt{eq} states that the type of the left hand side should be equal to the type of the right hand side.
+    \texttt{subtyp} status that the type of the left hand site should be sub type of the right hand size.
+    This sub type relation is self inclusive, which means that the type can also be the same.
+    \texttt{supertyp} is the opposite of \texttt{subtyp}, and so the type of the left hand side should be a super type of the right hand size and cannot be the same type.
+    \texttt{isMethodOfClass} takes as arguments an two expressions and a string.
+    The two expressions represent the possible types for the left and right hand side of the expression.
+    The string contains the name of the called method.
+    
+    %The \texttt{conditional} definition takes two constraints as arguments.
+    %When the first constraint, the pre condition, is true, the ...
+    The recursive definitions allow support for negation, conjunction, disjunction.
+    The \texttt{negation} is added to make it easy invert complex constraints, for example when you can say that the type of an expression can be anything but a string.
+    \texttt{conjunction} and \texttt{disjunction} are used for \texttt{and} and \texttt{or} relations.
+    
+    \begin{program}    
+    \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+\CAT{Keyword}{data} TypeOf
+    = typeSymbol(TypeSymbol ts)
+    | typeOf(\CAT{Keyword}{loc} ident)
+    ;
+        
+\CAT{Keyword}{data} Constraint 
+    = eq(TypeOf lhs, TypeOf rhs)
+    | subtyp(TypeOf lhs, TypeOf rhs)
+    | supertyp(TypeOf lhs, TypeOf rhs)
+    | isMethodOfClass(TypeOf expr, TypeOf classVariable, \CAT{Keyword}{str} name)
+    
+%    | conditional(Constraint preCondition, Constraint result)
+    | disjunction(\CAT{Keyword}{set}{}[Constraint] constraints)
+%    | exclusiveDisjunction(\CAT{Keyword}{set}{}[Constraint] constraints)
+    | conjunction(\CAT{Keyword}{set}{}[Constraint] constraints) 
+    | negation(Constraint constraint) 
+    ;\end{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+	
+	\caption{TypeOf and Constraint definitions}
+	\label{fig:typeof_and_constraint}
+	\end{program}
     
     \section{Constraint solving}\label{sec:research:constraint_solving}
     When we have all the constraints from the source code as facts, we will solve the constraints until we can no longer solve any constraints.
@@ -554,7 +596,7 @@
     \section{Annotations}\label{sec:annotations}
     %todo: moved this section below constraint solving: check copy
     After we gathers all the facts from the source code, we will add additional information which we read from the annotations.
-    For this we use regex to match \texttt{@return type} and \texttt{@param type var} for methods and functions.
+    For this we use a regular expression to match \texttt{@return type} and \texttt{@param type var} for methods and functions.
     We read \texttt{@var type} for variables and class attributes.
     In our first analysis we do not include the facts we gathered from the annotations. 
     In the second analysis we do include the facts.
