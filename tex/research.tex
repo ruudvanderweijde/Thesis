@@ -482,12 +482,21 @@
     %%
     %% Scope
     %%
-    %\subsection{Scope}
-    %\fact{function1}{Type of a certain variable within some scope}{{\footnotesize{this applies to global- class- function- and method- scope}}}
-    %\fact{return1}{Return type of function or method (1)}{having no return statements or \texttt{return;}}
-    %\fact{return2}{Return type of function or method (2)}{every exit path ends with a return statement}
-    %\fact{return3}{Return type of function or method (3)}{possible no return value}
-    
+    \subsection{Scope}
+    In order to define the type of a variable within a scope, we have conducted the following constraints.
+    \fact{function1}{Variables}{
+    	The type of a certain variable is defined by adding an equal constraint on the logical name and the location.
+    	The scope of these variables is contained in the logical name.
+    	The logical name contains the name of the scope, which is optionally a namespace and the name of a class, method or function, and the name of the variable.
+    	An example of a logical name for the variable \texttt{\$a} in the function \texttt{f} in the global namespace is \texttt{|php+functionVar:///f/a}.
+    }
+    \fact{return}{Return types}{
+		The type of a function or method is defined by the return statements it contains.
+		When there are no return statements declared in a function or method (i), we can extract the constraint that the function will always return \texttt{nullType}.
+		The type of a function is also \texttt{nullType} when there is a return statement without an expression (ii), like \texttt{return;}.
+		When there are multiple return statements, the return type of the function or method is the concatenation of the types of the expressions (iii). 
+	}
+	
     %%
     %% Function calls
     %%
@@ -506,7 +515,7 @@
     
     The \texttt{Constraint} definition consists of recursive and non-recursive definitions.
     \texttt{eq} states that the type of the left hand side should be equal to the type of the right hand side.
-    \texttt{subtyp} status that the type of the left hand site should be sub type of the right hand size.
+    \texttt{subtyp} states that the type of the left hand side should be a sub type of the right hand size.
     This sub type relation is self inclusive, which means that the type can also be the same.
     \texttt{supertyp} is the opposite of \texttt{subtyp}, and so the type of the left hand side should be a super type of the right hand size and cannot be the same type.
     \texttt{isMethodOfClass} takes as arguments an two expressions and a string.
@@ -544,7 +553,7 @@
 	\end{program}
     
     \section{Constraint solving}\label{sec:research:constraint_solving}
-    When we have all the constraints from the source code as facts, we will solve the constraints until we can no longer solve any constraints.
+    When all constraints are extracted from the source code, we will solve the constraints until we can no longer solve any constraints.
     The result will be a list of possible types for each class, method, fields, functions, variable and expression.
     \\
     The first step is to initialise all type-able objects.
@@ -601,8 +610,15 @@
     In our first analysis we do not include the facts we gathered from the annotations. 
     In the second analysis we do include the facts.
     This way we can compare the end results.
-    \\
-    In order to gain some knowledge about the reliability of the annotations, we compare the result our or initial analysis with the provided provided annotation information.
-    Here the implementation should comply to the used annotations.
+    
+    \lstinputlisting[language=PHP,label=lst:annotationUsage,caption=Motivating example of annotations]{src/php/annotationUsage.php}
+    
+    In listing \ref{lst:annotationUsage} we show a motivating example for the usage of annotations.
+    The types of the methods \texttt{getNumber} and \texttt{getMessage} can be guessed by a human, but for static analysis we actually need to know how these values are used to know what type they are.
+    Annotations can help analysis tools to discover the types of these methods.
+    In the case where the type is less likely to be guessed by humans, the annotation can help the developers to see the types.
+    %\\
+    %In order to gain some knowledge about the reliability of the annotations, we compare the result our or initial analysis with the provided provided annotation information.
+    %Here the implementation should comply to the used annotations.
         
 \end{document}

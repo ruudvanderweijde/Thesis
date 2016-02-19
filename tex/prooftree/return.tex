@@ -1,0 +1,25 @@
+\begin{center}
+\begin{bprooftree}
+    \AxiomC{E \texttt{instanceof} return $\not \subseteq f$}
+    \RightLabel{(i)}
+    \UnaryInfC{$\llbracket{}f\rrbracket{} = nullType()$}
+\end{bprooftree} 
+\begin{bprooftree}
+    \AxiomC{\texttt{instanceof} return E $\subseteq$ f}
+    \AxiomC{E \texttt{instanceof} noExpr}
+    \RightLabel{(ii)}
+    \BinaryInfC{$\llbracket{}f\rrbracket{} = nullType()$}
+\end{bprooftree} 
+\end{center}
+\vspace{1em}
+\begin{prooftree}
+    \AxiomC{
+    (return $E_1$) $\lor$
+    $\cdots$ $\lor$
+    (return $E_k$)
+    $\subseteq f$
+    }
+    \AxiomC{$E_{1...k}$ \texttt{instanceof} someExpr}
+    \RightLabel{(iii)}
+    \BinaryInfC{$\llbracket{}f\rrbracket{} <: \llbracket{}E_1\rrbracket{} \lor \cdots \lor \llbracket{}E_k\rrbracket{}$}
+\end{prooftree} 
