@@ -1,11 +1,11 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-    \chapter{Research Context}\label{ch:research_context}
+    \chapter{Research Context}\label{ch:inference_design_context}
 
 	This chapter describes our type system of PHP the research context.
     In section \ref{sec:types} we will explain more about the types we have defined.
     The relation between the types are described in \ref{sec:type_hierarchie}.
-    Section \ref{sec:research_context} explains in which context the research is executed.
+    Section \ref{ch:inference_design_context} explains in which context the research is executed.
     
 	\section{Types}\label{sec:types}
 	The basis types in PHP are integers, floats, booleans, strings, arrays, resources and null.
@@ -148,7 +148,7 @@
     You can see that this happens with \textbf{\texttt{class D}} in the example.
     The \textbf{\texttt{stdClass}} is represented as the type \textbf{\texttt{object()}} in our analysis.
 
-    \section{Research context}\label{sec:research_context}
+    \section{Research context}\label{sec:implementation_context}
     In order to let our research take place, we need to make sure that some environment variables are constant.
     
     \paragraph{Program correctness}
@@ -170,12 +170,9 @@
     Warnings do not alter the behaviour of the program.
     In a most production environment these warnings are suppressed and will not change the behaviour of the program.
     
-    \paragraph{Sensitivity}
-    Our analysis is flow-, control-, and context-insensitive.
-    \textit{Flow-insensitive} means that we do not look at messages between objects, and only look in the body of a method.
-    \textit{Control-insensitive} means that we ignore all control structures. 
-    Examples of control structures are \texttt{if}, \texttt{else}, and \texttt{switch}.
-    \textit{Context-insensitive} means that we do not look at the order of which code is executed.
-     
-    
+    \paragraph{Flow insensitive}
+    % todo check this
+    Our analysis is intra-procedural flow insensitive, which means that we don't take the order of statements into account within a function or method scope.
+    We do assume type consistency within a scope.
+        
 \end{document}

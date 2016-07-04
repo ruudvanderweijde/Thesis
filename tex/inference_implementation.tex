@@ -1,12 +1,12 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
-    \chapter{Research}\label{ch:research}
+    \chapter{Implementation of PHP type inference}\label{ch:inference_implementation}
 
-    The research is executed in 3 main steps.
+    The type inference is executed in 3 main steps.
     The first step creates an $M^3$ model for a PHP program which contains various facts about the program. 
     The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
-    Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model. How and which constraints are extracted is described in section \ref{sec:constraint_extraction}.
-    In the third step, in section \ref{sec:research:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
+    Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model.
+    In the third step, in section \ref{sec:implementation:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
     The final section \ref{sec:annotations} of this chapter explains how annotations can be included in the process to gain more precise results.
     
     \section{$M^3$ for PHP}\label{sec:m3_for_php}
@@ -94,6 +94,7 @@
     One class can implement no, one, or multiple interfaces.
     Because the information is a relation between the class and the interface, we can easily add multiple interfaces to one class in the model.
     
+    %todo Jurgen: vreemd dat dit concept niet voorkomt in je type systeem van H2.
     \paragraph{TraitUses} \texttt{TraitUses} lists which traits are used by which class or trait.
     A traits is a collection of reusable functions, defined in the namespace scope.
     One class can have multiple trait usages.
@@ -109,6 +110,7 @@
     Since PHP5 the language is provided with a magic method \texttt{\_\_construct()}, which results in two ways to have constructors, but only one constructor will be called.
     The PHP4 constructors will be removed in PHP7.
     
+    %todo Jurgen: is dit nieuw of had je dit al uitgelegd bij de inleiding PHP in een eerder hoofdstuk
     \paragraph{Aliases} \texttt{Aliases} has a relation between aliases and the actual implementation.
     For instance the function \texttt{class\_alias} defines a new name for the same class.
     This relation is also used to keep track of references. 
@@ -153,8 +155,8 @@
 	\end{algorithm}
    	\vspace{5 mm}
 	
-	\textbf{The input} of the algorithm is all the \texttt{PHP files of a program}, which are all files ending on \texttt{.php}.
-    \textbf{The output} is an $M^3$ with facts about the provided program.
+	\textbf{The input} of the algorithm is all \texttt{PHP files of a program}, which are all files ending on \texttt{.php} within a program.
+    \textbf{The output} is an $M^3$-model with facts about the provided program.
     The algorithm starts with initialising an empty $M^3$ collection in line \ref{alg:research_m3:init_collection} which with be filled with the result of each individual files.
     In the big loop on line \ref{alg:research_m3:loop_start} to \ref{alg:research_m3:loop_end} we iterate over all the PHP files of the program.
     The first thing that needs to be done is to create an Abstract Syntax Tree (\gls{AST}) of the program using an external PHP parser\footnotemark{} which returns an Rascal AST in \texttt{parseUsingPhpParserAndReturnRascalAST} on line \ref{alg:research_m3:get_ast}.
@@ -172,339 +174,7 @@
    	This is flow and context insensitive and only tries to resolve non-dynamic language constructs.
    	The last step of the iterator is to add the constructed $M^3$ to the $M^3$ collection.
    	Finally when an $M^3$ is constructed for all files, all facts of the individual $M^3$'s are merged into one $M^3$ model in line \ref{alg:research_m3:return}. 
-    	    
-    \section{Constraint extraction}\label{sec:constraint_extraction}
-    
-    In the previous section \ref{sec:m3_for_php} we've shown how an $M^3$ model for PHP is created.
-    In this section we present the constraint definitions and how they are extracted.
-    
-    \subsection{Constraint definitions}
-    The constraint definitions we use are based on the definition of Palsberg and Schwartzbach\cite{Pal:94}.
-    We have extended the definition to conform to the PHP language.
-    A legend with all symbols is displayed in table \ref{table:constraintLegend}, followed by the constraint definitions for PHP.
-
-% https://en.wikibooks.org/wiki/LaTeX/Linguistics
-
-    \begin{table}[H]
-    	\center
-        \begin{tabular}{ r c l | r c l } 
-        	\toprule
-        	symbol & & description & 
-        	symbol & & description \\ 
-        	\midrule
- 
-            $\equiv$ & = & equivalent expression &
-            $=$     & = & equivalent type \\
-            
-            $:=$    & = & assignment &
-            $C$     & = & a class \\
-            
-            $<:$    & = & (lhs) is subTypeOf (rhs) &
-            $\rightarrow c$     & = & a class constant \\
-            
-            $E_k$   & = & an expression &
-            $\rightarrow p$     & = & a class property \\
-            
-            $\llbracket{}E_k\rrbracket{}$ & = & type of some expression &
-            $\rightarrow m$     & = & a class method \\
-            
-            $f$     & = & a function &
-            $\llbracket{}m\rrbracket{}$   & = & (return) type of a method call \\
-            
-            $\llbracket{}f\rrbracket{}$   & = & (return) type of a function &
-            $(A_n)$ & = & the n'th actual argument \\
-            
-            $::c$   & = & static property fetch &
-            $(P_n)$ & = & the n'th formal parameter \\
-            
-            $::m$   & = & static method call &
-            $th$    & = & type hint \\
-            
-            $::p$   & = & static property fetch &
-            $v$     & = & default value \\
-            
-            Mfs     & = & modifiers &
-            $\in$ & = & is defined in \\
-                        
-            $\{ \}$     & = & set of types &
-            \texttt{instanceof} & = & instance of class in parse tree	
-            
-        \end{tabular}
-        \caption{Constraint definition legend}
-        \label{table:constraintLegend}
-   \end{table}
-   
-    We write the definitions in the following form:
-	   
-    \begin{prooftree}
-    	\AxiomC{premiss 1} 
-    	\AxiomC{premiss 2} 
-    	\BinaryInfC{constraint 1,} \noLine
-    	\UnaryInfC{constraint 2}
-	\end{prooftree}
-	
-	Above the horizontal line we write the premisses.
-	In our case premisses are PHP expressions which are true or false depending on the context.
-	If the premiss is true for a PHP statement or expression we can define the constraints below the horizontal line.
-
-    \subsection{Scalars}
-    Extracting constraints from the scalar types is straight forward.
-    The PHP parser defines the string, integer, and float types in the AST.
-    Booleans and null values can also be easily found in the AST.
-    \fact{scalar_string}{Strings}{
-    	Strings in PHP can be written with single or double quotes.
-    	In the AST these are represented by the string type.
-    }
-    \fact{scalar_integer}{Integers}{
-    	In the example below you can see integers with different bases.
-    	All of these are parsed into an integer type in the Rascal AST.
-    }
-    \fact{scalar_float}{Floats}{
-    	Floats can have different forms in PHP code, but are all parsed to float objects in the Rascal AST. 
-    }
-    \fact{scalar_boolean}{Boolean values}{
-    	Boolean values in PHP are case sensitive, as you can see in the examples.
-    	True and false are reserved keywords in PHP.
-    	In the premiss we've only provided the lower case values.
-    }
-    \fact{scalar_null}{Null values}{
-    	Null is a reserved keyword in PHP.
-    	When we encounter null in the source code we can add the nullType type constraint.
-    }
-
-    %%
-    %% Assignments
-    %%
-    \subsection{Assignments}
-	Assign statements transfer values from one expression or variable into another.
-	PHP uses the $=$ symbol as assignment systax.
-	In the premiss we use $:=$ for assigns.
-	
-    \fact{assignment1}{Assignment}{
-    	When an assignment is used, we can extract the following constraint: the right hand side ($E_2$) of the assignment is a subtype of the left hand side ($E_1$).
-    	This relation is a subtype relation, not an is equal relation, because polymorphism.
-    	The whole expression ($E$) is equal to the newly assigned value.
-    }
-    \fact{ternary}{Ternary operator}{
-    	The \textit{ternary} operator is a conditional assignment.
-    	If the expression $E_1$ is evaluated as \texttt{true}, the left hand side ($E_2$) is the value of the whole ternary expression (i).
-    	If $E_1$ is evaluated as \texttt{false}, the right hand side ($E_3$) is the value.
-    	The constraint we can extract from the ternary expression is that the type of the whole expression should be the type of $E_2$ or $E_3$.
-    	\\
-    	The ternary operator without a left hand side value (ii), also known as the elvis operator, returns the value of $E_1$ when $E_1$ is evaluated as \texttt{true}.
-    	Here the type of the expression should be either the type of $E_1$ or $E_3$.
-    }
-    \fact{assignment2}{Assignments resulting in integers}{
-		PHP provides several assignment statements combined with operators.
-		The type of the left hand side ($E_1$) is in the cases of \textit{bitwise and} (i), \textit{bitwise inclusive or} (ii), \textit{bitwise exclusive or} (iii), \textit{bitwise shift left} (iv), \textit{bitwise shift right} (v), and \textit{modulus} (vi) always of \textit{integer} type.
-    }
-    \fact{assignment3}{Assignment with string concat}{
-    	When the \textit{string concat} operator is used, in combination with the assignment operator (i), the type of the left hand side ($E_1$) is always a string.
-    	\\
-    	About the right hand side ($E_2$) we can say that \textbf{if} the type of $E_2$ is a subtype of object, then this object should have the method \texttt{$\_\_toString()$} (ii).
-    }
-    \fact{assignment4}{Assignments with division or subtraction operator}{
-    	\textit{Division} (i) and \textit{subtraction} (ii) assignment in PHP will always result in an integer type.
-    	This is the case for all values, except for array's.
-    	A fatal error will occur when the right hand side value is of type array.
-    }
-    \fact{assignment5}{Assignments resulting in numbers}{
-    	The result of an \textit{multiplication} (i) and \textit{addition} (ii) assignment is either a float or an integer.
-    	When the type of the right hand side ($E_2$) is either booleanType, integerType, or nullType, the result of the assignment ($E_1$) will be of integerType.
-    	If $E_2$ is of any other type, $E_1$ will be of type floatType.
-    	Float and integer are both subtypes of integers, so we can use the subtype relation for numberType for this.
-    }
-    
-    %%
-    %% Unary operators
-    %%    
-    \subsection{Unary operators}
-	Unary operators in PHP consist of positive and negative numbers, negation operators, and increase and decrease operators.
-
-    \fact{unary_numbers}{Positive and negative numbers}{
-    	When a \textit{plus} (i) or \textit{minus} (ii) sign is used in PHP in front of a variable, the type of the whole expression must be of numberType.
-    	The type of the variable cannot be of any arrayType.
-    }
-    \fact{unary_negation}{Negation operators}{
-    	The PHP language holds two types of negation operators.
-    	The type of the whole expression for \textit{normal negation} operator (i) is boolean.
-    	For the \textit{bitwise negation} operator (ii) the type of attached variable is either a number or a string.
-    	The type of the whole expression is an integer or string.
-    }
-    \fact{unary_post_increment}{Post increment operators}{
-    	From post increment and decrement operators we can only extract conditional constraints.
-    	\\
-    	If the type of $E_1$ is of any \texttt{array} type, the result of the expression is also of any \texttt{array} type (i).
-    	\\
-    	If the type of $E_1$ is of \texttt{boolean} type, the result of the expression is also of \texttt{boolean} type (ii).
-    	\\
-    	If the type of $E_1$ is of \texttt{float} type, the result of the expression is also of \texttt{float} type (iii).
-    	\\
-    	If the type of $E_1$ is of \texttt{integer} type, the result of the expression is also of \texttt{integer} type (iv).
-    	\\
-    	If the type of $E_1$ is of \texttt{null} type, the result of the expression is either of \texttt{integer} or \texttt{boolean} type (v).
-    	\\
-    	If the type of $E_1$ is of any \texttt{object} type, the result of the expression is also of any \texttt{object} type (vi).
-    	\\
-    	If the type of $E_1$ is of \texttt{resource} type, the result of the expression is also of any \texttt{resource} type (vii).
-    	\\
-    	If the type of $E_1$ is of \texttt{string} type, the result of the expression is either of \texttt{number} or \texttt{string} type (vii).
-    	\\
-    	The rules below are only written for the post increment, but also apply on the post decrement.
-    }
-    \fact{unary_pre_increment}{Pre increment operators}{
-    	From pre increment and decrement operators we can also only extract conditional constraints.
-    	The rules are similar to the rules for the post increment, except for the \texttt{nullType()}.
-    	If the type of $E_1$ is of \texttt{null} type, the result of the expression is either of \texttt{null} type (v).
-    }    
-    
-    %%
-    %% Binary operators
-    %%
-    \subsection{Binary operators}
-	Addition, subtraction, multiplication, division, modulus, bitwise, comparison, and logical operators are in PHP binary operators.
-	
-	\fact{binary_addition}{Addition operator}{
-		The result of an addition operator will always be a number or an array (i).
-		If the left and right hand side are both arrays, the return type will be array (ii).
-		In this case two arrays are merged.
-		In all other cases the result of this operation is a number (iii).
-	}
-	\fact{binary_sub_mul_div}{Subtraction multiplication division operators}{
-		The \textit{subtraction} (i), \textit{multiplication} (ii), and \textit{division} (iii) operators are merged together in this paragraph because they have identical behaviour.
-		The result of these operations is always of \texttt{number} type.
-		The operations cannot be used if one of the sides is of type \texttt{array}.
-		Therefore we can says that the left and right hand side cannot be of \texttt{array} type.
-	}
-	\fact{binary_mod_bitshift}{Modulus and bitwise shift operators}{
-		The merge of \textit{modulus} (i) and \textit{bitwise shift} (ii, iii) operators seems not so obvious at first, but they have the same behaviour.
-		The results of these operations is of integer type.
-	}
-	\fact{binary_bitwise}{Bitwise operators}{
-		The results of the bitwise operators \textit{and} (i, ii, iii), \textit{or}, and \textit{xor} is always of \texttt{integer} or \texttt{string} type.
-		When the left and right hand side are both strings, the result of the operation is also of type \texttt{string}.
-		In all other cases the result of this operation is a number.
-		%For the sake of readability we've omitted the constraints for the operators \textit{bitwise or} (inclusive or, $\vert{}$) and \textit{bitwise xor} (exclusive or, $\^{}$), because they have provide the same results as the \textit{bitwise and} operator.
-	}
-		
-    \fact{comparisonOperators}{Comparison operators}{
-    	The result of the comparison operators is always of boolean type.
-    	The comparison operators are \textit{equals} (i), \textit{identical} (ii), \textit{not equal} (iii), \textit{not equal} (iv), \textit{not identical} (v), \textit{less than} (vi), \textit{greater than} (vii), \textit{less than or equal to} (viii), and \textit{greater than or equal to} (ix) operators.
-    }
-    \fact{logicalOperators}{Logical operators}{
-    	Just like the comparison operators, the result of the logical operators is always of boolean type.
-    	The logical operators are \textit{and} (i), \textit{or} (ii), \textit{xor} (iii), \textit{and} (iv), and \textit{or} (v).
-    }
-    
-    %%
-    %% Array
-    %%
-    \subsection{Array}
-    From the PHP parser we get array declaration and array access nodes.
-    
-    \fact{array}{Array declaration}{
-    	From the array declarations (\texttt{array()} or \texttt{[]}) we can extract the constraint that they should be of any \texttt{array} type.
-    }
-    \fact{arrayAccess}{Array access}{
-    	From the usage of array access syntax you cannot tell what the type of the expression is.
-    	The same syntax is used to access strings.
-    	We can extract that the type of the base expression should not be of object type (i).
-    	If we know that the base type is of \texttt{string} type, we know that the result of the expression will also be a string (ii).
-    	When the base type is an array, the result type is the type of the elements in there array (iii).
-    	For all other cases, when the base type is not an string or array, the result of the expression will be of \texttt{null} type (iv).
-    }
-
-    %%
-    %% Casts
-    %%
-    \subsection{Casts}
-    \fact{casts}{Casts}{
-    	PHP contains syntax to arrays, booleans, integers, floats, objects, strings, and to unset variables.
-    	The result of a cast to array is of any \texttt{array} type (i).
-    	For casting to boolean there are two keywords, \textit{bool} (ii) and \textit{boolean} (iii), and the result will always be of \texttt{boolean} type.
-    	There are three keywords to cast to floats, \textit{float} (iv), \textit{double} (v), and \textit{real} (vi).
-    	Casts to integer integer type, you can use \textit{integer} (vii) or \textit{int} (viii) keywords.
-    	Any cast to \textit{object} (ix) will result in any \texttt{object} type.
-    	A cast to \textit{string} will always result in a \texttt{string} type.
-    	String casts (x) will always result in a \texttt{string} type. If we know that the expression ($E_1$) is an object, we know that this method needs to have an \texttt{$\_\_toString()$} method (xi).
-    	The last cast, \textit{unset}, results in a \texttt{null} type.
-    }
-        
-    %%    
-    %% Clone
-    %%
-    \subsection{Clone}
-    \fact{clone}{Clone}{
-    	From the PHP function \textit{clone} we can extract the constraint that the type of the given expression and the result must be of any \texttt{object} type.
-    	We also know that the type will not change, and so the type of the expression will be the same as 
-    }
-    
-    %%
-    %% Class
-    %%
-    \subsection{Class}
-    This section contains fact extraction rules from object syntax.
-    Class instantiation, special keywords, method calls, parameters, and class constants.
-    
-    \fact{classInstantiation}{Class instantiation}{
-    	Classes can be instantiated with the name of the class.
-    	The type of the whole expression is then of the specific \texttt{class} type (i).
-    	When a class is dynamically instantiated, we only know that it should be of some \texttt{object} type, and that the type of the expression should be any \texttt{object} or \texttt{string} type (ii).	
-    }
-    \fact{classKeywords}{Special keywords}{
-    	PHP contains a few class related reserved keywords with special behaviour.
-    	These keywords can be used inside a class scope ($\in C$).
-    	From the usage of the keyword \textit{self} we know that the type of the expression should be the same \texttt{class} type as which the keyword is defined in (i).
-    	The constraint we can extract from \textit{self} is that the type should be any \texttt{object} type and it should be either the contained class or one of the parent classes.
-    	The behaviour of \textit{\$this} (ii) and \textit{static} (iii) differs, but the constraints we can extract are equal to the \textit{self} keyword.
-    	The \textit{parent} (iv) keyword differs because it must be a super type of the class they keyword is defined in.
-    }
-    %\fact{property1}{Class property fetch}
-    %    {\\ \footnotesize{* Possible add fact that the field E is declared in class C, when it is on the left side of an assignment.}}
-    %\fact{property2}{Class property fetch variable}{}
-    \fact{classMethodCall}{Method calls}{
-    	From the usage of a method call (\textit{expression} -> \textit{expression}) we can extract the constraint that the type of the left hand side should be an object (i and ii).
-    	If the right hand side ($E_2$) is a name of a method, we can extract the constraint that the left hand side ($E_1$) must implement this method (ii).
-    	% Could do something with the reserved keywords here (different behaviour with parent::method
-    }
-    
-    %\fact{classConstants}{Class constants}{
-    %	Class constants
-    %}
-    
-    %\subsection{Parameters}
-    %\fact{parameter1}{Parameters in class instantiation}{
-    %    
-    %    \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
-    %    \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
-    %}
-    
-    %%
-    %% Scope
-    %%
-    \subsection{Scope}
-    In order to define the type of a variable within a scope, we have conducted the following constraints.
-    \fact{function1}{Variables}{
-    	The type of a certain variable is defined by adding an equal constraint on the logical name and the location.
-    	The scope of these variables is contained in the logical name.
-    	The logical name contains the name of the scope, which is optionally a namespace and the name of a class, method or function, and the name of the variable.
-    	An example of a logical name for the variable \texttt{\$a} in the function \texttt{f} in the global namespace is \texttt{|php+functionVar:///f/a}.
-    }
-    \fact{return}{Return types}{
-		The type of a function or method is defined by the return statements it contains.
-		When there are no return statements declared in a function or method (i), we can extract the constraint that the function will always return \texttt{nullType}.
-		The type of a function is also \texttt{nullType} when there is a return statement without an expression (ii), like \texttt{return;}.
-		When there are multiple return statements, the return type of the function or method is the concatenation of the types of the expressions (iii). 
-	}
-	
-    %%
-    %% Function calls
-    %%
-    %\subsection{Function calls}
-    %\fact{functionCall1}{Function call}{}
-    %\fact{functionCall2}{Function call variable}{}
-    
-    \subsection{Rascal implementation}
+       \subsection{Rascal implementation}
     The constraints are implemented in Rascal with the \texttt{TypeOf} and \texttt{Constraint} definitions, which are shown in Rascal \ref{fig:typeof_and_constraint}.
     
     The \texttt{TypeOf} definition represents a literal type or the type of an expression.
@@ -552,8 +222,97 @@
 	\label{fig:typeof_and_constraint}
 	\end{program}
     
-    \section{Constraint solving}\label{sec:research:constraint_solving}
-    When all constraints are extracted from the source code, we will solve the constraints until we can no longer solve any constraints.
+    \section{Constraint extraction}\label{sec:implementation:constraint_extraction}
+    In section \ref{sec:constraint_extraction} we've defined the constraint extraction rules.
+    These constraint rules are implemented in Rascal with the help of visiting\footnote{http://tutor.rascal-mpl.org/Rascal/Concepts/Visiting/Visiting.html} and pattern matching\footnote{http://tutor.rascal-mpl.org/Rascal/Concepts/PatternMatching/PatternMatching.html}.
+    Visiting is a concept implemented in the core of Rascal and is based on the visitor design pattern.
+    This makes it very easy to traverse trees like AST's, without coupling the design pattern to your code.
+    During the visiting of the AST we use pattern matching on function arguments to find to correct functions to handle the constraint extraction. 
+    
+    \subsection{Code snippet}
+    A snippet of the constraint extraction implementation\footnotemark{} is shown in Rascal \ref{fig:constraint_extraction}.
+	\footnotetext{The complete source code can be found in https://github.com/ruudvanderweijde/php-analysis}
+	In this snippet we show a small subset of the code used in the constraint extraction process.
+	
+	The code starts with a local declaration of \texttt{constraints}, an empty set.
+	This set of constraints will be filled in the rest of the functions on this Rascal module.
+	
+	You can get all the constraints of a program by calling the only public function \texttt{getConstraints} with a \texttt{System} and \texttt{M3} as parameters.
+	\texttt{System} represents a collection of all AST's of a program.
+	The provided \texttt{M3} is the $M^3$-model of the whole program, containing facts about the program.
+	In this function we loop over all \texttt{Scripts} of a system and call \texttt{addConstraints} for each script.
+	
+	Using argument pattern matching the function \texttt{addConstraints(Script script, M3 m3)} is triggered.
+	The first thing this function executes is \texttt{addConstraintsOnAllVarsForScript}, where we add the constraints that the types of a variable should be of one type within a scope.
+	Next we loop over all the statements of the body of a \texttt{script}.
+	
+	Because of pattern matching, the function \texttt{private void addConstraints(Stmt statement, M3 m3)} will be called for each statement.
+	In this function we execute a \textit{top-down-break visit}. \textit{Top-down} means that the visit will start at the root node and then moves down towards the leaves.
+	\textit{Break} means that the in dept visit will stop as soon as there is a pattern match.
+	We need to include \textit{break} in this visit because for some nodes we need context.
+	For example if a variable names \texttt{\$this} would match, we need to know in which class this item was declared.
+	In the code snippet we've only included \texttt{exprstmt}, a match with a PHP expression.
+	
+	The last function of the snippet, \texttt{private void addConstraints(Expr e, M3 m3)}, handles expressions like assign with operator, a string scalar, and PHP variables that has a name.
+	With this small code snippet we can show the constraint extraction with a tiny example.
+	
+	\paragraph{Tiny example}
+	With this part of the code, we could extract constraints for the file with the content: \texttt{<?php \$a += '1';}.
+	When we extract the constraints from this file we would come to the following constraints:
+	\begin{itemize}
+		\item the type of \texttt{\$a} is a subtype of \texttt{numberType()}
+		\item the type of \texttt{\$a} is a subtype of \texttt{any()}
+		\item the type of \texttt{'1'} is equal to \texttt{stringType()}
+	\end{itemize}
+	See section \ref{sec:constraint_extraction} to see the full list of constraints that we extract from the source.
+	The full implementation can be found on github.
+	
+    \begin{program}    
+    \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+\CAT{Keyword}{private} \CAT{Keyword}{set}{}[Constraint] constraints = \{{}\}{};
+    
+\CAT{Keyword}{public} \CAT{Keyword}{set}{}[Constraint] getConstraints(System system, M3 m3) \{{}
+  \CAT{Keyword}{for} (s \textless{}- system)
+    addConstraints(system{}[s], m3);
+  \CAT{Keyword}{return} constraints;
+\}{}
+	
+\CAT{Keyword}{private} \CAT{Keyword}{void} addConstraints(Script script, M3 m3) \{{}
+  addConstraintsOnAllVarsForScript(script, m3);
+  \CAT{Keyword}{for} (stmt \textless{}- script.body)
+    addConstraints(stmt, m3);
+\}{}
+
+\CAT{Keyword}{private} \CAT{Keyword}{void} addConstraints(Stmt statement, M3 m3) \{{}
+  \CAT{Keyword}{top-down-break} \CAT{Keyword}{visit} (statement)
+    \CAT{Keyword}{case} exprstmt(Expr expr): addConstraints(expr, m3);
+\}{}
+
+\CAT{Keyword}{private} \CAT{Keyword}{void} addConstraints(Expr e, M3 m3) \{{}
+  \CAT{Keyword}{top-down-break} \CAT{Keyword}{visit} (e) \{{}
+    \CAT{Keyword}{case} a:assignWOp(Expr assignTo, Expr assignExpr, Op operation): \{{}
+      addConstraints(assignTo, m3);
+      addConstraints(assignExpr, m3);
+            
+      \CAT{Keyword}{switch}(operation)
+        \CAT{Keyword}{case} plus(): constraints += \{{}subtyp(typeOf(assignTo@at), numberType())\}{};
+    \}{}
+    \CAT{Keyword}{case} v:var(name(name(name))):
+      constraints += \{{}subtyp(typeOf(v@at), \textbackslash{}any())\}{});
+
+    \CAT{Keyword}{case} s:scalar(Scalar scalarVal):
+      \CAT{Keyword}{switch}(scalarVal)
+        \CAT{Keyword}{case} string(\_{}): constraints += \{{}eq(typeOf(s@at), stringType())\}{};
+  \}{}
+\}{}    
+\end{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
+	
+	\caption{Constraint extraction snippet}
+	\label{fig:constraint_extraction}
+	\end{program}
+    
+    \section{Constraint solving}\label{sec:implementation:constraint_solving}
+        When all constraints are extracted from the source code, we will solve the constraints until we can no longer solve any constraints.
     The result will be a list of possible types for each class, method, fields, functions, variable and expression.
     \\
     The first step is to initialise all type-able objects.

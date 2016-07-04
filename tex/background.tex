@@ -211,11 +211,17 @@
     
     %todo add duck typing as sub part of Type Systems
     \section{Type systems}\label{sec:background_type-system}
-    %todo (Jurgen) to read the first two paragraphs, better first quickly introduce the concept of types. Also, immediately distinguish static from dynamic types for PHP. Your thesis is about static over-approximations of run-time types. A type is a set of values. A nominal type in code defines a set of run-time values and the operations you can define on them. something like that in your own words?
+    A \textbf{Type} is a set of possible values and a set of operations that can be performed on them.
+    PHP is a dynamically typed language, which means that the type of expressions cannot be resolved at compile time.
+    %todo this line totally makes no sense
+    The time ... because the language allows expressions to change to a different type during run-time.
+    This thesis describes a way to over-approximate the run-time types, using static analysis.
+   
     \textbf{Type systems} define how a set of rules are applied to types in their context.
-    The system validates the type usage with \textbf{type checking}.
-    The process of resolving types is called \textbf{type inference}.
-    On one hand the system needs to determine the type of variables, on the other hand it will check the type of the variables. %todo (Jurgen) this is too vague
+    The type system validates the type usage with \textbf{type checking}.
+    In order to perform type checking the types of the expressions needs to be known.
+    The process of resolving the types of the expression is called \textbf{type inference}.
+    Both type checking and type inference are explained in more details below.
     
     \paragraph{Type checking}
     Type checking is a mechanism which validates and/or enforces the constraints of a type in their specific context.
@@ -237,7 +243,7 @@
     In dynamic languages like PHP it can be difficult to resolve the type of a variable or expression without running the program.
     In statically typed languages, type inference happens at compile time.
     In the next paragraph we will briefly explain some type inference systems.
-    \\
+    
     The \textbf{Hindley-Milner}\cite{Hin:69} (HM) type system was found in 1969 by Roger J. Hinldey and almost 10 years later rediscovered\cite{Mil:78} by Robin Milner.
     The first implementation was created four years later by pHd student Luis Damas.
     Damas proved the soundness and completeness of the HM type system with \textbf{Algorithm W}\cite{Dam:82}  in the context of the programming language \texttt{ML}.
@@ -245,13 +251,14 @@
     Type declarations and hints are not necessarily to perform type inference.
     The type system is used for various functional languages. 
     \texttt{Haskell} for example uses the Hinley-Milner type system as a foundation for the \texttt{Haskell} type system. 
-    \\
+    
     \textbf{Control Flow Analysis}\cite{Nie:99} (CFA) is concerned with resolving sound approximate run-time values at compile time.
-    CFA is build on top of data flow analysis\cite{Aho:86} and tries to resolve the control-flow problem.
+    CFA is build on top of data flow analysis\cite{Aho:86} and tries to resolve the control-flow problem for high order programming languages.
+    The control-flow problem deals with resolving which caller can call which callee in a program.
     One of the earlier CFA algorithms was Shivers' $0$CFA algorithm\cite{Shi:88}, a flow-sensitive constraint based algorithm.
     Shiver then defined $k$-CFA\cite{Shi:91}, where the precision of the analysis is increased by taking the context of the expressions into account.
-    %todo (Jurgen) this stuff is interesting and deserves a little more space. explain why it is relevant for your thesis.
-	\\
+    The $k$-CFA algorithms compute an conservative over-approximations of run-time values during compile type.
+	
     The \textbf{Cartesian Product Algorithm}\cite{Age:95} (CPA) is a type inference algorithm created by Ole Agesen in 1995.
     Agesens work was based on Palsberg and Schwartzbach' \textbf{basic type inference algorithm}\cite{Pal:91}.
     This basic type inference algorithm derives a set of constraints based on \textit{trace graphs} and solves the constraints using a fix-point algorithm.
@@ -277,10 +284,6 @@
     This AST is transformed into an High-level Intermediate Representation (HIR) to remove all redundant constructs and then transformed into a Medium-level Intermediate Representation (MIR).
     Using dataflow analysis, alias analysis, static single assignment (SSA), and type analysis the compiler performs optimisations on the MIR.
     After the optimisations, the compiler generates C code, which then can be executed to run the program.
-    \\
-    %todo check where type inference is used in the process
-    During ... a xxx form of type inference is used to optimise the results.
-    
    
     \paragraph{}
     \texttt{PHANTM}\cite{Kne:10,Bar:10} (PHp ANalyzer for Type Mismatch) is an open source PHP analyser written in Scala.
@@ -306,9 +309,16 @@
     PHPLint\footnotemark extends the PHP syntax with type hints where PHP lacks support for it, using custom inline comment blocks to add extra typing information.
     \footnotetext{http://www.icosaedro.it/phplint, July 2015}
     These doc blocks with type information can be used in the analysis, allowing more strict type checking.
-    The used syntax for the type hints are \texttt{/*. .*/}, for example: \texttt{/*. string .*/ \$s = null;} which means that the variable \texttt{\$s} is of type \texttt{string}.
+    The used syntax for the type hints are \texttt{/*. .*/}, for example: \texttt{/*. string .*/ \$s = \$var;} which means that the variable \texttt{\$s} is of type \texttt{string}.
     PHPLint solves the lack of type hint support on scalar and array types.
     PHPLint can generate type hints based on information retrieved from simple type inference.
-    Despite the good intentions, it seems like PHP7 will support scalar type hints as provided by this tool.
+    Despite the good intentions, PHP7 will support scalar type hints as provided by this tool.
+    
+    \paragraph{}
+    John Aycock states in Aggressive Type Inference\cite{Ayc:00} that dynamically typed languages are also used as statically typed languages.
+    This means that you can use dynamic languages without using the magical parts.
+    This claim is supported by a small analysis on the usage of \texttt{eval}, \texttt{execfile}, and \texttt{import}.
+    Due to this statement he advocated for type consistency within a scope for variables, because the usage of the magic methods is limited.
+    His analysis is flow insensitive, which means that it ignored specific paths within a scope.
 
 \end{document}
