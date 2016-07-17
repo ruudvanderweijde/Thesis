@@ -1,48 +1,48 @@
 \begin{prooftree}
     \AxiomC{$(E \equiv (++E_1))$}
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} <: arrayType(\_))$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} <: \{ \; arrayType(\_) \; \})$}
     \RightLabel{(i)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} <: arrayType(\_)$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; arrayType(\_) \; \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(E \equiv (++E_1))$}
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} = booleanType())$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = \{ \; booleanType() \; \})$}
     \RightLabel{(ii)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} = booleanType()$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ \; booleanType() \; \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(E \equiv (++E_1))$}
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} = floatType())$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = \{ \; floatType() \; \})$}
     \RightLabel{(iii)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} = floatType()$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ \; floatType() \; \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(E \equiv (++E_1))$}
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} = integerType())$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = \{ \; integerType() \; \})$}
     \RightLabel{(iv)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} = integerType()$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ \; integerType() \; \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(E \equiv (++E_1))$}
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} = nullType())$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = \{ \; nullType() \; \})$}
     \RightLabel{(v)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} = nullType()$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ \; nullType() \; \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(E \equiv (++E_1))$}
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} <: objectType())$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} <: \{ \; objectType() \; \})$}
     \RightLabel{(vi)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} <: objectType()$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; objectType() \; \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(E \equiv (++E_1))$}
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} = resourceType())$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = \{ \; resourceType() \; \})$}
     \RightLabel{(vii)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} = resourceType()$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ \; resourceType() \; \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$(E \equiv (++E_1))$}
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} = stringType())$}
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} = \{ \; stringType() \; \})$}
     \RightLabel{(viii)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; numberType() \lor stringType() \; \}$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; numberType(), \; stringType() \; \}$}
 \end{prooftree}

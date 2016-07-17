@@ -1,28 +1,28 @@
 \begin{prooftree}
     \AxiomC{$E_1[E_2]$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{}$ \texttt{instanceof} arrayAccess}
+    \AxiomC{$E_1$ \texttt{instanceof} arrayAccess}
     \RightLabel{(i)}
-    \BinaryInfC{$\llbracket{}E_1\rrbracket{} \neq objectType()$}
+    \BinaryInfC{$\llbracket{}E_1\rrbracket{} \neq \{ \; objectType() \; \}$}
 \end{prooftree} 
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1[E_2])$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{}$ \texttt{instanceof} arrayAccess}
-    \AxiomC{$\llbracket{}E_1\rrbracket{}$ = stringType()}
+    \AxiomC{$E_1$ \texttt{instanceof} arrayAccess}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} = \{ \; stringType() \; \}$}
     \RightLabel{(ii)}
-    \TrinaryInfC{$\llbracket{}E\rrbracket{} = stringType()$}
+    \TrinaryInfC{$\llbracket{}E\rrbracket{} = \{ \; stringType() \; \}$}
 \end{prooftree} 
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1[E_2])$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{}$ \texttt{instanceof} arrayAccess}
-    \AxiomC{$\llbracket{}E_1\rrbracket{}$ = arrayType($E_2$)}
+    \AxiomC{$E_1$ \texttt{instanceof} arrayAccess}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} = \{ \; arrayType(E_2) \; \}$}
     \RightLabel{(iii)}
-    \TrinaryInfC{$\llbracket{}E\rrbracket{} = E_2$}
+    \TrinaryInfC{$\llbracket{}E\rrbracket{} = \llbracket{}E_2\rrbracket{}$}
 \end{prooftree} 
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1[E_2])$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{}$ \texttt{instanceof} arrayAccess}
-    \AxiomC{$\llbracket{}E_1\rrbracket{} \neq stringType()$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{} \; !<: arrayType(\_)$}
+    \AxiomC{$E_1$ \texttt{instanceof} arrayAccess}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} \neq \{ \; stringType() \; \}$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} \; !<: \{ \; arrayType(\_) \; \}$}
     \RightLabel{(iv)}
-    \QuaternaryInfC{$\llbracket{}E\rrbracket{} = nullType()$}
+    \QuaternaryInfC{$\llbracket{}E\rrbracket{} = \{ \; nullType() \; \}$}
 \end{prooftree} 

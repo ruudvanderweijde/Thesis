@@ -6,7 +6,7 @@
 \end{bprooftree}  
 \begin{bprooftree}
     \AxiomC{$(E_1$ .= $E_2)$} 
-    \AxiomC{$(E_1$ <: objectType()$)$} 
+    \AxiomC{$(\llbracket{}E_1\rrbracket{} <: \{ \; objectType() \; \})$} 
     \RightLabel{(ii)}
     \BinaryInfC{$\llbracket{}E_2\rrbracket{}$ \texttt{hasMethod} $"\_\_tostring"$}
 \end{bprooftree}  
