@@ -2,91 +2,98 @@
 \begin{document}
     \chapter{Introduction}\label{ch:introduction}
 
-    \section{PHP} % Definition/Problem statement: what is the (not)? the topic (Tell something about the current position of PHP. It's become a modern language with features in PHP 5.[3-5].)
-        % php has a stable position in the top 10 for 10 years.
+    \section{PHP}
         PHP\footnotemark is a server-side programming language created by Rasmus Lerdorf in 1995.
             \footnotetext{http://php.net}
         The original name `Personal Home Page' changed to `PHP: Hypertext Preprocessor' in 1998.
         PHP source files are executed using the PHP Interpreter. 
-        The language is dynamically typed, the types of variables are examined during run-time.
-        %In statically typed languages all variable types are known at compile time.
-        PHP supports duck-typing, which allows variables to change types during execution.
+        The language is dynamically typed and allows objects to be changed during run-time.
+        PHP uses duck-typing which means that there is no type checking on objects type, but only checks if the attempted operation is permitted on the object.
         
         \paragraph{Evolution}
         The programming language PHP evolved since its creation in 1995.
-        In the year 2000 Object-Oriented (OO) language structures were added to the langue with the release of PHP 4.0.
-        The 5th version of PHP was released in 2004 and provided an improved OO structure.
-        Namespace were added in PHP 5.3 in 2009, to be able to resolve class naming conflicts between library and create better readable class names.
-        Namespaces are comparable to packages in Java.
-        OPcache extension is added was added in PHP 5.5 and speeds up the performance of including files on run-time by storing precompiled script byte-code in shared memory.
+        The first milestone was in the year 2000 when Object-Oriented (OO) language structures were added to the language with the release of PHP 4.0.
+        The 5th version of PHP, released in 2004, provided an improved OO structure  including the first type declarations for function parameters.
+        Namespaces were added in PHP 5.3 in 2009, to resolve class naming conflicts between libraries and to create better readable class names.
+        The OPcache extension is added was added in PHP 5.5 and speeds up the performance of including files on run-time by storing precompiled script byte-code in shared memory.
         The latest 5.x version is 5.6 and includes more internal performance optimisations and introduces a new debugger.
         The most recent stable version is 7, which is not taken into this research.
+        In this lastest version they've achieved a mayor performance increase and memory decrease.
+        Also type hints for scalar types are added, method/function return types, and strict typing can be enforced for the available type hints.
        
         \paragraph{Popularity}
-        According to the Tiobe Index\footnotemark of December 2014, PHP is the 6th most popular language of all programming languages.
-            \footnotetext{http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html, December 2014}
+        According to the Tiobe Index\footnotemark of July 2016, PHP is the 6th most popular language of all programming languages.
+        \footnotetext{http://www.tiobe.com/tiobe\_index, July 2016}
         The language has been in the top 10 since it's introduction in the Tiobe Index in 2001.
-        More than 80 precent of the websites have a php backend\footnotemark.
-            \footnotetext{http://w3techs.com/technologies/details/pl-php/all/all, December 2014}
-        The majority of these websites use PHP version 5, rather than version 4 or older versions.
-        It is therefor wise to focus on PHP version from 5 and discard the older unused versions.
-            
-        \paragraph{Analysability}
-        Although the popularity for more than a decade, there is still a lack of good PHP code analysis tools.
-        These tools can help to reveal security vulnerabilities or find vulnerabilities or bugs in source code.
-        The tools can also provide code completions or do automatic transformations which can be used to execute refactoring patterns.
+        More than 80 precent of the websites have a running php backend\footnotemark.
+            \footnotetext{http://w3techs.com/technologies/details/pl-php/all/all, July 2016}
+        The majority of these websites use PHP version 5, rather than older or newer versions.
+        We therefor focus our type inference on PHP version 5.
+
+
+    \section{Position} 
+    	Although the popularity of PHP for about 15 years, there is still a lack of PHP code analysis tools with full language support.
+    	% todo: check, this is a claim without reference....
+        Due to various dynamic features in PHP not all types and execution paths can be resolved without actually executing the program.
+        Source code analysis tools need to know execution paths and types or expressions for optimal results in discovering security vulnerabilities or bugs.
+        Such tools could also provide code completions or do automatic transformations when executing refactoring patterns.
         Source code analysis is performed statically or dynamically or a combination of the two.
-                
-    \section{Position} % Position: what makes this paper unique, position to related work. (Explain about the current position of PHP.)
-        In this research we investigate how we can improve the analysability of PHP programs.
-        We will show that the use of annotated source code can help to improve the analysability.
-        The correctness of the annotations can also be examined by checking the implementation of the code. 
-        \\
-        %todo rewrite (introduction:position)
-        These annotations can help to improve the analysis.
-        The results can be used to find security issues, and if they are highly reliable we can even make compiler optimisations.
-       
-    \section{Contribution} % Contribution: what is the return of investment for the reader. (Resolving types can: helpt to build IDE tools, identify dependencies, beter security scans, gecombineerd worden met andere analyses (voor future work).)
-        % TODO Review (intoduction:contribution) when the result of the analysis are performed.
-        This research contains contributions to the static analysis research field.
-        It contribues by:
+        In static analysis the program is not executed.
+
+
+    \section{Contribution}        
+        This research contributions to the static analysis research field of dynamic programming languages by presenting a type inference analysis where we over-approximate runtime values at compile time.
+        Results of this analysis can be used to improve software analysis tools.
+        In order to resolve the types of expressions we've implemented a generic model, $M^3$, that holds various facts about programs with support for PHP programs.
+        
+        The main contributions of this thesis are:
         \begin{itemize}
-            \item creation of $M^3$ model for PHP programs
-            \item constraint based type inference
-            %TODO (jurgen) kun je type inference nog even linken aan de voorgaande voorbeelden van static analysis en tool support? anders valt het een beetje uit de lucht.	
-            %\item shows the result of the type inference
-            %\item value of annotations for analysis.
+            \item $M^3$ model for PHP programs
+            \item constraint based type inference for PHP programs
         \end{itemize}
 
-		The \textit{extension of the $M^3$ model}, a generic model which holds facts of a program, to support PHP programs can help researchers to compare PHP programs with programs written in other languages. 
-		Until now only Java was supported.
-		More information about $M^3$ can be found in section \ref{sec:m3_for_php}.
-		
-		This paper also presents a \textit{constrained based type inference} algorithm.
-		These type inference results can help IDE tools and programmers by providing helpful tools.
-		The algorithm can be found in section \ref{sec:implementation:constraint_solving}.
-		
-		%The \textit{results of the analysis} show ...
-        
-        
+		An \textit{$M^3$ model for PHP programs} contains various facts about the programs.
+		The $M^3$ model, see section \ref{sec:m3_for_php} for more information, was initially solely supporting Java programs.
+		The addition of support for PHP programs was beneficial not only for this thesis, but also for other researchers.
+		The model provides program context while extracting and resolving constraints in this research.
+		The model helped other researchers to compare the usage of PHP programs with programs written in other languages.
+
+		The biggest contribution of this thesis is the \textit{constrained based type inference for PHP programs}.
+		In this type inference process we use an abstract syntax tree to generate type constraints on language constructs.
+		We then solve these constraints to come to a set of types for each expression.
+		We variated the inference process by adding context information of type annotations and php built-in to the constraint extraction to find out that this helps to resolve more types.
+		The inferred types can help IDE tools and programmers by providing helpful tools, which could lead to better software development.        
+        % todo check: wow, what a claim
     
-    \section{Plan} % Plan: outline of the paper. (In section x stuff.) 
+    \section{Plan} 
         The rest of this thesis is as follows:
-        chapter \ref{ch:background} contains background and related work.
-        Background exists of important language constructs, information about annotations in PHP, introduction to $M^3$ and type systems. 
-        The last section of this chapter shows similar research and their relation to this research.
+        
+        \paragraph{}
+        Chapter \ref{ch:background} contains background and related work.
+        Background consists of important language constructs, information about annotations in PHP, introduction to Rascal and $M^3$ and type systems. 
+        We end this chapter with related researches and their relation to this research.
+        
+        \paragraph{}
         Chapter \ref{ch:inference_design_context}, research context, describes the research approach and context.
-        Chapter \ref{ch:inference_design} describes the performed actions of this research. 
-        The analysis is presented in chapter \ref{ch:analysis}, with the results in chapter \ref{ch:results}.
-        %todo: (intro:plan) chapter 7: case study is missing here
-        This thesis ends with the conclusions in chapter \ref{ch:conclusion}.
+        We explain under which assumptions this research is executed.
         
+        \paragraph{}
+        Chapter \ref{ch:inference_design} describes the design of the type inference for PHP.
+        We present the constraint rules on various language constructs.
+        Next to that we give information about type annotations and php built-in information. 
         
-    %\begin{sourcecode}
-    %dit is een test voor source code. Please remove me %todo remove me
-    %\caption{sourcecode:dit_is_code}
-    %\label{sadfasdfsadf}	
-    %\end{sourcecode}
-    
+        \paragraph{}
+        Chapter \ref{ch:inference_implementation} contains implementation details.
+        We show how we implemented the $M^3$ model for PHP.
+        Next we explain how we implemented the constraint extracting.
+        The constraint solving is explained by showing the used algorithm.
+        
+        \paragraph{}
+        Chapter \ref{ch:evaluation} shows type inference results on real world PHP programs.
+        We present the results of multiple programs and analyse the results.
+        
+        \paragraph{}
+        Chapter \ref{ch:conclusion} ends this thesis with the conclusion, future work section and lists various threats to validity.
+        
         
 \end{document}

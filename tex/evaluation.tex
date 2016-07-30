@@ -77,25 +77,33 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	\paragraph{Type inference}
 	In this research we are interested in resolving types for expressions.
 	As explained in section \ref{sec:implementation:constraint_solving}, the result of the constraint solving is a set of types for each expression.
-	We group these results in two groups, resolved and unresolved types.
-	Resolved type means that we can deduce the resultset to one type.
+	We group these resulting typesets in two groups, resolved and unresolved types.
+	Resolved type means that we can deduce the typeset to one type.
 	All other types are unresolved.
-	In unresolved we add empty typesets (type errors) and multiple types that cannot be reduced to one unique type for an expression.
+	In unresolved we include typesets that are not resolved and have only type \texttt{any()}, empty typesets (type errors), and multiple types that cannot be reduced to one unique type for an expression.
 	
-	\paragraph{Annotations}
-	We will first run the type inference without reading annotations from PHPDocs.
-	As described in section \ref{sec:annotations}
+	\paragraph{PHPDocs}
+	We first run the type inference without reading annotations from PHPDocs.
+	As described in section \ref{sec:annotations}, we can use type annotations to read types of variables, functions, methods, and class attributes.
+	When comparing the results, we want to see if it is possible to resolve more types when we use the type annotations from the PHPDocs.
 	
 	\paragraph{Built-ins}
-	After running the analysis with PHPDocs
-	
-	\paragraph{Compare results}
-	
-		
+	After we run the analysis with and without PHPDocs, we run the analysis also with.
+	Modern editors stub files written in PHP which represent the internal behaviour of constants, variables, functions, classes, methods and class attribues.
+	Using the type information of the built-in language constructs we want to see if we are able to resolve more types.
+			
 	% Resultaten: met tabellen en zo
 	\section{Results}\label{sec:evaluation_results}
 	
-	Introduce the result section, explain what we see here.
+	As explained in the previous sections, we run the analysis with and without reading annotations from PHPDocs.
+	
+	\paragraph{PHPDocs}
+	The results are shown in table \ref{table:results:rascal_results_phpdoc}.
+	In this table we see the name of the project, the total of expressions that we've performed the type inference on.
+	Next to the total we show the resolved types, which is composed of two columns.
+	The first column displays the percentage of resolved types without using type annotations from PHPDocs.
+	The second column displays the percentage of resolved type with using the annotations from PHPDocs.
+	The same two columns are given for the unresolved types.
 
 %% The tables below is generated using: `lang::php::experiments::mscse2014::RascalResultAnalysis`
 \npaddmissingzero
@@ -103,49 +111,62 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 \begin{table}[H]
 	\centering
 	\scriptsize
-	\begin{tabular}{@{}lr|rrl|rrl@{}} 
+	\begin{tabular}{@{}lr|rr|rr@{}} 
 		\toprule
 			& &
-			\multicolumn{3}{c}{Unresolved types} &
-			\multicolumn{3}{c}{Resolved types} \\
+			\multicolumn{2}{c}{Resolved types} &
+			\multicolumn{2}{c}{Unresolved types} \\
 			
 			Project & Total &
-			\multicolumn{1}{c}{w/o} &
-			\multicolumn{1}{c}{w/} &
-			\multicolumn{1}{c}{$\Delta$} |&
-			\multicolumn{1}{c}{w/o} &
-			\multicolumn{1}{c}{w/} &
-			\multicolumn{1}{c}{$\Delta$} \\
+			\multicolumn{1}{c}{w/o PHPDoc} &
+			\multicolumn{1}{c}{w/ PHPDoc} |&
+			%\multicolumn{1}{c}{$\Delta$} |&
+			\multicolumn{1}{c}{w/o PHPDoc} &
+			\multicolumn{1}{c}{w/ PHPDoc} 
+			%&
+			%\multicolumn{1}{c}{$\Delta$} 
+			\\
 		\midrule
 			lexer &
 			\numprint{460} & % total
-			33.7\% & 21.7\% & (-71.2\%) & % no single result
-			66.3\% & 78.3\% & (30.7\%) \\ % unique
+			66.3\% & 78.3\% & % unique
+			33.7\% & 21.7\% \\ % no single result
 			php-timer &
 			\numprint{43} & % total
-			95.7\% & 58.2\% & (-78.4\%) & % no single result
-			4.3\% & 41.9\% & (179.5\%) \\ % unique
+			4.3\% & 41.9\% & % unique
+			95.7\% & 58.2\% \\ % no single result
 			php-text-template &
 			\numprint{52} & % total
-			87.6\% & 63.4\% & (-55.3\%) & % no single result
-			12.5\% & 36.5\% & (131.5\%) \\ % unique
+			12.5\% & 36.5\% & % unique
+			87.6\% & 63.4\% \\ % no single result
 			inflector &
 			\numprint{195} & % total
-			25.7\% & 21.0\% & (-36.6\%) & % no single result
-			74.3\% & 79.0\% & (11.9\%) \\ % unique
+			74.3\% & 79.0\% & % unique
+			25.7\% & 21.0\% \\ % no single result
 			log &
 			\numprint{103} & % total
-			86.2\% & 59.3\% & (-62.4\%) & % no single result
-			13.8\% & 40.8\% & (132.4\%) \\ % unique
+			13.8\% & 40.8\% & % unique
+			86.2\% & 59.3\% \\ % no single result
 			php-file-iterator &
 			\numprint{92} & % total
-			86.3\% & 69.6\% & (-38.7\%) & % no single result
-			13.6\% & 30.4\% & (110.5\%) \\ % unique
+			13.6\% & 30.4\% & % unique
+			86.3\% & 69.6\% \\ % no single result
 		\bottomrule
 	\end{tabular}
 	\normalsize
-\caption{Results of type usage, with and without reading annotation from docblocks\label{table:results:rascal_results_docblocks}}
+\caption{Type inference results, with and without PHPDocs\label{table:results:rascal_results_phpdoc}}
 \end{table}
+
+	For all analysed projects we see an increase of the number of inferred unique types when adding the type annotations from PHPDocs.
+	
+	\paragraph{Built-ins}
+	Next we compare the results of type inference where we take the type information of PHP built-ins into account.
+	The results are shown in table \ref{table:results:rascal_results_php_internals}.
+	In this table we present the analysed projects and the total amount of expressions to infer.
+	The next two columns show the percentage of the inferred types.
+	The results in the first column used PHPDoc annotations and did not use the type information of the PHP built-ins.
+	The results in the second column did use the PHP built-ins.
+
 \npfourdigitnosep
 \npnoaddmissingzero
 \npaddmissingzero
@@ -153,57 +174,61 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 \begin{table}[H]
 	\centering
 	\scriptsize
-	\begin{tabular}{@{}lr|rrl|rrl@{}} 
+	\begin{tabular}{@{}lr|rr|rr@{}} 
 		\toprule
 			& &
-			\multicolumn{3}{c}{Unresolved types} &
-			\multicolumn{3}{c}{Resolved types} \\
+			\multicolumn{2}{c}{Resolved types} &
+			\multicolumn{2}{c}{Unresolved types} \\
 			
 			Project & Total &
-			\multicolumn{1}{c}{w/o} &
-			\multicolumn{1}{c}{w/} &
-			\multicolumn{1}{c}{$\Delta$} |&
-			\multicolumn{1}{c}{w/o} &
-			\multicolumn{1}{c}{w/} &
-			\multicolumn{1}{c}{$\Delta$} \\
+			\multicolumn{1}{c}{w/o Built-ins} &
+			\multicolumn{1}{c}{w/ Built-ins} |&
+			%\multicolumn{1}{c}{$\Delta$} |&
+			\multicolumn{1}{c}{w/o Built-ins} &
+			\multicolumn{1}{c}{w/ Built-ins} \\
+			%\multicolumn{1}{c}{$\Delta$} \\
 		\midrule
 			lexer &
 			\numprint{460} & % total
-			21.7\% & 28.2\% & (46.1\%) & % no single result
-			78.3\% & 71.9\% & (-16.3\%) \\ % unique
+			78.3\% & 71.9\% & % unique
+			21.7\% & 28.2\% \\ % no single result
 			php-timer &
-			\numprint{81} & % total
-			58.2\% & 23.5\% & (-119.2\%) & % no single result
-			41.9\% & 76.5\% & (90.5\%) \\ % unique
+			\numprint{43} & % total
+			41.9\% & 76.5\% & % unique
+			58.2\% & 23.5\% \\ % no single result
 			php-text-template &
-			\numprint{90} & % total
-			63.4\% & 30.0\% & (-105.4\%) & % no single result
-			36.5\% & 70.0\% & (95.7\%) \\ % unique
+			\numprint{52} & % total
+			36.5\% & 70.0\% & % unique
+			63.4\% & 30.0\% \\ % no single result
 			inflector &
 			\numprint{195} & % total
-			21.0\% & 23.5\% & (21.3\%) & % no single result
-			79.0\% & 76.5\% & (-6.3\%) \\ % unique
+			79.0\% & 76.5\% & % unique
+			21.0\% & 23.5\% \\ % no single result
 			log &
-			\numprint{141} & % total
-			59.3\% & 39.0\% & (-68.5\%) & % no single result
-			40.8\% & 61.0\% & (66.2\%) \\ % unique
+			\numprint{103} & % total
+			40.8\% & 61.0\% & % unique
+			59.3\% & 39.0\% \\ % no single result
 			php-file-iterator &
-			\numprint{130} & % total
-			69.6\% & 45.4\% & (-69.5\%) & % no single result
-			30.4\% & 54.6\% & (88.6\%) \\ % unique
+			\numprint{92} & % total
+			30.4\% & 54.6\% & % unique
+			69.6\% & 45.4\% \\ % no single result
 		\bottomrule
 	\end{tabular}
 	\normalsize
-\caption{Results of type usage, with and without analysing php built-ins\label{table:results:rascal_results_php_internals}}
+\caption{Results of type usage, with and without PHP built-ins\label{table:results:rascal_results_php_internals}}
 \end{table}
 \npfourdigitnosep
 \npnoaddmissingzero
 
-
-
+	We see an overal increase of resolved types when using the information of PHP built-in.
+	We do however also see a small decrease in the number of inferred types for two projects.
+	
 	% Analyse: hoe verklaar je wat we zien in de tabellen en klopt het met de theorie?
 	\section{Analysis}\label{sec:evaluation_analysis}
-	Analyse: hoe verklaar je wat we zien in de tabellen en klopt het met de theorie?
+	In the previous section we've seen an overal increase of resolved types when adding more information to the type inference.
+	When adding type annotations from PHPDocs we've seen a big increase of resolved types.
+	
+	
 	
 
 	

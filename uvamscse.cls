@@ -89,7 +89,8 @@
   \begin{tabular}{r|l}
     \multirow{3}{*}{\includegraphics[height=48pt,width=48pt]{img/werkspot.pdf}}
     &\textsc{\Large Werkspot} \\
-	&\textsc{Klus $\bullet$ Klik $\bullet$ Klaar} \\
+	&\textsc{} \\
+%	&\textsc{Klus $\bullet$ Klik $\bullet$ Klaar} \\
 	&\textsc{Heerengracht 496, Amsterdam} \\
 %	&\href{mailto:ruud.van.der.weijde@werkspot.nl}{ruud.van.der.weijde@werkspot.nl} \\
     &\url{http://www.werkspot.nl} \\

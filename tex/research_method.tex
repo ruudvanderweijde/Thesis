@@ -5,14 +5,14 @@
 	This chapter describes our type system of PHP the research context.
     In section \ref{sec:types} we will explain more about the types we have defined.
     The relation between the types are described in \ref{sec:type_hierarchie}.
-    Section \ref{ch:inference_design_context} explains in which context the research is executed.
+    Section \ref{sec:implementation_context} explains in which context the research is executed.
     
 	\section{Types}\label{sec:types}
 	The basis types in PHP are integers, floats, booleans, strings, arrays, resources and null.
 	PHP has a similar class inheritance structure and interface implementation as Java.
     The main difference is that in PHP all class are \texttt{public} and that inner classes are not allowed in PHP. 
     \\
-	Because PHP has no explicit type system, we have defined our own type system for PHP.
+	Because PHP has no explicit type system, we define our own type system for PHP.
 	In the Rascal code below you can see our defined types, with a brief description below.
 	\begin{program}
     \begin{rascal}
@@ -40,7 +40,7 @@
 	\end{program} 
     
     \paragraph{any} 
-    As you can see in the comments in the code above, \ref{fig:rascal_typesymbols}, \texttt{any()} represents the combination of all possible types. 
+    As you can see in the comments in the code above, Rascal \ref{fig:rascal_typesymbols}, \texttt{any()} represents the combination of all possible types. 
     This type will be used for mixed and unknown types, for example when variables are used, but are never defined.
     
     \paragraph{arrayType}
@@ -66,7 +66,7 @@
     The \texttt{integerType} values can be positive or negative.
     
     \paragraph{interfaceType}
-    The \texttt{interfaceType()} represents a specific interface, or the parent interface.
+    The \texttt{interfaceType()} represents a specific interface.
     Interfaces can be provided as type hints.
     
     \paragraph{numberType}
@@ -88,11 +88,12 @@
     The type \texttt{scalarType()} is the generic type for \texttt{resourceType}, \texttt{booleanType}, \texttt{numberType}, and \texttt{stringType}.
     
     \paragraph{stringType}
-    The type \texttt{stringType} represents strings, a sequence of characters.
+    The type \texttt{stringType()} represents strings, a sequence of characters.
     
     
     \section{Type hierarchie}\label{sec:type_hierarchie}
     
+    As already described in some of the previous descriptions, types can relate to other types.
     The relation between the types is shown in figure \ref{fig:type_hierarchie}.
     In this diagram the \texttt{-Type} postfix is omitted to save space.
     We speak of \textbf{subtypes} when the types are descendant of the given type.

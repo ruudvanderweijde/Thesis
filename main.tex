@@ -7,7 +7,8 @@
 
 %\title{Value of annotations in PHP}
 \title{Type inference for PHP}
-\subtitle{The value of annotations in a dynamic language}
+%\subtitle{The value of annotations in a dynamic language}
+\subtitle{A constraint based type inference written in Rascal}
 
 \author{Ruud van der Weijde}
 
@@ -17,14 +18,13 @@
 
 
 \abstract{
-%TODO: abstract is not representing the document
+%TODO: finalise abstract
 Dynamic language are generally hard to statically analyse because of run-time dependencies. 
-Without running the program there are many things unknown.
+Without running the program there are many things undecided.
 Because dynamic languages like PHP are widely used, the need for decent analysis tool grows.
-This research examines the value of adding annotations to PHP code to improve the analysability.
-In the results we see that annotations improve the analysability of software code (this is a guess).
-Here I should state something about the correctness of the annotations.
-And end with a general conclusion.
+In this thesis we present a constraint based type inference written in Rascal.
+Rascal is a programming language for meta-programming in the domain of software analysis and transformations.
+We show that the number of inferred types increases when type hint annotations and built-in functions are taken into account.
 }
 
 
@@ -35,7 +35,7 @@ And end with a general conclusion.
     \makeglossaries
 	\subfile{tex/glossaryDef.tex}
     
-   	%\subfile{tex/preface.tex}
+   	\subfile{tex/preface.tex}
    	\subfile{tex/introduction.tex}
 	\subfile{tex/background.tex}
    	\subfile{tex/research_method.tex}

@@ -4,6 +4,7 @@
 
     % todo check introduction
     Todo check/add introduction
+    refer to annotations: \ref{sec:design_annotations}
     %The research is executed in 3 main steps.
     %The first step creates an $M^3$ model for a PHP program which contains various facts about the program. 
     %The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
@@ -345,4 +346,89 @@
     %\subsection{Function calls}
     %\fact{functionCall1}{Function call}{}
     %\fact{functionCall2}{Function call variable}{}
+    
+    
+        \section{Annotations}\label{sec:design_annotations}
+    Annotations are pieces of meta data, defined on class, method, function, or statement level.
+    Despite the proposal\footnotemark for official support of annotations, PHP has still no native support for them.
+    \footnotetext{https://wiki.php.net/rfc/annotations-in-docblock}
+    But PHP has a \texttt{getDocComment}\footnotemark method in the \texttt{ReflectionClass} since version 5.1 in 2005. 
+    \footnotetext{http://php.net/manual/en/reflectionclass.getdoccomment.php}
+    The \texttt{getDocComment} method returns the complete doc block of a certain element as a string.
+    A doc block in php has the format \texttt{\slash**...*\slash}.
+    Listing \ref{lst:docblock} shows an example of two doc blocks in PHP.
+    The first doc block is defined above the class and contains information about the class.
+    The second doc block is related to the method \texttt{getSomething}. 
+    The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information which possible exceptions can be thrown by the method. 
+    
+    \lstinputlisting[language=PHP,label=lst:docblock,caption=Examples of PHP DocBlocks]{src/php/docBlock.php}
+
+    Annotations are mainly used for type hinting, documentation, and code execution.
+    Software analysis tools and IDE's can use the type hints to aid understanding code and in finding bugs and security issues.
+    Available tools can generate documentation based on the doc blocks.
+    Programs like Symfony2, ZEND Framework, and Doctrine ORM use annotations for controller routing, templating information, ORM mappings, filters, and validation configuration.
+    \\
+    This research focuses on the first type of annotations which can help developers and IDE's to better understand how code behaves within a program.
+    For example a programmer can see what kind of input and output is expected for a method.
+    Doc blocks with annotations can be placed on top of classes, methods, functions, and variables.
+    \\
+    A standard on using annotations is not in the PHP Standard Recommendations (\gls{PSR}) yet, but there is a proposal\footnotemark.
+    \footnotetext{https://github.com/php-fig/fig-standards/pull/169/files, July 2014}
+    For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
+    The annotations \texttt{@return} and \texttt{@param} are only useful for functions, class methods, and closures.
+    Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
+    \\
+    There is no official standard for the use of annotations, but most projects follow the phpDocumentor\footnotemark{} syntax.
+    \footnotetext{http://www.phpdoc.org/}
+    For this research the following annotations are considered:
+    
+\begin{equation}
+  \begin{aligned}
+  \texttt{@return}=\begin{cases}
+    \texttt{@return} \; type, & \text{unconditionally read \texttt{@return} $type$}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{8cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  \texttt{@param}=\begin{cases}
+    \texttt{@param} \; type \; \$var, & \text{if `\texttt{@param} $type$ \$var' occurs at least once}.\\
+    \texttt{@param} \; \$var \; type, & \text{else if `\texttt{@param} \$var $type$' occurs at least once}.\\
+    \texttt{@param} \; type, & \text{otherwise try to match `\texttt{@param} $type$'}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{3.55cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  \texttt{@var}=\begin{cases}
+    \texttt{@var} \; type \; \$var, & \text{if `\texttt{@var} $type$ \$var' occurs at least once}.\\
+    \texttt{@var} \; \$var \; type, & \text{else if `\texttt{@var} \$var $type$' occurs at least once}.\\
+    \texttt{@var} \; type, & \text{otherwise try to match `\texttt{@var} $type$'}.\\
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{3.2cm}} %%<---adjust the value as you want
+\end{equation}
+
+\begin{equation}
+  \begin{aligned}
+  type=\begin{cases}
+    type|type, & \text{if `$\vert$' in $type$}.\\
+    type, & \text{otherwise}
+  \end{cases}
+  \end{aligned}
+  \phantom{\hspace{8.8cm}} %%<---adjust the value as you want
+\end{equation}
+	%todo: (background:annotations) explain the used equations above.
+	
+	
+	%todo: add something about php built-in feature information
+	\section{PHP built-ins}\label{sec:design_php_built_ins}
+	Information about PHP built-ins
+	 
+	todo add more information...
+    
 \end{document}

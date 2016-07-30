@@ -5,6 +5,7 @@
     Summary of the whole work, with conclusions. T.B.A.
     
     \section{Conclusion}
+    % we've seen that adding annotations and information about php built-ins helps to resolve types 
     
     \section{Future work}
     These items will not be covered by the analysis (maybe add this to threats/future work)
@@ -31,6 +32,10 @@
     Because we perform an over approximation of run time values at compile time, the results of this research are not 100\% accurate.
 	Although we strive to be as accurate as possible, we cannot guarantee the correctness of the results.
 		
+	\paragraph{Missing constraints}
+	By adding a constraint we limit the number of possible types for that expression.
+	When we forget to add a constraint, or not able to provide a constraint due to magic features usage, there is a risk that we.
+	
 	\paragraph{Law of small numbers}
 	Because our sample size is small, we cannot generalise these results.
 	In order to gain general conclusions we should increase our sample size.

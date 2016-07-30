@@ -360,9 +360,17 @@
     \\
     Function \texttt{propagateSolutions} on line \ref{alg:research_cs:prop_s} propagates resolved estimates. 
     Here we take the intersection of the known solutions with the given constraints.
-
-    \section{Annotations}\label{sec:annotations}
-    %todo: moved this section below constraint solving: check copy
+        
+        
+    %%
+    %% Context
+    %%
+    \section{Additional constraints}\label{sec:design_additional_contraints}
+    %todo introduce this properly
+    In order to see if we are able to resolve more types we will add type information from annotations and information on php built-in features.
+    
+    \paragraph{Annotations}  
+    %todo: check copy of this chapter
     After we gathers all the facts from the source code, we will add additional information which we read from the annotations.
     For this we use a regular expression to match \texttt{@return type} and \texttt{@param type var} for methods and functions.
     We read \texttt{@var type} for variables and class attributes.
@@ -376,8 +384,8 @@
     The types of the methods \texttt{getNumber} and \texttt{getMessage} can be guessed by a human, but for static analysis we actually need to know how these values are used to know what type they are.
     Annotations can help analysis tools to discover the types of these methods.
     In the case where the type is less likely to be guessed by humans, the annotation can help the developers to see the types.
-    %\\
-    %In order to gain some knowledge about the reliability of the annotations, we compare the result our or initial analysis with the provided provided annotation information.
-    %Here the implementation should comply to the used annotations.
-        
+    
+    \paragraph{Built-in features}
+    In order to see if we can resolve more types ...
+    %todo fix me
 \end{document}

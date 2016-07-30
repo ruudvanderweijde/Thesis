@@ -3,6 +3,43 @@
     \chapter*{Preface}\label{ch:preface}
     \addcontentsline{toc}{chapter}{Preface}
     
-    In this section I will thank everyone who has helped me. Maybe also introduce some anecdote on how this research came to be.
-            
+    This thesis could not have been completed without the help and support of various people. 
+    In this section I want to thank people who helped me during the process by mentioning their name and describe how they helped me. 
+    I start with a short story on how this research came to be.
+    
+    \paragraph{}
+    The initial idea for this thesis was to dive into the topic of software analysis in order to find vulnerability in PHP programs.
+    When diving further in this topic my interest in statical analysis grew, and I wanted to reconstruct data flows in a program to be able to perform taint analysis.
+    In order to perform a dataflow analysis for object oriented programs written in PHP, the types of variables need to be known.
+    This topic of resolving the run-time type at compile time was big enough to have a thesis on its own.
+    
+    % Jurgen Vinju
+    \paragraph{}
+    First of all I would like to thank Jurgen Vinju whoem helped me throughout the whole thesis process.
+    I want to thank Jurgen for his endless enthusiasm, number of ideas and suggestions and personal help on coaching and mentoring me.
+    Jurgen helped defining a research topic and gave me many directions where to go or look for whenever I got stuck on a tough subject.
+    
+    % Mark Hills: previous work on php analysis
+    \paragraph{}
+    Next I would like to thank Mark Hills.
+    The implementation of this research is build on top of the PHP Analysis in Rascal (PHP AiR) framework, created by Mark.
+    We used the framework to parse PHP files to Rascal ASTs and implement an $M^3$ model for PHP programs.
+    
+    % Bas Basten: samen gewerkt aan M3
+    \paragraph{}
+    I want to thank Bas Basten for the collaboration on improving and extending the $M^3$ model.
+    After I made an initial version of the $M^3$ model for PHP, Bas help to improved the model by adding more facts to the model.
+    With his expertise in Rascal and and my knowledge of PHP we've formed a very good team.
+    
+    % Winfred Peereboom: Mogelijkheid geboden om af te studeren
+    \paragraph{}
+    I would like to thank Winfred Peereboom for giving me the opportunity to write my thesis at Werkspot.
+    During the period Winfred helped me on various aspects of coaching and mentoring me.
+	
+	% Girlfriend for endless support and patience.
+    % All others that I forgot to mention      
+    \paragraph{}
+    Finally I would like to thank my girlfriend for her endless support and patience.
+    And of course I want to thank everyone I forgot to mention here personally, but did help me direct or indirect, consciousness or subconsciousness.
+
 \end{document}
