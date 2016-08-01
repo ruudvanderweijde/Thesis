@@ -1,24 +1,24 @@
 \begin{prooftree}
-    \AxiomC{$(E \equiv \operatorname{self}) \in C$}
+    \AxiomC{$(E \equiv $ \texttt{self}$) \in C$}
     \RightLabel{(i)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: objectType(),} \noLine
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: $\{$ objectType() $\}$,} \noLine
     \UnaryInfC{$\llbracket{}E\rrbracket{}$ = classType(C) $\lor$ $\llbracket{}E\rrbracket{}$ :> classType(C)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{$(E \equiv static) \in C$}
+    \AxiomC{$(E \equiv $ \texttt{static}$) \in C$}
     \RightLabel{(ii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: objectType(),} \noLine
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: $\{$ objectType() $\}$,} \noLine
     \UnaryInfC{$\llbracket{}E\rrbracket{}$ = classType(C) $\lor$ $\llbracket{}E\rrbracket{}$ :> classType(C)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{$(E \equiv \$ this) \in C$}
+    \AxiomC{$(E \equiv $ \texttt{\$this}$) \in C$}
     \RightLabel{(iii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: objectType(),} \noLine
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: $\{$ objectType() $\}$,} \noLine
     \UnaryInfC{$\llbracket{}E\rrbracket{}$ = classType(C) $\lor$ $\llbracket{}E\rrbracket{}$ :> classType(C)}
 \end{prooftree}
 \begin{prooftree}
-    \AxiomC{$(E \equiv parent) \in C$}
+    \AxiomC{$(E \equiv $ \texttt{parent}$) \in C$}
     \RightLabel{(iv)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: objectType(),} \noLine
-    \UnaryInfC{$\llbracket{}E\rrbracket{}$ :> classType(C)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ <: $\{$ objectType() $\}$,} \noLine
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ :>  classType(C)}
 \end{prooftree}

@@ -5,9 +5,9 @@
     The type inference is executed in 3 main steps.
     The first step creates an $M^3$ model for a PHP program which contains various facts about the program. 
     The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
-    Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model.
-    In the third step, in section \ref{sec:implementation:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
-    The final section \ref{sec:annotations} of this chapter explains how annotations can be included in the process to gain more precise results.
+    Once the $M^3$ model is constructed, we extract constraints from the program using the $M^3$ model.
+    Next, as explained in section \ref{sec:implementation:constraint_solving}, we solve the constraints and resolve the types of variables used in the program.
+    The final section \ref{sec:implementation_additional_contraints} of this chapter explains how annotations and PHP built-in information is included in the process to improve the type inference.
     
     \section{$M^3$ for PHP}\label{sec:m3_for_php}
     As explained in section \ref{sec:background_rascal}, $M^3$ is a language independent meta model which holds facts about programs.
@@ -44,7 +44,7 @@
 	\label{fig:m3_core_elements}
 	\end{program}
 	    
-    \paragraph{Declarations} \texttt{Declarations} defines the declarations of namespaces, classes, interfaces, traits, methods, functions, and variables and holds the relation between the logical name (which is used to refer to the declaration) and the actual file location (which is the physical place in the file system.
+    \paragraph{Declarations} \texttt{Declarations} defines the declarations of namespaces, classes, interfaces, methods, functions, and variables and holds the relation between the logical name (which is used to refer to the declaration) and the actual file location (which is the physical place in the file system.
     For example the logical name of a class can be \texttt{$\vert$php+class://SomeNameSpace/ClassX$\vert$} while the actual location might be \texttt{$\vert$file:///project/SomeNameSpace/ClassX.php$\vert$}.
     
     \paragraph{Containment} \texttt{Containment} holds information about what elements logically contain other elements.
@@ -69,17 +69,15 @@
     
     \subsection{PHP specific elements}
     Because every programming language differs in syntax and semantics, the $M^3$ model is extensible to provide language specific elements.
-    The following php specific items are added: \texttt{extends}, \texttt{implements}, \texttt{traitUses}, \texttt{parameters}, \texttt{constructors}, \texttt{aliases}, and \texttt{annotations}.
+    The following php specific items are added: \texttt{extends}, \texttt{implements}, \texttt{parameters}, \texttt{constructors}, and \texttt{annotations}.
     These PHP specific elements are described in more detail in the paragraphs below.
 
     \begin{program}    
     \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@extends;    \CAT{Comment}{// which class extends which class}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements; \CAT{Comment}{// interface usages}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@traitUses;  \CAT{Comment}{// trait usages}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, PhpParams params] M3@parameters; \CAT{Comment}{// formal functions/methods parameters}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} to] M3@constructors; \CAT{Comment}{// constructor usages}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@aliases;      \CAT{Comment}{// class name aliases (new name -\textgreater{} old name)}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} pos, Annotation annotation] M3@annotations; \CAT{Comment}{// annotations from doc blocks}\end{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
 	
 	\caption{PHP specific $M^3$ element}
@@ -94,12 +92,6 @@
     One class can implement no, one, or multiple interfaces.
     Because the information is a relation between the class and the interface, we can easily add multiple interfaces to one class in the model.
     
-    %todo Jurgen: vreemd dat dit concept niet voorkomt in je type systeem van H2.
-    \paragraph{TraitUses} \texttt{TraitUses} lists which traits are used by which class or trait.
-    A traits is a collection of reusable functions, defined in the namespace scope.
-    One class can have multiple trait usages.
-    All the methods of a trait are on runtime imported in the class.
-    
     \paragraph{Parameters} \texttt{Parameters} keeps track of the parameters of a method or function.
     \texttt{PhpParams} is a list relation and contains the optional typehint, if the parameter is required and if it is passed as reference.
     This information is stored to make it easier to resolve the call to a method or function.
@@ -109,11 +101,6 @@
     In PHP4 the constructor was defined as a method with the same name as the class.
     Since PHP5 the language is provided with a magic method \texttt{\_\_construct()}, which results in two ways to have constructors, but only one constructor will be called.
     The PHP4 constructors will be removed in PHP7.
-    
-    %todo Jurgen: is dit nieuw of had je dit al uitgelegd bij de inleiding PHP in een eerder hoofdstuk
-    \paragraph{Aliases} \texttt{Aliases} has a relation between aliases and the actual implementation.
-    For instance the function \texttt{class\_alias} defines a new name for the same class.
-    This relation is also used to keep track of references. 
     
     \paragraph{Annotations} \texttt{Annotations} contain a relation between a declaration and the annotations that are known.
     Annotations are defined in the raw doc blocks and are parsed using regular expressions (regex).
@@ -143,7 +130,6 @@
 	  m3 = addModifiers(m3, ast)\;                        \label{alg:research_m3:modifiers}
 	  m3 = addRawDocBlocksAndAnnotations(m3, ast)\;       \label{alg:research_m3:docblock}
       \BlankLine
-	  %m3 = calculateAliasesFlowInsensitive(m3, ast)\;     \label{alg:research_m3:aliases}
 	  m3 = calculateUsesFlowInsensitive(m3, ast)\;        \label{alg:research_m3:uses}
       \BlankLine
 	  m3Collection += m3\;                                \label{alg:research_m3:add_to_collection}
@@ -164,12 +150,11 @@
     %In line \ref{alg:research_m3:add_modifier} we add ...
     From this AST we create an empty $M^3$ in \texttt{createEmptyM3} on line \ref{alg:research_m3:create_m3}.
     In order to be able to refer to any source code element, we need to have the declarations of the elements.
-    These elements are extracted in \texttt{addDeclarations} on line \ref{alg:research_m3:add_decl} can be \texttt{namespace}, \texttt{class}, \texttt{interface}, \texttt{trait}, \texttt{method},  \texttt{function}, \texttt{variable}, \texttt{field}, or \texttt{constant}.
+    These elements are extracted in \texttt{addDeclarations} on line \ref{alg:research_m3:add_decl} can be \texttt{namespace}, \texttt{class}, \texttt{interface}, \texttt{method},  \texttt{function}, \texttt{variable}, \texttt{field}, or \texttt{constant}.
     For all \texttt{functions} we need to add scope information in case functions are declared inside another function or method.
     In line \ref{alg:research_m3:scope_info} we add the scope information to all nodes to the AST by visiting the AST.
     This is needed in order to extract the right facts about the logical containment which is done in line \ref{alg:research_m3:containment}.
     The next three lines (\ref{alg:research_m3:extends}-\ref{alg:research_m3:docblock}) extract facts about class inheritance and the interface implementations, modifiers, PHP doc blocks, and annotations.
-    %In \texttt{calculateAliasesFlowInsensitive} on line \ref{alg:research_m3:aliases}
    	Once all the basic information is collected, \texttt{calculateUsesFlowInsensitive} on line \ref{alg:research_m3:uses} tries to find the declarations of the used objects, methods, functions and variables.
    	This is flow and context insensitive and only tries to resolve non-dynamic language constructs.
    	The last step of the iterator is to add the constructed $M^3$ to the $M^3$ collection.
@@ -223,7 +208,7 @@
 	\end{program}
     
     \section{Constraint extraction}\label{sec:implementation:constraint_extraction}
-    In section \ref{sec:constraint_extraction} we've defined the constraint extraction rules.
+    In section \ref{sec:design_type_constraint_rules} we've defined the constraint extraction rules.
     These constraint rules are implemented in Rascal with the help of visiting\footnote{http://tutor.rascal-mpl.org/Rascal/Concepts/Visiting/Visiting.html} and pattern matching\footnote{http://tutor.rascal-mpl.org/Rascal/Concepts/PatternMatching/PatternMatching.html}.
     Visiting is a concept implemented in the core of Rascal and is based on the visitor design pattern.
     This makes it very easy to traverse trees like AST's, without coupling the design pattern to your code.
@@ -264,7 +249,7 @@
 		\item the type of \texttt{\$a} is a subtype of \texttt{any()}
 		\item the type of \texttt{'1'} is equal to \texttt{stringType()}
 	\end{itemize}
-	See section \ref{sec:constraint_extraction} to see the full list of constraints that we extract from the source.
+	See section \ref{sec:design_type_constraint_rules} to see the full list of constraints that we extract from the source.
 	The full implementation can be found on github.
 	
     \begin{program}    
@@ -365,27 +350,23 @@
     %%
     %% Context
     %%
-    \section{Additional constraints}\label{sec:design_additional_contraints}
-    %todo introduce this properly
-    In order to see if we are able to resolve more types we will add type information from annotations and information on php built-in features.
+    \section{Additional constraints}\label{sec:implementation_additional_contraints}
+    We've added the option to add context to the type inference process.
+    These are the ability to include type annotations from phpdoc in the constraint analysis, and to include constraints on php built-ins.
     
-    \paragraph{Annotations}  
-    %todo: check copy of this chapter
-    After we gathers all the facts from the source code, we will add additional information which we read from the annotations.
-    For this we use a regular expression to match \texttt{@return type} and \texttt{@param type var} for methods and functions.
-    We read \texttt{@var type} for variables and class attributes.
+    \paragraph{Annotations}
+    After we gather all the facts from the source code, when constructing an $M^3$ model, we have added type information from annotations.
+    We have tried to write a grammar for the PHPDocs but because their lack of consistency the grammer would fail too many times and would not give us the wanted results, so we went for the regular expression matching instead.
+    We match \texttt{@return} and \texttt{@param} annotations for functions and class methods, and read \texttt{@var} annotations for variables and class attributes.
     In our first analysis we do not include the facts we gathered from the annotations. 
     In the second analysis we do include the facts.
     This way we can compare the end results.
     
-    \lstinputlisting[language=PHP,label=lst:annotationUsage,caption=Motivating example of annotations]{src/php/annotationUsage.php}
-    
-    In listing \ref{lst:annotationUsage} we show a motivating example for the usage of annotations.
-    The types of the methods \texttt{getNumber} and \texttt{getMessage} can be guessed by a human, but for static analysis we actually need to know how these values are used to know what type they are.
-    Annotations can help analysis tools to discover the types of these methods.
-    In the case where the type is less likely to be guessed by humans, the annotation can help the developers to see the types.
-    
-    \paragraph{Built-in features}
-    In order to see if we can resolve more types ...
-    %todo fix me
+    \paragraph{PHP Built-ins}
+    In order to see if we can resolve more types by providing type information of PHP built-ins.
+    The built-in features are represented by PHP files and can also be parsed.
+    Also the annotations of these PHPDocs should be parsed.
+    One special thing that we do is that we not add constraints for the empty body of the method, because this would result in an empty return values which is invalid.
+    We also filter the results type resolutions of the php built-in types out of the results we provide in the next chapter.
+
 \end{document}

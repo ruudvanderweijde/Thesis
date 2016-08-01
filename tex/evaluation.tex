@@ -6,19 +6,18 @@
 	We first describe the setup of the experiment in section \ref{sec:evaluation_experiment_setup}.
 	Next we present the results in section \ref{sec:evaluation_results}.
 	In section \ref{sec:evaluation_analysis} we analyse the measured results.
-	We end this chapter with the threats to validity in section \ref{sec:evaluation_validity}.
 	
 	% Methode: Hoe zet je het experiment op en wat ga je meten
 	\section{Experiment setup}\label{sec:evaluation_experiment_setup}
 	
 	In order to validate the this research we have tested the type inference on a selection of the 30 most popular packages of Packagist\footnotemark.
 	\footnotetext{https://packagist.org/explore/popular, July 2014}
-	Due to performance reasons we are only able to analyse the smaller projects.
 	Packagist is a repository for Composer\footnotemark projects.
 	\footnotetext{https://getcomposer.org/, July 2014}
-	Composer is a dependency manager for PHP projects.
+	Composer is a dependency manager for PHP.
 	All projects have between 2 and 6 million downloads, so they should be representative for our research because they are frequently used in live applications.
 	The selection of projects, sorted on total lines of code, is listed in table \ref{table:corpus}.
+	Due to performance reasons we are only able to analyse the smaller projects.
 	The statistics are generated using phploc\footnotemark.
 	\footnotetext{https://github.com/sebastianbergmann/phploc, July 2014}
 
@@ -80,22 +79,22 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	We group these resulting typesets in two groups, resolved and unresolved types.
 	Resolved type means that we can deduce the typeset to one type.
 	All other types are unresolved.
-	In unresolved we include typesets that are not resolved and have only type \texttt{any()}, empty typesets (type errors), and multiple types that cannot be reduced to one unique type for an expression.
+	In unresolved we include typesets that are not resolved and have only type \texttt{any()}, empty typesets, and multiple types that cannot be reduced to one unique type for an expression.
 	
-	\paragraph{PHPDocs}
+	\paragraph{Annotations}
 	We first run the type inference without reading annotations from PHPDocs.
-	As described in section \ref{sec:annotations}, we can use type annotations to read types of variables, functions, methods, and class attributes.
+	As described in section \ref{sec:design_annotations}, we can use type annotations to read types of variables, functions, methods, and class attributes.
 	When comparing the results, we want to see if it is possible to resolve more types when we use the type annotations from the PHPDocs.
 	
 	\paragraph{Built-ins}
-	After we run the analysis with and without PHPDocs, we run the analysis also with.
-	Modern editors stub files written in PHP which represent the internal behaviour of constants, variables, functions, classes, methods and class attribues.
+	After we run the analysis with and without PHPDocs, we run the analysis also with built-in information.
+	Modern editors stub files written in PHP which represent the internal behaviour of constants, variables, functions, classes, methods and class attributes.
 	Using the type information of the built-in language constructs we want to see if we are able to resolve more types.
 			
 	% Resultaten: met tabellen en zo
 	\section{Results}\label{sec:evaluation_results}
 	
-	As explained in the previous sections, we run the analysis with and without reading annotations from PHPDocs.
+	As explained in the previous sections, we run the analysis with and without reading annotations from PHPDocs, and with and without built-in information.
 	
 	\paragraph{PHPDocs}
 	The results are shown in table \ref{table:results:rascal_results_phpdoc}.
@@ -220,13 +219,42 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 \npfourdigitnosep
 \npnoaddmissingzero
 
-	We see an overal increase of resolved types when using the information of PHP built-in.
+	We see in table \ref{table:results:rascal_results_php_internals} an overal increase of resolved types when using the information of PHP built-in.
+	%todo explain more here.
 	We do however also see a small decrease in the number of inferred types for two projects.
 	
 	% Analyse: hoe verklaar je wat we zien in de tabellen en klopt het met de theorie?
 	\section{Analysis}\label{sec:evaluation_analysis}
 	In the previous section we've seen an overal increase of resolved types when adding more information to the type inference.
 	When adding type annotations from PHPDocs we've seen a big increase of resolved types.
+	
+	% some graph here where we show the difference
+	
+	\begin{tikzpicture}
+\begin{axis}[
+    title={Temperature dependence of CuSO$_4\cdot$5H$_2$O solubility},
+    xlabel={Temperature [\textcelsius]},
+    ylabel={Solubility [g per 100 g water]},
+    xmin=0, xmax=100,
+    ymin=0, ymax=120,
+    xtick={0,20,40,60,80,100},
+    ytick={0,20,40,60,80,100,120},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+ 
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (0,23.1)(10,27.5)(20,32)(30,37.8)(40,44.6)(60,61.8)(80,83.8)(100,114)
+    };
+    \legend{CuSO$_4\cdot$5H$_2$O}
+ 
+\end{axis}
+\end{tikzpicture}
 	
 	
 	

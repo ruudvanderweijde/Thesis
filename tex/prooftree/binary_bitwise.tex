@@ -1,17 +1,17 @@
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1 \; \& \; E_2)$}
     \RightLabel{(i)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; stringType(), \; integerType() \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ stringType(), integerType() $ \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1 \; \& \; E_2)$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{} = \{ \; stringType() \; \} \land \llbracket{}E_2\rrbracket{} = \{ \; stringType() \; \}$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} = \{ $ stringType() $ \} \land \llbracket{}E_2\rrbracket{} = \{ $ stringType() $ \}$}
     \RightLabel{(ii)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ \; stringType() \; \}$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ $ stringType() $ \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1 \; \& \; E_2)$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{} \neq \{ \; stringType() \; \} \lor \llbracket{}E_2\rrbracket{} \neq \{ \; stringType() \; \}$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} \neq \{ $ stringType() $ \} \lor \llbracket{}E_2\rrbracket{} \neq \{ $ stringType() $ \}$}
     \RightLabel{(iii)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ \; integerType() \; \}$}
+    \BinaryInfC{$\llbracket{}E\rrbracket{} = \{ $ integerType() $ \}$}
 \end{prooftree}

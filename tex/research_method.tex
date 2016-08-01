@@ -111,9 +111,8 @@
     If they are used together, they will be classified as scalar types.
     
 	The \textit{array type} in the subtype diagram is the most generic type of array, the array of any type.
-	We have omitted the other array types because we of the scope in our research on arrays.
+	We have omitted the other array types to reduce complexity of the hierarchy.
 	In theory, this array type is a recursive type and can go to infinite depth.
-	But in practise the generic array type is sufficient. 
  
     % show three images next to each other
     \begin{figure}[H]
@@ -154,26 +153,27 @@
     
     \paragraph{Program correctness}
     In order to be able to execute this research we assume that the programs are correct and works as intended.
-    This is needed to be able to say something about the programs we analyse.
+    This is needed to be able to reason about the programs we analyse, without having to question wether the program works as intended or not.
     
     \paragraph{File includes}
-    In this research we will assume that all file are included during runtime. 
+    In this research we will assume that all PHP file are included during runtime within the project folder. 
     When a PHP system is constructed of classes with namespaces, the files will be logically loaded using PHP's autoloader.
     Because most recent systems use namespaces, we will assume that all files are included.
-    For legacy systems, this can influence the results of this research.
+    For our experiment we are sure that all chosen projects comply to this.
     
     \paragraph{Register globals}
     Register globals allows variables to be magically be created from GET and POST values.
     Since it is discouraged to use this setting, we will assume that all software products have this setting disabled.
+    This feature is disabled by default in version 4.2 and has been completely removed in version 5.4.
     
     \paragraph{PHP warnings}
     For this research we will ignore all warnings.
     Warnings do not alter the behaviour of the program.
     In a most production environment these warnings are suppressed and will not change the behaviour of the program.
+    We do take fatal errors into account, which lead to runtime errors.
     
     \paragraph{Flow insensitive}
-    % todo check this
-    Our analysis is intra-procedural flow insensitive, which means that we don't take the order of statements into account within a function or method scope.
+    Our analysis is intra-procedural flow-insensitive, which means that we don't take the order of statements into account within a function or method scope.
     We do assume type consistency within a scope.
         
 \end{document}

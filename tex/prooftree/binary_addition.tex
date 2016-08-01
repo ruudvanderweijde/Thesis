@@ -1,19 +1,19 @@
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1 + E_2)$}
     \RightLabel{(i)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; arrayType(\_), \; numberType() \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ $ arrayType(\_), numberType() $ \}$}
 \end{prooftree}
 \begin{center}
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1 + E_2)$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{} <: \{ \; arrayType(\_) \; \} \land \llbracket{}E_2\rrbracket{} <: \{ \; arrayType(\_) \; \}$}
+    \AxiomC{$\llbracket{}E_1\rrbracket{} <: \{ $ arrayType(\_) $ \} \land \llbracket{}E_2\rrbracket{} <: \{ $ arrayType(\_) $ \}$}
     \RightLabel{(ii)}
-    \BinaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; arrayType(\_) \; \}$} 
+    \BinaryInfC{$\llbracket{}E\rrbracket{} <: \{ $ arrayType(\_) $ \}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$E \equiv (E_1 + E_2)$}
-    \AxiomC{$\llbracket{}E_1\rrbracket{} \; !<: \{ \; arrayType(\_) \; \} \lor \llbracket{}E_2\rrbracket{} \; !<: \{ \; arrayType(\_) \; \}$} 
+    \AxiomC{$\llbracket{}E_1\rrbracket{} \; !<: \{ $ arrayType(\_) $ \} \lor \llbracket{}E_2\rrbracket{} \; !<: \{ $ arrayType(\_) $ \}$}
     \RightLabel{(iii)}
-    \BinaryInfC{$ \llbracket{}E\rrbracket{} <: \{ \; numberType() \; \}$}
+    \BinaryInfC{$ \llbracket{}E\rrbracket{} <: \{ $ numberType() $ \}$}
 \end{prooftree}
 \end{center}

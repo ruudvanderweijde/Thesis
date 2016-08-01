@@ -2,24 +2,24 @@
 \begin{bprooftree}
     \AxiomC{$E \equiv (E_1 - E_2)$}
     \RightLabel{(i)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; numberType() \; \},$} \noLine
-    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: \{ \; arrayType(\_) \; \},$} \noLine
-    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: \{ \; arrayType(\_) \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ $ numberType() $ \},$} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: \{ $ arrayType(\_) $ \},$} \noLine
+    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: \{ $ arrayType(\_) $ \}$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E \equiv (E_1 * E_2)$}
     \RightLabel{(ii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; numberType() \; \},$} \noLine
-    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: \{ \; arrayType(\_) \; \},$} \noLine
-    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: \{ \; arrayType(\_) \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ $ numberType() $ \},$} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: \{ $ arrayType(\_) $ \},$} \noLine
+    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: \{ $ arrayType(\_) $ \}$}
 \end{bprooftree}
 \\
 \vspace{1em}
 \begin{bprooftree}
     \AxiomC{$E \equiv (E_1 / E_2)$}
     \RightLabel{(iii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; numberType() \; \},$} \noLine
-    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: \{ \; arrayType(\_) \; \},$} \noLine
-    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: \{ \; arrayType(\_) \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ $ numberType() $ \},$} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} \; !<: \{ $ arrayType(\_) $ \},$} \noLine
+    \UnaryInfC{$\llbracket{}E_2\rrbracket{} \; !<: \{ $ arrayType(\_) $ \}$}
 \end{bprooftree}
 \end{center}

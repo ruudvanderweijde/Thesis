@@ -2,12 +2,12 @@
 \begin{bprooftree}
     \AxiomC{$E \equiv new \; C_1()$}
     \RightLabel{(i)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{}$ = classType(C.decl)}
+    \UnaryInfC{$\llbracket{}E\rrbracket{}$ = $\{$ classType(C.decl) $\}$}
 \end{bprooftree}
 \begin{bprooftree}
     \AxiomC{$E \equiv new \; E_1$}
     \RightLabel{(ii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} <: objectType(),$} \noLine
-    \UnaryInfC{$\llbracket{}E_1\rrbracket{} <: objectType() \lor \llbracket{}E_1\rrbracket{} = stringType()$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{$ objectType() $\}$,} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} <: \{$ objectType(), stringType() $\}$}
 \end{bprooftree}
 \end{center}

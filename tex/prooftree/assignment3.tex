@@ -2,12 +2,12 @@
 \begin{bprooftree}
     \AxiomC{$E_1$ .= $E_2$}
     \RightLabel{(i)}
-    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; stringType() \; \}$}
-\end{bprooftree}  
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ $ stringType() $ \}$}
+\end{bprooftree}
 \begin{bprooftree}
-    \AxiomC{$(E_1$ .= $E_2)$} 
-    \AxiomC{$(\llbracket{}E_1\rrbracket{} <: \{ \; objectType() \; \})$} 
+    \AxiomC{$(E_1$ .= $E_2)$}
+    \AxiomC{$(\llbracket{}E_2\rrbracket{} <: \{ $ objectType() $ \})$}
     \RightLabel{(ii)}
     \BinaryInfC{$\llbracket{}E_2\rrbracket{}$ \texttt{hasMethod} $"\_\_tostring"$}
-\end{bprooftree}  
-\end{center}  
+\end{bprooftree}
+\end{center}

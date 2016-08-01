@@ -1,6 +1,6 @@
 \begin{prooftree}
-    \AxiomC{$E \equiv clone(E_1)$}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; objectType() \; \}$} \noLine
-    \UnaryInfC{$\llbracket{}E_1\rrbracket{} <: \{ \; objectType() \; \}$} \noLine
+    \AxiomC{$E \equiv $\texttt{clone}$(E_1)$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ $ objectType() $ \}$} \noLine
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} <: \{ $ objectType() $ \}$} \noLine
     \UnaryInfC{$\llbracket{}E\rrbracket{} = \llbracket{}E_1\rrbracket{}$}
 \end{prooftree}

@@ -2,70 +2,70 @@
 \begin{bprooftree}
     \AxiomC{$E \equiv (array)E_1$}
     \RightLabel{(i)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; arrayType(\_) \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ $ arrayType(\_) $ \}$}
 \end{bprooftree}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (boolean)E_1$}
+    \AxiomC{$E \equiv ($\texttt{boolean}$)E_1$}
     \RightLabel{(ii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; booleanType() \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ booleanType() $ \}$}
 \end{bprooftree}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (bool)E_1$}
+    \AxiomC{$E \equiv ($\texttt{bool}$)E_1$}
     \RightLabel{(iii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; booleanType() \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ booleanType() $ \}$}
 \end{bprooftree}
 \\
 \vspace{1em}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (float)E_1$}
+    \AxiomC{$E \equiv ($\texttt{float}$)E_1$}
     \RightLabel{(iv)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; floatType() \; \}$}
-\end{bprooftree}    
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ floatType() $ \}$}
+\end{bprooftree}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (double)E_1$}
+    \AxiomC{$E \equiv ($\texttt{double}$)E_1$}
     \RightLabel{(v)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; floatType() \; \}$}
-\end{bprooftree}    
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ floatType() $ \}$}
+\end{bprooftree}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (real)E_1$}
+    \AxiomC{$E \equiv ($\texttt{real}$)E_1$}
     \RightLabel{(vi)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; floatType() \; \}$}
-\end{bprooftree}    
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ floatType() $ \}$}
+\end{bprooftree}
 \\
 \vspace{1em}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (integer)E_1$}
+    \AxiomC{$E \equiv ($\texttt{integer}$)E_1$}
     \RightLabel{(vii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; integerType() \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ integerType() $ \}$}
 \end{bprooftree}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (int)E_1$}
+    \AxiomC{$E \equiv ($\texttt{int}$)E_1$}
     \RightLabel{(viii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; integerType() \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ integerType() $ \}$}
 \end{bprooftree}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (object)E_1$}
+    \AxiomC{$E \equiv ($\texttt{object}$)E_1$}
     \RightLabel{(ix)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ \; objectType() \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} <: \{ $ objectType() $ \}$}
 \end{bprooftree}
 \\
 \vspace{1em}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (string)E_1$}
+    \AxiomC{$E \equiv ($\texttt{string}$)E_1$}
     \RightLabel{(x)}
-    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ \; stringType() \; \}$}
-\end{bprooftree}  
+    \UnaryInfC{$\llbracket{}E_1\rrbracket{} = \{ $ stringType() $ \}$}
+\end{bprooftree}
 \begin{bprooftree}
-    \AxiomC{$E \equiv (string)E_1$}
-    \AxiomC{$(E_1$ <: \{ \; objectType() \; \}$)$} 
+    \AxiomC{$E \equiv ($\texttt{string}$)E_1$}
+    \AxiomC{$(E_1$ <: \{ objectType() \}$)$}
     \RightLabel{(xi)}
     \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ \texttt{hasMethod} $"\_\_tostring"$}
-\end{bprooftree}  
+\end{bprooftree}
 \\
 \vspace{1em}
 \begin{bprooftree}
     \AxiomC{$E \equiv (unset)E_1$}
     \RightLabel{(xii)}
-    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ \; nullType() \; \}$}
+    \UnaryInfC{$\llbracket{}E\rrbracket{} = \{ $ nullType() $ \}$}
 \end{bprooftree}
 \end{center}

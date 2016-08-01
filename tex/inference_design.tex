@@ -2,115 +2,102 @@
 \begin{document}
     \chapter{Design of PHP type inference}\label{ch:inference_design}
 
-    % todo check introduction
-    Todo check/add introduction
-    refer to annotations: \ref{sec:design_annotations}
-    %The research is executed in 3 main steps.
-    %The first step creates an $M^3$ model for a PHP program which contains various facts about the program. 
-    %The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
-    %Once the $M^3$ model is constructed, the second step is to extract constraints from the program using the $M^3$ model. How and which constraints are extracted is described in section \ref{sec:constraint_extraction}.
-    %In the third step, in section \ref{:constraint_solving}, the constraints are solved and resolve the types of variables used in the program.
-    %The final section \ref{sec:annotations} of this chapter explains how annotations can be included in the process to gain more precise results.
-    
-    \section{Constraint extraction}\label{sec:constraint_extraction}
-    
-    %In the previous section \ref{sec:m3_for_php} we've shown how an $M^3$ model for PHP is created.
-    In this section we present the constraint definitions and how they are extracted.
-    
-    \subsection{Constraint definitions}
-    The constraint definitions we use are based on the definition of Palsberg and Schwartzbach\cite{Pal:94}.
+	In this chapter we present the type constraint rules, in section \ref{sec:design_type_constraint_rules}, for PHP language constructs with supporting code examples.
+	In the last two sections we provide more information on annotations in section \ref{sec:design_annotations}, and on PHP built-ins in sections \ref{sec:design_php_built_ins}.
+
+    \section{Type inference rules}\label{sec:design_type_constraint_rules}
+
+    The constraint definitions we use in this section are based on the definition of Palsberg and Schwartzbach\cite{Pal:94}.
     We have extended the definition to conform to the PHP language.
     A legend with all symbols is displayed in table \ref{table:constraintLegend}, followed by the constraint definitions for PHP.
 
 % https://en.wikibooks.org/wiki/LaTeX/Linguistics
-
     \begin{table}[H]
     	\center
-        \begin{tabular}{ r c l | r c l } 
+        \begin{tabular}{ r c l | r c l }
         	\toprule
-        	symbol & & description & 
-        	symbol & & description \\ 
+        	symbol & & description &
+        	symbol & & description \\
         	\midrule
- 
+
             $\equiv$ & = & equivalent expression &
             $=$     & = & equivalent type \\
-            
+
             $:=$    & = & assignment &
             $C$     & = & a class \\
-            
+
             $<:$    & = & (lhs) is subTypeOf (rhs) &
             $\rightarrow c$     & = & a class constant \\
-            
+
             $E_k$   & = & an expression &
             $\rightarrow p$     & = & a class property \\
-            
+
             $\llbracket{}E_k\rrbracket{}$ & = & typeset of an expression &
             $\rightarrow m$     & = & a class method \\
-            
+
             $f$     & = & a function &
             $\llbracket{}m\rrbracket{}$   & = & (return) type of a method call \\
-            
+
             $\llbracket{}f\rrbracket{}$   & = & (return) type of a function &
             $(A_n)$ & = & the n'th actual argument \\
-            
+
             $::c$   & = & static property fetch &
             $(P_n)$ & = & the n'th formal parameter \\
-            
+
             $::m$   & = & static method call &
             $th$    & = & type hint \\
-            
+
             $::p$   & = & static property fetch &
             $v$     & = & default value \\
-            
+
             Mfs     & = & modifiers &
             $\in$ & = & is defined in \\
-                        
+
             $\{ \}$     & = & set of types &
-            \texttt{instanceof} & = & instance of class in parse tree \\
-            
+            \texttt{is\_a} & = & equal to PHP code \\
+
             $\land$ & = & conjunction &
             $\lor$   & = & disjunction
-            
+
         \end{tabular}
         \caption{Constraint definition legend}
         \label{table:constraintLegend}
    \end{table}
-   
+
     We write the definitions in the following form:
-	   
+
     \begin{prooftree}
-    	\AxiomC{premiss 1} 
-    	\AxiomC{premiss 2} 
+    	\AxiomC{premiss 1}
+    	\AxiomC{premiss 2}
     	\BinaryInfC{constraint 1,} \noLine
     	\UnaryInfC{constraint 2}
 	\end{prooftree}
-	
+
 	Above the horizontal line we write the premisses.
 	In our case premisses are PHP expressions which are true or false depending on the context.
 	If the premiss is true for a PHP statement or expression we can define the constraints below the horizontal line.
 
     \subsection{Scalars}
     Extracting constraints from the scalar types is straight forward.
-    The PHP parser defines the string, integer, and float types in the AST.
-    Booleans and null values can also be easily found in the AST.
+    We show the constraint rules for strings, integers, floats, booleans, and null values.
+
     \fact{scalar_string}{Strings}{
     	Strings in PHP can be written with single or double quotes.
-    	In the AST these are represented by the string type.
+    	If an expression is a literal string we can add the constraint that the typeset of that expression is equal to a string type.
     }
     \fact{scalar_integer}{Integers}{
-    	In the example below you can see integers with different bases.
-    	All of these are parsed into an integer type in the Rascal AST.
+    	In the examples below you can see different types of integers.
+    	If we encounter a expression that represents one of these integer formats, we can extract the constraint that the typeset of the expression should be equal to an integer type.
     }
     \fact{scalar_float}{Floats}{
-    	Floats can have different forms in PHP code, but are all parsed to float objects in the Rascal AST. 
+    	If we see php syntax that represents a floating number, we can extract the constraint that this expression if of floating type.
     }
     \fact{scalar_boolean}{Boolean values}{
     	Boolean values in PHP are case sensitive, as you can see in the examples.
-    	True and false are reserved keywords in PHP.
-    	In the premiss we've only provided the lower case values.
+    	If we encounter a boolean value, we can extract the constraint the this expression is of boolean type.
     }
     \fact{scalar_null}{Null values}{
-    	Null is a reserved keyword in PHP.
+    	\texttt{null} is a reserved keyword in PHP.
     	When we encounter null in the source code we can add the nullType type constraint.
     }
 
@@ -121,7 +108,7 @@
 	Assign statements transfer values from one expression or variable into another.
 	PHP uses the $=$ symbol as assignment syntax.
 	In the premiss we use $:=$ for assigns.
-	
+
     \fact{assignment1}{Assignment}{
     	When an assignment is used, we can extract the following constraint: the right hand side ($E_2$) of the assignment is a subtype of the left hand side ($E_1$).
     	This relation is a subtype relation, not an is equal relation, because of the subclass relations of inheritance.
@@ -156,10 +143,10 @@
     	If $E_2$ is of any other type, $E_1$ will be of type floatType.
     	Float and integer are both subtypes of integers, so we can use the subtype relation for numberType for this.
     }
-    
+
     %%
     %% Unary operators
-    %%    
+    %%
     \subsection{Unary operators}
 	Unary operators in PHP consist of positive and negative numbers, negation operators, and increase and decrease operators.
 
@@ -198,14 +185,14 @@
     	From pre increment and decrement operators we can also only extract conditional constraints.
     	The rules are similar to the rules for the post increment, except for the \texttt{nullType()}.
     	If the type of $E_1$ is of \texttt{null} type, the result of the expression is either of \texttt{null} type (v).
-    }    
-    
+    }
+
     %%
     %% Binary operators
     %%
     \subsection{Binary operators}
 	Addition-, subtraction-, multiplication-, division-, modulus-, bitwise-, comparison-, and logical operators are in PHP binary operators.
-	
+
 	\fact{binary_addition}{Addition operator}{
 		The result of an addition operator will always be a number or an array (i).
 		If the left and right hand side are both arrays, the return type will be array (ii).
@@ -228,7 +215,7 @@
 		In all other cases the result of this operation is a number.
 		%For the sake of readability we've omitted the constraints for the operators \textit{bitwise or} (inclusive or, $\vert{}$) and \textit{bitwise xor} (exclusive or, $\^{}$), because they have provide the same results as the \textit{bitwise and} operator.
 	}
-		
+
     \fact{comparisonOperators}{Comparison operators}{
     	The result of the comparison operators is always of boolean type.
     	The comparison operators are \textit{equals} (i), \textit{identical} (ii), \textit{not equal} (iii), \textit{not equal} (iv), \textit{not identical} (v), \textit{less than} (vi), \textit{greater than} (vii), \textit{less than or equal to} (viii), and \textit{greater than or equal to} (ix) operators.
@@ -237,13 +224,13 @@
     	Just like the comparison operators, the result of the logical operators is always of boolean type.
     	The logical operators are \textit{and} (i), \textit{or} (ii), \textit{xor} (iii), \textit{and} (iv), and \textit{or} (v).
     }
-    
+
     %%
     %% Array
     %%
     \subsection{Array}
     From the PHP parser we get array declaration and array access nodes.
-    
+
     \fact{array}{Array declaration}{
     	From the array declarations (\texttt{array()} or \texttt{[]}) we can extract the constraint that they should be of any \texttt{array} type.
     }
@@ -272,28 +259,29 @@
     	String casts (x) will always result in a \texttt{string} type. If we know that the expression ($E_1$) is an object, we know that this method needs to have an \texttt{$\_\_toString()$} method (xi).
     	The last cast, \textit{unset}, results in a \texttt{null} type.
     }
-        
-    %%    
+
+    %%
     %% Clone
     %%
     \subsection{Clone}
     \fact{clone}{Clone}{
     	From the PHP function \textit{clone} we can extract the constraint that the type of the given expression and the result must be of any \texttt{object} type.
-    	We also know that the type will not change, and so the type of the expression will be the same as 
+    	We also know that the type will not change, and so the type of the expression will be the same as
     }
-    
+
     %%
     %% Class
     %%
     \subsection{Class}
     This section contains fact extraction rules from object syntax.
     Class instantiation, special keywords, method calls, parameters, and class constants.
-    
+
     \fact{classInstantiation}{Class instantiation}{
     	Classes can be instantiated with the name of the class.
     	The type of the whole expression is then of the specific \texttt{class} type (i).
-    	When a class is dynamically instantiated, we only know that it should be of some \texttt{object} type, and that the type of the expression should be any \texttt{object} or \texttt{string} type (ii).	
+    	When a class is dynamically instantiated, we only know that it should be of some \texttt{object} type, and that the type of the expression should be any \texttt{object} or \texttt{string} type (ii).
     }
+    % todo: the used syntax differs from the others....
     \fact{classKeywords}{Special keywords}{
     	PHP contains a few class related reserved keywords with special behaviour.
     	These keywords can be used inside a class scope ($\in C$).
@@ -310,18 +298,18 @@
     	If the right hand side ($E_2$) is a name of a method, we can extract the constraint that the left hand side ($E_1$) must implement this method (ii).
     	% Could do something with the reserved keywords here (different behaviour with parent::method
     }
-    
+
     %\fact{classConstants}{Class constants}{
     %	Class constants
     %}
-    
+
     %\subsection{Parameters}
     %\fact{parameter1}{Parameters in class instantiation}{
-    %    
+    %
     %    \footnotesize{*These parameters are just examples for what happens if they have typeHints ($th$), default values($v$) or none}
     %    \footnotesize{*The constructor can be found in the m3 model (@constructors(loc classDecl, loc constructorMethodDecl))}
     %}
-    
+
     %%
     %% Scope
     %%
@@ -337,30 +325,30 @@
 		The type of a function or method is defined by the return statements it contains.
 		When there are no return statements declared in a function or method (i), we can extract the constraint that the function will always return \texttt{nullType}.
 		The type of a function is also \texttt{nullType} when there is a return statement without an expression (ii), like \texttt{return;}.
-		When there are multiple return statements, the return type of the function or method is the concatenation of the types of the expressions (iii). 
+		When there are multiple return statements, the return type of the function or method is the concatenation of the types of the expressions (iii).
 	}
-	
+
     %%
     %% Function calls
     %%
     %\subsection{Function calls}
     %\fact{functionCall1}{Function call}{}
     %\fact{functionCall2}{Function call variable}{}
-    
-    
+
+
         \section{Annotations}\label{sec:design_annotations}
     Annotations are pieces of meta data, defined on class, method, function, or statement level.
     Despite the proposal\footnotemark for official support of annotations, PHP has still no native support for them.
     \footnotetext{https://wiki.php.net/rfc/annotations-in-docblock}
-    But PHP has a \texttt{getDocComment}\footnotemark method in the \texttt{ReflectionClass} since version 5.1 in 2005. 
+    But PHP has a \texttt{getDocComment}\footnotemark method in the \texttt{ReflectionClass} since version 5.1 in 2005.
     \footnotetext{http://php.net/manual/en/reflectionclass.getdoccomment.php}
     The \texttt{getDocComment} method returns the complete doc block of a certain element as a string.
     A doc block in php has the format \texttt{\slash**...*\slash}.
     Listing \ref{lst:docblock} shows an example of two doc blocks in PHP.
     The first doc block is defined above the class and contains information about the class.
-    The second doc block is related to the method \texttt{getSomething}. 
-    The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information which possible exceptions can be thrown by the method. 
-    
+    The second doc block is related to the method \texttt{getSomething}.
+    The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information which possible exceptions can be thrown by the method.
+
     \lstinputlisting[language=PHP,label=lst:docblock,caption=Examples of PHP DocBlocks]{src/php/docBlock.php}
 
     Annotations are mainly used for type hinting, documentation, and code execution.
@@ -381,8 +369,8 @@
     There is no official standard for the use of annotations, but most projects follow the phpDocumentor\footnotemark{} syntax.
     \footnotetext{http://www.phpdoc.org/}
     For this research the following annotations are considered:
-    
-\begin{equation}
+
+\begin{equation}\label{eq:return}
   \begin{aligned}
   \texttt{@return}=\begin{cases}
     \texttt{@return} \; type, & \text{unconditionally read \texttt{@return} $type$}.\\
@@ -391,7 +379,7 @@
   \phantom{\hspace{8cm}} %%<---adjust the value as you want
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:param}
   \begin{aligned}
   \texttt{@param}=\begin{cases}
     \texttt{@param} \; type \; \$var, & \text{if `\texttt{@param} $type$ \$var' occurs at least once}.\\
@@ -402,7 +390,7 @@
   \phantom{\hspace{3.55cm}} %%<---adjust the value as you want
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:var}
   \begin{aligned}
   \texttt{@var}=\begin{cases}
     \texttt{@var} \; type \; \$var, & \text{if `\texttt{@var} $type$ \$var' occurs at least once}.\\
@@ -413,7 +401,7 @@
   \phantom{\hspace{3.2cm}} %%<---adjust the value as you want
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:type}
   \begin{aligned}
   type=\begin{cases}
     type|type, & \text{if `$\vert$' in $type$}.\\
@@ -422,13 +410,33 @@
   \end{aligned}
   \phantom{\hspace{8.8cm}} %%<---adjust the value as you want
 \end{equation}
-	%todo: (background:annotations) explain the used equations above.
+
+	In equation \ref{eq:return} we show the supported syntax for return annotations.
+	This format starts with the \texttt{@return} annotation followed by the type hint.
+	The return type hint is used on functions and class methods to provide information about the possible return values.
 	
+	In equation \ref{eq:param} we describe the variants of \texttt{@param} annotations.
+	Because the usage is not standardised we support multiple variants.
+	The first variant has a type hint and next provides information for which variable.
+	Next we also support the typehint and variable to be swapped.
 	
-	%todo: add something about php built-in feature information
+	In equation \ref{eq:var} we show the variants for the \texttt{@var} annotation.
+	They have the same support as the \texttt{@param} annotation.
+	
+	In equation \ref{eq:type} we show the recursive definition of a type.
+	This is a recursive definition because one type hint can have multiple types.
+	When there are multiple return types a $\vert{}$ is used.
+
 	\section{PHP built-ins}\label{sec:design_php_built_ins}
-	Information about PHP built-ins
-	 
-	todo add more information...
-    
+	Native functions are a part of PHP built-ins.
+	Predefined classes, interfaces, constants, and variables are also part of PHP built-ins.
+	We have included the PHP built-in information to see if we can improve the analysis results.
+	To be able analyse the PHP built-ins we've included the PHP representation it.
+	These files, written in PHP, provide annotation on what types flow in and out the functions.
+	A brief example is shown in listing \ref{lst:builtIns}.
+	From this example we can fetch the parameter and return type of the \texttt{strtoupper} and \texttt{strtolower} functions.
+	
+	
+	\lstinputlisting[language=PHP,label=lst:builtIns,caption=Short samples of built-in PHP file]{src/php/builtIns.php}
+
 \end{document}
