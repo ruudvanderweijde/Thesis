@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Evaluation}\label{ch:evaluation}
-    
+    % todo update introduction of this chapter to include a line about the content
 	In this chapter we evaluate the steps we took in this research.
 	We first describe the setup of the experiment in section \ref{sec:evaluation_experiment_setup}.
 	Next we present the results in section \ref{sec:evaluation_results}.
@@ -10,14 +10,14 @@
 	% Methode: Hoe zet je het experiment op en wat ga je meten
 	\section{Experiment setup}\label{sec:evaluation_experiment_setup}
 	
-	In order to validate the this research we have tested the type inference on a selection of the 30 most popular packages of Packagist\footnotemark.
+	In order to validate the this research we tested our type inference algorithm on a selection of the 30 most popular packages of Packagist\footnotemark.
 	\footnotetext{https://packagist.org/explore/popular, July 2014}
 	Packagist is a repository for Composer\footnotemark projects.
 	\footnotetext{https://getcomposer.org/, July 2014}
 	Composer is a dependency manager for PHP.
-	All projects have between 2 and 6 million downloads, so they should be representative for our research because they are frequently used in live applications.
+	All projects have between 2 and 6 million downloads, so they should be suitable for our research because they are frequently used in live applications.
 	The selection of projects, sorted on total lines of code, is listed in table \ref{table:corpus}.
-	Due to performance reasons we are only able to analyse the smaller projects.
+	% Due to performance reasons we are only able to analyse the smaller projects.
 	The statistics are generated using phploc\footnotemark.
 	\footnotetext{https://github.com/sebastianbergmann/phploc, July 2014}
 
@@ -84,7 +84,7 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	\paragraph{Annotations}
 	We first run the type inference without reading annotations from PHPDocs.
 	As described in section \ref{sec:design_annotations}, we can use type annotations to read types of variables, functions, methods, and class attributes.
-	When comparing the results, we want to see if it is possible to resolve more types when we use the type annotations from the PHPDocs.
+	Our goal is to see if it is possible to resolve more types when we take the type annotations from the PHPDocs into account.
 	
 	\paragraph{Built-ins}
 	After we run the analysis with and without PHPDocs, we run the analysis also with built-in information.
@@ -94,238 +94,229 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	% Resultaten: met tabellen en zo
 	\section{Results}\label{sec:evaluation_results}
 	
-	As explained in the previous sections, we run the analysis with and without reading annotations from PHPDocs, and with and without built-in information.
-	
-	\paragraph{PHPDocs}
-	The results are shown in table \ref{table:results:rascal_results_phpdoc}.
-	In this table we see the name of the project, the total of expressions that we've performed the type inference on.
-	Next to the total we show the resolved types, which is composed of two columns.
-	The first column displays the percentage of resolved types without using type annotations from PHPDocs.
-	The second column displays the percentage of resolved type with using the annotations from PHPDocs.
-	The same two columns are given for the unresolved types.
+	In this section we present the results of the analysis.
+	We start with the results of the analysis with and without taking PHPDocs into account.
+	Next we show the results of the analysis with and without PHP built-ins typehints.
+
+	\paragraph{Annotations}
+	The results of the analysis without and without taking type annotations from PHPDocs into account are shown in table \ref{table:results:rascal_results_docblocks}.
+	In this table on the left side we present the name of the project and the total number of expressions that were attempted to be inverted.
+	On the right side of the table we present the percentage of resolved types for the analysis with and without taking the PHPDoc context into account.
 
 %% The tables below is generated using: `lang::php::experiments::mscse2014::RascalResultAnalysis`
 \npaddmissingzero
 \npfourdigitsep
 \begin{table}[H]
-	\centering
-	\scriptsize
-	\begin{tabular}{@{}lr|rr|rr@{}} 
-		\toprule
-			& &
-			\multicolumn{2}{c}{Resolved types} &
-			\multicolumn{2}{c}{Unresolved types} \\
-			
-			Project & Total &
-			\multicolumn{1}{c}{w/o PHPDoc} &
-			\multicolumn{1}{c}{w/ PHPDoc} |&
-			%\multicolumn{1}{c}{$\Delta$} |&
-			\multicolumn{1}{c}{w/o PHPDoc} &
-			\multicolumn{1}{c}{w/ PHPDoc} 
-			%&
-			%\multicolumn{1}{c}{$\Delta$} 
-			\\
-		\midrule
-			lexer &
-			\numprint{460} & % total
-			66.3\% & 78.3\% & % unique
-			33.7\% & 21.7\% \\ % no single result
-			php-timer &
-			\numprint{43} & % total
-			4.3\% & 41.9\% & % unique
-			95.7\% & 58.2\% \\ % no single result
-			php-text-template &
-			\numprint{52} & % total
-			12.5\% & 36.5\% & % unique
-			87.6\% & 63.4\% \\ % no single result
-			inflector &
-			\numprint{195} & % total
-			74.3\% & 79.0\% & % unique
-			25.7\% & 21.0\% \\ % no single result
-			log &
-			\numprint{103} & % total
-			13.8\% & 40.8\% & % unique
-			86.2\% & 59.3\% \\ % no single result
-			php-file-iterator &
-			\numprint{92} & % total
-			13.6\% & 30.4\% & % unique
-			86.3\% & 69.6\% \\ % no single result
-		\bottomrule
-	\end{tabular}
-	\normalsize
-\caption{Type inference results, with and without PHPDocs\label{table:results:rascal_results_phpdoc}}
+        \centering
+        \scriptsize
+        \begin{tabular}{@{}lr|rr@{}} 
+                \toprule
+                        & &
+                        \multicolumn{2}{c}{Resolved types} \\
+
+                        Project & Total &
+                        w/o PHPDoc &
+                        w/ PHPDocs \\
+                \midrule
+                        php-timer &
+                        \numprint{68} & % total
+                        \numprint{21.4}\% & \numprint{64.3}\% \\ 
+                        log &
+                        \numprint{120} & % total
+                        \numprint{40.9}\% & \numprint{40.9}\% \\ 
+                        php-text-template &
+                        \numprint{77} & % total
+                        \numprint{34.8}\% & \numprint{43.5}\% \\ 
+                        lexer &
+                        \numprint{96} & % total
+                        \numprint{45.2}\% & \numprint{57.1}\% \\ 
+                        inflector &
+                        \numprint{85} & % total
+                        \numprint{9.7}\% & \numprint{45.2}\% \\ 
+                        php-file-iterator &
+                        \numprint{117} & % total
+                        \numprint{30.2}\% & \numprint{44.4}\% \\ 
+                \bottomrule
+        \end{tabular}
+        \normalsize
+\caption{Type inference results, with and without PHPDocs\label{table:results:rascal_results_docblocks}}
 \end{table}
-
-	For all analysed projects we see an increase of the number of inferred unique types when adding the type annotations from PHPDocs.
-	
-	\paragraph{Built-ins}
-	Next we compare the results of type inference where we take the type information of PHP built-ins into account.
-	The results are shown in table \ref{table:results:rascal_results_php_internals}.
-	In this table we present the analysed projects and the total amount of expressions to infer.
-	The next two columns show the percentage of the inferred types.
-	The results in the first column used PHPDoc annotations and did not use the type information of the PHP built-ins.
-	The results in the second column did use the PHP built-ins.
-
 \npfourdigitnosep
 \npnoaddmissingzero
+	
+	\paragraph{Built-ins}
+	The results of type inference where we take type information of PHP built-in functions and variables into account are shown in table \ref{table:results:rascal_results_built-ins}.
+	In this table we present the analysed projects and the total amount of expressions we attempted to infer.
+	On the right side of the table we present the percentage of resolved types for the analysis with and without built-in information.
+	
 \npaddmissingzero
 \npfourdigitsep
 \begin{table}[H]
-	\centering
-	\scriptsize
-	\begin{tabular}{@{}lr|rr|rr@{}} 
-		\toprule
-			& &
-			\multicolumn{2}{c}{Resolved types} &
-			\multicolumn{2}{c}{Unresolved types} \\
-			
-			Project & Total &
-			\multicolumn{1}{c}{w/o Built-ins} &
-			\multicolumn{1}{c}{w/ Built-ins} |&
-			%\multicolumn{1}{c}{$\Delta$} |&
-			\multicolumn{1}{c}{w/o Built-ins} &
-			\multicolumn{1}{c}{w/ Built-ins} \\
-			%\multicolumn{1}{c}{$\Delta$} \\
-		\midrule
-			lexer &
-			\numprint{460} & % total
-			78.3\% & 71.9\% & % unique
-			21.7\% & 28.2\% \\ % no single result
-			php-timer &
-			\numprint{43} & % total
-			41.9\% & 76.5\% & % unique
-			58.2\% & 23.5\% \\ % no single result
-			php-text-template &
-			\numprint{52} & % total
-			36.5\% & 70.0\% & % unique
-			63.4\% & 30.0\% \\ % no single result
-			inflector &
-			\numprint{195} & % total
-			79.0\% & 76.5\% & % unique
-			21.0\% & 23.5\% \\ % no single result
-			log &
-			\numprint{103} & % total
-			40.8\% & 61.0\% & % unique
-			59.3\% & 39.0\% \\ % no single result
-			php-file-iterator &
-			\numprint{92} & % total
-			30.4\% & 54.6\% & % unique
-			69.6\% & 45.4\% \\ % no single result
-		\bottomrule
-	\end{tabular}
-	\normalsize
-\caption{Results of type usage, with and without PHP built-ins\label{table:results:rascal_results_php_internals}}
+        \centering
+        \scriptsize
+        \begin{tabular}{@{}lr|rr@{}} 
+                \toprule
+                        & &
+                        \multicolumn{2}{c}{Resolved types} \\
+
+                        Project & Total &
+                        w/o Built-ins &
+                        w/ Built-ins \\
+                \midrule
+                        php-timer &
+                        \numprint{68} & % total
+                        \numprint{64.3}\% & \numprint{88.2}\% \\ 
+                        log &
+                        \numprint{120} & % total
+                        \numprint{40.9}\% & \numprint{65.0}\% \\ 
+                        php-text-template &
+                        \numprint{77} & % total
+                        \numprint{43.5}\% & \numprint{79.2}\% \\ 
+                        lexer &
+                        \numprint{96} & % total
+                        \numprint{57.1}\% & \numprint{78.1}\% \\ 
+                        inflector &
+                        \numprint{85} & % total
+                        \numprint{45.2}\% & \numprint{76.5}\% \\ 
+                        php-file-iterator &
+                        \numprint{117} & % total
+                        \numprint{44.4}\% & \numprint{68.4}\% \\ 
+                \bottomrule
+        \end{tabular}
+        \normalsize
+\caption{Results of type usage, with and without PHP built-ins\label{table:results:rascal_results_built-ins}}
 \end{table}
 \npfourdigitnosep
 \npnoaddmissingzero
 
-	We see in table \ref{table:results:rascal_results_php_internals} an overal increase of resolved types when using the information of PHP built-in.
-	%todo explain more here.
-	We do however also see a small decrease in the number of inferred types for two projects.
+
 	
 	% Analyse: hoe verklaar je wat we zien in de tabellen en klopt het met de theorie?
 	\section{Analysis}\label{sec:evaluation_analysis}
-	In the previous section we've seen an overal increase of resolved types when adding more information to the type inference.
+	In the previous section we presented the number of resolved expressions.
+	To get a better insight in the seen an overal increase of resolved types when adding more information to the type inference.
 	When adding type annotations from PHPDocs we've seen a big increase of resolved types.
 	
 	% some graph here where we show the difference
 	
+	% some text I removed from the previous chapter
+	%We see in table \ref{table:results:rascal_results_php_internals} an overal increase of resolved types when using the information of PHP built-in.
+	%todo explain more here.
+	%We do however also see a small decrease in the number of inferred types for two projects.
+	
 
 \pgfplotstableread[col sep=comma,header=false]{
-lexer,66.3,78.3
-php-timer,4.3,41.9
-php-text-template,12.5,36.5
-inflector,74.3,79.0
-log,13.8,40.8
-php-file-iterator,13.6,30.4
+        php-timer,3,9,60
+        log,27,27,78
+        php-text-template,8,10,61
+        lexer,19,24,75
+        inflector,3,14,65
+        php-file-iterator,19,28,80
 }\data
-
 \pgfplotsset{
-percentage plot/.style={
-    point meta=explicit,
-    yticklabel=\pgfmathprintnumber{\tick}\,$\%$,
-    ymin=0,
-    ymax=100,
-    enlarge y limits={upper,value=0},
-visualization depends on={y \as \originalvalue}
-},
-percentage series/.style={
-    table/y expr=\thisrow{#1},table/meta=#1
+        percentage plot/.style={
+                point meta=explicit,
+                yticklabel=\pgfmathprintnumber{\tick}\,$\%$,
+                ymin=0,
+                ymax=100,
+                enlarge y limits={upper,value=0},
+                visualization depends on={y \as \originalvalue}
+        },
+        percentage series/.style={
+                table/y expr=\thisrow{#1},table/meta=#1
+        }
 }
-}
-
 \begin{tikzpicture}
 \begin{axis}[
-axis on top,
-width=13cm,
-height=6cm,
-ylabel=Percentage of resolved items,
-xlabel=,
-percentage plot,
-ybar=0pt,
-bar width=0.65cm,
-enlarge x limits=0.12,
-symbolic x coords={lexer,php-timer,php-text-template,inflector,log,php-file-iterator},
-xtick=data,
-nodes near coords,
-nodes near coords align={vertical},
-x tick label style={rotate=45,anchor=east}
+        axis on top,
+        width=16cm,
+        height=7cm,
+        ylabel=Percentage of resolved items,
+        xlabel=,
+        percentage plot,
+        ybar,
+        bar width=0.5cm,
+        enlarge x limits=0.12,
+        cycle list={
+                {fill=black!10,draw=black,postaction={pattern=crosshatch dots}},
+                {fill=black!30,draw=black,postaction={pattern=north east lines}},
+                {fill=black!50,draw=black,postaction={pattern=crosshatch}}
+        },
+        legend entries={entry1,entry2},
+        legend image code/.code={%
+                \draw[#1] (0cm,-0.1cm) rectangle (0.6cm,0.1cm);
+        },
+        major grid style=white,
+        symbolic x coords={php-timer,log,php-text-template,lexer,inflector,php-file-iterator},
+        xtick=data,
+        nodes near coords,
+        nodes near coords align={vertical},
+        x tick label style={rotate=45,anchor=east}
 ]
 \addplot table [percentage series=1] {\data};
 \addplot table [percentage series=2] {\data};
-\legend{w/o phpdoc,w/ phpdoc}
-\end{axis}
-\end{tikzpicture}
-
-%%% 2nd graph
-\pgfplotstableread[col sep=comma,header=false]{
-lexer,66.3,71.9
-php-timer,4.3,76.5
-php-text-template,12.5,70.0
-inflector,74.3,76.5
-log,13.8,61.0
-php-file-iterator,13.6,54.6
-}\data
-
-\pgfplotsset{
-percentage plot/.style={
-    point meta=explicit,
-    yticklabel=\pgfmathprintnumber{\tick}\,$\%$,
-    ymin=0,
-    ymax=100,
-    enlarge y limits={upper,value=0},
-visualization depends on={y \as \originalvalue}
-},
-percentage series/.style={
-    table/y expr=\thisrow{#1},table/meta=#1
-}
-}
-
-\begin{tikzpicture}
-\begin{axis}[
-axis on top,
-width=13cm,
-height=6cm,
-ylabel=Percentage of resolved items,
-xlabel=,
-percentage plot,
-ybar=0pt,
-bar width=0.65cm,
-enlarge x limits=0.12,
-symbolic x coords={lexer,php-timer,php-text-template,inflector,log,php-file-iterator},
-xtick=data,
-nodes near coords,
-nodes near coords align={vertical},
-x tick label style={rotate=45,anchor=east}
-]
-\addplot table [percentage series=1] {\data};
-\addplot table [percentage series=2] {\data};
-\legend{w/o phpdoc,w/ built-ins}
+\addplot table [percentage series=3] {\data};
+\legend{normal,w/ phpdoc, w/ built-ins}
 \end{axis}
 \end{tikzpicture}
 	
 	
 	
-
 	
+\pgfplotstableread[col sep=comma,header=false]{
+        php-timer,21,64,88
+        log,40,40,65
+        php-text-template,34,43,79
+        lexer,45,57,78
+        inflector,9,45,76
+        php-file-iterator,30,44,68
+}\data
+\pgfplotsset{
+        percentage plot/.style={
+                point meta=explicit,
+                yticklabel=\pgfmathprintnumber{\tick}\,$\%$,
+                ymin=0,
+                ymax=100,
+                enlarge y limits={upper,value=0},
+                visualization depends on={y \as \originalvalue}
+        },
+        percentage series/.style={
+                table/y expr=\thisrow{#1},table/meta=#1
+        }
+}
+\begin{tikzpicture}
+\begin{axis}[
+        axis on top,
+        width=16cm,
+        height=7cm,
+        ylabel=Percentage of resolved items,
+        xlabel=,
+        percentage plot,
+        ybar,
+        bar width=0.5cm,
+        enlarge x limits=0.12,
+        cycle list={
+                {fill=black!10,draw=black,postaction={pattern=crosshatch dots}},
+                {fill=black!30,draw=black,postaction={pattern=north east lines}},
+                {fill=black!50,draw=black,postaction={pattern=crosshatch}}
+        },
+        legend entries={entry1,entry2},
+        legend image code/.code={%
+                \draw[#1] (0cm,-0.1cm) rectangle (0.6cm,0.1cm);
+        },
+        major grid style=white,
+        symbolic x coords={php-timer,log,php-text-template,lexer,inflector,php-file-iterator},
+        xtick=data,
+        nodes near coords,
+        nodes near coords align={vertical},
+        x tick label style={rotate=45,anchor=east}
+]
+\addplot table [percentage series=1] {\data};
+\addplot table [percentage series=2] {\data};
+\addplot table [percentage series=3] {\data};
+\legend{normal,w/ phpdoc, w/ built-ins}
+\end{axis}
+\end{tikzpicture}
+
+
 \end{document}

@@ -1,0 +1,150 @@
+%\documentclass{standalone}
+%\usepackage{pgfplots}
+%
+%\begin{document}
+%
+%\begin{tikzpicture}
+%\begin{axis}[
+%compat=newest, %Better label placement
+%ybar = 0.6,
+%width=1.2\textwidth,
+%height=0.4\textheight,
+%enlarge y limits={upper, value=0.2},
+%ymin=0,
+%enlarge x limits = 0.2,
+%bar width=32pt,
+%title={Instance els19 with 1\% max error},
+%legend style={at={(0.5,-0.15)},
+%anchor=north,legend columns=0},
+%ylabel={Time in milisseconds},
+%symbolic x coords={s-HAS, s-cAS, CUDA-HAS},
+%xtick=data,
+%nodes near coords,
+%axis lines*=left,
+%y axis line style={opacity=0},
+%yticklabels={\empty},
+%ytick style={draw=none},
+%cycle list={
+%    {fill=black!60,draw=black!60},
+%    {fill=black!40,draw=black!40},
+%    {fill=black!20,draw=black!20}
+%},
+%axis on top,
+%major grid style=white,
+%ymajorgrids,
+%legend style={draw=none,/tikz/every even column/.append style={column sep=0.5cm}}
+%%nodes near coords align={horizontal},
+%]
+%\addplot coordinates {(s-HAS,4) (s-cAS,4) (CUDA-HAS,6)};
+%\addplot coordinates {(s-HAS,44.60) (s-cAS,71.90) (CUDA-HAS,8.67)};
+%\addplot coordinates {(s-HAS,156) (s-cAS,334) (CUDA-HAS,18)};
+%
+%
+%\legend{Best 1\%,Average 1\%,Worst 1\%}
+%\end{axis}
+%\end{tikzpicture}
+%\end{document}
+
+
+
+% arara: pdflatex
+% !arara: indent: {overwrite: yes}
+\documentclass[tikz]{standalone}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usetikzlibrary{patterns}
+
+
+\begin{document}
+
+%% The tables below is generated using: `lang::php::experiments::mscse2014::RascalResultAnalysis`
+\begin{table}[H]
+	\centering
+	\scriptsize
+	\begin{tabular}{lr} 
+		\toprule
+			Project & Resolved types \\
+		\midrule
+			lexer & 66.3\% \\
+			php-timer & 4.3\% \\
+			php-text-template & 12.5\% \\
+			inflector & 74.3\% \\
+			log & 13.8\% \\
+			php-file-iterator &	13.6\% \\			
+		\bottomrule
+	\end{tabular}
+	\normalsize
+\caption{Type inference results, with and without PHPDocs\label{table:results:rascal_results_phpdoc}}
+\end{table}
+
+
+
+
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}[H]
+        \centering
+        \scriptsize
+        \begin{tabular}{@{}lr|rr@{}} 
+                \toprule
+                        & &
+                        \multicolumn{2}{c}{Unresolved types} \\
+
+                        Project & Total &
+                        \multicolumn{1}{c}{w/o PHPDocs} &
+                        \multicolumn{1}{c}{w/ PHPDocs} \\
+                \midrule
+                        php-timer &
+                        \numprint{14} & % total
+                        85.7\% & 35.7\% \\                      log &
+                        \numprint{66} & % total
+                        59.1\% & 59.1\% \\                      php-text-template &
+                        \numprint{23} & % total
+                        65.2\% & 56.5\% \\                      lexer &
+                        \numprint{42} & % total
+                        59.6\% & 57.2\% \\                      inflector &
+                        \numprint{31} & % total
+                        90.3\% & 54.8\% \\                      php-file-iterator &
+                        \numprint{63} & % total
+                        84.1\% & 69.9\% \\              \bottomrule
+        \end{tabular}
+        \normalsize
+\caption{Results of type usage, with and without reading annotation from docblocks\label{table:results:rascal_results_docblocks}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero
+\npaddmissingzero
+\npfourdigitsep
+\begin{table}[H]
+        \centering
+        \scriptsize
+        \begin{tabular}{@{}lr|rr@{}} 
+                \toprule
+                        & &
+                        \multicolumn{2}{c}{Unresolved types} \\
+
+                        Project & Total &
+                        \multicolumn{1}{c}{w/o} &
+                        \multicolumn{1}{c}{w/} \\
+                \midrule
+                        php-timer &
+                        \numprint{68} & % total
+                        35.7\% & 11.8\% \\                      log &
+                        \numprint{120} & % total
+                        59.1\% & 35.0\% \\                      php-text-template &
+                        \numprint{77} & % total
+                        56.5\% & 20.8\% \\                      lexer &
+                        \numprint{96} & % total
+                        57.2\% & 28.2\% \\                      inflector &
+                        \numprint{85} & % total
+                        54.8\% & 23.5\% \\                      php-file-iterator &
+                        \numprint{117} & % total
+                        69.9\% & 41.0\% \\              \bottomrule
+        \end{tabular}
+        \normalsize
+\caption{Results of type usage, with and without analysing php built-ins\label{table:results:rascal_results_php_internals}}
+\end{table}
+\npfourdigitnosep
+\npnoaddmissingzero\end{document}
