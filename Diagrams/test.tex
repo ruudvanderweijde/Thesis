@@ -1,8 +1,15 @@
-%\documentclass{standalone}
-%\usepackage{pgfplots}
-%
-%\begin{document}
-%
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{pgfplotstable}
+\usetikzlibrary{patterns}
+
+
+\usepackage[english]{babel}
+\usepackage{graphicx}
+
+\begin{document}
+
+
 %\begin{tikzpicture}
 %\begin{axis}[
 %compat=newest, %Better label placement
@@ -47,104 +54,70 @@
 
 
 
-% arara: pdflatex
-% !arara: indent: {overwrite: yes}
-\documentclass[tikz]{standalone}
 
-\usepackage{tikz}
-\usepackage{pgfplots}
-\usepackage{pgfplotstable}
-\usetikzlibrary{patterns}
+\pgfplotstableread[col sep=comma,header=false]{
+        php-timer,21,64,88
+        log,41,41,65
+        php-text-template,35,43,79
+        lexer,45,57,78
+        inflector,10,45,76
+        php-file-iterator,30,44,68
+}\data
+\pgfplotsset{
+        percentage plot/.style={
+                point meta=explicit,
+                yticklabel=\pgfmathprintnumber{\tick}\,$\%$,
+                ymin=0,
+                ymax=100,
+                enlarge y limits={upper,value=0},
+                visualization depends on={y \as \originalvalue}
+        },
+        percentage series/.style={
+                table/y expr=\thisrow{#1},table/meta=#1
+        }
+}
+\begin{figure}
+\begin{tikzpicture}
+\begin{axis}[
+        axis on top,
+        width=16cm,
+        height=7cm,
+        ylabel=Percentage of resolved items,
+        xlabel=,
+        percentage plot,
+        ybar,
+        bar width=0.5cm,
+        enlarge x limits=0.12,
+        cycle list={
+                {fill=black!10,draw=black,postaction={pattern=crosshatch dots}},
+                {fill=black!30,draw=black,postaction={pattern=north east lines}},
+                {fill=black!50,draw=black,postaction={pattern=crosshatch}}
+        },
+        legend style={
+                column sep=0.5cm,
+                /tikz/every odd column/.append style={column sep=0cm},
+                at={(0.43,-0.55)},
+                anchor=north,
+                legend columns=-1
+        },
+        legend image code/.code={%
+                \draw[#1] (0cm,-0.1cm) rectangle (0.6cm,0.1cm);
+                },
+        major grid style=white,
+        symbolic x coords={php-timer,log,php-text-template,lexer,inflector,php-file-iterator},
+        xtick=data,
+        nodes near coords,
+        nodes near coords align={vertical},
+        x tick label style={rotate=45,anchor=east}
+]
+\addplot table [percentage series=1] {\data};
+\addplot table [percentage series=2] {\data};
+\addplot table [percentage series=3] {\data};
+\legend{normal,w/ phpdoc, w/ built-ins}
+\end{axis}
+\end{tikzpicture}
+\caption{Comparison of the results\label{chart:results-comparison}}
+\end{figure}
 
+\end{document}
 
-\begin{document}
-
-%% The tables below is generated using: `lang::php::experiments::mscse2014::RascalResultAnalysis`
-\begin{table}[H]
-	\centering
-	\scriptsize
-	\begin{tabular}{lr} 
-		\toprule
-			Project & Resolved types \\
-		\midrule
-			lexer & 66.3\% \\
-			php-timer & 4.3\% \\
-			php-text-template & 12.5\% \\
-			inflector & 74.3\% \\
-			log & 13.8\% \\
-			php-file-iterator &	13.6\% \\			
-		\bottomrule
-	\end{tabular}
-	\normalsize
-\caption{Type inference results, with and without PHPDocs\label{table:results:rascal_results_phpdoc}}
-\end{table}
-
-
-
-
-\npaddmissingzero
-\npfourdigitsep
-\begin{table}[H]
-        \centering
-        \scriptsize
-        \begin{tabular}{@{}lr|rr@{}} 
-                \toprule
-                        & &
-                        \multicolumn{2}{c}{Unresolved types} \\
-
-                        Project & Total &
-                        \multicolumn{1}{c}{w/o PHPDocs} &
-                        \multicolumn{1}{c}{w/ PHPDocs} \\
-                \midrule
-                        php-timer &
-                        \numprint{14} & % total
-                        85.7\% & 35.7\% \\                      log &
-                        \numprint{66} & % total
-                        59.1\% & 59.1\% \\                      php-text-template &
-                        \numprint{23} & % total
-                        65.2\% & 56.5\% \\                      lexer &
-                        \numprint{42} & % total
-                        59.6\% & 57.2\% \\                      inflector &
-                        \numprint{31} & % total
-                        90.3\% & 54.8\% \\                      php-file-iterator &
-                        \numprint{63} & % total
-                        84.1\% & 69.9\% \\              \bottomrule
-        \end{tabular}
-        \normalsize
-\caption{Results of type usage, with and without reading annotation from docblocks\label{table:results:rascal_results_docblocks}}
-\end{table}
-\npfourdigitnosep
-\npnoaddmissingzero
-\npaddmissingzero
-\npfourdigitsep
-\begin{table}[H]
-        \centering
-        \scriptsize
-        \begin{tabular}{@{}lr|rr@{}} 
-                \toprule
-                        & &
-                        \multicolumn{2}{c}{Unresolved types} \\
-
-                        Project & Total &
-                        \multicolumn{1}{c}{w/o} &
-                        \multicolumn{1}{c}{w/} \\
-                \midrule
-                        php-timer &
-                        \numprint{68} & % total
-                        35.7\% & 11.8\% \\                      log &
-                        \numprint{120} & % total
-                        59.1\% & 35.0\% \\                      php-text-template &
-                        \numprint{77} & % total
-                        56.5\% & 20.8\% \\                      lexer &
-                        \numprint{96} & % total
-                        57.2\% & 28.2\% \\                      inflector &
-                        \numprint{85} & % total
-                        54.8\% & 23.5\% \\                      php-file-iterator &
-                        \numprint{117} & % total
-                        69.9\% & 41.0\% \\              \bottomrule
-        \end{tabular}
-        \normalsize
-\caption{Results of type usage, with and without analysing php built-ins\label{table:results:rascal_results_php_internals}}
-\end{table}
-\npfourdigitnosep
-\npnoaddmissingzero\end{document}

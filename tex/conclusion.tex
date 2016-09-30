@@ -1,46 +1,48 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
     \chapter{Conclusion}\label{ch:conclusion}
-    %todo write this whole chapter
-    Summary of the whole work, with conclusions. T.B.A.
+    In this section we present the conclusion in section \ref{conclusion:conclusion}
     
-    \section{Conclusion}
-    % we've seen that adding annotations and information about php built-ins helps to resolve types 
+    \section{Conclusion}\label{conclusion:conclusion}
+    In this work we have presented a type inference implementation written in Rascal.
+    We presented a theoretical constraint based type inference algorithm.
+    This type constraint algorithm is implemented with a PHP parser written in PHP and constraint extractor written in Rascal.
+    To resolve the constraints we also created a constraint solver in Rascal.
+    The results of the constrain solver is a list of code expressions and their possible set of types.
+    \\
+    In a small evaluation we have performed the type inference on a few small projects.
+    Here we found that adding annotations resulted in inferring more types for almost all projects.
+    When we also added type information about PHP built-in classes, functions, and variables, we only saw a small improvement in one of the projects.
+    Hereby we could conclude, although the number of projects is to small to generalise the results, we saw a good improvement when adding type annotations from PHPDocs, but no extra improvement when also adding PHP built-in information.
     
-    \section{Future work}
-    These items will not be covered by the analysis (maybe add this to threats/future work)
-    \begin{itemize}
-        \item Analysis is flow insensitive
-        \item Closure
-        \item References
-        \item Variable constructs (variable -variable, -method/function calls, -class instantiation, eval) :: todo: explain WHY not.
-        \item Yields
-        \item Traits
-    \end{itemize}
-
+    \section{Future work}\label{conclusion:future-work}
+    There are various extensions of this research possible.
+    The constraint based type inference could be combined with other analysis, like file include resolutions, dead code elimination, reference/alias analysis, and constant folding/propagation.
+    By including these other analyses it should be possible to get more precise results.
+    \\
+    The performance of the constraint solver could be optimised.
+    In our version we didn't take any effort to optimise the algorithm.
+    But we've seen that the algorithm is too slow to be able to run on bigger code bases.
+    Also if you would want to use this real time in an IDE, the run time of the script should be decreased.
+    If the performance of the type inference is improved it is also easier to validate the results of this analysis by adding more projects to the evaluation.
+    \\
+    At the moment of writing the implementation was PHP7 not released.
+    The benefit we've seen on adding type annotation is optionally implemented in PHP7.
+    It would be interesting to use the new language constructs and compare the results with PHP5 programs.
     
-    \paragraph{}
-    Explain something about combining this analysis to other analysis (like dead code elimination, constant folding/propagation resolve, alias analysis, array analysis) to gain more precise results.
-    
-    \paragraph{}
-    Something about performance optimisations... Explain what is already done to boost the performance and what still can be done.
-        
-    \paragraph{}
-    Use a bigger corpus to gains better results of the analysis by doing analysis on more programs.
-    
-    \section{Threats to validity}	
-    % todo check this
-    Because we perform an over approximation of run time values at compile time, the results of this research are not 100\% accurate.
-	Although we strive to be as accurate as possible, we cannot guarantee the correctness of the results.
+    \section{Threats to validity}\label{conclusion:threats-to-validity}	
+    Because we perform an over approximation of run time values at compile time, the results of the type inference are not 100\% accurate.
+    With the dynamic nature of the programming language and the usage of dynamic features it is a challenge to be as accurate as possible.
 		
 	\paragraph{Missing constraints}
 	By adding a constraint we limit the number of possible types for that expression.
-	When we forget to add a constraint, or not able to provide a constraint due to magic features usage, there is a risk that we.
+	Because we are humans, it could be possible that we make a mistake by missing a constraint or adding a wrong constraint.
+	This could result in type inference results that are wrong.
 	
 	\paragraph{Law of small numbers}
-	Because our sample size is small, we cannot generalise these results.
-	In order to gain general conclusions we should increase our sample size.
-	We can achieve this by running analysis on more software projects.
+	Because our small sample size in our evaluation, we cannot generalise these results.
+	In order to gain more precise results we should increase our sample size.
+	We can achieve this by running analysis on more software projects in the future.
 	
 	\paragraph{Object references}
 	One thing we do not take into account are the side effects that can be caused by the passing arguments as reference.
@@ -49,7 +51,8 @@
 	
 	\paragraph{PHPDoc correctness}
 	In this research we also assume that the provided type annotations in the PHPDoc's are correct.
-	These annotations are ignored during program execution and therefore could be incorrect without noticing. 
+	These annotations are ignored during program execution and therefore could be incorrect without noticing.
+	Using PHP7 new type hint language constructs could help to ensure that we extract the correct constraints for the source code.
 
 	
 \end{document}

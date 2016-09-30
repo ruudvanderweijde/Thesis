@@ -1,11 +1,10 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
     \chapter{Evaluation}\label{ch:evaluation}
-    % todo update introduction of this chapter to include a line about the content
-	In this chapter we evaluate the steps we took in this research.
+	In this chapter we evaluate the type inference algorithm.
 	We first describe the setup of the experiment in section \ref{sec:evaluation_experiment_setup}.
 	Next we present the results in section \ref{sec:evaluation_results}.
-	In section \ref{sec:evaluation_analysis} we analyse the measured results.
+	In section \ref{sec:evaluation_analysis} we analyse the measured results and explain the differences between the performed analysis.
 	
 	% Methode: Hoe zet je het experiment op en wat ga je meten
 	\section{Experiment setup}\label{sec:evaluation_experiment_setup}
@@ -90,6 +89,15 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	After we run the analysis with and without PHPDocs, we run the analysis also with built-in information.
 	Modern editors stub files written in PHP which represent the internal behaviour of constants, variables, functions, classes, methods and class attributes.
 	Using the type information of the built-in language constructs we want to see if we are able to resolve more types.
+	
+	\paragraph{Expectations}
+	The goals of these three analysis is to find out of taking more context into account will result in.
+	We expect that when we take annotations into account that we are able to resolve more types.
+	This is because there is a lack support for types in the language itself.
+	This is mainly caused because it is a scripting language.
+	When we add PHP built-in information to the analysis we expect to resolve slightly more information.
+	We've seen in the research on PHP features usage\cite{Hil:13} that many projects use many built-in features.
+	Because there is no type information available by default we expect to be able to resolve more types when adding type annotations of PHP classes, functions, and variables.
 			
 	% Resultaten: met tabellen en zo
 	\section{Results}\label{sec:evaluation_results}
@@ -119,23 +127,23 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
                         w/ PHPDocs \\
                 \midrule
                         php-timer &
-                        \numprint{68} & % total
-                        \numprint{21.4}\% & \numprint{64.3}\% \\ 
+                        \numprint{14} & % total
+                        \numprint{3} & \numprint{9} \\ 
                         log &
-                        \numprint{120} & % total
-                        \numprint{40.9}\% & \numprint{40.9}\% \\ 
+                        \numprint{66} & % total
+                        \numprint{27} & \numprint{27} \\ 
                         php-text-template &
-                        \numprint{77} & % total
-                        \numprint{34.8}\% & \numprint{43.5}\% \\ 
+                        \numprint{23} & % total
+                        \numprint{8} & \numprint{10} \\ 
                         lexer &
-                        \numprint{96} & % total
-                        \numprint{45.2}\% & \numprint{57.1}\% \\ 
+                        \numprint{42} & % total
+                        \numprint{19} & \numprint{24} \\ 
                         inflector &
-                        \numprint{85} & % total
-                        \numprint{9.7}\% & \numprint{45.2}\% \\ 
+                        \numprint{31} & % total
+                        \numprint{3} & \numprint{14} \\ 
                         php-file-iterator &
-                        \numprint{117} & % total
-                        \numprint{30.2}\% & \numprint{44.4}\% \\ 
+                        \numprint{63} & % total
+                        \numprint{19} & \numprint{28} \\ 
                 \bottomrule
         \end{tabular}
         \normalsize
@@ -149,6 +157,7 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	In this table we present the analysed projects and the total amount of expressions we attempted to infer.
 	On the right side of the table we present the percentage of resolved types for the analysis with and without built-in information.
 	
+
 \npaddmissingzero
 \npfourdigitsep
 \begin{table}[H]
@@ -164,23 +173,23 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
                         w/ Built-ins \\
                 \midrule
                         php-timer &
-                        \numprint{68} & % total
-                        \numprint{64.3}\% & \numprint{88.2}\% \\ 
+                        \numprint{14} & % total
+                        \numprint{9} & \numprint{9} \\ 
                         log &
-                        \numprint{120} & % total
-                        \numprint{40.9}\% & \numprint{65.0}\% \\ 
+                        \numprint{66} & % total
+                        \numprint{27} & \numprint{27} \\ 
                         php-text-template &
-                        \numprint{77} & % total
-                        \numprint{43.5}\% & \numprint{79.2}\% \\ 
+                        \numprint{23} & % total
+                        \numprint{10} & \numprint{10} \\ 
                         lexer &
-                        \numprint{96} & % total
-                        \numprint{57.1}\% & \numprint{78.1}\% \\ 
+                        \numprint{42} & % total
+                        \numprint{24} & \numprint{24} \\ 
                         inflector &
-                        \numprint{85} & % total
-                        \numprint{45.2}\% & \numprint{76.5}\% \\ 
+                        \numprint{31} & % total
+                        \numprint{14} & \numprint{14} \\ 
                         php-file-iterator &
-                        \numprint{117} & % total
-                        \numprint{44.4}\% & \numprint{68.4}\% \\ 
+                        \numprint{63} & % total
+                        \numprint{28} & \numprint{29} \\ 
                 \bottomrule
         \end{tabular}
         \normalsize
@@ -193,25 +202,14 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	
 	% Analyse: hoe verklaar je wat we zien in de tabellen en klopt het met de theorie?
 	\section{Analysis}\label{sec:evaluation_analysis}
-	In the previous section we presented the number of resolved expressions.
-	To get a better insight in the seen an overal increase of resolved types when adding more information to the type inference.
-	When adding type annotations from PHPDocs we've seen a big increase of resolved types.
-	
-	% some graph here where we show the difference
-	
-	% some text I removed from the previous chapter
-	%We see in table \ref{table:results:rascal_results_php_internals} an overal increase of resolved types when using the information of PHP built-in.
-	%todo explain more here.
-	%We do however also see a small decrease in the number of inferred types for two projects.
-	
 
 \pgfplotstableread[col sep=comma,header=false]{
-        php-timer,3,9,60
-        log,27,27,78
-        php-text-template,8,10,61
-        lexer,19,24,75
-        inflector,3,14,65
-        php-file-iterator,19,28,80
+        php-timer,21,64,64
+        log,41,41,41
+        php-text-template,35,43,43
+        lexer,45,57,57
+        inflector,10,45,45
+        php-file-iterator,30,44,46
 }\data
 \pgfplotsset{
         percentage plot/.style={
@@ -226,6 +224,7 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
                 table/y expr=\thisrow{#1},table/meta=#1
         }
 }
+\begin{figure}
 \begin{tikzpicture}
 \begin{axis}[
         axis on top,
@@ -242,10 +241,16 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
                 {fill=black!30,draw=black,postaction={pattern=north east lines}},
                 {fill=black!50,draw=black,postaction={pattern=crosshatch}}
         },
-        legend entries={entry1,entry2},
+        legend style={
+                column sep=0.5cm,
+                /tikz/every odd column/.append style={column sep=0cm},
+                at={(0.43,-0.50)},
+                anchor=north,
+                legend columns=-1
+        },
         legend image code/.code={%
                 \draw[#1] (0cm,-0.1cm) rectangle (0.6cm,0.1cm);
-        },
+                },
         major grid style=white,
         symbolic x coords={php-timer,log,php-text-template,lexer,inflector,php-file-iterator},
         xtick=data,
@@ -259,64 +264,25 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 \legend{normal,w/ phpdoc, w/ built-ins}
 \end{axis}
 \end{tikzpicture}
-	
-	
-	
-	
-\pgfplotstableread[col sep=comma,header=false]{
-        php-timer,21,64,88
-        log,40,40,65
-        php-text-template,34,43,79
-        lexer,45,57,78
-        inflector,9,45,76
-        php-file-iterator,30,44,68
-}\data
-\pgfplotsset{
-        percentage plot/.style={
-                point meta=explicit,
-                yticklabel=\pgfmathprintnumber{\tick}\,$\%$,
-                ymin=0,
-                ymax=100,
-                enlarge y limits={upper,value=0},
-                visualization depends on={y \as \originalvalue}
-        },
-        percentage series/.style={
-                table/y expr=\thisrow{#1},table/meta=#1
-        }
-}
-\begin{tikzpicture}
-\begin{axis}[
-        axis on top,
-        width=16cm,
-        height=7cm,
-        ylabel=Percentage of resolved items,
-        xlabel=,
-        percentage plot,
-        ybar,
-        bar width=0.5cm,
-        enlarge x limits=0.12,
-        cycle list={
-                {fill=black!10,draw=black,postaction={pattern=crosshatch dots}},
-                {fill=black!30,draw=black,postaction={pattern=north east lines}},
-                {fill=black!50,draw=black,postaction={pattern=crosshatch}}
-        },
-        legend entries={entry1,entry2},
-        legend image code/.code={%
-                \draw[#1] (0cm,-0.1cm) rectangle (0.6cm,0.1cm);
-        },
-        major grid style=white,
-        symbolic x coords={php-timer,log,php-text-template,lexer,inflector,php-file-iterator},
-        xtick=data,
-        nodes near coords,
-        nodes near coords align={vertical},
-        x tick label style={rotate=45,anchor=east}
-]
-\addplot table [percentage series=1] {\data};
-\addplot table [percentage series=2] {\data};
-\addplot table [percentage series=3] {\data};
-\legend{normal,w/ phpdoc, w/ built-ins}
-\end{axis}
-\end{tikzpicture}
+\caption{Comparison of the results\label{chart:results-comparison}}
+\end{figure}
 
-
+	To get better insight on the difference between the results we list the percentages of resolved expressions next to each other in the bar chart in figure \ref{chart:results-comparison}.
+	The three bars represent the three variants of the analysis.
+	The bars respectively present the results of the analysis where we do not take extra context into account, the results with using annotations from PHPDocs, and the results where we also take PHP built-in information into account.
+	The percentages are rounded to the nearest integer to improve readability.
+	
+	\paragraph{Normal vs PHPDocs}
+	In the bar chart we can see that, except for one project, all projects have an increased number of resolved items.
+	There are two projects that show a big difference and three projects that have slightly more resolved items when we take annotations into account.
+	In general we could say that adding annotations aids in having more resolved results.
+	
+	\paragraph{PHPDocs vs built-ins}
+	When we compare the PHPDocs analysis with the built-in analysis we only see a small increase in the number of resolved items for one of the projects.
+	This project is the \texttt{php-file-iterator}.
+	All the other projects that we analysed show no difference in the number of resolved item.
+	Because the wide usage of built in functions, classes, and variables we were expecting a bigger difference in the number of resolved items.
+	This might not be the case for these smaller library packages that we used for this analysis.
+	The projects are very small and abstract.
+		
 \end{document}
