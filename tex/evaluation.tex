@@ -3,20 +3,34 @@
     \chapter{Evaluation}\label{ch:evaluation}
 	In this chapter we evaluate the type inference algorithm.
 	We first describe the setup of the experiment in section \ref{sec:evaluation_experiment_setup}.
-	Next we present the results in section \ref{sec:evaluation_results}.
+	Next we describe the taken steps to reproduce the analysis in section \ref{sec:steps_to_reproduce}.
+	Then we present the results in section \ref{sec:evaluation_results}.
 	In section \ref{sec:evaluation_analysis} we analyse the measured results and explain the differences between the performed analysis.
 	
 	% Methode: Hoe zet je het experiment op en wat ga je meten
 	\section{Experiment setup}\label{sec:evaluation_experiment_setup}
 	
-	In order to validate the this research we tested our type inference algorithm on a selection of the 30 most popular packages of Packagist\footnotemark.
+	For this experiment we want:
+	\begin{itemize}
+		\item Projects or libraries to run our experiment on
+		\item Type inference results
+		\item Variations of the type inference
+		\item Expectations and hypotheses
+	\end{itemize}
+	In order to run our analysis we need actual source code, preferably projects or libraries that are used in real world programs.
+	Next we perform the type inference analysis without adding program context.
+	In the next runs we add type hint annotations and php built-in information to the analysis and compare the results.
+	Finally we want to test our hypotheses.
+	All these items are described in more details in the next paragraphs.
+	
+	\paragraph{Project selection}
+	In order to validate this research we tested our type inference algorithm on a selection of the 30 most popular packages of Packagist\footnotemark.
 	\footnotetext{https://packagist.org/explore/popular, July 2014}
-	Packagist is a repository for Composer\footnotemark projects.
+	Packagist is a repository for Composer\footnotemark{} projects.
 	\footnotetext{https://getcomposer.org/, July 2014}
 	Composer is a dependency manager for PHP.
 	All projects have between 2 and 6 million downloads, so they should be suitable for our research because they are frequently used in live applications.
 	The selection of projects, sorted on total lines of code, is listed in table \ref{table:corpus}.
-	% Due to performance reasons we are only able to analyse the smaller projects.
 	The statistics are generated using phploc\footnotemark.
 	\footnotetext{https://github.com/sebastianbergmann/phploc, July 2014}
 
@@ -26,45 +40,21 @@
 \begin{table}[H]
   \centering
   \scriptsize
-  \begin{tabular}{@{}lllrrrrrrrr@{}} \toprule
-     \multicolumn{3}{c}{Product}        & \multicolumn{2}{c}{Files} & \multicolumn{3}{c}{Objects}        & \multicolumn{3}{c}{Lines of code} \\
-     \cmidrule(l{2pt}r{2pt}){1-3}       \cmidrule(l{2pt}r{2pt}){4-5} \cmidrule(l{2pt}r{2pt}){6-8}        \cmidrule(l{2pt}r{2pt}){9-11}                    
-     Vendor & Project* & Version           & D$^1$         & F$^2$          & C$^3$ & I$^4$ & T$^5$ & Total $\uparrow$ & \multicolumn{2}{c}{Logical} \\ \midrule
-doctrine & lexer & v1.0 & 2 & 7 & \numprint{3} & \numprint{0} & \numprint{0} & \numprint{733} & \numprint{128} & (17.46\%) \\
-phpunit & php-timer & 1.0.5 & 5 & 11 & \numprint{5} & \numprint{0} & \numprint{0} & \numprint{740} & \numprint{117} & (15.81\%) \\
-phpunit & php-text-template & 1.2.2 & 5 & 11 & \numprint{5} & \numprint{0} & \numprint{0} & \numprint{768} & \numprint{125} & (16.28\%) \\
-doctrine & inflector & v1.0 & 2 & 7 & \numprint{3} & \numprint{0} & \numprint{0} & \numprint{853} & \numprint{130} & (15.24\%) \\
-psr-fig & log & 1.0.0 & 3 & 15 & \numprint{8} & \numprint{2} & \numprint{2} & \numprint{1039} & \numprint{155} & (14.92\%) \\
-phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \numprint{0} & \numprint{1071} & \numprint{176} & (16.43\%) \\
-%symfony & filesystem & v2.5.3 & 3 & 11 & \numprint{5} & \numprint{2} & \numprint{0} & \numprint{1090} & \numprint{193} & (17.71\%) & \numprint{19} & (9.84\%) \\
-%symfony & yaml & v2.5.3 & 3 & 16 & \numprint{11} & \numprint{1} & \numprint{0} & \numprint{2270} & \numprint{509} & (22.42\%) & \numprint{28} & (5.50\%) \\
-%phpunit & php-token-stream & 1.2.2 & 6 & 13 & \numprint{169} & \numprint{0} & \numprint{0} & \numprint{2360} & \numprint{377} & (15.97\%) & \numprint{15} & (3.98\%) \\
-%doctrine & collections & v1.2 & 3 & 18 & \numprint{11} & \numprint{3} & \numprint{0} & \numprint{2504} & \numprint{394} & (15.73\%) & \numprint{33} & (8.38\%) \\
-%symfony & process & v2.5.3 & 3 & 19 & \numprint{14} & \numprint{1} & \numprint{0} & \numprint{3198} & \numprint{604} & (18.89\%) & \numprint{37} & (6.13\%) \\
-%symfony & finder & v2.5.3 & 8 & 43 & \numprint{36} & \numprint{3} & \numprint{0} & \numprint{4976} & \numprint{909} & (18.27\%) & \numprint{80} & (8.80\%) \\
-%symfony & dom-crawler & v2.5.3 & 12 & 63 & \numprint{53} & \numprint{6} & \numprint{0} & \numprint{7825} & \numprint{1296} & (16.56\%) & \numprint{157} & (12.11\%) \\
-%symfony & translation & v2.5.3 & 21 & 121 & \numprint{97} & \numprint{20} & \numprint{0} & \numprint{12345} & \numprint{2299} & (18.62\%) & \numprint{257} & (11.18\%) \\
-%symfony & console & v2.5.3 & 17 & 84 & \numprint{66} & \numprint{13} & \numprint{2} & \numprint{13546} & \numprint{2556} & (18.87\%) & \numprint{246} & (9.62\%) \\
-%symfony & http-foundation & v2.5.3 & 16 & 90 & \numprint{76} & \numprint{10} & \numprint{0} & \numprint{14179} & \numprint{2262} & (15.95\%) & \numprint{154} & (6.81\%) \\
-%twig & twig & v1.16.0 & 18 & 172 & \numprint{148} & \numprint{19} & \numprint{0} & \numprint{14689} & \numprint{2630} & (17.90\%) & \numprint{15} & (0.57\%) \\
-%symfony & event-dispatcher & v2.5.3 & 27 & 170 & \numprint{133} & \numprint{31} & \numprint{3} & \numprint{20230} & \numprint{3629} & (17.94\%) & \numprint{418} & (11.52\%) \\
-%swiftmailer & swiftmailer & v5.2.1 & 37 & 238 & \numprint{170} & \numprint{52} & \numprint{0} & \numprint{28965} & \numprint{4645} & (16.04\%) & \numprint{144} & (3.10\%) \\
-%phpunit & php-code-coverage & 2.0.1 & 62 & 259 & \numprint{381} & \numprint{24} & \numprint{0} & \numprint{50371} & \numprint{6579} & (13.06\%) & \numprint{87} & (1.32\%) \\
-%phpunit & phpunit & 4.2.2 & 65 & 270 & \numprint{388} & \numprint{26} & \numprint{0} & \numprint{51516} & \numprint{6764} & (13.13\%) & \numprint{129} & (1.91\%) \\
-%phpunit & phpunit-mock-objects & 2.2.0 & 66 & 271 & \numprint{393} & \numprint{27} & \numprint{0} & \numprint{51735} & \numprint{6801} & (13.15\%) & \numprint{132} & (1.94\%) \\
-%doctrine & annotations & v1.2.0 & 69 & 306 & \numprint{423} & \numprint{28} & \numprint{0} & \numprint{57325} & \numprint{7718} & (13.46\%) & \numprint{188} & (2.44\%) \\
-%doctrine & common & v2.4.2 & 76 & 337 & \numprint{440} & \numprint{45} & \numprint{0} & \numprint{62406} & \numprint{8326} & (13.34\%) & \numprint{298} & (3.58\%) \\
-%symfony & http-kernel & v2.5.3 & 96 & 565 & \numprint{471} & \numprint{90} & \numprint{3} & \numprint{79294} & \numprint{14169} & (17.87\%) & \numprint{1449} & (10.23\%) \\
-%doctrine & cache & 1.3.0 & 152 & 687 & \numprint{729} & \numprint{102} & \numprint{2} & \numprint{103024} & \numprint{16667} & (16.18\%) & \numprint{1355} & (8.13\%) \\
-%doctrine & dbal & v2.4.2 & 121 & 557 & \numprint{628} & \numprint{63} & \numprint{0} & \numprint{104630} & \numprint{15234} & (14.56\%) & \numprint{1033} & (6.78\%) \\
-%guzzle & guzzle & v3.9.2 & 150 & 832 & \numprint{828} & \numprint{141} & \numprint{7} & \numprint{117699} & \numprint{19772} & (16.80\%) & \numprint{1787} & (9.04\%) \\
-%doctrine & orm & v2.4.4 & 175 & 1007 & \numprint{875} & \numprint{119} & \numprint{2} & \numprint{158530} & \numprint{27932} & (17.62\%) & \numprint{2866} & (10.26\%) \\
-%monolog & monolog & 1.10.0 & 350 & 1911 & \numprint{1904} & \numprint{135} & \numprint{2} & \numprint{288507} & \numprint{31415} & (10.89\%) & \numprint{4221} & (13.44\%) \\
-%werkspot & old-Website & 07-2014 & 928 & 6225 & \numprint{4907} & \numprint{224} & \numprint{0} & \numprint{1054686} & \numprint{167978} & (15.93\%) & \numprint{22693} & (13.51\%) \\
+  \begin{tabular}{@{}lllrrrrrrr@{}} \toprule
+     \multicolumn{3}{c}{Product}        & \multicolumn{2}{c}{Files} & \multicolumn{3}{c}{Objects}        & \multicolumn{2}{c}{Lines of code} \\
+     \cmidrule(l{2pt}r{2pt}){1-3}       \cmidrule(l{2pt}r{2pt}){4-5} \cmidrule(l{2pt}r{2pt}){6-8}        \cmidrule(l{2pt}r{2pt}){9-10}                    
+     Vendor & Project* & Version           & D$^1$         & F$^2$          & C$^3$ & I$^4$ & T$^5$ & Total $\uparrow$ & Logical \\ \midrule
+doctrine & lexer & v1.0 & 2 & 7 & \numprint{3} & \numprint{0} & \numprint{0} & \numprint{733} & \numprint{128} \\
+phpunit & php-timer & 1.0.5 & 5 & 11 & \numprint{5} & \numprint{0} & \numprint{0} & \numprint{740} & \numprint{117} \\
+phpunit & php-text-template & 1.2.2 & 5 & 11 & \numprint{5} & \numprint{0} & \numprint{0} & \numprint{768} & \numprint{125} \\
+doctrine & inflector & v1.0 & 2 & 7 & \numprint{3} & \numprint{0} & \numprint{0} & \numprint{853} & \numprint{130} \\
+psr-fig & log & 1.0.0 & 3 & 15 & \numprint{8} & \numprint{2} & \numprint{2} & \numprint{1039} & \numprint{155} \\
+phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \numprint{0} & \numprint{1071} & \numprint{176} \\
+
   \bottomrule
-     \multicolumn{11}{l}{} \\
-     \multicolumn{11}{l}{*Selection of the 30 most popular packagist packages ordered by LOC, in July 2014.} \\
-     \multicolumn{11}{l}{$^1$ = Directories, $^2$ = Files, $^3$ = Classes, $^4$ = Interfaces, $^5$ = Traits} \\
+     \multicolumn{10}{l}{} \\
+     \multicolumn{10}{l}{*Selection of the 30 most popular packagist packages ordered by LOC, in July 2014.} \\
+     \multicolumn{10}{l}{$^1$ = Directories, $^2$ = Files, $^3$ = Classes, $^4$ = Interfaces, $^5$ = Traits} \\
   \end{tabular}
   \normalsize
   \caption{Statictics of most populair composer projects\label{table:corpus}}
@@ -91,21 +81,90 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	Using the type information of the built-in language constructs we want to see if we are able to resolve more types.
 	
 	\paragraph{Expectations}
-	The goals of these three analysis is to find out of taking more context into account will result in.
+	The goals of these three analysis is to find out if taking more context into account will increate type resolution.
 	We expect that when we take annotations into account that we are able to resolve more types.
-	This is because there is a lack support for types in the language itself.
-	This is mainly caused because it is a scripting language.
 	When we add PHP built-in information to the analysis we expect to resolve slightly more information.
-	We've seen in the research on PHP features usage\cite{Hil:13} that many projects use many built-in features.
+	We've seen in the research on PHP features usage \cite{Hil:13} that many projects use many built-in features.
 	Because there is no type information available by default we expect to be able to resolve more types when adding type annotations of PHP classes, functions, and variables.
+	
+	\paragraph{Hypotheses}
+	Based on our expectations we've constructed following null ($H_0$) and alternative ($H_A$) hypotheses:
+	\begin{enumerate}
+		\item Adding type annotations to the analysis
+		\begin{itemize}
+			\item 1-$H_0$: adding type annotations has no effect on the number of inferred types
+			\item 1-$H_A$: adding type annotations has an effect on the number of inferred types
+		\end{itemize}		
+		\item Adding php built-in information to the analysis 
+		\begin{itemize}
+			\item 2-$H_0$: adding php built-in information has no effect on the number of inferred types
+			\item 2-$H_A$: adding php built-in information has an effect on the number of inferred types	
+		\end{itemize}
+	\end{enumerate}
+
 			
+	\section{Steps to reproduce}\label{sec:steps_to_reproduce}
+	In order to be able to understand and reproduce the analyses we describe the taken steps to get to the results.	
+	To reproduce the experiment you need to run the analysis for the three variants and then compare the results.
+	
+	\paragraph{Running the analysis}
+	The source code of the type inference is open source can be found on github\footnotemark.
+	\footnotetext{https://github.com/ruudvanderweijde/php-analysis/tree/mscse2014}
+	Clone the repository and open the project in Eclipse with Rascal installed.
+	Analysis results can be generated by running the \texttt{``lang::php::experiments::mscse2014::mscse2014''} Rascal module.
+	Execute \texttt{runAll(loc projectLocation)} for all wanted projects of libraries, which results in writing a the analysis results to the file system.
+	The analysis results file contains type information of all expressions of the program.
+	An example of the output of the Rascal console is shown in figure \ref{fig:running_analysis}.
+	
+	\begin{figure}[H]
+	\begin{boxedverbatim}
+		rascal> import lang::php::experiments::mscse2014::mscse2014;             
+		rascal> runAll(|home:///location/to/project|);
+		rascal> ...
+		rascal> Writing output to file |home:///location/to/project/result_file.txt|.
+	\end{boxedverbatim}
+	\caption{Rascal console: running the type inference}
+		\label{fig:running_analysis}
+	\end{figure}
+	
+	\paragraph{Variants of analysis}
+	For the next two analysis, with type annotation and PHP built-in information we run the same steps as shown in \ref{fig:running_analysis}, but then we change the configuration.
+	In the type annotation analysis run we set \texttt{useAnnotations = true;} and execute \texttt{runAll(loc projectLocation)} again for all projects.
+	For the PHP built-in analysis we also set \texttt{includePhpInternals = true;} and run all the analysis again.
+	These two variant will write the output to different files.
+	
+	\paragraph{Compare results}
+	When all the projects are analysed you will have result files for all projects.
+	Using the \texttt{``lang::php::experiments::mscse2014::RascalResultAnalysis''} Rascal module you can compare the results of the different projects.
+	The output is a table generated in \LaTeX{} with the number of resolved items for the three different analysis.
+	The first table compares the default analysis with the analysis where type annotations are taken into account.
+	The second table shows the difference between the annotations analysis and the analysis adding PHP built-in information.
+	An example of the Rascal output is shown in figure \ref{fig:result_analysis} 
+	This output of the generated tables can be used into your \LaTeX{} document.
+	
+	\begin{figure}[H]
+	\begin{boxedverbatim}
+		rascal>import lang::php::experiments::mscse2014::RascalResultAnalysis;
+		rascal>main()
+		\npaddmissingzero
+		\npfourdigitsep
+		\begin{table}[H]
+		    ... content of the table ...	
+		\end{table}
+		\npfourdigitnosep
+		\npnoaddmissingzero
+	\end{boxedverbatim}
+	\caption{Rascal console: result analysis}\label{fig:result_analysis}
+	\end{figure}
+
 	% Resultaten: met tabellen en zo
 	\section{Results}\label{sec:evaluation_results}
 	
 	In this section we present the results of the analysis.
 	We start with the results of the analysis with and without taking PHPDocs into account.
 	Next we show the results of the analysis with and without PHP built-ins typehints.
-
+	Finally we evaluate the hypotheses.
+	
 	\paragraph{Annotations}
 	The results of the analysis without and without taking type annotations from PHPDocs into account are shown in table \ref{table:results:rascal_results_docblocks}.
 	In this table on the left side we present the name of the project and the total number of expressions that were attempted to be inverted.
@@ -224,7 +283,7 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
                 table/y expr=\thisrow{#1},table/meta=#1
         }
 }
-\begin{figure}
+\begin{figure}[H]
 \begin{tikzpicture}
 \begin{axis}[
         axis on top,
@@ -264,10 +323,10 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 \legend{normal,w/ phpdoc, w/ built-ins}
 \end{axis}
 \end{tikzpicture}
-\caption{Comparison of the results\label{chart:results-comparison}}
+\caption{Comparison of the type inference results\label{chart:results-comparison}}
 \end{figure}
 
-	To get better insight on the difference between the results we list the percentages of resolved expressions next to each other in the bar chart in figure \ref{chart:results-comparison}.
+	To get better insight on the difference between the results, we list the percentages of resolved expressions next to each other in the bar chart in figure \ref{chart:results-comparison}.
 	The three bars represent the three variants of the analysis.
 	The bars respectively present the results of the analysis where we do not take extra context into account, the results with using annotations from PHPDocs, and the results where we also take PHP built-in information into account.
 	The percentages are rounded to the nearest integer to improve readability.
@@ -284,5 +343,34 @@ phpunit & php-file-iterator & 1.3.4 & 5 & 13 & \numprint{7} & \numprint{0} & \nu
 	Because the wide usage of built in functions, classes, and variables we were expecting a bigger difference in the number of resolved items.
 	This might not be the case for these smaller library packages that we used for this analysis.
 	The projects are very small and abstract.
+	
+	\paragraph{Hypotheses evaluation}
+	We constructed the following hypotheses in section \ref{sec:evaluation_experiment_setup}.
+	
+	\begin{enumerate}
+		\item Adding type annotations to the analysis
+		\begin{itemize}
+			\item 1-$H_0$: adding type annotations has no effect on the number of inferred types
+			\item 1-$H_A$: adding type annotations has an effect on the number of inferred types
+		\end{itemize}		
+		\item Adding php built-in information to the analysis 
+		\begin{itemize}
+			\item 2-$H_0$: adding php built-in information has no effect on the number of inferred types
+			\item 2-$H_A$: adding php built-in information has an effect on the number of inferred types	
+		\end{itemize}
+	\end{enumerate}
+	
+	\paragraph{Hypothesis 1}
+	We've seen that all the analysed projects have a neutral or positive effect on the number of inferred items when adding type annotations.
+	Based on the results of the we can reject the first null hypothesis (1-$H_0$), because there are projects with an increase in the number of inferred types. 
+	And therefor we can accept the alternative hypothesis (1-$H_A$): adding type annotations has an effect on the number of inferred types.
+	Almost all projects show a positive effect by adding the type annotations.
+	% how does this relate to the expectations
+
+	\paragraph{Hypothesis 2}:
+	Based on the results of the we can reject the second null hypothesis (2-$H_0$) because we've seen a difference in the number of changed. 
+	Therefor we can accept the alternative hypothesis (2-$H_A$): adding php built-in information has an effect on the number of inferred types.
+	This effect is in most cases neutral, but one of the projects shows an increase in the number of inferred types.
+	% how does this relate to the expectations	
 		
 \end{document}
