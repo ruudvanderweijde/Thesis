@@ -27,34 +27,34 @@
             $C$     & = & a class \\
 
             $<:$    & = & (lhs) is subTypeOf (rhs) &
-            $\rightarrow c$     & = & a class constant \\
+            $\rightarrow c$     & = & class constant \\
 
             $E_k$   & = & an expression &
-            $\rightarrow p$     & = & a class property \\
+            $\rightarrow p$     & = & class property \\
 
             $\llbracket{}E_k\rrbracket{}$ & = & typeset of an expression &
-            $\rightarrow m$     & = & a class method \\
+            $\rightarrow m$     & = & class method \\
 
             $f$     & = & a function &
-            $\llbracket{}m\rrbracket{}$   & = & (return) type of a method call \\
+            $\llbracket{}m\rrbracket{}$   & = & (return) typeset of a method call \\
 
-            $\llbracket{}f\rrbracket{}$   & = & (return) type of a function &
+            $\llbracket{}f\rrbracket{}$   & = & (return) typeset of a function &
             $(A_n)$ & = & the n'th actual argument \\
 
-            $::c$   & = & static property fetch &
+            $::c$   & = & static class property &
             $(P_n)$ & = & the n'th formal parameter \\
 
-            $::m$   & = & static method call &
+            $::m$   & = & static class method &
             $th$    & = & type hint \\
 
-            $::p$   & = & static property fetch &
+            $::p$   & = & static class property &
             $v$     & = & default value \\
 
             Mfs     & = & modifiers &
             $\in$ & = & is defined in \\
 
             $\{ \}$     & = & set of types &
-            \texttt{is\_a} & = & equal to PHP code \\
+            \texttt{is\_a} & = & (lhs) is of (rhs) type \\
 
             $\land$ & = & conjunction &
             $\lor$   & = & disjunction
@@ -83,10 +83,10 @@
 
     \fact{scalar_string}{Strings}{
     	Strings in PHP can be written with single or double quotes.
-    	If an expression is a literal string we can add the constraint that the typeset of that expression is equal to a string type.
+    	If an expression is a literal string, which we know from the AST, we can add the constraint that the typeset of that expression is equal to a string type.
     }
     \fact{scalar_integer}{Integers}{
-    	In the examples below you can see different types of integers.
+    	In the listing below you can see different types of integers.
     	If we encounter a expression that represents one of these integer formats, we can extract the constraint that the typeset of the expression should be equal to an integer type.
     }
     \fact{scalar_float}{Floats}{
@@ -116,12 +116,12 @@
     }
     \fact{ternary}{Ternary operator}{
     	The \textit{ternary} operator is a conditional assignment.
-    	If the expression $E_1$ is evaluated as \texttt{true}, the left hand side ($E_2$) is the value of the whole ternary expression (i).
+    	If the expression $E_1$ is evaluated as \texttt{true}, the left hand side ($E_2$) is the value of the whole ternary expression.
     	If $E_1$ is evaluated as \texttt{false}, the right hand side ($E_3$) is the value.
-    	The constraint we can extract from the ternary expression is that the type of the whole expression should be the type of $E_2$ or $E_3$.
+    	The constraint we can extract from the ternary expression is that the type of the whole expression should be the type of $E_2$ or $E_3$ (i).
     	\\
-    	The ternary operator without a left hand side value (ii), also known as the elvis operator, returns the value of $E_1$ when $E_1$ is evaluated as \texttt{true}.
-    	Here the type of the expression should be either the type of $E_1$ or $E_3$.
+    	The ternary operator without a left hand side value, also known as the elvis operator, returns the value of $E_1$ when $E_1$ is evaluated as \texttt{true}.
+    	Here the type of the expression should be either the type of $E_1$ or $E_3$ (ii).
     }
     \fact{assignment2}{Assignments resulting in integers}{
 		PHP provides several assignment statements combined with operators.
@@ -191,7 +191,7 @@
     %% Binary operators
     %%
     \subsection{Binary operators}
-	Addition-, subtraction-, multiplication-, division-, modulus-, bitwise-, comparison-, and logical operators are in PHP binary operators.
+	Addition-, subtraction-, multiplication-, division-, modulus-, bitwise-, comparison-, and logical operators are binary operators.
 
 	\fact{binary_addition}{Addition operator}{
 		The result of an addition operator will always be a number or an array (i).
@@ -213,9 +213,8 @@
 		The results of the bitwise operators \textit{and} (i, ii, iii), \textit{or}, and \textit{xor} is always of \texttt{integer} or \texttt{string} type.
 		When the left and right hand side are both strings, the result of the operation is also of type \texttt{string}.
 		In all other cases the result of this operation is a number.
-		%For the sake of readability we've omitted the constraints for the operators \textit{bitwise or} (inclusive or, $\vert{}$) and \textit{bitwise xor} (exclusive or, $\^{}$), because they have provide the same results as the \textit{bitwise and} operator.
+		For readability reasons we omitted the constraints for the operators \textit{bitwise or} (inclusive or, $\vert{}$) and \textit{bitwise xor} (exclusive or, \^{}), because they  provide the same constraints as the \textit{bitwise and} operator.
 	}
-
     \fact{comparisonOperators}{Comparison operators}{
     	The result of the comparison operators is always of boolean type.
     	The comparison operators are \textit{equals} (i), \textit{identical} (ii), \textit{not equal} (iii), \textit{not equal} (iv), \textit{not identical} (v), \textit{less than} (vi), \textit{greater than} (vii), \textit{less than or equal to} (viii), and \textit{greater than or equal to} (ix) operators.
@@ -229,7 +228,8 @@
     %% Array
     %%
     \subsection{Array}
-    From the PHP parser we get array declaration and array access nodes.
+    For arrays we define array declaration and array access.
+    We rely on information in the AST to extract constraints from arrays.
 
     \fact{array}{Array declaration}{
     	From the array declarations (\texttt{array()} or \texttt{[]}) we can extract the constraint that they should be of any \texttt{array} type.
@@ -266,7 +266,7 @@
     \subsection{Clone}
     \fact{clone}{Clone}{
     	From the PHP function \textit{clone} we can extract the constraint that the type of the given expression and the result must be of any \texttt{object} type.
-    	We also know that the type will not change, and so the type of the expression will be the same as
+    	We also know that the type will not change, and so the type of the expression will be the same as the type of the variable that is cloned.
     }
 
     %%

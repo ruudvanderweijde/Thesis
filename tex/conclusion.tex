@@ -21,36 +21,39 @@
     By including these other analyses it should be possible to get more precise results.
     \\
     The performance of the constraint solver could be optimised.
-    In our version we didn't take any effort to optimise the algorithm.
-    But we've seen that the algorithm is too slow to be able to run on bigger code bases.
+    In our version we did not take any effort to optimise the algorithm.
+    But we have seen that the algorithm is too slow to be able to run on bigger code bases.
     Also if you would want to use this real time in an IDE, the run time of the script should be decreased.
     If the performance of the type inference is improved it is also easier to validate the results of this analysis by adding more projects to the evaluation.
     \\
-    At the moment of writing the implementation was PHP7 not released.
-    The benefit we've seen on adding type annotation is optionally implemented in PHP7.
+    At the moment of writing the implementation, PHP7 was not released yet.
+    The benefit we have seen on adding type annotation is optionally implemented in PHP7.
     It would be interesting to use the new language constructs and compare the results with PHP5 programs.
     
     \section{Threats to validity}\label{conclusion:threats-to-validity}	
-    Because we perform an over approximation of run time values at compile time, the results of the type inference are not 100\% accurate.
+    Because we perform an overapproximation of run time values at compile time, the results of the type inference are not 100\% accurate.
     With the dynamic nature of the programming language and the usage of dynamic features it is a challenge to be as accurate as possible.
 		
 	\paragraph{Missing constraints}
+	The constraints in this research are supposed to model the dynamic semantics of PHP soundly, and they only be manually checked by reading the PHP specs or documentation\footnotemark{}.
+	\footnotetext{http://php.net/docs.php, December 2016}
 	By adding a constraint we limit the number of possible types for that expression.
-	Because we are humans, it could be possible that we make a mistake by missing a constraint or adding a wrong constraint.
-	This could result in type inference results that are wrong.
+	It could be possible that we made a mistake by missing a constraint or adding a wrong constraint.
+	This could result in false type inference results.
 	
-	\paragraph{Law of small numbers}
-	Because our small sample size in our evaluation, we cannot generalise these results.
+	\paragraph{Generalisability}
+	Because the small sample size in our evaluation, we are not able to generalise the results of this research.
+	The used projects are slim and do not represent the usage of other PHP program.
 	In order to gain more precise results we should increase our sample size.
-	We can achieve this by running analysis on more software projects in the future.
+	This can be achieved by running analysis on more software projects in the future.
 	
 	\paragraph{Object references}
-	One thing we do not take into account are the side effects that can be caused by the passing arguments as reference.
+	One thing we do not take into account are the side-effects that can be caused by passing arguments as reference.
 	When an referenced argument is modified, the referenced variable is also modified.
-	This could theoretically lead to type changes.
+	Full-fledged alias analysis can be added to mitigate this effect.
 	
 	\paragraph{PHPDoc correctness}
-	In this research we also assume that the provided type annotations in the PHPDoc's are correct.
+	In this research we also assume that the provided type annotations in the PHPDocs are correct.
 	These annotations are ignored during program execution and therefore could be incorrect without noticing.
 	Using PHP7 new type hint language constructs could help to ensure that we extract the correct constraints for the source code.
 

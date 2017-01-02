@@ -145,7 +145,7 @@
     \textbf{The output} is an $M^3$-model with facts about the provided program.
     The algorithm starts with initialising an empty $M^3$ collection in line \ref{alg:research_m3:init_collection} which with be filled with the result of each individual files.
     In the big loop on line \ref{alg:research_m3:loop_start} to \ref{alg:research_m3:loop_end} we iterate over all the PHP files of the program.
-    The first thing that needs to be done is to create an Abstract Syntax Tree (\gls{AST}) of the program using an external PHP parser\footnotemark{} which returns an Rascal AST in \texttt{parseUsingPhpParserAndReturnRascalAST} on line \ref{alg:research_m3:get_ast}.
+    The first thing that needs to be done is to create an \gls{Abstract Syntax Tree} (AST) of the program using an external PHP parser\footnotemark{} which returns an Rascal AST in \texttt{parseUsingPhpParserAndReturnRascalAST} on line \ref{alg:research_m3:get_ast}.
     \footnotetext{https://github.com/ruudvanderweijde/PHP-Parser}
     %In line \ref{alg:research_m3:add_modifier} we add ...
     From this AST we create an empty $M^3$ in \texttt{createEmptyM3} on line \ref{alg:research_m3:create_m3}.
@@ -369,4 +369,4 @@
     One special thing that we do is that we not add constraints for the empty body of the method, because this would result in an empty return values which is invalid.
     We also filter the results type resolutions of the php built-in types out of the results we provide in the next chapter.
 
-\end{document}
+\end{document}8

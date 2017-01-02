@@ -6,9 +6,9 @@
         PHP\footnotemark is a server-side programming language created by Rasmus Lerdorf in 1995.
             \footnotetext{http://php.net}
         The original name `Personal Home Page' changed to `PHP: Hypertext Preprocessor' in 1998.
-        PHP source files are executed using the PHP Interpreter. 
+        PHP source files are executed using the PHP Interpreter\footnote{https://github.com/php/php-src}. 
         The language is dynamically typed and allows objects to be changed during run-time.
-        PHP uses duck-typing which means that there is no type checking on objects type, but only checks if the attempted operation is permitted on the object.
+        PHP uses duck-typing which means that there is no object type validationchecking, but only validates if the attempted operation is permitted on the object.
         
         \paragraph{Evolution}
         The programming language PHP evolved since its creation in 1995.
@@ -18,32 +18,30 @@
         The OPcache extension is added was added in PHP 5.5 and speeds up the performance of including files on run-time by storing precompiled script byte-code in shared memory.
         The latest 5.x version is 5.6 and includes more internal performance optimisations and introduces a new debugger.
         The most recent stable version is 7, which is not taken into this research.
-        In this lastest version they've achieved a mayor performance increase and memory decrease.
+        In this latest version they achieved a mayor performance increase and memory decrease.
         Also type hints for scalar types are added, method/function return types, and strict typing can be enforced for the available type hints.
        
         \paragraph{Popularity}
         According to the Tiobe Index\footnotemark of July 2016, PHP is the 6th most popular language of all programming languages.
         \footnotetext{http://www.tiobe.com/tiobe\_index, July 2016}
-        The language has been in the top 10 since it's introduction in the Tiobe Index in 2001.
+        The language has been in the top 10 since its introduction in the Tiobe Index in 2001.
         More than 80 precent of the websites have a running php backend\footnotemark.
             \footnotetext{http://w3techs.com/technologies/details/pl-php/all/all, July 2016}
         The majority of these websites use PHP version 5, rather than older or newer versions.
         We therefor focus our type inference on PHP version 5.
 
-
-    \section{Position} 
-    	Although the popularity of PHP for about 15 years, there is still a lack of PHP code analysis tools with full language support.
+    \section{Position}
+    	% todo check this section
         Due to various dynamic features in PHP not all types and execution paths can be resolved without actually executing the program.
-        Source code analysis tools need to know execution paths and types or expressions for optimal results in discovering security vulnerabilities or bugs.
+        Source code analysis tools need to know execution paths and types of expressions for optimal results in discovering security vulnerabilities or bugs.
         Such tools could also provide code completions or do automatic transformations when executing refactoring patterns.
         Source code analysis is performed statically or dynamically or a combination of the two.
         In static analysis the program is not executed.
 
-
     \section{Contribution}        
-        This research contributions to the static analysis research field of dynamic programming languages by presenting a type inference analysis where we over-approximate runtime values at compile time.
+        This research contributions to the static analysis research field of dynamic programming languages by presenting a constraint based type inference analysis that over-approximates runtime values at compile time.
         Results of this analysis can be used to improve software analysis tools.
-        In order to resolve the types of expressions we've implemented a generic model, $M^3$, that holds various facts about programs with support for PHP programs.
+        In order to resolve the types of expressions we implemented a generic model, $M^3$, which holds various program facts for PHP programs.
         
         The main contributions of this thesis are:
         \begin{itemize}
@@ -54,8 +52,8 @@
 		An \textit{$M^3$ model for PHP programs} contains various facts about the programs.
 		The $M^3$ model, see section \ref{sec:m3_for_php} for more information, was initially solely supporting Java programs.
 		The addition of support for PHP programs was beneficial not only for this thesis, but also for other researchers.
-		The model provides program context while extracting and resolving constraints in this research.
-		The model helped other researchers to compare the usage of PHP programs with programs written in other languages.
+		The model provides program context which is used during constrain extraction and solving.
+		The model helped other researchers by providing program context when comparing the PHP programming usage with programs written in other languages.
 
 		The biggest contribution of this thesis is the \textit{constrained based type inference for PHP programs}.
 		In this type inference process we use an abstract syntax tree to generate type constraints on language constructs.
@@ -64,11 +62,11 @@
 		The inferred types can help IDE tools and programmers by providing helpful tools, which could lead to better software development.        
     
     \section{Plan} 
-        The rest of this thesis is as follows:
+        The rest of this thesis is organised as follows:
         
         \paragraph{}
-        Chapter \ref{ch:background} contains background and related work.
-        Background consists of important language constructs, information about annotations in PHP, introduction to Rascal and $M^3$ and type systems. 
+        Chapter \ref{ch:background} contains background information and related work.
+        The background information consists of important language constructs, information about annotations in PHP, brief introduction to Rascal, $M^3$, and type systems. 
         We end this chapter with related researches and their relation to this research.
         
         \paragraph{}

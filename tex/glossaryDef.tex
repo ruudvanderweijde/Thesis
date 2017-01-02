@@ -1,10 +1,19 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
+    \newglossaryentry{static code analysis}
+    {
+        name=static code analysis,
+        description={
+        	In a statical code analysis the targeted program is analysed without executing the program}
+    }
+    
     \newglossaryentry{Abstract Syntax Tree}
     {
         name=Abstract Syntax Tree,
-        description={An abstract syntax tree is ...}
+        description={
+        	An abstract syntax tree is an abstract representation of the source code of a program.
+        	Compared to the concrete syntax tree, which represents the syntax, an abstract syntax tree represents the semantics}
     }
     
     \newglossaryentry{Rascal}
@@ -12,8 +21,7 @@
         name=Rascal,
         description={
             Rascal is a meta-programming language developed by SWAT (Software analyse and transformation) team at CWI in the Netherlands}.
-            See http://www.rascal-mpl.org/ for more information
-    }
+            See http://www.rascal-mpl.org/ for more information}
     
     \newglossaryentry{reflexive transitive closure}
     {
@@ -32,14 +40,6 @@
             It is comparable to the Object class in Java}
     }
     
-    \newglossaryentry{AST}
-    {
-        name=AST,
-        description={
-            An abstract representation of the structure of the source code.
-        }
-    }
-    
     \newglossaryentry{PSR}
     {
         name=PSR,
@@ -47,8 +47,7 @@
             PHP Standard Recommendation (PSR) is project which provides rules for commonalities between PHP projects.
             Autoloading, coding style guide, logging, and HTTP Message interface are the first few accepted standards.
             The PHPDoc standard describes how and what to use in doc blocks and is currently in draft phase.  
-            See http://www.php-fig.org/ for more information.
-        }
+            See http://www.php-fig.org/ for more information}
     }
 
 \end{document}
