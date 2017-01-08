@@ -3,37 +3,25 @@
     \chapter{Implementation of PHP type inference}\label{ch:inference_implementation}
 
     The type inference is executed in 3 main steps.
-    The first step creates an $M^3$ model for a PHP program which contains various facts about the program. 
+    In the first step we create an $M^3$ model for a PHP program.
     The creation of an $M^3$ for PHP is explained in more details in section \ref{sec:m3_for_php}.
-    Once the $M^3$ model is constructed, we extract constraints from the program using the $M^3$ model.
-    Next, as explained in section \ref{sec:implementation:constraint_solving}, we solve the constraints and resolve the types of variables used in the program.
-    The final section \ref{sec:implementation_additional_contraints} of this chapter explains how annotations and PHP built-in information is included in the process to improve the type inference.
+    Once the $M^3$ model is constructed, we extract constraints from the program using ASTs and the $M^3$ model which is explained in section \ref{sec:implementation:constraint_extraction}.
+    Section \ref{sec:implementation:constraint_solving} describes how we solve the extracted constraints to collect type information.
+    The final section \ref{sec:implementation_additional_contraints} of this chapter explains how annotations and PHP built-in information are included in the process to improve the type inference.
     
     \section{$M^3$ for PHP}\label{sec:m3_for_php}
-    As explained in section \ref{sec:background_rascal}, $M^3$ is a language independent meta model which holds facts about programs.
-    The model can be extended with language specific elements and will be used to query the system for facts about the system.
-    An overview how an $M^3$ for PHP is build is shown in figure \ref{fig:research_m3_creation}.
-    Independent $M^3$ models are build each PHP file in the program.
-    
-    \begin{figure}[H]
-        \centerline{\includegraphics{Diagrams/M3Creation.pdf}}
-        \caption{$M^3$ Creation}
-        \label{fig:research_m3_creation}
-    \end{figure}
-    
-    All these individual $M^3$'s are in the end combined to collect all the facts about a program.
-    This results in one $M^3$ for the whole program.
-    $M^3$'s are first created for each file is because it is not defined what the dependencies of a individual file are.
-    There is no main file, and all files can load each other.
-    In this research we assume that all files in a program are loaded when needed using autoloaders or manual includes.
+    As explained in section \ref{sec:background_rascal}, $M^3$ is a language independent meta model which holds facts about programs.    
+    In the next subsections we show the core $M^3$ elements and the extended PHP specific elements.
+    We briefly describe the declared elements and what characteristics each of them have.
+    Finally we present the required steps and the algorithm to construct a model.
     
     \subsection{Core elements}
     The $M^3$ model has the following core elements: \texttt{declarations}, \texttt{containment}, \texttt{modifiers}, \texttt{uses}, \texttt{names}, and \texttt{documentation}.
-    The rascal code is displayed in Rascal \ref{fig:m3_core_elements}. The characteristics of the elements are described in the paragraphs below.
+    The rascal code is displayed in Rascal \ref{fig:m3_core_elements}. The characteristics of the elements for PHP programs are described in the paragraphs below.
 
     \begin{program}    
     \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} name, \CAT{Keyword}{loc} src] M3@declarations; \CAT{Comment}{// maps declarations to file location.}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} name, \CAT{Keyword}{loc} src] M3@declarations; \CAT{Comment}{// maps declarations to file location}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@containment; \CAT{Comment}{// what is logically contained in what else}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} definition, Modifier modifier] M3@modifiers; \CAT{Comment}{// associated modifiers}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} src, \CAT{Keyword}{loc} name] M3@uses; \CAT{Comment}{// maps src locations of usages to the declarations}
@@ -44,43 +32,41 @@
 	\label{fig:m3_core_elements}
 	\end{program}
 	    
-    \paragraph{Declarations} \texttt{Declarations} defines the declarations of namespaces, classes, interfaces, methods, functions, and variables and holds the relation between the logical name (which is used to refer to the declaration) and the actual file location (which is the physical place in the file system.
+    \paragraph{Declarations} \texttt{Declarations} defines the declarations of namespaces, classes, interfaces, methods, functions, and variables and holds the relation between the logical name (which is used to refer to the declaration) and the actual file location (which is the physical place in the file system).
     For example the logical name of a class can be \texttt{$\vert$php+class://SomeNameSpace/ClassX$\vert$} while the actual location might be \texttt{$\vert$file:///project/SomeNameSpace/ClassX.php$\vert$}.
     
     \paragraph{Containment} \texttt{Containment} holds information about what elements logically contain other elements.
     For example, a property or method is contained in a class and a class is contained in a package.
-    When a function is declared in another function, they are both logically contained in the global namespace (the highest level) because all functions are declared as first class citizens in PHP.
+    When a function is declared in another function, they are both logically contained in the global namespace (the highest level).
     
     \paragraph{Modifiers} \texttt{Modifiers} element contains information about the modifiers of classes, fields, and methods. 
     Classes can only be \texttt{abstract}, fields can be \texttt{public}, \texttt{private}, or \texttt{protected}, and methods can be all of them. 
     Abstract methods can only be declared in abstract classes. 
-    Classes are implicitly public.
     
     \paragraph{Uses} \texttt{Uses} relation holds information about the usages of certain elements.
     It is the relation between the usage and the declaration.
     For example when you instantiate a class, in that case you 'use' that specific class.
      
     \paragraph{Names} \texttt{Names} contains the declaration and a simplified version of the name.
-    The declared name can be long and unreadable.
-    \texttt{names} contains human readable name which can be used for presenting the element in a GUI.
+    \texttt{names} contains human readable name which can for example be used for presenting the element in a GUI.
     
     \paragraph{Documentation} \texttt{Documentation} contains the link to the documentation related to the source code element.
     The link is mapped to a declaration.
     
     \subsection{PHP specific elements}
     Because every programming language differs in syntax and semantics, the $M^3$ model is extensible to provide language specific elements.
-    The following php specific items are added: \texttt{extends}, \texttt{implements}, \texttt{parameters}, \texttt{constructors}, and \texttt{annotations}.
+    The following PHP specific items are added: \texttt{extends}, \texttt{implements}, \texttt{parameters}, \texttt{constructors}, and \texttt{annotations}.
     These PHP specific elements are described in more detail in the paragraphs below.
 
     \begin{program}    
     \begin{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@extends;    \CAT{Comment}{// which class extends which class}
-\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements; \CAT{Comment}{// interface usages}
+\CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} from, \CAT{Keyword}{loc} to] M3@implements; \CAT{Comment}{// which class implements which interface}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, PhpParams params] M3@parameters; \CAT{Comment}{// formal functions/methods parameters}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} decl, \CAT{Keyword}{loc} to] M3@constructors; \CAT{Comment}{// constructor usages}
 \CAT{Keyword}{anno} \CAT{Keyword}{rel}{}[\CAT{Keyword}{loc} pos, Annotation annotation] M3@annotations; \CAT{Comment}{// annotations from doc blocks}\end{rascal}%%%%%%%%%%%%%%%%%%{ RASCAL }%%%%%%%%%%%%%%%%%%
 	
-	\caption{PHP specific $M^3$ element}
+	\caption{PHP specific $M^3$ elements}
 	\label{fig:m3_php_elements}
 	\end{program}
 	    
@@ -107,8 +93,20 @@
     Regex was in this case easier then parsing because there is no official grammar or standard defined.
     For this research we only use \texttt{@param}, \texttt{@var}, \texttt{@returns}.
 
-    \subsection{The algorithm}
-    In order to get a better understanding of the creation of an $M^3$ for PHP, the algorithm is provided in Algorithm \ref{alg:research_m3}.
+    \subsection{Constructing a model}
+    An diagram with the required steps to created an $M^3$ for a PHP program is shown in figure \ref{fig:research_m3_creation}.
+    The figure shows that independent $M^3$ models are build for each PHP file in the program.
+    Program facts are collected by traversing the AST representation of the PHP script.
+    Once all individual $M^3$s are created, they are combined into one program $M^3$.
+    $M^3$s are first created for each file because dependencies between files can only be resolved once all files are analysed.
+    
+    \begin{figure}[H]
+        \centerline{\includegraphics{Diagrams/M3Creation.pdf}}
+        \caption{$M^3$ Creation}
+        \label{fig:research_m3_creation}
+    \end{figure}
+
+	To show the process in more details provided the algorithm below in Algorithm \ref{alg:research_m3}.
     
    	\vspace{5 mm}
     \begin{algorithm}[H]
@@ -159,22 +157,31 @@
    	This is flow and context insensitive and only tries to resolve non-dynamic language constructs.
    	The last step of the iterator is to add the constructed $M^3$ to the $M^3$ collection.
    	Finally when an $M^3$ is constructed for all files, all facts of the individual $M^3$'s are merged into one $M^3$ model in line \ref{alg:research_m3:return}. 
-       \subsection{Rascal implementation}
+    
+    \section{Constraint extraction}\label{sec:implementation:constraint_extraction}
+    In section \ref{sec:design_type_constraint_rules} we've defined the constraint extraction rules.
+    These constraint rules are implemented in Rascal with the help of visiting\footnote{http://tutor.rascal-mpl.org/Rascal/Concepts/Visiting/Visiting.html} and pattern matching\footnote{http://tutor.rascal-mpl.org/Rascal/Concepts/PatternMatching/PatternMatching.html}.
+    Visiting is a concept implemented in the core of Rascal and is based on the visitor design pattern.
+    This makes it very easy to traverse trees like AST's, without coupling the design pattern to your code.
+    During the visiting of the AST we use pattern matching on function arguments to find to correct functions to handle the constraint extraction. 
+
+    \subsection{Constraint definitions in Rascal}
     The constraints are implemented in Rascal with the \texttt{TypeOf} and \texttt{Constraint} definitions, which are shown in Rascal \ref{fig:typeof_and_constraint}.
     
     The \texttt{TypeOf} definition represents a literal type or the type of an expression.
-    To define a literal type, we use the \texttt{typeSymbol} which takes a \texttt{TypeSymbol} as argument.
+    To define a literal type, we use \texttt{typeSymbol} which takes a \texttt{TypeSymbol}.
     TypeSymbols are defined in Rascal \ref{fig:rascal_typesymbols}.
-    We use the \texttt{typeOf} definition, which takes a Rascal location (loc) as argument, when we define the type of an expression or statement.
+    We use the \texttt{typeOf} definition when we define the type of an expression or statement and takes a Rascal location (loc) as argument.
     The location represents the physical location of the expression in the source code.
     
     The \texttt{Constraint} definition consists of recursive and non-recursive definitions.
     \texttt{eq} states that the type of the left hand side should be equal to the type of the right hand side.
-    \texttt{subtyp} states that the type of the left hand side should be a sub type of the right hand size.
-    This sub type relation is self inclusive, which means that the type can also be the same.
-    \texttt{supertyp} is the opposite of \texttt{subtyp}, and so the type of the left hand side should be a super type of the right hand size and cannot be the same type.
-    \texttt{isMethodOfClass} takes as arguments an two expressions and a string.
-    The two expressions represent the possible types for the left and right hand side of the expression.
+    \texttt{subtyp} states that the type of the left hand side should be a subtype of the right hand size.
+    This subtype relation is self inclusive, which means that the type can also be the same.
+    \texttt{supertyp} sates that the type of the left hans die should be a supertype of the right hand side.
+    This relation is also self inclusive.
+    \texttt{isMethodOfClass} takes as arguments two expressions and a string.
+    The two expressions represent the possible types for the left and right hand side of the caller expression.
     The string contains the name of the called method.
     
     %The \texttt{conditional} definition takes two constraints as arguments.
@@ -207,15 +214,8 @@
 	\label{fig:typeof_and_constraint}
 	\end{program}
     
-    \section{Constraint extraction}\label{sec:implementation:constraint_extraction}
-    In section \ref{sec:design_type_constraint_rules} we've defined the constraint extraction rules.
-    These constraint rules are implemented in Rascal with the help of visiting\footnote{http://tutor.rascal-mpl.org/Rascal/Concepts/Visiting/Visiting.html} and pattern matching\footnote{http://tutor.rascal-mpl.org/Rascal/Concepts/PatternMatching/PatternMatching.html}.
-    Visiting is a concept implemented in the core of Rascal and is based on the visitor design pattern.
-    This makes it very easy to traverse trees like AST's, without coupling the design pattern to your code.
-    During the visiting of the AST we use pattern matching on function arguments to find to correct functions to handle the constraint extraction. 
-    
-    \subsection{Code snippet}
-    A snippet of the constraint extraction implementation\footnotemark{} is shown in Rascal \ref{fig:constraint_extraction}.
+    \subsection{Constraint extraction in Rascal}
+    A code snippet of the constraint extraction implementation\footnotemark{} is shown in Rascal \ref{fig:constraint_extraction}.
 	\footnotetext{The complete source code can be found in https://github.com/ruudvanderweijde/php-analysis}
 	In this snippet we show a small subset of the code used in the constraint extraction process.
 	
@@ -297,7 +297,7 @@
 	\end{program}
     
     \section{Constraint solving}\label{sec:implementation:constraint_solving}
-        When all constraints are extracted from the source code, we will solve the constraints until we can no longer solve any constraints.
+    When all constraints are extracted from the source code, we will solve the constraints until we reach a fixed-point.
     The result will be a list of possible types for each class, method, fields, functions, variable and expression.
     \\
     The first step is to initialise all type-able objects.
@@ -330,15 +330,15 @@
 	\end{algorithm}
     
     
-    The algorithm input is a set of constraints and the output is a map of solutions.
-    The set of constraints are the constraints defined in constraint extracting section, and the map of results is the location of all type-able objects with their possible solutions.
+    The algorithms input is a set of constraints and the output is a map with solutions.
+    The set of constraints are the constraints defined in constraint extracting section, and the result map is the location of all type-able objects with their possible solutions.
     The init function on line \ref{alg:research_cs:init_solutions} adds all type-able objects to the set of possible solutions.
     The initial possible types of the objects will be the collection of all possible types, called $Universe()$.
     Only the literal types can be resolved already, like strings, numbers and boolean constants.
     \\
-    Line \label{alg:research_cs:loop_start} starts a loop until a fixed point is reached. 
+    Line \label{alg:research_cs:loop_start} starts a loop until a fixed-point is reached. 
     In Rascal this method is called \texttt{Solve()} and will loop until there are no more changes in the given data.
-    The methods of line \ref{alg:research_cs:derive}-\ref{alg:research_cs:prop_s} may alter the values of constraints or solutions.
+    The methods on line \ref{alg:research_cs:derive}-\ref{alg:research_cs:prop_s} may alter the values of constraints or solutions.
     \\
     The first function of the loop on line \ref{alg:research_cs:derive}, \texttt{deiveMore}, visits all constraints and checks if there can be new constraints extracted based on the latest constraints and solutions.
     Example of these new constraints are conditional constraints, which could only be added if more information of the conditional was available.
@@ -355,18 +355,18 @@
     These are the ability to include type annotations from phpdoc in the constraint analysis, and to include constraints on php built-ins.
     
     \paragraph{Annotations}
-    After we gather all the facts from the source code, when constructing an $M^3$ model, we have added type information from annotations.
-    We have tried to write a grammar for the PHPDocs but because their lack of consistency the grammer would fail too many times and would not give us the wanted results, so we went for the regular expression matching instead.
+    After we gather all the facts from the source code, when constructing an $M^3$ model, we can add type information from annotations.
+    % We have tried to write a grammar for the PHPDocs but because their lack of consistency the grammer would fail too many times and would not give us the wanted results, so we went for the regular expression matching instead.
     We match \texttt{@return} and \texttt{@param} annotations for functions and class methods, and read \texttt{@var} annotations for variables and class attributes.
     In our first analysis we do not include the facts we gathered from the annotations. 
     In the second analysis we do include the facts.
     This way we can compare the end results.
     
     \paragraph{PHP Built-ins}
-    In order to see if we can resolve more types by providing type information of PHP built-ins.
-    The built-in features are represented by PHP files and can also be parsed.
-    Also the annotations of these PHPDocs should be parsed.
+    In order to see if we are able resolve more types, we add type information of PHP built-in features.
+    The built-in features are represented by PHP files and can also be parsed and analysed.
+    There files contain information about internal behaviour of PHP.
     One special thing that we do is that we not add constraints for the empty body of the method, because this would result in an empty return values which is invalid.
     We also filter the results type resolutions of the php built-in types out of the results we provide in the next chapter.
 
-\end{document}8
+\end{document}

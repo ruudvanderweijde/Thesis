@@ -1,7 +1,9 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
     \chapter{Conclusion}\label{ch:conclusion}
-    In this section we present the conclusion in section \ref{conclusion:conclusion}
+    In this section we present the conclusion in section \ref{conclusion:conclusion}.
+    Future work is described in section \ref{conclusion:future-work}.
+    Finally we list threats to validity in section \ref{conclusion:threats-to-validity}.
     
     \section{Conclusion}\label{conclusion:conclusion}
     In this work we have presented a type inference implementation written in Rascal.
@@ -11,7 +13,7 @@
     The results of the constrain solver is a list of code expressions and their possible set of types.
     \\
     In a small evaluation we have performed the type inference on a few small projects.
-    Here we found that adding annotations resulted in inferring more types for almost all projects.
+    In this evaluation we found that adding annotations resulted in inferring more types for almost all projects.
     When we also added type information about PHP built-in classes, functions, and variables, we only saw a small improvement in one of the projects.
     Hereby we could conclude, although the number of projects is to small to generalise the results, we saw a good improvement when adding type annotations from PHPDocs, but no extra improvement when also adding PHP built-in information.
     
@@ -23,7 +25,6 @@
     The performance of the constraint solver could be optimised.
     In our version we did not take any effort to optimise the algorithm.
     But we have seen that the algorithm is too slow to be able to run on bigger code bases.
-    Also if you would want to use this real time in an IDE, the run time of the script should be decreased.
     If the performance of the type inference is improved it is also easier to validate the results of this analysis by adding more projects to the evaluation.
     \\
     At the moment of writing the implementation, PHP7 was not released yet.
@@ -57,5 +58,4 @@
 	These annotations are ignored during program execution and therefore could be incorrect without noticing.
 	Using PHP7 new type hint language constructs could help to ensure that we extract the correct constraints for the source code.
 
-	
 \end{document}

@@ -2,12 +2,12 @@
     \AxiomC{$E_1\rightarrow E_2 \in C$}
     \AxiomC{$E_2$ \texttt{is\_a} expression}
     \RightLabel{(i)}
-    \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ <: objectType()}
+    \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ <: $\{$ objectType() $\}$}
 \end{prooftree}
 \begin{prooftree}
     \AxiomC{$E_1\rightarrow E_2 \in C$}
     \AxiomC{$E_2$ \texttt{is\_a} name}
     \RightLabel{(ii)}
-    \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ <: objectType(),} \noLine
+    \BinaryInfC{$\llbracket{}E_1\rrbracket{}$ <: $\{$ objectType() $\}$}
     \UnaryInfC{$\llbracket{}E_1\rrbracket{}$ = $C$.hasMethod($E_2$.name, static $\notin$ Mfs)}
 \end{prooftree}

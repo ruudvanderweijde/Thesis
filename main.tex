@@ -16,14 +16,16 @@
 \host{Werkspot, \url{http://www.werkspot.nl}}
 \supervisorhost{Winfred Peereboom}
 
-% todo update abstract
 \abstract{
-Despite the wide usage of PHP programs over the internet, there is a lack of good analysis tools.
-Dynamic language like PHP are generally hard to statically analyse because of run-time dependencies. 
-Without running the program there are many things undecided.
+Dynamic language like PHP are generally hard to statically analyse because of run-time dependencies.
+Despite the wide usage of PHP programs over the internet, there seem not many tools available to support all aspect completely.
+In statical analysis the program is analysed without running the program and there are many things undecided.
 In this thesis we present a constraint based type inference written in Rascal.
 Rascal is a programming language for meta-programming in the domain of software analysis and transformations.
-We show that the number of inferred types increases when type hint annotations are taken into account.
+We created this type inference for PHP to be able to resolve the types of expressions used in programs.
+Follow up analysis can be performed when expressions are typable, for example to find vulnerabilities or provide programming context in IDEs.
+In a small experiment where we tested if adding type annotations of PHP docblock and PHP build-in information would help to infer more types.  
+We saw that the number of inferred types increases when type hint annotations are taken into account.
 }
 
 

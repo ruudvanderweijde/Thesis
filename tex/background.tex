@@ -214,19 +214,11 @@
     The performance benefits on the other hand are significantly better, showing on average 5.5x more efficiency for PHP5.
         
     \paragraph{}
-    PHPLint\footnotemark extends the PHP syntax with type hints where PHP lacks support for it, using custom inline comment blocks to add extra typing information.
+    PHPLint\footnotemark{} extends the PHP syntax with type hints where PHP lacks support for it, using custom inline comment blocks to add extra typing information.
     \footnotetext{http://www.icosaedro.it/phplint, July 2016}
     These doc blocks with type information can be used in the analysis, allowing more strict type checking.
     The used syntax for the type hints are \texttt{/*. .*/}, for example: \texttt{/*. string .*/ \$s = \$var;} which means that the variable \texttt{\$s} is of type \texttt{string}.
     PHPLint solves the lack of type hint support on scalar and array types in PHP5.
     PHPLint can generate type hints based on information retrieved from simple type inference.
-    
-    % todo remove or rewrite this paragraph
-    %\paragraph{}
-    %John Aycock states in Aggressive Type Inference\cite{Ayc:00} that dynamically typed languages are also used as statically typed languages.
-    %This means that you can use dynamic languages without using the magical parts.
-    %This claim is supported by a small analysis on the usage of \texttt{eval}, \texttt{execfile}, and \texttt{import}.
-    %Due to this statement he advocated for type consistency within a scope for variables, because the usage of the magic methods is limited.
-    %His analysis is flow insensitive, which means that it ignored specific paths within a scope.
 
 \end{document}

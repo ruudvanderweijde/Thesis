@@ -3,7 +3,7 @@
     \chapter{Introduction}\label{ch:introduction}
 
     \section{PHP}
-        PHP\footnotemark is a server-side programming language created by Rasmus Lerdorf in 1995.
+        PHP\footnotemark{} is a server-side programming language created by Rasmus Lerdorf in 1995.
             \footnotetext{http://php.net}
         The original name `Personal Home Page' changed to `PHP: Hypertext Preprocessor' in 1998.
         PHP source files are executed using the PHP Interpreter\footnote{https://github.com/php/php-src}. 
@@ -22,16 +22,15 @@
         Also type hints for scalar types are added, method/function return types, and strict typing can be enforced for the available type hints.
        
         \paragraph{Popularity}
-        According to the Tiobe Index\footnotemark of July 2016, PHP is the 6th most popular language of all programming languages.
+        According to the Tiobe Index\footnotemark{} of July 2016, PHP is the 6th most popular language of all programming languages.
         \footnotetext{http://www.tiobe.com/tiobe\_index, July 2016}
         The language has been in the top 10 since its introduction in the Tiobe Index in 2001.
-        More than 80 precent of the websites have a running php backend\footnotemark.
+        More than 80 precent of the websites have a running php backend\footnotemark{}.
             \footnotetext{http://w3techs.com/technologies/details/pl-php/all/all, July 2016}
         The majority of these websites use PHP version 5, rather than older or newer versions.
         We therefor focus our type inference on PHP version 5.
 
     \section{Position}
-    	% todo check this section
         Due to various dynamic features in PHP not all types and execution paths can be resolved without actually executing the program.
         Source code analysis tools need to know execution paths and types of expressions for optimal results in discovering security vulnerabilities or bugs.
         Such tools could also provide code completions or do automatic transformations when executing refactoring patterns.

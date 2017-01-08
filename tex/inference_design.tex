@@ -24,9 +24,12 @@
             $=$     & = & equivalent type \\
 
             $:=$    & = & assignment &
-            $C$     & = & a class \\
+            $!$     & = & negation \\
 
-            $<:$    & = & (lhs) is subTypeOf (rhs) &
+            $<:$    & = & (lhs) is subtype (of rhs) &
+            $:>$    & = & (lhs) is supertype (of rhs) \\
+
+            $C$    & = & a class &
             $\rightarrow c$     & = & class constant \\
 
             $E_k$   & = & an expression &
@@ -246,7 +249,6 @@
     %%
     %% Casts
     %%
-    % todo __tostring is now used on a typeset... need to fix it or remove it
     \subsection{Casts}
     \fact{casts}{Casts}{
     	PHP contains syntax to arrays, booleans, integers, floats, objects, strings, and to unset variables.
@@ -273,15 +275,13 @@
     %% Class
     %%
     \subsection{Class}
-    This section contains fact extraction rules from object syntax.
-    Class instantiation, special keywords, method calls, parameters, and class constants.
+    This section contains fact extraction rules for class instantiations, special keywords, and method calls.
 
     \fact{classInstantiation}{Class instantiation}{
     	Classes can be instantiated with the name of the class.
     	The type of the whole expression is then of the specific \texttt{class} type (i).
     	When a class is dynamically instantiated, we only know that it should be of some \texttt{object} type, and that the type of the expression should be any \texttt{object} or \texttt{string} type (ii).
     }
-    % todo: the used syntax differs from the others....
     \fact{classKeywords}{Special keywords}{
     	PHP contains a few class related reserved keywords with special behaviour.
     	These keywords can be used inside a class scope ($\in C$).
@@ -314,7 +314,7 @@
     %% Scope
     %%
     \subsection{Scope}
-    In order to define the type of a variable within a scope, we have conducted the following constraints.
+    In the subsection scope we explain which constraints we can extract for variables and return values.
     \fact{function1}{Variables}{
     	The type of a certain variable is defined by adding an equal constraint on the logical name and the location.
     	The scope of these variables is contained in the logical name.
@@ -338,33 +338,33 @@
 
         \section{Annotations}\label{sec:design_annotations}
     Annotations are pieces of meta data, defined on class, method, function, or statement level.
-    Despite the proposal\footnotemark for official support of annotations, PHP has still no native support for them.
+    Despite the proposal\footnotemark{} for official support of annotations, PHP has still no native support for them.
     \footnotetext{https://wiki.php.net/rfc/annotations-in-docblock}
-    But PHP has a \texttt{getDocComment}\footnotemark method in the \texttt{ReflectionClass} since version 5.1 in 2005.
+    PHP has however a \texttt{getDocComment}\footnotemark{} method in the \texttt{ReflectionClass} since version 5.1 in 2005.
     \footnotetext{http://php.net/manual/en/reflectionclass.getdoccomment.php}
-    The \texttt{getDocComment} method returns the complete doc block of a certain element as a string.
-    A doc block in php has the format \texttt{\slash**...*\slash}.
-    Listing \ref{lst:docblock} shows an example of two doc blocks in PHP.
-    The first doc block is defined above the class and contains information about the class.
-    The second doc block is related to the method \texttt{getSomething}.
+    The \texttt{getDocComment} method returns the complete docblock of a certain element as a string.
+    A docblock in php has the format \texttt{\slash**...*\slash}.
+    Listing \ref{lst:docblock} shows an example of two docblocks in PHP.
+    The first docblock is defined above the class and contains information about the class.
+    The second docblock is related to the method \texttt{getSomething}.
     The block contains a short description of the method, provides type hints for the parameter and the return type, and provides information which possible exceptions can be thrown by the method.
 
     \lstinputlisting[language=PHP,label=lst:docblock,caption=Examples of PHP DocBlocks]{src/php/docBlock.php}
 
-    Annotations are mainly used for type hinting, documentation, and code execution.
+    Annotations can be used for type hinting, documentation, and code execution.
     Software analysis tools and IDE's can use the type hints to aid understanding code and in finding bugs and security issues.
-    Available tools can generate documentation based on the doc blocks.
+    Documentation generator are able to generate documentation based on the docblocks.
     Programs like Symfony2, ZEND Framework, and Doctrine ORM use annotations for controller routing, templating information, ORM mappings, filters, and validation configuration.
+    %\\
+    %This research focuses on the first type of annotations which can help developers and IDE's to better understand how code behaves within a program.
+    %For example a programmer can see what kind of input and output is expected for a method.
+    %Docblocks with annotations can be placed on top of classes, methods, functions, and variables.
     \\
-    This research focuses on the first type of annotations which can help developers and IDE's to better understand how code behaves within a program.
-    For example a programmer can see what kind of input and output is expected for a method.
-    Doc blocks with annotations can be placed on top of classes, methods, functions, and variables.
-    \\
-    A standard on using annotations is not in the PHP Standard Recommendations (\gls{PSR}) yet, but there is a proposal\footnotemark.
+    A standard on using annotations is not in the PHP Standard Recommendations (\gls{PSR}), but there is a proposal\footnotemark{}.
     \footnotetext{https://github.com/php-fig/fig-standards/pull/169/files, July 2014}
-    For this research we will only focus on the \texttt{@param}, \texttt{@return}, \texttt{@var}, and \texttt{@inheritDoc} annotations.
+    For this research we will only focus on the \texttt{@param}, \texttt{@return}, and \texttt{@var} annotations.
     The annotations \texttt{@return} and \texttt{@param} are only useful for functions, class methods, and closures.
-    Type hints are described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
+    Type hints described with \texttt{@var} and can be used on all structures, but mainly occur on variables and class fields.
     \\
     There is no official standard for the use of annotations, but most projects follow the phpDocumentor\footnotemark{} syntax.
     \footnotetext{http://www.phpdoc.org/}
@@ -428,15 +428,14 @@
 	When there are multiple return types a $\vert{}$ is used.
 
 	\section{PHP built-ins}\label{sec:design_php_built_ins}
-	Native functions are a part of PHP built-ins.
-	Predefined classes, interfaces, constants, and variables are also part of PHP built-ins.
-	We have included the PHP built-in information to see if we can improve the analysis results.
-	To be able analyse the PHP built-ins we've included the PHP representation it.
-	These files, written in PHP, provide annotation on what types flow in and out the functions.
+	PHP has many built in classes, interfaces, constants, and variables that are always available to end users of the programming language.
+	We include the PHP built-in information to see if we can improve the analysis results.
+	To be able analyse the PHP built-ins we include the PHP representation of the classes, interfaces, constants, and variables.
+	These files, written in PHP, provide annotation with type information.
 	A brief example is shown in listing \ref{lst:builtIns}.
 	From this example we can fetch the parameter and return type of the \texttt{strtoupper} and \texttt{strtolower} functions.
 	
 	
-	\lstinputlisting[language=PHP,label=lst:builtIns,caption=Short samples of built-in PHP file]{src/php/builtIns.php}
+	\lstinputlisting[language=PHP,label=lst:builtIns,caption=Snippet of PHP file representing built-in functions]{src/php/builtIns.php}
 
 \end{document}
